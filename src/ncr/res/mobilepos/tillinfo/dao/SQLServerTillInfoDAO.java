@@ -290,7 +290,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     @Override
     public ResultBase updateTillDailyOperation(Till currentTill, Till updatingTill)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateTillDailyOperation";
         tp.methodEnter(functionName)
                 .println("current till", currentTill)
                 .println("updating till", updatingTill);
@@ -347,7 +347,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     @Override
     public void updateTillOnJourn(Connection connection,Till currentTill, Till updatingTill, boolean isEnterprise)
     		throws DaoException, TillException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "updateTillOnJourn";
         tp.methodEnter("updateTillOnJourn");
         tp.println("Updating till", updatingTill);
         tp.println("oldSodFlag", currentTill.getSodFlag());
@@ -401,7 +401,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     @Override
     public ResultBase searchLogonUsers(String companyId, String storeId, String tillId,
     		String terminalId) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "searchLogonUsers";
         tp.methodEnter(functionName)
             .println("companyId", companyId)
         	.println("storeId", storeId)
@@ -455,7 +455,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     @Override
 	public  List<Till> getTillInformation(String storeId)
 			throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTillInformation";
 
         tp.methodEnter(functionName);
         tp.println("StoreId", storeId);
@@ -510,7 +510,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
      * @return List of Tills
      */
 	protected List<Till> populateResultTillList(ResultSet resultSet) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "populateResultTillList";
 		List<Till> resultList = new ArrayList<Till>();
 		try {
 			while(resultSet.next()){
@@ -523,7 +523,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 				till.setBusinessDayDate(resultSet.getString("BusinessDayDate"));
 				till.setSodFlag(resultSet.getString("SodFlag"));
 				till.setEodFlag(resultSet.getString("EodFlag"));
-				
+
 				if ("0".equals(till.getEodFlag())) {
 					till.setEodSummary("0");
 				} else {
@@ -539,14 +539,14 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 		}
 		return resultList;
 	}
-	
+
 	/**
 	 * Get EodSummary from TXL_SALES_JOURNAL
 	 * @param till
 	 * @return Till
 	 */
 	private void getEodSummary(Till till) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getEodSummary";
 
 		tp.methodEnter(functionName);
 		tp.println("Till", till);
@@ -619,7 +619,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     @Override
     public  List<Till> getActivatedTillsOnBusinessDay(String companyId, String storeId, String businessDate, int trainingFlag)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getActivatedTillsOnBusinessDay";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyId);
         tp.println("StoreId", storeId);
@@ -650,7 +650,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     @Override
     public List<Till> getUnclosedTillsOnBusinessDay(String companyId, String storeId, String businessDate, int trainingFlag)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getUnclosedTillsOnBusinessDay";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyId);
         tp.println("StoreId", storeId);

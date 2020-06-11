@@ -49,7 +49,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -60,7 +60,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -69,7 +69,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
 
     @Override
     public List<PointInfo> getPointInfoList(String companyId, String storeId, String businessdate) throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPointInfoList";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("businessDate",
                 businessdate);
 
@@ -147,7 +147,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
     @Override
     public List<ItemPointRate> getItemPointRate(String companyId, String storeId, String businessdate, String deptcode,
             String groupcode, String brandId, String barCode) throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getItemPointRate";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId)
                 .println("businessDate", businessdate).println("deptCode", deptcode).println("groupCode", groupcode)
                 .println("brandId", brandId).println("barCode", barCode);
@@ -203,7 +203,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
     @Override
     public List<TranPointRate> getTranPointRate(String companyId, String storeId, String businessdate)
             throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTranPointRate";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("businessDate",
                 businessdate);
         List<TranPointRate> tranPointRateList = new ArrayList<TranPointRate>();
@@ -235,7 +235,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
     @Override
     public List<PointInfo> getTranPointInfoList(String companyId, String storeId, String businessdate)
             throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTranPointInfoList";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("businessDate",
                 businessdate);
 
@@ -484,7 +484,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
         }
         return false;
     }
-    
+
     @Override
     public CashingUnit getCashingUnitInfo(String companyId, String businessdate) throws DaoException {
         String functionName = "";

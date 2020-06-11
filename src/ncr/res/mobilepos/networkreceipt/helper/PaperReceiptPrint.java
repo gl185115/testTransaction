@@ -62,12 +62,12 @@ public class PaperReceiptPrint extends NetPrintService {
     private boolean haveDocTaxStamp;
 
     private int angle = 1;
-    
+
     /**
      * the class instance of the debug trace printer.
      */
     private Trace.Printer tp;
-    
+
 
     public static final byte[] LOGOBYTES = new byte[] { 108, 111, 103, 111 };
     public static final byte[] OTHERBYTES = new byte[] { 111, 116, 104, 101 };
@@ -279,10 +279,10 @@ public class PaperReceiptPrint extends NetPrintService {
 
         // print receipt footer
         printer.writeText(receiptText.get(3));
-        
+
         //Add paper-cut command to print data.
         printer.writeText(IPrinter.CUT_CMD);
-        
+
         int printResult = printer.print();
         if (printResult != 0) {
             printer.close();
@@ -323,7 +323,7 @@ public class PaperReceiptPrint extends NetPrintService {
     synchronized public final int printAllReceipt(List<List<byte[]>> receipts)
             throws Exception {
         int result = ResultBase.RESNETRECPT_OK;
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "printAllReceipt";
         tp.methodEnter(functionName);
         try {
             byte[] logoBMP = getBmpLocalFileData(logoPath);
@@ -352,7 +352,7 @@ public class PaperReceiptPrint extends NetPrintService {
                 return tp.methodExit(result);
             }
             tp.println("end connect to printer");
-            
+
             tp.println("begin clear the buffer of printer");
             if (!printer.clearBuffer()) {
             	tp.println("failed clear the buffer of printer");
@@ -362,7 +362,7 @@ public class PaperReceiptPrint extends NetPrintService {
                 return tp.methodExit(result);
             }
             tp.println("end clear the buffer of printer");
-            
+
             tp.println("begin initialize the printer");
             if (!printer.initPrinter()) {
             	tp.println("failed initialize the printer");
@@ -372,7 +372,7 @@ public class PaperReceiptPrint extends NetPrintService {
                 return tp.methodExit(result);
             }
             tp.println("end initialize the printer");
-            
+
             for (List<byte[]> reList : receipts) {
 
             	tp.println("begin clear the buffer of the printer");
@@ -384,7 +384,7 @@ public class PaperReceiptPrint extends NetPrintService {
                     return tp.methodExit(result);
                 }
                 tp.println("end clear the buffer of the printer");
-                
+
                 for (byte[] line : reList) {
                     if (line != null && Arrays.equals(LOGOBYTES, line)) {
                         if (logoBMP != null) {
@@ -474,10 +474,10 @@ public class PaperReceiptPrint extends NetPrintService {
                         printer.writeText(line);
                     }
                 }
-                
+
                 //Add paper-cut command to print data.
                 printer.writeText(IPrinter.CUT_CMD);
-                
+
                 tp.println("begin send print data to printer");
                 int printResult = printer.print();
                 if (printResult != 0) {
@@ -497,7 +497,7 @@ public class PaperReceiptPrint extends NetPrintService {
                     return tp.methodExit(result);
                 }
                 tp.println("end send print data to printer");
-                
+
                 /*tp.println("begin cut paper");
                 if (!printer.cutPaper()) {
                 	tp.println("failed cut paper");
@@ -519,7 +519,7 @@ public class PaperReceiptPrint extends NetPrintService {
 
         return tp.methodExit(result);
     }
-    
+
     /**
      * execute receipt print.
      *
@@ -532,7 +532,7 @@ public class PaperReceiptPrint extends NetPrintService {
             throws Exception {
         int result = ResultBase.RESNETRECPT_OK;
         int icount = 0;
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "printAllReceipt";
         tp.methodEnter(functionName);
         try {
             byte[] logoBMP = getBmpLocalFileData(logoPath);
@@ -561,7 +561,7 @@ public class PaperReceiptPrint extends NetPrintService {
                 return tp.methodExit(result);
             }
             tp.println("end connect to printer");
-            
+
             tp.println("begin clear the buffer of printer");
             if (!printer.clearBuffer()) {
             	tp.println("failed clear the buffer of printer");
@@ -571,7 +571,7 @@ public class PaperReceiptPrint extends NetPrintService {
                 return tp.methodExit(result);
             }
             tp.println("end clear the buffer of printer");
-            
+
             tp.println("begin initialize the printer");
             if (!printer.initPrinter()) {
             	tp.println("failed initialize the printer");
@@ -581,7 +581,7 @@ public class PaperReceiptPrint extends NetPrintService {
                 return tp.methodExit(result);
             }
             tp.println("end initialize the printer");
-            
+
             for (List<byte[]> reList : receipts) {
 
             	tp.println("begin clear the buffer of the printer");
@@ -593,7 +593,7 @@ public class PaperReceiptPrint extends NetPrintService {
                     return tp.methodExit(result);
                 }
                 tp.println("end clear the buffer of the printer");
-                
+
                 for (byte[] line : reList) {
                     if (line != null && Arrays.equals(LOGOBYTES, line)) {
                         if (logoBMP != null) {
@@ -683,17 +683,17 @@ public class PaperReceiptPrint extends NetPrintService {
                         printer.writeText(line);
                     }
                 }
-                
+
                 icount++;
                 //Add paper-cut command to print data.
                 if (papercut) {
                 	printer.writeText(IPrinter.CUT_CMD);
                 }
-                
+
                 if (receipts.size()==icount) {
                 	printer.writeText(IPrinter.CUT_CMD);
                 }
-                
+
                 tp.println("begin send print data to printer");
                 int printResult = printer.print();
                 if (printResult != 0) {
@@ -713,7 +713,7 @@ public class PaperReceiptPrint extends NetPrintService {
                     return tp.methodExit(result);
                 }
                 tp.println("end send print data to printer");
-                
+
                 /*tp.println("begin cut paper");
                 if (!printer.cutPaper()) {
                 	tp.println("failed cut paper");

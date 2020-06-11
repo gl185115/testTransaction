@@ -47,7 +47,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -58,7 +58,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -67,7 +67,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
 
     /**
      * /**
-     * 
+     *
      * @param companyId
      * @param storeId
      * @param tenderType
@@ -76,7 +76,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
      */
     @Override
     public JSONData getTenderInfo(String companyId, String storeId, String tenderType) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTenderInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId).println("TenderType",
                 tenderType);
 
@@ -215,7 +215,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
     }
     /**
      * /**
-     * 
+     *
      * @param companyId
      * @param storeId
      * @param tenderType
@@ -224,7 +224,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
      */
     @Override
     public JSONData getAllTenderInfo(String companyId, String storeId) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getAllTenderInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId);
 
         PreparedStatement selectStmnt = null;
@@ -264,7 +264,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
                 tenderInfo.put("tranReturn", resultSet.getString("SubNum2"));
                 tenderInfo.put("tenderVoid", resultSet.getString("SubNum3"));
                 tenderInfo.put("displayOrder", resultSet.getString("DisplayOrder"));
-                
+
                 getCouponPriceInfo(storeId, tenderInfo, companyId);
                 if (tenderList.containsKey(resultSet.getString("TenderType"))) {
                     tenderList.get(resultSet.getString("TenderType")).add(tenderInfo);
@@ -304,7 +304,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
         }
         return tender;
     }
-    
+
     /**
      * åîóﬁ(ã‡éÌï )ÇÃéÌóﬁÅ^íPâøèÓïÒÇéÊìæÇ∑ÇÈ
      * @param storeid
@@ -314,7 +314,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
      */
 	private void getCouponPriceInfo(final String storeId, final JSONObject tenderInfo, final String companyId)
 			throws DaoException {
-		tp.methodEnter(DebugLogger.getCurrentMethodName()).println("StoreID", storeId)
+		tp.methodEnter("getCouponPriceInfo").println("StoreID", storeId)
 				.println("tenderInfo", tenderInfo).println("CompanyId", companyId);
 
 		Connection connection = null;
@@ -332,7 +332,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
 			select.setString(SQLStatement.PARAM3, tenderId);
 			select.setString(SQLStatement.PARAM4, tenderType);
 			result = select.executeQuery();
-			
+
 			JSONArray couponPriceList = null;
 			JSONObject couponPriceInfo = null;
 			while(result.next()){
@@ -362,11 +362,11 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
 			tp.methodExit(tenderInfo);
 		}
 	}
-    
+
     @Override
     public JSONData getTenderInfoByType(String companyId, String storeId, String tenderType, String tenderId)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTenderInfoByType";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId).println("TenderType",
                 tenderType).println("TenderId", tenderId);
         PreparedStatement selectStmnt = null;

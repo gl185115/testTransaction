@@ -57,10 +57,10 @@ public class PremiumFlagResource {
         })
     public final JSONData getPremiumFlag(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId,
     		@ApiParam(name="TerminalId", value="ターミナル番号") @QueryParam("TerminalId") final String terminalId,
     		@ApiParam(name="DptIdList", value="部門コードリスト") @QueryParam("DptIdList") final String dptIdList) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPremiumFlag";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("TerminalId", terminalId).println("DptIdList", dptIdList);
 

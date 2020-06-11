@@ -64,7 +64,7 @@ public class RemoteItemResource {
 
     /**
      * get Item DetailInfo
-     * 
+     *
      * @param retailStoreId
      *            Store Number where the transaction is coming from
      * @param pluCode
@@ -81,7 +81,7 @@ public class RemoteItemResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @ApiOperation(value="è§ïièÓïÒéÊìæ", response=Void.class)
     public final PromotionResponse itemEntry(@Context HttpServletRequest request,@Context HttpServletResponse response) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "itemEntry";
         String retailStoreId = request.getParameter("storeId");
         String pluCode = request.getParameter("pluCode");
         String companyId = request.getParameter("companyId");
@@ -118,14 +118,14 @@ public class RemoteItemResource {
                 e.printStackTrace();
             }
         } catch (DaoException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get item Info.", e); 
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get item Info.", e);
         }
         return promotionResponse;
     }
-    
+
     /**
      * get Item DetailInfo
-     * 
+     *
      * @param companyId
      *            The companyId
      * @param retailStoreId
@@ -140,7 +140,7 @@ public class RemoteItemResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @ApiOperation(value="è§ïiñºéÊìæ", response=Void.class)
     public final PromotionResponse getMdName(@Context HttpServletRequest request,@Context HttpServletResponse response) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMdName";
         String companyId = request.getParameter("companyId");
         String retailStoreId = request.getParameter("retailStoreId");
         String ItemCode = request.getParameter("ItemCode");
@@ -169,7 +169,7 @@ public class RemoteItemResource {
                 e.printStackTrace();
             }
         } catch (DaoException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get MdName Info.", e); 
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get MdName Info.", e);
         }
         return promotionResponse;
     }

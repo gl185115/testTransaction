@@ -31,6 +31,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.credential.resource.CredentialResource;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -44,7 +45,6 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.model.ForwardList;
@@ -53,9 +53,10 @@ import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.webserviceif.model.JSONData;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
+
+
 
 /**
  * Transfer transactions between smart phone and POS.
@@ -191,10 +192,7 @@ public class ForwardItemListResource {
             forwardCountData = forwardItemListDAO.getForwardCountData(
                     actualstoreid, terminalid, txdate);
 
-            XmlSerializer<ForwardCountData> xmlSerializer =
-                new XmlSerializer<ForwardCountData>();
-            countXml = xmlSerializer.marshallObj(ForwardCountData.class,
-                    forwardCountData, "shift_jis");
+            countXml = GlobalConstant.forwardcountdataDataBinding.marshallObj(forwardCountData, "shift_jis");
             countXml = countXml.replace(" standalone=\"yes\"", "");
         } catch (JAXBException e) {
             LOGGER.logAlert(PROG_NAME, "ForwardItemListResource.getCount",
@@ -295,7 +293,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="trainingmode", value="トレーニングモードフラグ") @FormParam("trainingmode") final String trainingmode,
     		@ApiParam(name="total", value="トータル") @FormParam("total") final String total) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "saveForwardPosLog";
         tp.methodEnter(functionName).println("poslogxml", poslogxml);
         tp.methodEnter(functionName).println("queue", queue);
         tp.methodEnter(functionName).println("workstationid", workstationid);
@@ -309,9 +307,7 @@ public class ForwardItemListResource {
         ResultBase resultBase = new ResultBase();
 
         try {
-            // unmarshall poslog xml
-            XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
-            PosLog posLog = poslogSerializer.unMarshallXml(poslogxml, PosLog.class);
+            PosLog posLog = GlobalConstant.poslogDataBinding.unMarshallXml(poslogxml);
 
             // check if valid poslog
             if (!POSLogHandler.isValid(posLog)) {
@@ -399,7 +395,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
     		@ApiParam(name="BusinessDayDate", value="業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
     		@ApiParam(name="TrainingFlag", value="トレーニングモードフラグ") @FormParam("TrainingFlag") String TrainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardItems";
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);
         tp.println("WorkstationId", WorkstationId);
@@ -419,8 +415,7 @@ public class ForwardItemListResource {
                 poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
                 tp.println("Forward poslog not found.");
             } else {
-                XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
-                poslog.setPoslog(poslogSerializer.unMarshallXml(poslog.getPosLogXml(), PosLog.class));
+                poslog.setPoslog(GlobalConstant.poslogDataBinding.unMarshallXml(poslog.getPosLogXml()));
             }
         } catch (DaoException ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get poslog xml", ex);
@@ -458,7 +453,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="LayawayFlag", value="予約フラグ") @FormParam("LayawayFlag") String LayawayFlag,
     		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
             @ApiParam(name="TxType", value="取引タイプ") @FormParam("TxType") String TxType) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardList";
         tp.println("CompanyId", CompanyId);
         tp.println("StoreCode", RetailStoreId);
         tp.println("Training", TrainingFlag);
@@ -531,7 +526,7 @@ public class ForwardItemListResource {
     	@ApiParam(name="workstationId", value="ターミナル番号") @QueryParam("workstationId") final String workstationId,
     	@ApiParam(name="queue", value="キュー番号") @QueryParam("queue") final String queue,
     	@ApiParam(name="trainingFlag", value="トレーニングモードフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardItemCount";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
             .println("storeId", storeId)
@@ -613,7 +608,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="BusinessDayDate", value="業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
     		@ApiParam(name="TrainingFlag", value="トレーニングモードフラグ") @FormParam("TrainingFlag") String TrainingFlag,
     		@ApiParam(name="Status", value="ステータス") @FormParam("Status") int Status) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateForwardStatus";
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);
         tp.println("WorkstationId", WorkstationId);
@@ -713,7 +708,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="total", value="合計金額") @FormParam("total") final String total,
     		@ApiParam(name="poslogxml", value="POSLog (xmlデータ)") @FormParam("poslogxml") final String posLogXml) {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "saveForwardPosLogIncludeTag";
         tp.methodEnter(functionName)
           .println("companyid", companyId)
           .println("retailstoreid", retailStoreId)
@@ -731,9 +726,7 @@ public class ForwardItemListResource {
         ResultBase resultBase = new ResultBase();
 
         try {
-            // unmarshall poslog xml
-            XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
-            PosLog posLog = poslogSerializer.unMarshallXml(posLogXml, PosLog.class);
+            PosLog posLog = GlobalConstant.poslogDataBinding.unMarshallXml(posLogXml);
 
             // check if valid poslog
             if (!POSLogHandler.isValid(posLog)) {
@@ -820,7 +813,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="Businessdaydate", value="業務日付") @QueryParam("Businessdaydate") final String businessDayDate,
     		@ApiParam(name="tag", value="タグ番号") @QueryParam("tag") final String tag,
     		@ApiParam(name="trainingflag", value="トレーニングモードフラグ") @QueryParam("trainingflag") final String trainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardItemsWithTag";
         tp.println("CompanyId", companyId);
         tp.println("RetailStoreId", retailStoreId);
         tp.println("Queue", queue);
@@ -839,8 +832,7 @@ public class ForwardItemListResource {
                     poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
                     tp.println("Forward poslog with tag not found.");
                } else {
-                    XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
-                    poslog.setPoslog(poslogSerializer.unMarshallXml(poslog.getPosLogXml(), PosLog.class));
+                    poslog.setPoslog(GlobalConstant.poslogDataBinding.unMarshallXml(poslog.getPosLogXml()));
                }
 		} catch (DaoException ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get poslog xml with tag", ex);

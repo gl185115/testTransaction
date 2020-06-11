@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 NCR Japan Ltd. 
+ * Copyright (c) 2015 NCR Japan Ltd.
  */
 package ncr.res.mobilepos.giftcard.resource;
 
@@ -41,23 +41,23 @@ import ncr.res.mobilepos.model.ResultBase;
 @Path("/giftcard")
 @Api(value="/giftcard", description="ギフトカード情報API")
 public class ToppanGiftcardResource {
-	
-	/** 
-	 * A private member variable used for the servlet context. 
+
+	/**
+	 * A private member variable used for the servlet context.
 	 */
     @Context
     private ServletContext context = null;;
-    
-    /** 
+
+    /**
      * A private member variable used for logging the class implementations.
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
-    
-    /** 
-     * The instance of the trace debug printer. 
+
+    /**
+     * The instance of the trace debug printer.
      */
     private Trace.Printer tp = null;
-    
+
     /**
      * The Program Name.
      */
@@ -109,8 +109,8 @@ public class ToppanGiftcardResource {
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
     		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
-    	
-    	String functionName = DebugLogger.getCurrentMethodName();
+
+    	String functionName = "queryMember";
         tp.methodEnter(functionName);
         tp.println("storeid", storeId);
         tp.println("workstationid", workstationId);
@@ -119,7 +119,7 @@ public class ToppanGiftcardResource {
         tp.println("giftcard", jsonItem);
         tp.println("privatebrand", privatebrand);
         String cardFlag = "";
-        
+
         GiftResult giftResult = new GiftResult();
         try {
             JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
@@ -130,7 +130,7 @@ public class ToppanGiftcardResource {
             } else {
             	cardFlag = privatebrand;
             }
-            
+
             Message msg = MessageBuilder.buildQuery(toppanGiftcardConfig, test,
                                     storeId, workstationId, transactionId,
                                     messageBuilderGiftCard, cardFlag);
@@ -151,7 +151,7 @@ public class ToppanGiftcardResource {
 		} finally {
 			tp.methodExit(giftResult);
         }
-        
+
         return giftResult;
     }
 
@@ -178,8 +178,8 @@ public class ToppanGiftcardResource {
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
     		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
-    	
-    	String functionName = DebugLogger.getCurrentMethodName();
+
+    	String functionName = "sales";
         tp.methodEnter(functionName);
         tp.println("storeid", storeId);
         tp.println("workstationid", workstationId);
@@ -188,7 +188,7 @@ public class ToppanGiftcardResource {
         tp.println("giftcard", jsonItem);
         tp.println("privatebrand", privatebrand);
         String cardFlag = "";
-        
+
         GiftResult giftResult = new GiftResult();
         try {
             JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
@@ -220,7 +220,7 @@ public class ToppanGiftcardResource {
 		} finally {
 			tp.methodExit(giftResult);
         }
-        
+
         return giftResult;
     }
 
@@ -247,8 +247,8 @@ public class ToppanGiftcardResource {
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
     		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
-    	
-    	String functionName = DebugLogger.getCurrentMethodName();
+
+    	String functionName = "cancel";
         tp.methodEnter(functionName);
         tp.println("storeid", storeId);
         tp.println("workstationid", workstationId);
@@ -257,7 +257,7 @@ public class ToppanGiftcardResource {
         tp.println("giftcard", jsonItem);
         tp.println("privatebrand", privatebrand);
         String cardFlag = "";
-        
+
         GiftResult giftResult = new GiftResult();
         try {
             JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
@@ -268,7 +268,7 @@ public class ToppanGiftcardResource {
             } else {
             	cardFlag = privatebrand;
             }
-            
+
             Message msg = MessageBuilder.buildCancel(toppanGiftcardConfig, test,
                                     storeId, workstationId, transactionId,
                                     messageBuilderGiftCard, cardFlag);
@@ -289,10 +289,10 @@ public class ToppanGiftcardResource {
 		} finally {
 			tp.methodExit(giftResult);
         }
-        
+
         return giftResult;
     }
-    
+
     /**
      * The method called by the Web Service to activate giftcard.
      * @param storeId The StoreID
@@ -316,8 +316,8 @@ public class ToppanGiftcardResource {
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
     		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
-    	
-    	String functionName = DebugLogger.getCurrentMethodName();
+
+    	String functionName = "activate";
         tp.methodEnter(functionName);
         tp.println("storeid", storeId);
         tp.println("workstationid", workstationId);
@@ -326,7 +326,7 @@ public class ToppanGiftcardResource {
         tp.println("giftcard", jsonItem);
         tp.println("privatebrand", privatebrand);
         String cardFlag = "";
-        
+
         GiftResult giftResult = new GiftResult();
         try {
             JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
@@ -337,7 +337,7 @@ public class ToppanGiftcardResource {
             } else {
             	cardFlag = privatebrand;
             }
-            
+
             Message msg = MessageBuilder.buildActivate(toppanGiftcardConfig, test,
                                     storeId, workstationId, transactionId,
                                     messageBuilderGiftCard, cardFlag);
@@ -358,10 +358,10 @@ public class ToppanGiftcardResource {
 		} finally {
 			tp.methodExit(giftResult);
         }
-        
+
         return giftResult;
     }
-    
+
     /**
      * The method called by the Web Service to charge giftcard.
      * @param storeId The StoreID
@@ -387,8 +387,8 @@ public class ToppanGiftcardResource {
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
     		@ApiParam(name="campaign", value="キャンペーン付与拒否フラグ") @FormParam("campaign") final boolean campaign,
     		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
-    	
-    	String functionName = DebugLogger.getCurrentMethodName();
+
+    	String functionName = "charge";
         tp.methodEnter(functionName);
         tp.println("storeid", storeId);
         tp.println("workstationid", workstationId);
@@ -398,7 +398,7 @@ public class ToppanGiftcardResource {
         tp.println("campaign", campaign);
         tp.println("privatebrand", privatebrand);
         String cardFlag = "";
-        
+
         GiftResult giftResult = new GiftResult();
         try {
             JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
@@ -409,7 +409,7 @@ public class ToppanGiftcardResource {
             } else {
             	cardFlag = privatebrand;
             }
-            
+
             Message msg = MessageBuilder.buildCharge(toppanGiftcardConfig, test,
                                     storeId, workstationId, transactionId,
                                     messageBuilderGiftCard, campaign, cardFlag);
@@ -430,7 +430,7 @@ public class ToppanGiftcardResource {
 		} finally {
 			tp.methodExit(giftResult);
         }
-        
+
         return giftResult;
     }
 
@@ -452,7 +452,7 @@ public class ToppanGiftcardResource {
      * @return GiftResult The GiftResult Object
      */
 	private GiftResult centerAccess(Message msg) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "centerAccess";
         tp.methodEnter(functionName);
 
         GiftResult result = new GiftResult();
@@ -490,9 +490,9 @@ public class ToppanGiftcardResource {
         } finally {
             tp.methodExit(result);
         }
-        
+
         return result;
     }
-    
+
 }
 

@@ -45,7 +45,7 @@ import ncr.res.mobilepos.store.model.Stores;
 import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
- * 
+ *
  * @author AP185142
  * @author cc185102 - (July 10, 2012) Added List Store Web Method - (July 30,
  *         2012) Updated List Store Web Method. Added partial Search prefix when
@@ -87,7 +87,7 @@ public class StoreResource {
 
     /**
      * Service to view store details of given parameter storeid.
-     * 
+     *
      * @param retailStoreID
      *            storeid to lookup.
      * @return JSON type of Store.
@@ -143,10 +143,10 @@ public class StoreResource {
 
         return store;
     }
-    
+
     /**
      * Web Method called to list all stores within a company.
-     * 
+     *
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -162,10 +162,10 @@ public class StoreResource {
         })
     public final Stores searchStores(
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="key", value="キー")@QueryParam("key") final String key, 
+    		@ApiParam(name="key", value="キー")@QueryParam("key") final String key,
     		@ApiParam(name="name", value="名")@QueryParam("name") final String name,
     		@ApiParam(name="limit", value="最大リスト数")@QueryParam("limit") final int searchLimit) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "searchStores";
         tp.methodEnter("searchStores")
         	.println("companyId", companyId)
         	.println("key", key)
@@ -174,7 +174,7 @@ public class StoreResource {
         Stores stores = new Stores();
 
         try {
-            IStoreDAO storeDao = daoFactory.getStoreDAO();            
+            IStoreDAO storeDao = daoFactory.getStoreDAO();
             List<Store> storeList = storeDao.listStores(companyId, key, name, searchLimit);
             stores.setStorelist(storeList);
         } catch (DaoException ex) {
@@ -197,7 +197,7 @@ public class StoreResource {
 
     /**
      * Web Method called to list all stores within a company.
-     * 
+     *
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -211,11 +211,11 @@ public class StoreResource {
         })
     public final CMPresetInfos getCMPresetInfoList(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeid") final String storeId, 
+    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeid") final String storeId,
     		@ApiParam(name="terminalid", value="ターミナル番号")@QueryParam("terminalid") final String terminalId,
     		@ApiParam(name="businessdaydate", value="業務日付")@QueryParam("businessdaydate") final String businessDayDate) {
-    	
-        String functionName = DebugLogger.getCurrentMethodName();
+
+        String functionName = "getCMPresetInfoList";
         tp.methodEnter("getCMPresetInfoList")
             .println("companyid", companyId)
             .println("storeid", storeId)
@@ -224,7 +224,7 @@ public class StoreResource {
         CMPresetInfos cmPresetInfos = new CMPresetInfos();
 
         try {
-            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();            
+            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();
             List<CMPresetInfo> cmPresetInfoList = cmPresetDao.listCMPresetInfo(companyId, storeId, terminalId, businessDayDate);
             cmPresetInfos.setCMPresetInfoList(cmPresetInfoList);
         } catch (Exception ex) {
@@ -236,10 +236,10 @@ public class StoreResource {
         }
         return cmPresetInfos;
     }
-    
+
     /**
      * Web Method called to list all stores within a company.
-     * 
+     *
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -253,10 +253,10 @@ public class StoreResource {
         })
     public final PresetSroreInfo getCMPresetStoreInfo(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeid") final String storeId, 
+    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeid") final String storeId,
     		@ApiParam(name="terminalid", value="ターミナル番号")@QueryParam("terminalid") final String terminalId) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCMPresetStoreInfo";
         tp.methodEnter("getCMPresetStoreInfo")
             .println("companyid", companyId)
             .println("storeid", storeId)
@@ -277,10 +277,10 @@ public class StoreResource {
         }
         return presetsroreinfo;
     }
-    
+
     /**
      * Web Method called to list all stores within a company.
-     * 
+     *
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -294,11 +294,11 @@ public class StoreResource {
         })
     public final JSONData getSummaryReceiptNo(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeId") final String storeId, 
+    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeId") final String storeId,
     		@ApiParam(name="terminalid", value="ターミナル番号")@QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="traning", value="トレーニングモードフラグ")@QueryParam("traning") final String traning) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getSummaryReceiptNo";
         JSONData json = new JSONData();
         tp.methodEnter("getSummaryReceiptNo")
             .println("companyid", companyId)
@@ -306,7 +306,7 @@ public class StoreResource {
             .println("terminalid", terminalId)
             .println("traning", traning);
         try {
-            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();            
+            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();
             json.setJsonObject(cmPresetDao.getSummaryReceiptNo(companyId, storeId, terminalId,traning));
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
@@ -319,7 +319,7 @@ public class StoreResource {
     }
     /**
      * Web Method called to list all stores within a company.
-     * 
+     *
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -334,11 +334,11 @@ public class StoreResource {
     public final JSONData updateSummaryReceiptNo(
     		@ApiParam(name="SubNum1", value="予約")@QueryParam("SubNum1") final int SubNum1,
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId, 
+    		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId,
     		@ApiParam(name="terminalId", value="ターミナル番号")@QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="traning", value="トレーニングモードフラグ")@QueryParam("traning") final String traning) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateSummaryReceiptNo";
         JSONData json = new JSONData();
         tp.methodEnter("updateSummaryReceiptNo")
             .println("SubNum1",SubNum1)
@@ -358,10 +358,10 @@ public class StoreResource {
         }
         return json;
     }
-    
+
 	/**
 	 * The number of total settlement
-	 * 
+	 *
 	 * @param companyId
 	 * @param storeId
 	 * @param terminalId
@@ -379,10 +379,10 @@ public class StoreResource {
 		})
 	public final StoreInfo addStoreTotal(
 			@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
-			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId, 
+			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId,
 			@ApiParam(name="terminalid", value="ターミナル番号")@FormParam("terminalid") final String terminalId,
 			@ApiParam(name="businessdaydate", value="業務日付")@FormParam("businessdaydate") final String businessdaydate) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "addStoreTotal";
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)
 			.println("storeid", storeId)
@@ -410,10 +410,10 @@ public class StoreResource {
 		}
 		return storeInfo;
 	}
-	
+
 	/**
 	 * get Store Total
-	 * 
+	 *
 	 * @param companyId
 	 * @param storeId
 	 * @param terminalId
@@ -431,10 +431,10 @@ public class StoreResource {
 		})
 	public final StoreInfo getStoreTotal(
 			@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
-			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId, 
+			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId,
 			@ApiParam(name="terminalid", value="ターミナル番号")@FormParam("terminalid") final String terminalId,
 			@ApiParam(name="businessdaydate", value="業務日付")@FormParam("businessdaydate") final String businessdaydate) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getStoreTotal";
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)
 			.println("storeid", storeId)

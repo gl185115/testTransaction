@@ -20,7 +20,7 @@ import ncr.res.mobilepos.property.SQLStatement;
 
 public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
     DiscountPlanInfoCommomDAO{
-	
+
 	private final String PROG_NAME = "DisCountCommomDao";
     /** The database manager. */
     private DBManager dbManager;
@@ -32,7 +32,7 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -44,7 +44,7 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -58,7 +58,7 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
      */
 	public ArrayList<SubtotalDiscountInfo> getSubtotalDiscount()
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getSubtotalDiscount";
         tp.methodEnter(functionName);
 
         ArrayList<SubtotalDiscountInfo> subtotalDiscountInfo = null;

@@ -28,7 +28,7 @@ public class SQLServerCasingUnitConvertDAO extends AbstractDao implements ICashi
      * The Trace Printer.
      */
     private Trace.Printer tp;
-    
+
     /**
      * Default Constructor for SQLServerMixMatchDAO
      *
@@ -56,22 +56,22 @@ public class SQLServerCasingUnitConvertDAO extends AbstractDao implements ICashi
     /**
      * Convert RecordId to CashingUnit from MST_MAGCODEINFO.
      * @param companyId ,
-     *        recordId    
+     *        recordId
      * @return CashingUnit cashingUnit
      * @throws DaoException Exception when error occurs.
      */
     @Override
     public final String convertRecordIdToCashingUnit(final String companyId, final String recordId) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "convertRecordIdToCashingUnit";
         tp.methodEnter("convertRecordIdToCashingUnit");
         tp.println("CompanyId", companyId);
         tp.println("RecordId", recordId);
-        
+
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
         String cashingUint = null;
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -80,7 +80,7 @@ public class SQLServerCasingUnitConvertDAO extends AbstractDao implements ICashi
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, recordId);
             result = select.executeQuery();
-            
+
             if (result.next()) {
                 cashingUint = result.getString("CashingUint");
             }
@@ -91,7 +91,7 @@ public class SQLServerCasingUnitConvertDAO extends AbstractDao implements ICashi
                     + "SQLServerItemInfoDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(result.toString());
         }
         return cashingUint;

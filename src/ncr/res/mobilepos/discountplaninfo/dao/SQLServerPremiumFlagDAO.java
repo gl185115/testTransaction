@@ -68,7 +68,7 @@ public class SQLServerPremiumFlagDAO extends AbstractDao implements IPremiumFlag
     @Override
     public JSONData getPremiumFlag(String companyId, String storeId, String terminalId, String dptIdList)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPremiumFlags";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("TerminalId", terminalId).println("DptIdList", dptIdList);
 

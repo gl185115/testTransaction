@@ -57,7 +57,7 @@ public class TenderInfoResource {
     		@ApiParam(name="CompanyId", value="会社コード")@QueryParam("CompanyId") final String companyId,
     		@ApiParam(name="StoreId", value="店番号")@QueryParam("StoreId") final String storeId,
     		@ApiParam(name="TenderType", value="支払種別")@QueryParam("TenderType") final String tenderType) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTenderInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId).println("TenderType", tenderType);
 
         JSONData tender = new JSONData();
@@ -107,7 +107,7 @@ public class TenderInfoResource {
     public final JSONData getAllTenderInfo(
             @ApiParam(name="CompanyId", value="会社コード")@QueryParam("CompanyId") final String companyId,
             @ApiParam(name="StoreId", value="店番号")@QueryParam("StoreId") final String storeId) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getAllTenderInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId);
 
         JSONData tender = new JSONData();
@@ -158,7 +158,7 @@ public class TenderInfoResource {
     		@ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId,
     		@ApiParam(name="TenderType", value="支払種別")@QueryParam("TenderType") final String tenderType,
     		@ApiParam(name="TenderId", value="種別コード")@QueryParam("TenderId") final String tenderId) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTenderInfoByType";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                                     .println("TenderType", tenderType).println("TenderId", tenderId);
 

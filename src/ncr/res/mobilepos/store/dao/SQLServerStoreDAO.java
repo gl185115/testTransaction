@@ -102,7 +102,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     @Override
     public final List<Store> listStores(final String companyId, final String key,
     		final String name, final int limit) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "listStores";
         tp.methodEnter("listStores")
         	.println("companyId", companyId)
         	.println("key", key)
@@ -226,7 +226,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     @Override
     public final List<CMPresetInfo> listCMPresetInfo(final String companyId, final String storeId,
             final String terminalId, final String businessDayDate) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "listCMPresetInfo";
         tp.methodEnter("listCMPresetInfo")
             .println("companyId", companyId)
             .println("storeId", storeId)
@@ -292,7 +292,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
      */
     public String getBusinessRegistrationNo(String companyId, String storeId, String terminalId)
     		throws DaoException{
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getBusinessRegistrationNo";
 
 		Connection conn = null;
 		PreparedStatement selectStmt = null;
@@ -316,13 +316,13 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 				TableColumnName = businessInfo.get(KeyId1);
 				SearchCondition = businessInfo.get(KeyId2);
 			}
-		
+
 			if (SearchCondition.contains(",")) {
 				search_conditions = Arrays.asList(SearchCondition.trim().split(","));
 			} else {
 				search_conditions.add(SearchCondition.trim());
 			}
-			
+
 			for (String condition : search_conditions) {
 				switch (condition.trim()) {
 				case "CompanyId":
@@ -337,37 +337,37 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 				}
 			}
 			Sql_Condition.append(" DeleteFlag != 1;");
-			
+
 			String column = "";
 			String table = "";
 			if (!StringUtility.isNullOrEmpty(TableColumnName) && TableColumnName.contains(".")) {
 				column = TableColumnName.split("\\.")[1];
 				table = TableColumnName.split("\\.")[0];
 			}
-			
+
 			sqlStatement = SQLStatement.getInstance();
 			conn = dbManager.getConnection();
-			
+
 			String query = String.format(sqlStatement.getProperty("get-business-registration-no"),
 					column,"RESMaster.dbo." + table, Sql_Condition);
 			selectStmt = conn.prepareStatement(query);
 			resultSet = selectStmt.executeQuery();
-			
+
 			if (resultSet.next()) {
 				BusinessRegistrationNo = resultSet.getString(resultSet.findColumn(column));
 			}
-			
+
 			if (StringUtility.isNullOrEmpty(BusinessRegistrationNo)) {
 				resultSet.close();
 				selectStmt.close();
-				
+
 				if (query.contains("StoreId = '" + storeId + "'")) {
 					query = query.replace("StoreId = '" + storeId + "'", "StoreId = '0'");
 				}
 				if (query.contains("TerminalId = '" + terminalId + "'")) {
 					query = query.replace("TerminalId = '" + terminalId + "'", "TerminalId = '0'");
 				}
-				
+
 				selectStmt = conn.prepareStatement(query);
 				resultSet = selectStmt.executeQuery();
 				if (resultSet.next()) {
@@ -400,7 +400,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
      */
     public PresetSroreInfo getPresetSroreInfo(String companyId, String storeId, String workStactionId)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPresetSroreInfo";
         tp.methodEnter("getPresetSroreInfo").println("companyId", companyId).println("storeId", storeId)
                 .println("workStactionId", workStactionId);
 
@@ -476,7 +476,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     @Override
     public String getSummaryReceiptNo(String companyId, String storeId, String workStactionId, String traning)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getSummaryReceiptNo";
         tp.methodEnter("getSummaryReceiptNo").println("companyId", companyId).println("storeId", storeId)
                 .println("workStactionId", workStactionId).println("traning", traning);
 
@@ -512,7 +512,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     @Override
     public int updateSummaryReceiptNo(int SubNum1, String companyId, String storeId, String workStactionId,
             String traning) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateSummaryReceiptNo";
         tp.methodEnter("updateSummaryReceiptNo").println("SubNum1",SubNum1).println("companyId", companyId).println("storeId", storeId)
                 .println("workStactionId", workStactionId).println("traning", traning);
 
@@ -616,7 +616,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
 	@Override
 	public StoreInfo addStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "addStoreTotal";
 		tp.methodEnter(functionName)
 				.println("companyId",companyId).println("storeId", storeId).println("terminalId", terminalId)
 				.println("businessdaydate", businessdaydate);
@@ -713,7 +713,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
 	@Override
 	public StoreInfo getStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getStoreTotal";
 		tp.methodEnter(functionName)
 				.println("companyId",companyId).println("storeId", storeId).println("terminalId", terminalId)
 				.println("businessdaydate", businessdaydate);
@@ -775,7 +775,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 	}
 
 	public String getTableName() throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getTableName";
 		tp.methodEnter(functionName);
 
 		Connection conn = null;
@@ -805,7 +805,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 	}
 
 	public String getColumnName() throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getColumnName";
 		tp.methodEnter(functionName);
 
 		Connection conn = null;

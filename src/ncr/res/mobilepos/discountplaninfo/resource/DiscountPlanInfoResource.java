@@ -63,7 +63,7 @@ public class DiscountPlanInfoResource {
     })
     public final SubtotalDiscount getSubtotalDiscount() {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getSubtotalDiscount";
 
     	SubtotalDiscount result = new SubtotalDiscount();
         try {

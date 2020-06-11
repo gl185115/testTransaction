@@ -56,11 +56,11 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
                 Thread.currentThread().getId(), getClass());
     }
     @Override
-    
+
     public final POSLinkInfo getLinkItem(final String storeId,
             final String posLinkId) throws SQLException, DaoException {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLinkItem";
 		tp.methodEnter(functionName).println("RetailStoreID", storeId)
 				.println("POSLinkID", posLinkId);
 
@@ -101,7 +101,7 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 					+ functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			if (posLinkInfo != null) {
 				tp.methodExit(posLinkInfo.toString());
 			} else {
@@ -115,12 +115,12 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 	public final ResultBase createLink(final String storeId,
 			final String posLinkId, final POSLinkInfo posLinkInfo)
 			throws Exception {
-        
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "createLink";
 		tp.methodEnter(functionName).println("StoreId", storeId)
 				.println("PosLinkId", posLinkId)
 				.println("POSLinkInfo", posLinkInfo.toString());
-        
+
         ResultBase resultBase = new ResultBase();
         int result = 0;
         Connection connection = null;
@@ -166,7 +166,7 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 			throw new DaoException("Exception: @" + functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, create);
-			
+
 			tp.methodExit(resultBase);
 		}
 
@@ -177,12 +177,12 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 	public final ViewPosLinkInfo updateLink(final String storeId,
 			final String posLinkID, final POSLinkInfo posLinkInfo,
 			Connection connection) throws DaoException {
-    	
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "updateLink";
 		tp.methodEnter(functionName).println("storeID", storeId)
 				.println("posLinkID", posLinkID)
 				.println("posLinkInfo", posLinkInfo);
-        
+
         ViewPosLinkInfo newPosLinkInfo = new ViewPosLinkInfo();
         ResultSet result = null;
         PreparedStatement update = null;
@@ -241,7 +241,7 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 					+ functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, update, result);
-			
+
 			tp.methodExit(newPosLinkInfo);
 		}
 		return newPosLinkInfo;
@@ -252,7 +252,7 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 			final String key, final String name, final int limit)
 			throws SQLException, DaoException {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLinks";
 		tp.methodEnter(functionName).println("RetailStoreID", storeId)
 				.println("Key", key).println("Name", name)
 				.println("limit", limit);
@@ -261,13 +261,13 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 		ResultSet result = null;
 		Connection connection = null;
 		PreparedStatement select = null;
-		
+
         try {
             connection = dbManager.getConnection();
 
             SQLStatement sqlStatement = SQLStatement.getInstance();
             boolean selectAll = false;
-            
+
             if(storeId != null && storeId.trim().isEmpty()){
                 select = connection.prepareStatement(sqlStatement.getProperty("get-all-signaturelinks"));
                 selectAll = true;
@@ -302,7 +302,7 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 					+ functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			tp.methodExit("Count:" + links.size());
 		}
 		return links;
@@ -313,7 +313,7 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 			final String posLinkId, final String appId, final String opeCode)
 			throws Exception {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "deleteLink";
 		tp.methodEnter(functionName).println("RetailStoreID", storeId)
 				.println("POSLinkID", posLinkId).println("AppId", appId)
 				.println("OpeCode", opeCode);
@@ -357,7 +357,7 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 			throw new Exception("Exception: @" + functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, delete);
-			
+
 			tp.methodExit(resultBase);
 		}
 		return resultBase;

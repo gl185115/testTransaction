@@ -54,7 +54,7 @@ public class QrCodeInfoFactory {
      */
     private static List<QrCodeInfo> codeInfoConstant(String companyId, String storeId) throws DaoException {
     	Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), QrCodeInfoFactory.class);
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "codeInfoConstant";
 
         List<QrCodeInfo> qrCodeList = null;
 

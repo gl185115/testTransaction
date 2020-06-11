@@ -18,7 +18,7 @@ import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.credential.resource.CredentialResource;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.DataBinding;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 
@@ -46,9 +46,9 @@ public class SignOnSteps extends Steps {
      */
     private ResultBase resultBase;
     /*
-     * Operator result. 
+     * Operator result.
      */
-    private Operator operatorResult; 
+    private Operator operatorResult;
     /** The dbinit. */
     private DBInitiator dbinit = null;
     private ServletContext context;
@@ -84,7 +84,7 @@ public class SignOnSteps extends Steps {
             // TODO Auto-generated catch block
             e.printStackTrace();
             Assert.fail("Cant load Mock Servlet Context.");
-        } 
+        }
     }
 
     /**
@@ -97,13 +97,13 @@ public class SignOnSteps extends Steps {
     public final void emptyTable(final String filename) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
-        Map<String, Object> replacements = new HashMap<String, Object>(); 
+        Map<String, Object> replacements = new HashMap<String, Object>();
         replacements.put("NOW", sdf.format(c.getTime()));
         c.add(Calendar.DATE, 756);  // number of days to add
         replacements.put("756DaysAhead", sdf.format(c.getTime()));
         c.add(Calendar.DATE, 1812);
         replacements.put("2568DaysAhead", sdf.format(c.getTime()));
-        
+
         dbinit = new DBInitiator("CredentialResource", DATABASE.RESMaster);
         try {
             dbinit.executeWithReplacement("test/ncr/res/mobilepos/credential/resource/test/"
@@ -125,7 +125,7 @@ public class SignOnSteps extends Steps {
      * @param terminal
      *            The terminal id
      */
-        
+
     @When("signing on companyid $companyId operator $operatorNo passcode $passcode terminal $terminalId isdemo $isDemoParam")
 	public final void signOn(final String companyId, final String operatorNo, final String passcode, final String terminalId, final String isDemoParam) {
 		boolean isDemo = isDemoParam.equals("true") ? true : false;
@@ -137,7 +137,7 @@ public class SignOnSteps extends Steps {
 			Assert.fail("Can't Mock Calendar for SignOn");
 		}
 	}
-    
+
     /**
      * A Then step, tests actual and expect result code.
      *
@@ -148,7 +148,7 @@ public class SignOnSteps extends Steps {
     public final void checkResult(final int result) {
         assertThat(resultBase.getNCRWSSResultCode(), is(equalTo(result)));
     }
-    
+
     @Then("Operator result should be $expected")
     public final void checkResult(ExamplesTable expected) {
         Map<String, String> expectedData = expected.getRow(0);
@@ -165,18 +165,16 @@ public class SignOnSteps extends Steps {
                 expectedData.get("name"), operatorResult.getName()
                 == null ? "" : operatorResult.getName());
     }
-    
+
     @Then("the Operator should have the following XML: $expectedXml")
     public final void theOperatorShouldHaveTheFollowingXML(final String expectedXml){
-        XmlSerializer<Operator> operatorSerializer = new XmlSerializer<Operator>();
         try {
             if (operatorResult.getNCRWSSResultCode() == 0) {
                operatorResult.setSignOnAt("21:05");
                operatorResult.setDate("Nov 22, '12");
             }
-            
-            String actualXml =
-            operatorSerializer.marshallObj(Operator.class, operatorResult, "UTF-8");
+            DataBinding<Operator> operatorSerializer = new DataBinding<Operator>(Operator.class);
+            String actualXml = operatorSerializer.marshallObj(operatorResult, "UTF-8");
             Assert.assertEquals("Expect the Serialize Operator", expectedXml, actualXml);
         } catch (JAXBException e) {
             e.printStackTrace();

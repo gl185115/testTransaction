@@ -70,7 +70,7 @@ public class SQLServerAppServerDAO extends AbstractDao implements IAppServerDAO 
 	 */
 	@Override
 	public List<AppServer> getAppServers() throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getAppServers";
 		tp.methodEnter(functionName);
 		List<AppServer> servers = new ArrayList<AppServer>();
 		try (Connection connection = dbManager.getConnection();

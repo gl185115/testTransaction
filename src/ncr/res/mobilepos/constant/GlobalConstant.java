@@ -16,6 +16,12 @@ import java.util.Map;
 
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.systemconfiguration.model.SystemConfigInfo;
+import ncr.res.mobilepos.helper.DataBinding;
+import ncr.res.mobilepos.journalization.model.poslog.PosLog;
+import ncr.res.mobilepos.journalization.model.SearchedPosLog;
+import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
+import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
+
 
 /**
  * GlobalConstant is a class that enumerates
@@ -339,6 +345,17 @@ public final class GlobalConstant {
       */
      private static String selfRapAuthenticationPassword;
 
+     /** POSLog.xmlパーシング用のDataBinding型変数 */
+     public static DataBinding<PosLog> poslogDataBinding;
+
+     /** ForwardCountData オブジェクトのxml変換用のDataBinding型変数 */
+     public static DataBinding<ForwardCountData> forwardcountdataDataBinding;
+
+     /** SearchedPosLog (POSLog.xml) パーシング用のDataBinding型変数 */
+     public static DataBinding<SearchedPosLog> searchedposlogDataBinding;
+
+     /** schedule.xml パーシング用のDataBinding型変数 */
+     public static DataBinding<Schedule> scheduleDataBinding;
 
     /**
      * Gets Tax Rate.

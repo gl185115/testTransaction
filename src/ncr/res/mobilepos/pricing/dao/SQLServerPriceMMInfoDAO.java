@@ -68,7 +68,7 @@ public class SQLServerPriceMMInfoDAO extends AbstractDao implements IPriceMMInfo
 	@Override
 	public List<PriceMMInfo> getPriceMMInfoList(String companyId, String storeId, String dayDate)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPriceMMInfoList";
 		tp.println("CompanyId", companyId);
 		tp.println("storeId", storeId);
 		tp.println("dayDate", dayDate);
@@ -85,19 +85,19 @@ public class SQLServerPriceMMInfoDAO extends AbstractDao implements IPriceMMInfo
 				priceMMInfo.setConditionCount1(result.getInt(result.findColumn("ConditionCount1")));
 				priceMMInfo.setConditionCount2(result.getInt(result.findColumn("ConditionCount2")));
 				priceMMInfo.setConditionCount3(result.getInt(result.findColumn("ConditionCount3")));
-				
+
 				priceMMInfo.setConditionPrice3(result.getDouble(result.findColumn("ConditionPrice3")));
 				priceMMInfo.setConditionPrice2(result.getDouble(result.findColumn("ConditionPrice2")));
 				priceMMInfo.setConditionPrice1(result.getDouble(result.findColumn("ConditionPrice1")));
-				
+
 				if(result.getObject(result.findColumn("DecisionPrice1")) != null ){
 					priceMMInfo.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
 				}
-				
+
 				if(result.getObject(result.findColumn("DecisionPrice2")) != null ){
 					priceMMInfo.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
 				}
-				
+
 				if(result.getObject(result.findColumn("DecisionPrice3")) != null ){
 					priceMMInfo.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
 				}
@@ -105,7 +105,7 @@ public class SQLServerPriceMMInfoDAO extends AbstractDao implements IPriceMMInfo
 				priceMMInfo.setAveragePrice1(result.getDouble(result.findColumn("AveragePrice1")));
 				priceMMInfo.setAveragePrice2(result.getDouble(result.findColumn("AveragePrice2")));
 				priceMMInfo.setAveragePrice3(result.getDouble(result.findColumn("AveragePrice3")));
-				
+
 				priceMMInfo.setNote(result.getString(result.findColumn("Note")));
 				priceMMInfo.setSku(result.getString(result.findColumn("Sku")));
 				priceMMInfo.setTargetStoreType(result.getString(result.findColumn("TargetStoreType")));

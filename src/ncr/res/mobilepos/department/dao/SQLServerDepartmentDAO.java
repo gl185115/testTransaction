@@ -145,11 +145,11 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				}
 				dpt.setGroupID(result.getString(DptConst.COL_GROUPID));
 				dpt.setGroupName(result.getString(DptConst.COL_GROUPNAME));
-				
+
 				List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
 				DefaultTaxRate defaultTaxRate = null;
 				ChangeableTaxRate changeableTaxRate = null;
-				
+
 				// 非課税の場合、商品の税率情報を取得する
 				if(("2").equals(dpt.getTaxType())){
 					defaultTaxRate = new DefaultTaxRate();
@@ -164,7 +164,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 						dptModel.setMessage("The data in MST_TAXRATE is error.");
 						return dptModel;
 					}
-					
+
 					if(dpt.getChangeableTaxRate() == null && dpt.getDefaultTaxRate() == null){
 						LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_GET_DATA_ERR,
 								"税率取得エラー。\n"+"Company="+ dpt.getCompanyID() +",Store="+ dpt.getRetailStoreID() + ",DPT=" + dpt.getDepartmentID());
@@ -174,7 +174,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 						return dptModel;
 					}
 				}
-				
+
 				dptModel.setDepartment(dpt);
 				dptModel.setRetailStoreID(searchRetailStoreID);
 				setPricePromInfo(dptModel);
@@ -200,7 +200,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 	}
 
 	private void setPricePromInfo(ViewDepartment dptModel) {
-		tp.methodEnter(DebugLogger.getCurrentMethodName()).println("Dpt", dptModel.getDepartment().getDepartmentID());
+		tp.methodEnter("setPricePromInfo").println("Dpt", dptModel.getDepartment().getDepartmentID());
 
 		ItemResource itemResource = new ItemResource();
 		PricePromInfo pricePromInfo ;
@@ -223,7 +223,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 			final String key, final String name, final int limit, final Map<String, String> mapTaxId)
 			throws DaoException {
 		String functionName = "SQLServerDepartmentDAO.listDepartments";
-		tp.methodEnter(DebugLogger.getCurrentMethodName())
+		tp.methodEnter("listDepartments")
 				.println("CompanyID", companyId).println("RetailStoreID", storeId)
 				.println("Key", key).println("Name", name).println("Limit", limit)
 				.println("MapTaxId", mapTaxId);
@@ -289,7 +289,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				}
 				department.setSubCode1(resultSet.getString(DptConst.COL_SUBCODE1_FLAG));
 				department.setInputType(resultSet.getString(DptConst.COL_INPUTSUBCODE1_FLAG));
-				
+
 				ItemResource itemResource = new ItemResource();
 				PricePromInfo pricePromInfo ;
 				pricePromInfo = itemResource.getPricePromInfo("", department.getDepartmentID(), "");
@@ -319,7 +319,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 						dptList.setMessage("The data in MST_TAXRATE is error.");
 						return dptList;
 					}
-					
+
 					if(department.getChangeableTaxRate() != null || department.getDefaultTaxRate() != null){
 						departments.add(department);
 					}else{
@@ -356,7 +356,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 
 			tp.methodExit(dptList);
 		}
-		
+
 		return dptList;
 	}
 
@@ -391,10 +391,10 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
   	 */
   	private boolean getDptTaxInfo(List<TaxRateInfo> taxInfoList, DefaultTaxRate defaultTaxRate, ChangeableTaxRate changeableTaxRate,
   			Department department) {
-  		String functionName = DebugLogger.getCurrentMethodName();
+  		String functionName = "getDptTaxInfo";
 		tp.methodEnter(functionName).println("taxInfoList", taxInfoList).println("defaultTaxRate", defaultTaxRate)
 			.println("changeableTaxRate", changeableTaxRate).println("department", department);
-		
+
 		if (taxRateInfoList != null) {
 			for (TaxRateInfo TaxInfo : taxRateInfoList) {
 				if (TaxInfo.getTaxId().equals(department.getTaxId())) {

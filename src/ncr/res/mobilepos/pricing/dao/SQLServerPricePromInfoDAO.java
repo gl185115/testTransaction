@@ -77,7 +77,7 @@ public class SQLServerPricePromInfoDAO extends AbstractDao implements IPriceProm
 	@Override
 	public List<PricePromInfo> getPricePromInfoList(String companyId, String storeId, String dayDate)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPricePromInfoList";
     	tp.println("CompanyId", companyId);
         tp.println("storeId", storeId);
         tp.println("dayDate", dayDate);

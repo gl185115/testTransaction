@@ -33,16 +33,16 @@ public class BuyadditionalInfoResource {
     private static final String PROG_NAME = "BuyadditionalInfoResource";
     @Context
     private ServletContext servletContext;
-    
+
     public BuyadditionalInfoResource() {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), 
+        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
         		getClass());
     }
 
 	/**
 	 * Get buy additional info list
-	 * 
+	 *
 	 * @param company
 	 *            id
 	 * @param store
@@ -61,18 +61,18 @@ public class BuyadditionalInfoResource {
     public final BuyadditionalInfoList getBuyadditionalInfo(
     		@ApiParam(name="companyId", value="âÔé–ÉRÅ[Éh") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="ìXî‘çÜ") @QueryParam("storeId") final String storeId) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getBuyadditionalInfo";
         tp.methodEnter(functionName)
         	.println("companyId", companyId)
         	.println("storeId", storeId);
         BuyadditionalInfoList buyadditionalInfo = new BuyadditionalInfoList();
-        
+
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
         	buyadditionalInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
         	tp.methodExit(buyadditionalInfo.toString());
         	return buyadditionalInfo;
         }
-        
+
         try {
         	IBuyadditionalInfoDAO buyadditionalInfoDao = daoFactory.getBuyadditionalInfoDAO();
         	buyadditionalInfo.setBuyadditionalInfoList(buyadditionalInfoDao.getBuyadditionalInfo(companyId, storeId));

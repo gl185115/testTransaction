@@ -8,8 +8,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.XmlSerializer;
-
+import ncr.res.mobilepos.helper.DataBinding;
 /**
  * This class loads BarcodeAssignment from XML File.
  */
@@ -27,7 +26,7 @@ public class BarcodeAssignmentFactory {
      * The Program Name.
      */
     private static final String PROG_NAME = "BarAFactory";
-    
+
     private static BarcodeAssignment instance;
 
     private BarcodeAssignmentFactory() {
@@ -50,7 +49,7 @@ public class BarcodeAssignmentFactory {
      */
     private static BarcodeAssignment itemCodeXMLConstant(String paraBasePath) throws JAXBException {
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), BarcodeAssignmentFactory.class);
-        
+
         BarcodeAssignment barCode = null;
         String path = paraBasePath + File.separator + ITEMCODE_FILENAME;
         File conFileXml = new File(path);
@@ -58,10 +57,10 @@ public class BarcodeAssignmentFactory {
             String errorMessage = "No giftCardConfig File found." + "(" + path + ")";
             tp.println(errorMessage);
         }
-        
+
         try {
-            XmlSerializer<BarcodeAssignment> conSerializer = new XmlSerializer<BarcodeAssignment>();
-            barCode = conSerializer.unMarshallXml(conFileXml, BarcodeAssignment.class);
+            DataBinding<BarcodeAssignment> conSerializer = new DataBinding<BarcodeAssignment>(BarcodeAssignment.class);
+            barCode = conSerializer.unMarshallXml(conFileXml);
         } catch (JAXBException e) {
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_JAXB,
                     "can't read:" + conFileXml.getAbsolutePath(), e);

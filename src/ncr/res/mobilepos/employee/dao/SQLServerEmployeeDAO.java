@@ -40,7 +40,7 @@ public class SQLServerEmployeeDAO extends AbstractDao implements IEmployeeDao {
 
 	/**
 	 * The class constructor.
-	 * 
+	 *
 	 * @throws DaoException
 	 *             Exception thrown when construction fails.
 	 */
@@ -53,7 +53,7 @@ public class SQLServerEmployeeDAO extends AbstractDao implements IEmployeeDao {
 
 	@Override
 	public EmployeeInfoResponse EmpList(String companyID) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "EmpList";
 		tp.methodEnter("EmpList");
 		tp.println("companyID", companyID);
 

@@ -57,7 +57,7 @@ public class SQLServerFuturePayDAO extends AbstractDao implements
     @Override
     public Map<String ,String> getPrmSystemConfigValue(String Category)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPrmSystemConfigValue";
         tp.methodEnter(functionName);
 
         Map<String ,String> mapReturn = new HashMap<String, String>();

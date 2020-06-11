@@ -36,7 +36,7 @@ import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 public class PosLogLogger {
     /** The Trace Printer. */
     private Trace.Printer tp;
-    
+
     /** The Default Constructor. */
     public PosLogLogger() {
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
@@ -55,21 +55,21 @@ public class PosLogLogger {
     public final PosLogResp log(final PosLog posLog, final String posLogXml, final int trainingMode)
             throws DaoException, JournalizationException, TillException, SQLStatementException,
                     ParseException, NamingException {
-        tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
+        tp.methodEnter("log");
+
         PosLogResp posLogresp = null;
-        
+
         DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         IPosLogDAO posLogDAO = daoFactory.getPOSLogDAO();
 
         //Ask the IPosLogDAO to save the POSLog information
         posLogDAO.savePOSLog(posLog, posLogXml, trainingMode);
-        
+
         posLogresp = new PosLogResp();
         posLogresp.setStatus(PosLogRespConstants.NORMAL_END);
         posLogresp.setTxID(posLog.getTransaction().getSequenceNo());
         tp.methodExit(posLogresp.toString());
-        
+
         return posLogresp;
     }
 }

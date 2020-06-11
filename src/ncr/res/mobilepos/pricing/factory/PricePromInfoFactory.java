@@ -53,7 +53,7 @@ public class PricePromInfoFactory {
      */
     private static List<PricePromInfo> pricePromInfoConstant(String companyId, String storeId) throws Exception {
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PricePromInfoFactory.class);
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "pricePromInfoConstant";
 
         List<PricePromInfo> PricePromList = null;
 

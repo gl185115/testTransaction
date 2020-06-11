@@ -60,7 +60,7 @@ public class PointRateFactory {
      */
     private static List<PointInfo> rateInfoItem(String companyId, String storeId) throws Exception {
     	Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PointRateFactory.class);
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "rateInfoItem";
 
         List<PointInfo> pointInfoList = null;
 
@@ -102,7 +102,7 @@ public class PointRateFactory {
      */
     private static List<PointInfo> rateInfoTran(String companyId, String storeId) throws Exception {
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PointRateFactory.class);
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "rateInfoTran";
 
         List<PointInfo> pointInfoList = null;
 

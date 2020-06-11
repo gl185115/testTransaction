@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 /**
  * @author wml
@@ -32,7 +32,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
 @Path("/creditcard")
 @Api(value="/creditcard", description="クレジットカード情報")
 public class CreditCardResource {
-	
+
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
     private static final String PROG_NAME = "CreditCardResource";
@@ -44,7 +44,7 @@ public class CreditCardResource {
     }
 
     /**
-     * 
+     *
      * @param companyId,
      * @return creditcardcompanyinfo
      */
@@ -59,7 +59,7 @@ public class CreditCardResource {
     })
     public final JSONData getcashAbstract(
             @ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getcashAbstract";
         tp.methodEnter(functionName)
         .println("CompanyId", companyId);
 

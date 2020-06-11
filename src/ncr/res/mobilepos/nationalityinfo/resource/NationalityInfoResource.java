@@ -41,7 +41,7 @@ public class NationalityInfoResource {
 
 	/**
 	 * Get nationality info list
-	 * 
+	 *
 	 * @param company
 	 *            id
 	 * @param store
@@ -58,7 +58,7 @@ public class NationalityInfoResource {
     })
 	public final NationalityInfoList getNationalityInfo(@ApiParam(name="companyId", value="âÔé–ÉRÅ[Éh") @QueryParam("companyId") final String companyId,
 			@ApiParam(name="storeId", value="ìXî‘çÜ") @QueryParam("storeId") final String storeId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getNationalityInfo";
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 		NationalityInfoList nationalityInfo = new NationalityInfoList();
 

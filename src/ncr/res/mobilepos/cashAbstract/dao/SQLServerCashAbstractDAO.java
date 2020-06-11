@@ -42,7 +42,7 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -53,7 +53,7 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -69,7 +69,7 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
      */
     @Override
     public JSONData getcashAbstract(String companyId, String storeId, String cashFlowDirection, String tenderId, String tenderType) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getcashAbstract";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("CashFlowDirection", cashFlowDirection).println("TenderId", tenderId).println("TenderType", tenderType);
 

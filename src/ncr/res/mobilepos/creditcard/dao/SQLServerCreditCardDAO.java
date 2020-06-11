@@ -90,23 +90,23 @@ public class SQLServerCreditCardDAO extends AbstractDao implements ICreditCardAb
 
 	@Override
 	public JSONData getCreditCardCompayInfo(String companyId) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getCreditCardCompayInfo";
         tp.methodEnter(functionName).println("companyId", companyId);
-        
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
-		
+
 		JSONData cardcompanies = new JSONData();
-        
+
 		try{
-			
+
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            
+
             statement = connection.prepareStatement(sqlStatement.getProperty("get-credit-card-company"));
             statement.setString(SQLStatement.PARAM1, companyId);
-            
+
             result = statement.executeQuery();
             JSONObject temp = null;
             JSONArray datas = new JSONArray();
@@ -140,7 +140,7 @@ public class SQLServerCreditCardDAO extends AbstractDao implements ICreditCardAb
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(cardcompanies);
         }
-		
+
 		return cardcompanies;
 	}
 

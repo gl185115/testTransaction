@@ -31,7 +31,7 @@ public class SQLCreditAuthorizationLinkDAO
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance(); //Get the Logger
     /**
-     * Program name 
+     * Program name
      */
     private static final String PROG_NAME = "CALDao";
     /**
@@ -57,8 +57,8 @@ public class SQLCreditAuthorizationLinkDAO
 	public final ResultBase createLink(final String storeId,
 			final String posLinkId, final POSLinkInfo posLinkInfo)
 			throws SQLException, DaoException {
-        
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "createLink";
 		tp.methodEnter(functionName).println("StoreId", storeId)
 				.println("PosLinkId", posLinkId)
 				.println("POSLinkInfo", posLinkInfo.toString());
@@ -109,7 +109,7 @@ public class SQLCreditAuthorizationLinkDAO
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, create);
-			
+
 			tp.methodExit(resultBase);
 		}
 
@@ -119,8 +119,8 @@ public class SQLCreditAuthorizationLinkDAO
     @Override
 	public final POSLinkInfo getLinkItem(final String retailstoreid,
 			final String poslinkid) throws SQLException, DaoException {
-        
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "getLinkItem";
 		tp.methodEnter(functionName).println("RetailStoreID", retailstoreid)
 				.println("POSLinkID", poslinkid);
 
@@ -128,7 +128,7 @@ public class SQLCreditAuthorizationLinkDAO
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -160,7 +160,7 @@ public class SQLCreditAuthorizationLinkDAO
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			if (posLinkInfo != null) {
 				tp.methodExit(posLinkInfo.toString());
 			} else {
@@ -174,8 +174,8 @@ public class SQLCreditAuthorizationLinkDAO
 	public final ViewPosLinkInfo updateLink(final String storeID,
 			final String posLinkID, final POSLinkInfo posLinkInfo,
 			Connection connection) throws DaoException {
-        
-    	String functionName = DebugLogger.getCurrentMethodName();
+
+    	String functionName = "updateLink";
         tp.methodEnter(functionName).println("storeID", storeID)
                 .println("posLinkID", posLinkID)
                 .println("posLinkInfo", posLinkInfo);
@@ -188,7 +188,7 @@ public class SQLCreditAuthorizationLinkDAO
         	if(connection == null){
         		connection = dbManager.getConnection();
         	}
-            
+
 
             SQLStatement sqlStatement = SQLStatement.getInstance();
             update = connection.prepareStatement(sqlStatement
@@ -236,7 +236,7 @@ public class SQLCreditAuthorizationLinkDAO
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, update, result);
-			
+
 			tp.methodExit(newPosLinkInfo);
 		}
 
@@ -248,7 +248,7 @@ public class SQLCreditAuthorizationLinkDAO
 			final String key, final String name, final int limit)
 			throws SQLException, DaoException {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLinks";
 		tp.methodEnter(functionName).println("RetailStoreID", storeId)
 				.println("Key", key).println("Name", name)
 				.println("Limit", limit);
@@ -257,13 +257,13 @@ public class SQLCreditAuthorizationLinkDAO
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            
+
             boolean selectAll = false;
-            
+
             if(storeId != null && storeId.trim().isEmpty()){
                 select = connection.prepareStatement(sqlStatement
                         .getProperty("get-all-authorizationlinks"));
@@ -294,7 +294,7 @@ public class SQLCreditAuthorizationLinkDAO
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			tp.methodExit("Count:" + Integer.toString(links.size()));
 		}
 		return links;
@@ -304,8 +304,8 @@ public class SQLCreditAuthorizationLinkDAO
 	public final ResultBase deleteLink(final String storeId,
 			final String posLinkId, final String appId, final String opeCode)
 			throws SQLException, DaoException {
-        
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "deleteLink";
 		tp.methodEnter(functionName).println("StoreId", storeId)
 				.println("PosLinkId", posLinkId).println("UpdAppId", appId)
 				.println("UpdOpeCode", opeCode);
@@ -324,7 +324,7 @@ public class SQLCreditAuthorizationLinkDAO
             delete.setString(SQLStatement.PARAM2, opeCode);
             delete.setString(SQLStatement.PARAM3, storeId);
             delete.setString(SQLStatement.PARAM4, posLinkId);
-            
+
             result = delete.executeUpdate();
             connection.commit();
 
@@ -349,7 +349,7 @@ public class SQLCreditAuthorizationLinkDAO
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, delete);
-			
+
 			tp.methodExit(resultBase);
 		}
 

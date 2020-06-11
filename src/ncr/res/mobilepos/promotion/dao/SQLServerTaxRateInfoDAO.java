@@ -65,7 +65,7 @@ public class SQLServerTaxRateInfoDAO extends AbstractDao implements ITaxRateInfo
      */
     @Override
 	public final List<TaxRateInfo> getTaxRateInfoList(String bussinessDate) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getTaxRateInfoList";
 
         Connection connection = null;
         PreparedStatement select = null;

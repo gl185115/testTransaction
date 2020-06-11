@@ -91,7 +91,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
 	public final PrinterInfo getPrinterInfo(final String storeid,
 			final String printerid) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPrinterInfo";
         tp.methodEnter(functionName)
             .println("printerid",printerid)
             .println("storeid", storeid);
@@ -150,7 +150,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     @Override
 	public final DeviceInfo getDeviceInfo(final String companyId, final String storeid,
 			final String terminalid, final int trainingmode) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDeviceInfo";
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)
 			.println("storeid", storeid)
@@ -248,7 +248,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	public final ResultBase deleteDevice(final String deviceID,
 			final String retailStoreID, final String appId, final String opeCode)
 			throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "deleteDevice";
         tp.methodEnter(functionName).println("deviceID", deviceID)
             .println("retailStoreID", retailStoreID)
             .println("appId", appId)
@@ -298,7 +298,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             tp = DebugLogger.getDbgPrinter(
                     Thread.currentThread().getId(), getClass());
         }
-        tp.methodEnter(DebugLogger.getCurrentMethodName());
+        tp.methodEnter("updateLastTxidAtJournal");
 
 		boolean updated = this.updateLastTxidOfDeviceInfo(transaction.getOrganizationHierarchy().getId(),
 				transaction.getRetailStoreID(), transaction.getWorkStationID().getValue(),
@@ -319,7 +319,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 					getClass());
 		}
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "updateLastTxidAtCreditAuth";
 		tp.methodEnter(functionName).println("jsonStr", jsonStr);
 
 		boolean updated = false;
@@ -367,7 +367,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             tp = DebugLogger.getDbgPrinter(
                     Thread.currentThread().getId(), getClass());
         }
-        tp.methodEnter(DebugLogger.getCurrentMethodName());
+        tp.methodEnter("updateLastSuspendTxidAtQueueBuster");
 
 		Transaction transaction = posLog.getTransaction();
 		boolean updated = this.updateLastSuspendTxidOfDeviceInfo(transaction.getOrganizationHierarchy().getId(),
@@ -382,7 +382,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	private final int updateLastTxidOfDeviceInfo(final String companyid, final String storeid,
 			final String deviceid, final String lasttxid, int trainingMode,
 			final Connection connection) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "updateLastTxidOfDeviceInfo";
 		tp.methodEnter(functionName).println("storeid", storeid).println("companyid", companyid)
 				.println("deviceid", deviceid).println("lasttxid", lasttxid);
 
@@ -426,7 +426,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	private final int updateLastSuspendTxidOfDeviceInfo(final String companyid, final String storeid,
 			final String deviceid, final String lasttxid, final String trainingFlag,
 			final Connection connection) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "updateLastSuspendTxidOfDeviceInfo";
 		tp.methodEnter(functionName).println("storeid", storeid).println("companyid", companyid)
 				.println("deviceid", deviceid).println("lasttxid", lasttxid);
 
@@ -474,7 +474,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
     public final List<Till> getAllTills(final String storeId, final String key,
             final int limit) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getAllTills";
         tp.methodEnter(functionName).println("storeid", storeId)
                 .println("key", key).println("limit", limit);
 
@@ -539,7 +539,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
     public final ResultBase getAttributeInfo(final String storeId, final String terminalId, String companyId, int training)
     		throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getAttributeInfo";
         tp.methodEnter(functionName);
         tp.println("storeId", storeId)
                 .println("terminalId", terminalId)
@@ -626,7 +626,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
     public final DeviceAttribute getDeviceAttributeInfo(final String companyId, final String storeId, final String terminalId)
     		throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getDeviceAttributeInfo";
         tp.methodEnter(functionName);
         tp.println("companyid", companyId)
             .println("storeid", storeId)
@@ -692,7 +692,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 
     public final ViewTerminalInfo getTerminalInfo(String companyId, String storeId,
     		String terminalId) throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTerminalInfo";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
         	.println("storeId", storeId)
@@ -761,7 +761,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     }
 
     private TerminalInfo checkFloorIdExist(TerminalInfo terminalInfo) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "checkFloorIdExist";
         tp.methodEnter(functionName);
         tp.println("terminalInfo", terminalInfo);
 
@@ -815,7 +815,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	@Override
 	public ResultBase getPosCtrlOpenCloseStatus(String companyId, String storeId, String terminalId, String thisBusinessDay)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPosCtrlOpenCloseStatus";
 		tp.methodEnter(functionName)
 				.println("companyId", companyId)
 				.println("storeId", storeId)
@@ -867,7 +867,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	 */
 	@Override
 	public List<TerminalStatus> getWorkingDeviceStatus() throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getWorkingDeviceStatus";
 		tp.methodEnter("getWorkingDeviceStatus");
 		tp.methodEnter(functionName);
 
@@ -903,7 +903,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return terminals;
 	}
-	
+
 	/**
      * Get indicatorInfo from PRM_DEVICE_INDICATOR
      * @param attributeid
@@ -912,7 +912,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
     @Override
     public Indicators getDeviceIndicators(String attributeid) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getDeviceIndicators";
         tp.methodEnter("getDeviceIndicators");
         tp.methodEnter(functionName).println("attributeid", attributeid);;
 
@@ -925,7 +925,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             connection = dbManager.getConnection();
             selectStmt = connection.prepareStatement(sqlStatement.getProperty("get-device-indicators"));
             selectStmt.setString(SQLStatement.PARAM1, attributeid);
-            
+
             resultSet = selectStmt.executeQuery();
             while(resultSet.next()) {
                 IndicatorInfo indicatorInfo = new IndicatorInfo();
@@ -937,7 +937,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 indicatorInfo.setReturnKey(resultSet.getString("ReturnKey"));
                 indicatorInfo.setUrl(resultSet.getString("URL"));
                 indicatorInfo.setDisplayOrder(resultSet.getInt("DisplayOrder"));
-                
+
                 indicatorInfoList.add(indicatorInfo);
             }
         } catch (SQLException sqle) {
@@ -950,7 +950,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             tp.methodExit(indicators);
         }
         indicators.setIndicatorsList(indicatorInfoList);
-        
+
         return indicators;
     }
 

@@ -8,7 +8,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.giftcard.toppan.model.Config;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.DataBinding;
 
 /**
  * This class loads ToppanGiftCardConfigure from XML File.
@@ -61,8 +61,8 @@ public class ToppanGiftCardConfigFactory {
         }
 
         try {
-            XmlSerializer<Config> serializer = new XmlSerializer<Config>();
-            giftcardConfig = serializer.unMarshallXml(configFile, Config.class);
+            DataBinding<Config> serializer = new DataBinding<Config>(Config.class);
+            giftcardConfig = serializer.unMarshallXml(configFile);
             if(giftcardConfig != null){
                 if (giftcardConfig.getConnectionRetryOver() == 0) {
                     giftcardConfig.setConnectionRetryOver(DEFAULT_WEBSERVICE_CONNRETRY);

@@ -50,7 +50,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
     public final DBManager getDbManager() {
         return dbManager;
     }
-    
+
     // 1.05 2014.11.20 取引番号により前受金番号取得  ADD START
     /**
      * @param storeId
@@ -72,7 +72,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
             String deviceId, String sequenceNo, String businessDate)
             throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "searchGuestOrderInfoBySequenceNo";
         tp.methodEnter(functionName).println("storeId", storeId)
                 .println("deviceId", deviceId)
                 .println("sequenceNo", sequenceNo)
@@ -125,14 +125,14 @@ public class SQLServerCommonDAO extends AbstractDao implements
         return searchGuestOrder;
     }
     // 1.05 2014.11.20 取引番号により前受金番号取得 ADD END
-    
+
     /**
      * 前捌 リストの取得
      */
     @Override
     public List<ForwardListInfo> getForwardList(String CompanyId, String RetailStoreId,
             String TrainingFlag, String LayawayFlag, String Queue, String TxType, String BussinessDayDate) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardList";
         tp.methodEnter(functionName);
         tp.println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId)
                 .println("TrainingFlag", TrainingFlag)
@@ -202,7 +202,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
     public int updateForwardStatus(String CompanyId, String RetailStoreId, String WorkstationId, String SequenceNumber,
             String Queue, String BusinessDayDate, String TrainingFlag, int Status) throws DaoException, SQLException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateForwardStatus";
         tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId)
                 .println("WorkstationId", WorkstationId).println("SequenceNumber", SequenceNumber)
                 .println("Queue", Queue).println("BusinessDayDate", BusinessDayDate)

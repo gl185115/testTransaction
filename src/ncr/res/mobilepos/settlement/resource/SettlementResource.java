@@ -37,13 +37,13 @@ public class SettlementResource {
     private static final String PROG_NAME = "SettlementResource";
     @Context
     private ServletContext servletContext;
-    
+
     public SettlementResource() {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), 
+        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
         		getClass());
     }
-    
+
     @Path("/getvoucherlist")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -62,7 +62,7 @@ public class SettlementResource {
     		@ApiParam(name="terminalId", value="ターミナル番号")@QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="businessDayDate", value="業務日付")@QueryParam("businessDayDate") final String businessDayDate,
     		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getVoucherList";
         tp.methodEnter(functionName)
         	.println("companyId", companyId)
         	.println("storeId", storeId)
@@ -71,7 +71,7 @@ public class SettlementResource {
         	.println("terminalId", terminalId)
         	.println("trainingFlag", trainingFlag);
         SettlementInfo settlement = new SettlementInfo();
-    	
+
     	if (StringUtility.isNullOrEmpty(companyId, storeId, businessDayDate)) {
             tp.println("A required parameter is null or empty.");
             settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -87,13 +87,13 @@ public class SettlementResource {
     	try {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
             if(StringUtility.isNullOrEmpty(tillId)){
-            	settlement = settlementDao.getVoucherList(companyId, storeId, 
+            	settlement = settlementDao.getVoucherList(companyId, storeId,
                 		businessDayDate, terminalId, trainingFlag);
             }else{
-            	settlement = settlementDao.getVoucherListByTillId(companyId, storeId, 
+            	settlement = settlementDao.getVoucherListByTillId(companyId, storeId,
                 		businessDayDate, tillId, trainingFlag);
             }
-            
+
     	} catch (Exception e) {
             String loggerErrorCode = null;
             int resultBaseErrorCode = 0;
@@ -108,8 +108,8 @@ public class SettlementResource {
             	resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
             }
             settlement.setNCRWSSResultCode(resultBaseErrorCode);
-            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
-            	"Failed to get voucher list for companyId=" + companyId + ", " 
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
+            	"Failed to get voucher list for companyId=" + companyId + ", "
             	+ "storeId=" + storeId + ", businessDayDate=" + businessDayDate + " and "
             	+ "trainingFlag=" + trainingFlag + " : " + e.getMessage());
     	} finally {
@@ -117,7 +117,7 @@ public class SettlementResource {
     	}
     	return settlement;
     }
-    
+
     @Path("/gettransactioncount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -134,21 +134,21 @@ public class SettlementResource {
     		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId,
     		@ApiParam(name="txtype", value="取引種別")@QueryParam("txtype") final String txtype,
     		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTransactionCount";
         tp.methodEnter(functionName)
             .println("companyId", companyId)
             .println("storeId", storeId)
             .println("txtype", txtype)
             .println("trainingFlag", trainingFlag);
         SettlementInfo settlement = new SettlementInfo();
-        
+
         if (StringUtility.isNullOrEmpty(companyId, storeId, txtype)) {
             tp.println("A required parameter is null or empty.");
             settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(settlement.toString());
             return settlement;
         }
-        
+
         try {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
             settlement = settlementDao.getTransactionCount(companyId, storeId, txtype, trainingFlag);
@@ -166,8 +166,8 @@ public class SettlementResource {
                 resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
             }
             settlement.setNCRWSSResultCode(resultBaseErrorCode);
-            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
-                "Failed to get EOD count for companyId=" + companyId + ", " 
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
+                "Failed to get EOD count for companyId=" + companyId + ", "
                 + "storeId=" + storeId + ", and "
                 + "trainingFlag=" + trainingFlag + " : " + e.getMessage());
         } finally {
@@ -175,7 +175,7 @@ public class SettlementResource {
         }
         return settlement;
     }
-    
+
     @Path("/gettxcountbybusinessdate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -194,7 +194,7 @@ public class SettlementResource {
     		@ApiParam(name="txtype", value="取引種別")@QueryParam("txtype") final String txtype,
     		@ApiParam(name = "businessDate", value = "業務日付") @QueryParam("businessDate") final String businessDate,
     		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTxCountByBusinessDate";
         tp.methodEnter(functionName)
             .println("companyId", companyId)
             .println("storeId", storeId)
@@ -203,14 +203,14 @@ public class SettlementResource {
             .println("businessDate", businessDate)
             .println("trainingFlag", trainingFlag);
         SettlementInfo settlement = new SettlementInfo();
-        
+
         if (StringUtility.isNullOrEmpty(companyId, storeId, workStationId, txtype, businessDate)) {
             tp.println("A required parameter is null or empty.");
             settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(settlement.toString());
             return settlement;
         }
-        
+
         try {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
             settlement = settlementDao.getTxCountByBusinessDate(companyId, storeId, workStationId, txtype, businessDate, trainingFlag);
@@ -228,8 +228,8 @@ public class SettlementResource {
                 resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
             }
             settlement.setNCRWSSResultCode(resultBaseErrorCode);
-            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
-                "Failed to get EOD count for companyId=" + companyId + ", " 
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
+                "Failed to get EOD count for companyId=" + companyId + ", "
                 + "storeId=" + storeId + ", and "
                 + "trainingFlag=" + trainingFlag + " : " + e.getMessage());
         } finally {
@@ -237,7 +237,7 @@ public class SettlementResource {
         }
         return settlement;
     }
-    
+
     @Path("/getcredit")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
@@ -258,17 +258,17 @@ public class SettlementResource {
     		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@FormParam("trainingFlag") final int trainingFlag,
     		@ApiParam(name="dataType", value="データ種別")@FormParam("dataType") final String dataType,
     		@ApiParam(name="itemLevel1", value="項目レベル１")@FormParam("itemLevel1")final String itemLevel1){
-        
-        String functionName = DebugLogger.getCurrentMethodName();
+
+        String functionName = "getCredit";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("storeId", storeId)
           .println("trainingFlag", trainingFlag)
           .println("datatype", dataType)
           .println("itemLevel1", itemLevel1);
-        
+
         SettlementInfo settlement = new SettlementInfo();
-        
+
         if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
             tp.println("A required parameter is null or empty.");
             settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -284,10 +284,10 @@ public class SettlementResource {
         try {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
             if(StringUtility.isNullOrEmpty(tillId)){
-            	settlement = settlementDao.getCredit(companyId, storeId, terminalId, 
+            	settlement = settlementDao.getCredit(companyId, storeId, terminalId,
                         businessDate, trainingFlag, dataType, itemLevel1);
             }else{
-            	settlement = settlementDao.getCreditByTillId(companyId, storeId, tillId, 
+            	settlement = settlementDao.getCreditByTillId(companyId, storeId, tillId,
                         businessDate, trainingFlag, dataType, itemLevel1);
             }
         } catch (Exception e) {
@@ -304,8 +304,8 @@ public class SettlementResource {
                 resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
             }
             settlement.setNCRWSSResultCode(resultBaseErrorCode);
-            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
-                "Failed to get credit  for companyId=" + companyId + ", " 
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
+                "Failed to get credit  for companyId=" + companyId + ", "
                 + "storeId=" + storeId + ", businessDayDate=" + businessDate + " and "
                 + "trainingFlag=" + trainingFlag + " : " + e.getMessage());
         } finally {
@@ -313,7 +313,7 @@ public class SettlementResource {
         }
         return settlement;
     }
-    
+
 	@Path("/getcountpaymentamt")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -331,8 +331,8 @@ public class SettlementResource {
 			@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@FormParam("trainingFlag") final int trainingFlag,
 			@ApiParam(name="terminalId", value="ターミナル番号")@FormParam("terminalId") final String terminalId,
 			@ApiParam(name="txType", value="取引種別")@FormParam("txType") final String txType){
-		
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "getCountPaymentAmt";
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId)
 			.println("storeId", storeId)
@@ -340,9 +340,9 @@ public class SettlementResource {
 			.println("trainingFlag", trainingFlag)
 			.println("terminalId", terminalId)
 			.println("txType", txType);
-		
+
 		SettlementInfo settlement = new SettlementInfo();
-		
+
 		if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
 			tp.println("A required parameter is null or empty.");
 			settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -370,8 +370,8 @@ public class SettlementResource {
 				resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
 			}
 			settlement.setNCRWSSResultCode(resultBaseErrorCode);
-			LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
-				"Failed to get payment amt for companyId=" + companyId + ", " 
+			LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
+				"Failed to get payment amt for companyId=" + companyId + ", "
 				+ "storeId=" + storeId + ", businessDayDate=" + businessDate + " : " + e.getMessage());
 		} finally {
 			tp.methodExit(settlement.toString());

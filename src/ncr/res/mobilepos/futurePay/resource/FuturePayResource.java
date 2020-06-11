@@ -77,7 +77,7 @@ public class FuturePayResource {
     }
     /**
      * Get Member Info API
-     * 
+     *
      * @param terminal_code
      *            : terminal_code
      * @param card_no
@@ -102,7 +102,7 @@ public class FuturePayResource {
             @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
             @ApiParam(name = "extend_expiration", value = "有効期限延長") @QueryParam("extend_expiration") final String extend_expiration) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "get";
         tp.methodEnter(functionName);
         tp.println("terminal_code", terminal_code).println("card_no", card_no).println("extend_expiration",
                 extend_expiration);
@@ -232,7 +232,7 @@ public class FuturePayResource {
         return futurePayReturnBean;
     }
     /**
-     * 
+     *
      * @param api
      *            : api
      * @param terminal_code
@@ -287,7 +287,7 @@ public class FuturePayResource {
             @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final String limit,
             @ApiParam(name = "attributes", value = "付加属性") @QueryParam("attributes") final String attributes) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "update";
         tp.methodEnter(functionName);
         tp.println("terminal_code", terminal_code).println("card_no", card_no);
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
@@ -481,7 +481,7 @@ public class FuturePayResource {
 
     /**
      * Get Member Info API
-     * 
+     *
      * @param terminal_code
      *            : terminal_code
      * @param card_no
@@ -527,7 +527,7 @@ public class FuturePayResource {
             @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final String limit,
             @ApiParam(name = "attributes", value = "付加属性") @QueryParam("attributes") final String attributes) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "update";
         tp.methodEnter(functionName);
         tp.println("terminal_code", terminal_code).println("card_no", card_no);
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
@@ -674,7 +674,7 @@ public class FuturePayResource {
 
     /**
      * Clearing of Coupon used by member.
-     * 
+     *
      * @param companyId
      *            : companyId
      * @param storeId
@@ -705,7 +705,7 @@ public class FuturePayResource {
             @ApiParam(name = "couponId", value = "クーポン番号") @FormParam("couponId") final String couponId,
             @ApiParam(name = "memberId", value = "会員番号") @FormParam("memberId") final String memberId) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "couponDelete";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("storeId", storeId).println("terminalId", terminalId)
                 .println("couponId", couponId).println("memberId", memberId);

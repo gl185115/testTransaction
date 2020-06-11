@@ -54,7 +54,7 @@ public class TaxRateInfoFactory {
      */
     private static List<TaxRateInfo> taxInfoConstant(String companyId, String storeId) throws DaoException {
     	Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), TaxRateInfoFactory.class);
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "taxInfoConstant";
 
         List<TaxRateInfo> taxRateList = null;
 

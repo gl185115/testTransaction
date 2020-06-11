@@ -32,7 +32,7 @@ import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.DataBinding;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
@@ -108,15 +108,15 @@ public class PromotionResourceTestSteps extends Steps {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Given("ItemCode.xml file exist")
 	public void giftXmlFound() {
 		Field promotionConfigField;
 		try {
 			File configFile = new File("test\\ncr\\res\\mobilepos\\promotion\\discount\\test" + File.separator + "itemCode.xml");
-			XmlSerializer<BarcodeAssignment> serializer = new XmlSerializer<BarcodeAssignment>();
-			BarcodeAssignment barcodeAssignment = serializer.unMarshallXml(configFile, BarcodeAssignment.class);
-			
+			DataBinding<BarcodeAssignment> serializer = new DataBinding<BarcodeAssignment>(BarcodeAssignment.class);
+			BarcodeAssignment barcodeAssignment = serializer.unMarshallXml(configFile);
+
 			promotionConfigField = testpromotionResource.getClass().getDeclaredField("barcodeAssignment");
 			promotionConfigField.setAccessible(true);
 			promotionConfigField.set(testpromotionResource, barcodeAssignment);
@@ -132,7 +132,7 @@ public class PromotionResourceTestSteps extends Steps {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Given("a businessdate $file")
 	public final void noBusinessdateSet(String fileName) {
 		try {
@@ -142,7 +142,7 @@ public class PromotionResourceTestSteps extends Steps {
 			Assert.fail("Can't Retrieve Servlet context from promotion.");
 		}
 	}
-	
+
 	@When("the Web API Starts Up")
 	public final void theWebAPIStartsUp() {
 		servletContext = null;
@@ -188,12 +188,12 @@ public class PromotionResourceTestSteps extends Steps {
 		if (transactionJson.equals("NULL")) {
 			transactionJson = null;
 		}
-		
+
 		if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(retailStoreId)) {
 			PricePromInfoFactory.initialize(companyId,retailStoreId);
 			PriceMMInfoFactory.initialize(companyId, retailStoreId);
 		}
-		
+
 		actualResultBase = testpromotionResource.beginTransaction(
 				retailStoreId, workStationId, sequenceNo, companyId,
 				transactionJson);
@@ -220,7 +220,7 @@ public class PromotionResourceTestSteps extends Steps {
 			PricePromInfoFactory.initialize(companyId,retailStoreId);
 			PriceMMInfoFactory.initialize(companyId, retailStoreId);
 		}
-		
+
 		actualResultBase = testpromotionResource.itemEntry(retailStoreId,
 				workStationId, sequenceNo, transactionJson, companyId, priceCheck,
 				businessDate);
@@ -311,13 +311,13 @@ public class PromotionResourceTestSteps extends Steps {
 		Assert.assertEquals("Expect the  result code", expectedResultCode,
 				actualResultBase.getNCRWSSResultCode());
 	}
-	
+
 	@Then("the Extended Result Code is $resultcode")
 	public final void theExtendedResultCodeIs(int expectedResultCode) {
 		Assert.assertEquals("Expect the extended result code", expectedResultCode,
 				actualResultBase.getNCRWSSExtendedResultCode());
 	}
-	
+
 	@Then("the department is $department")
 	public final void theDepartmentIs(String department) {
 		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
@@ -403,7 +403,7 @@ public class PromotionResourceTestSteps extends Steps {
 					is(equalTo(expectedItem.get("ExtendedAmount"))));
 		}
 	}
-	
+
 	@Then("itemId should be : $itemId")
 	public final void itemIdShouldBe(final String itemId) {
 		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
@@ -413,7 +413,7 @@ public class PromotionResourceTestSteps extends Steps {
 		assertThat("Compare the ItemID row ", transactionResult.getItemId(),
 				is(equalTo(itemId)));
 	}
-	
+
 	//2017/04/18 add start by kl
 	@Then("getSaleItemId should be : $itemId")
 	public final void getSaleItemIdShouldBe(final String itemId) {
@@ -424,7 +424,7 @@ public class PromotionResourceTestSteps extends Steps {
 		assertThat("Compare the ItemID row ", transactionResult.getSale().getItemId(),
 				is(equalTo(itemId)));
 	}
-	
+
 	@Then("the Mdname should be : $MdName")
 	public final void mdNameShouldBe(final String MdName) {
 		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
@@ -442,7 +442,7 @@ public class PromotionResourceTestSteps extends Steps {
 		assertThat("Compare the MdNameLocal row ", "" + sale.getMdNameLocal(),
 				is(equalTo(MdNameLocal)));
 	}
-	
+
 	@Then("the RegularSalesPrice should be : $RegularSalesPrice")
 	public final void regularSalesPriceShouleBe(final String regularSalesPrice) {
 		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
@@ -451,7 +451,7 @@ public class PromotionResourceTestSteps extends Steps {
 		assertThat("Compare the regularSalesPrice row ", "" + sale.getRegularSalesUnitPrice(),
 				is(equalTo(regularSalesPrice)));
 	}
-	
+
 	@Then("the ActualSalesPrice should be : $ActualSalesPrice")
 	public final void salesPrice1ShouleBe(final String actualSalesPrice) {
 		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
@@ -460,7 +460,7 @@ public class PromotionResourceTestSteps extends Steps {
 		assertThat("Compare the actualSalesPrice row ", "" + sale.getActualSalesUnitPrice(),
 				is(equalTo(actualSalesPrice)));
 	}
-		
+
 	//2017/04/18 add end by kl
 
 	@Then("there should be no promotion data.")
@@ -538,7 +538,7 @@ public class PromotionResourceTestSteps extends Steps {
 		assertThat("revoke is equal to null", promotionResponse.getPromotion()
 				.getRevoke() == null, is(equalTo(true)));
 	}
-	
+
 	//2017/04/17 add start by kl
 	@Then("result should be : $expectedItems")
 	public final void resultShouldBe(final ExamplesTable expectedItems) {
@@ -547,12 +547,12 @@ public class PromotionResourceTestSteps extends Steps {
 		Sale sale = transactionResult.getSale();
 		assertThat("transactionResult is equal to null",
 				transactionResult == null, is(equalTo(false)));
-		
+
 		for (Map<String, String> expecedItem : expectedItems.getRows()) {
 			assertThat("Compare the MdNameLocal row ", ""
 					+ sale.getMdNameLocal(),
 					is(equalTo(expecedItem.get("MdNameLocal"))));
-			assertThat("Compare the TaxType row ", 
+			assertThat("Compare the TaxType row ",
 					sale.getTaxType(),
 					is(equalTo(expecedItem.get("TaxType"))));
 			assertThat("Compare the RegularSalesUnitPrice row ", ""
@@ -588,7 +588,7 @@ public class PromotionResourceTestSteps extends Steps {
 		Sale sale = transactionResult.getSale();
 		assertThat("transactionResult is equal to null",
 				transactionResult == null, is(equalTo(false)));
-		
+
 		for (Map<String, String> expecedItem : expectedItems.getRows()) {
 			assertThat("Compare the DptName row ", ""
 					+ promotionResponse.getDepartmentName(),
@@ -596,7 +596,7 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the MdNameLocal row ", ""
 					+ sale.getMdNameLocal(),
 					is(equalTo(expecedItem.get("MdNameLocal"))));
-			assertThat("Compare the TaxType row ", 
+			assertThat("Compare the TaxType row ",
 					sale.getTaxType(),
 					is(equalTo(expecedItem.get("TaxType"))));
 			assertThat("Compare the ItemId row ", ""

@@ -101,7 +101,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     @Override
     public String getActData(String storeid, String tillid,
             String businessDayDate, String language) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getActData";
         tp.methodEnter(functionName);
         tp.println("storeNo", storeid).println("tillid", tillid)
                 .println("businessDayDate", businessDayDate)
@@ -177,7 +177,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     public ReportItems generateAccountancyReport(String storeid, String tillid,
             String businessDayDate, String language) throws DaoException{
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "generateAccountancyReport";
         tp.methodEnter(functionName);
         tp.println("storeNo", storeid)
           .println("tillid", tillid)
@@ -348,7 +348,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     @Override
     public String findStoreName(String storeNo) throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "findStoreName";
         tp.methodEnter(functionName)
           .println("storeNo", storeNo);
 
@@ -414,7 +414,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     @Override
     public String getStoreTel(String storeId) throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getStoreTel";
         tp.methodEnter(functionName);
         tp.println("storeId", storeId);
 
@@ -473,7 +473,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     public final TotalAmount getTotalAmount(final String storeId, final String tillId,
 			String businessDate)throws DaoException{
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getTotalAmount";
     	tp.methodEnter(functionName);
 		tp.println("storeid", storeId)
 		  .println("tillId", tillId)
@@ -539,7 +539,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     public List<DailyReport> getDailyReportItems(String companyId, String storeId,
             String tillId, String businessDate, int trainingFlag) throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getDailyReportItems";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("storeId", storeId)

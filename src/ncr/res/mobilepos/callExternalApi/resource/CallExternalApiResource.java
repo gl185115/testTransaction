@@ -95,7 +95,7 @@ public class CallExternalApiResource {
 		@ApiParam(name = "Resource", value = "ホスト") @QueryParam("Resource") final String Resource,
 		@ApiParam(name = "HttpMethod", value = "HTTPメソッド") @QueryParam("HttpMethod") final String HttpMethod
 	) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getExternalApiResult";
 		String resp = null;
 		String url = URL_HEAD + Resource + URL_FOOT;
 		Trace.Printer tp = DebugLogger.getDbgPrinter(

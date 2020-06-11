@@ -92,7 +92,7 @@ public class SystemConfigurationResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
     public final SystemParameter getSystemConfigs(){
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getSystemConfigs";
         tp.methodEnter(functionName);
         SystemParameter systemParameter = new SystemParameter();
         List<SystemConfigInfo> listSystemConfigInfos = GlobalConstant.getSystemConfigInfoList();

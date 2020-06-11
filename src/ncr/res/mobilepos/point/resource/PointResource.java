@@ -43,13 +43,13 @@ public class PointResource {
     private static final String PATH_NAME = "point";
     @Context
     private ServletContext servletContext;
-    
+
     public PointResource() {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), 
+        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
         		getClass());
     }
-    
+
     @Path("/getitempointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -69,7 +69,7 @@ public class PointResource {
     		@ApiParam(name="brandId", value="ブランドコード") @QueryParam("brandId") final String brandId,
     		@ApiParam(name="barCode", value="商品コード") @QueryParam("barCode") final String barCode
     ) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getItemPointRate";
         tp.methodEnter(functionName)
             .println("companyId", companyId)
             .println("storeId", storeId)
@@ -80,13 +80,13 @@ public class PointResource {
             .println("barCode", barCode);
         PointRateResponse response = new PointRateResponse();
         List<ItemPointRate> itemPointRateList = new ArrayList<ItemPointRate>();
-        
+
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(response.toString());
             return response;
         }
-        
+
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
             itemPointRateList = pointDao.getItemPointRate(companyId, storeId, businessDate, deptCode, groupCode, brandId, barCode);
@@ -115,8 +115,8 @@ public class PointResource {
         }
         return response;
     }
-    
-    
+
+
     @Path("/gettranpointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -131,20 +131,20 @@ public class PointResource {
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") final String businessDate) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTranPointRate";
         tp.methodEnter(functionName)
             .println("companyId", companyId)
             .println("storeId", storeId)
             .println("businessDate", businessDate);
         PointRateResponse response = new PointRateResponse();
         List<TranPointRate> tranPointRateList = new ArrayList<TranPointRate>();
-        
+
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(response.toString());
             return response;
         }
-        
+
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
             tranPointRateList = pointDao.getTranPointRate(companyId, storeId, businessDate);
@@ -171,10 +171,10 @@ public class PointResource {
         }
         return response;
     }
-    
+
     /**
      * Service to view CashingUnit of given parameter companyid and recordId.
-     * 
+     *
      * @param companyid
      * @param recordId
      * @return JSON type of CashingUnit.

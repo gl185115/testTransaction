@@ -83,7 +83,7 @@ public class InitializationStatusResource {
     })
     public final ResultBase getInitializationStatus() {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getInitializationStatus";
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         if(tp != null) {
             tp.methodEnter(functionName);

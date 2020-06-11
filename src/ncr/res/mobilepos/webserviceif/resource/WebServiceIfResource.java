@@ -77,7 +77,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
     })
     public final JSONData getSalesChargeAPI(@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getSalesChargeAPI";
         tp.methodEnter(functionName);
         tp.println("Data", Data);
 
@@ -158,7 +158,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         public final JSONData getTransactionReport(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData,
         		@ApiParam(name="reportType", value="レポートタイプ") @FormParam("reportType") String reportType) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getTransactionReport";
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
             tp.println("reportType", reportType);
@@ -248,7 +248,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
 
         })
         public final JSONData getCashInOutReport(@ApiParam(name="apiData", value="APIデータ")  @FormParam("apiData") String apiData) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getCashInOutReport";
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
             JSONData jsonData = new JSONData();
@@ -323,7 +323,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         public final JSONData getGroupReport(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData,
         		@ApiParam(name="reportType", value="レポートのタイプ") @FormParam("reportType") String reportType) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getGroupReport";
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
             tp.println("reportType", reportType);
@@ -406,7 +406,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
 
         })
         public final JSONData getOperationReport(@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getOperationReport";
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
             JSONData jsonData = new JSONData();
@@ -482,7 +482,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         public final JSONData getTransaction(
         		@ApiParam(name="APIType", value="APIタイプ") @FormParam("APIType") String APIType,
         		@ApiParam(name="JournalData", value="ジャーナルデータ") @FormParam("JournalData") String JournalData) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getTransaction";
             tp.methodEnter(functionName);
             tp.println("APIType", APIType);
             tp.println("JournalData", JournalData);
@@ -575,7 +575,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         })
         public final JSONData hhtUpdate(
         		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "hhtUpdate";
             tp.methodEnter(functionName);
             tp.println("Data", Data);
             JSONData jsonData = new JSONData();
@@ -662,7 +662,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         })
         public final JSONData getHHTInfo(@ApiParam(name="param", value="パラメータ") @FormParam("param") String param) {
 
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getHHTInfo";
             tp.methodEnter(functionName);
             tp.println("param", param);
 
@@ -841,7 +841,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         public final JSONData getPendingTranInfo(
         		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data){
 
-        	String functionName = DebugLogger.getCurrentMethodName();
+        	String functionName = "getPendingTranInfo";
             tp.methodEnter(functionName);
             tp.println("Data", Data);
 
@@ -921,7 +921,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         public final JSONData getPricingSearch(
         		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
 
-        	String functionName = DebugLogger.getCurrentMethodName();
+        	String functionName = "getPricingSearch";
             tp.methodEnter(functionName);
             tp.println("Data", Data);
 
@@ -1002,7 +1002,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
 
         })
         public final JSONData getPendingTranUpdate(@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getPendingTranUpdate";
             tp.methodEnter(functionName).println("apiData",apiData);
             JSONData jsonData = new JSONData();
             JSONObject result = null;
@@ -1078,7 +1078,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         })
         public final JSONData getPremiumItemStore(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getPremiumItemStore";
             tp.methodEnter(functionName)
             .println("apiData",apiData);
             JSONData jsonData = new JSONData();
@@ -1155,7 +1155,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         })
         public final JSONData getPremiumItemStoreUpdate(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getPremiumItemStoreUpdate";
             tp.methodEnter(functionName).println("apiData", apiData);
             JSONData jsonData = new JSONData();
             JSONObject result = null;
@@ -1234,7 +1234,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         })
         public final JSONData getSlipNoUpdate(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getSlipNoUpdate";
             tp.methodEnter(functionName)
             .println("apiData",apiData);
             JSONData jsonData = new JSONData();
@@ -1313,7 +1313,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         })
         public final JSONData getPastelPointInfo(
                 @ApiParam(name="requestData", value="データ") @FormParam("requestData") String requestData) {
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getPastelPointInfo";
             tp.methodEnter(functionName);
             tp.println("requestData", requestData);
             JSONData jsonData = new JSONData();

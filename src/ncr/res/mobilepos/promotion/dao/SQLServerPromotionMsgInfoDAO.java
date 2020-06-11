@@ -68,7 +68,7 @@ public class SQLServerPromotionMsgInfoDAO extends AbstractDao implements IPromot
      */
     @Override
     public List<PromotionMsgInfo> getPromotionMsgInfoList(String companyId, String storeId, String dayDate) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getPromotionMsgInfoList";
     	tp.println("CompanyId", companyId);
         tp.println("storeId", storeId);
         tp.println("dayDate", dayDate);
@@ -113,7 +113,7 @@ public class SQLServerPromotionMsgInfoDAO extends AbstractDao implements IPromot
     @Override
 	public List<String> getPromotionMsgDptList(String companyId, int recordId) throws DaoException {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getPromotionMsgDptList";
     	tp.println("CompanyId", companyId);
         tp.println("storeId", recordId);
 

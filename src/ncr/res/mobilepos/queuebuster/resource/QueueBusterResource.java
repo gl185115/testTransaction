@@ -30,6 +30,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -39,7 +40,6 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
@@ -129,7 +129,7 @@ public class QueueBusterResource {
     		@ApiParam(name="sequencenumber", value="取引番号") @QueryParam("sequencenumber") final String sequenceNumber,
     		@ApiParam(name="poslogxml", value="POSLog (xmlデータ)") @FormParam("poslogxml") final String posLogXml) {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "suspend";
         tp.methodEnter(functionName)
           .println("retailstoreid", retailStoreId)
           .println("queue", queue)
@@ -145,10 +145,7 @@ public class QueueBusterResource {
 
         try {
         	// unmarshall poslog xml
-            XmlSerializer<PosLog> poslogSerializer =
-            		new XmlSerializer<PosLog>();
-            PosLog posLog = poslogSerializer.unMarshallXml(posLogXml,
-            		PosLog.class);
+            PosLog posLog = GlobalConstant.poslogDataBinding.unMarshallXml(posLogXml);
 
         	// check if valid poslog
             if (!POSLogHandler.isValid(posLog)) {
@@ -272,7 +269,7 @@ public class QueueBusterResource {
     		@ApiParam(name="businessdaydate", value="業務日付") @QueryParam("businessdaydate") final String businessDayDate,
     		@ApiParam(name="trainingflag", value="トレーニングモードフラグ") @QueryParam("trainingflag") final Integer trainingFlag) {
         SearchedPosLog poslog = new SearchedPosLog();
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "resume";
         tp.methodEnter(functionName)
             .println("companyId", companyId)
             .println("retailstoreid", retailStoreId)
@@ -302,11 +299,7 @@ public class QueueBusterResource {
                         companyId, retailStoreId, queue,
                         workstationId, sequenceNumber, businessDayDate, trainingFlag);
 
-                XmlSerializer<SearchedPosLog> poslogSerializer =
-                        new XmlSerializer<SearchedPosLog>();
-                poslog =
-                        poslogSerializer.unMarshallXml(resumedTransaction.getPoslog(),
-                                SearchedPosLog.class);
+                poslog = GlobalConstant.searchedposlogDataBinding.unMarshallXml(resumedTransaction.getPoslog());
                 poslog.setNCRWSSResultCode(resumedTransaction.getNCRWSSResultCode());
                 poslog.setNCRWSSExtendedResultCode(resumedTransaction.getNCRWSSExtendedResultCode());
 			}
@@ -362,7 +355,7 @@ public class QueueBusterResource {
     		@ApiParam(name="queue", value="キューID") @QueryParam("queue") final String queue,
     		@ApiParam(name="trainingflag", value="トレーニングモードフラグ") @QueryParam("trainingflag") final int trainingFlag) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "list";
         tp.methodEnter(functionName).println("retailstoreid", retailStoreId)
                 .println("workstationid", workstationId)
                 .println("queue", queue)
@@ -433,7 +426,7 @@ public class QueueBusterResource {
     })
     public final PosLogResp suspendTransactionToQueue(
             @ApiParam(name="poslogxml", value="POSLOG情報") @FormParam("poslogxml") final String poslogxml) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "suspendTransactionToQueue";
 		tp.methodEnter(functionName).println("poslogxml", poslogxml);
 
 		PosLogResp posLogResp = new PosLogResp();
@@ -513,7 +506,7 @@ public class QueueBusterResource {
     		@ApiParam(name="txid", value="取引番号") @QueryParam("txid") final String txid,
     		@ApiParam(name="txdate", value="業務日付") @QueryParam("txdate") final String txdate) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "requestToQueue";
 		tp.methodEnter(functionName).println("method", method)
 				.println("storeid", storeid).println("terminalid", terminalid)
 				.println("txid", txid).println("txdate", txdate);
@@ -598,7 +591,7 @@ public class QueueBusterResource {
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="businessDayDate", value="業務日付") @QueryParam("businessDayDate") final String businessDayDate) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "deleteForwardItem";
 		tp.methodEnter(functionName);
 		tp.println("companyid", companyId)
 		  .println("storeid", storeId)

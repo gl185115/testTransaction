@@ -64,7 +64,7 @@ public class CardInfoResource {
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="cardClassId", value="カード区分コード") @QueryParam("cardClassId") final String cardClassId,
     		@ApiParam(name="membershipId", value="会員番号") @QueryParam("membershipId") final String membershipId) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCardClassInfo";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId)
                 .println("cardClassId", cardClassId).println("membershipId", membershipId);
         CardInfo cardInfo = new CardInfo();
@@ -114,7 +114,7 @@ public class CardInfoResource {
     public final CardTypeInfoResponse getCardTypeInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="cardTypeNo", value="カードタイプコード") @QueryParam("cardTypeNo") final String cardTypeNo) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCardTypeInfo";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("cardTypeNo",
                 cardTypeNo);
 
@@ -166,7 +166,7 @@ public class CardInfoResource {
     public final MemberInfoResponse getMemberInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="membershipId", value="会員番号") @QueryParam("membershipId") final String membershipId) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMemberInfo";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("membershipId",
                 membershipId);
         MemberInfoResponse response = new MemberInfoResponse();
@@ -217,7 +217,7 @@ public class CardInfoResource {
     public final StatusInfoResponse getStatusInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="statusCode", value="会員状態コード") @QueryParam("statusCode") final String statusCode) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getStatusInfo";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("statusCode",
                 statusCode);
         StatusInfoResponse response = new StatusInfoResponse();

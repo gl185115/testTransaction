@@ -102,12 +102,12 @@ public class UiConfigMaintenanceResource {
      * ClassSimpleName
      */
 	private final String PROG_NAME = "UCMT";
-	
+
     /**
      * UiConfigProperties
      */
     private static final UiConfigProperties configProperties = UiConfigProperties.getInstance();
-	
+
     /**
      * the instance of the logger.
      */
@@ -193,7 +193,7 @@ public class UiConfigMaintenanceResource {
         tp.methodExit("Returns " + file.getAbsolutePath());
         return rb.build();
     }
-    
+
     @Path("/getcompanyinfo")
     @POST
     @Produces({"application/json;charset=UTF-8"})
@@ -205,9 +205,9 @@ public class UiConfigMaintenanceResource {
 	})
 	public final CompanyInfoList getCompanyInfo() {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getCompanyInfo";
 		tp.methodEnter("/getcompanyinfo/");
-		
+
 		CompanyInfoList companyInfo = null;
 		List<CompanyInfo> cmpList = null;
 		try {
@@ -271,7 +271,7 @@ public class UiConfigMaintenanceResource {
 		    @ApiParam(name="title2", value="タイトル2") @FormParam("title2") final String title2,
 		    @ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "requestFileUpload";
 		tp.methodEnter("/fileUpload");
 		tp.println("folder", folder).println("contents", contents).println("desfilename", desfilename)
 				.println("overwrite", overwrite).println("picturename", picturename).println("expire", expire)
@@ -395,7 +395,7 @@ public class UiConfigMaintenanceResource {
 			@ApiParam(name="companyID", value="会社コード") @FormParam("companyID") final String companyID,
 			@ApiParam(name="folder", value="フォルダ") @FormParam("folder") final String folder){
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "requestConfigFileList";
 		tp.methodEnter("/fileList");
 		tp.println("companyID", companyID);
 		tp.println("folder", folder);
@@ -420,7 +420,7 @@ public class UiConfigMaintenanceResource {
 					result.setMessage(ResultBase.RES_FAILED_MSG);
 					return result;
 				}
-				
+
 				List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
 				FileInfo fileInfo = null;
 				for (File file : fileList) {
@@ -433,7 +433,7 @@ public class UiConfigMaintenanceResource {
 						}
 					}
 				}
-				
+
 				result.setFileInfoList(fileInfoList);
 			} else {
 				tp.println("The message id of Not found file Exception.");
@@ -456,10 +456,10 @@ public class UiConfigMaintenanceResource {
 		} finally {
 			tp.methodExit(result.toString());
 		}
-		
+
 		return result;
 	}
-    
+
 	@Path("/fileDownload")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
@@ -473,12 +473,12 @@ public class UiConfigMaintenanceResource {
 			@ApiParam(name="filename", value="ファイル名") @FormParam("filename") final String filename,
 			@ApiParam(name="companyID", value="会社コード") @FormParam("companyID") final String companyID){
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "requestConfigFileDownload";
 		tp.methodEnter("/fileDownload");
 		tp.println("folder", folder)
 		  .println("filename", filename)
 		  .println("companyID", companyID);
-		
+
 		FileDownLoadInfo result = new FileDownLoadInfo();
 		try {
 			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
@@ -526,7 +526,7 @@ public class UiConfigMaintenanceResource {
 
 		return result;
 	}
-	
+
     @Path("/getDeployStoreAndGroup")
     @POST
     @Produces({"application/json;charset=UTF-8"})
@@ -539,10 +539,10 @@ public class UiConfigMaintenanceResource {
 	public final TableStoreList getDeployStoreAndGroup(
 			@ApiParam(name="companyID", value="会社コード") @FormParam("companyID") final String companyID) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDeployStoreAndGroup";
 		tp.methodEnter("/getDeployStoreAndGroup/");
 		tp.println("companyID", companyID);
-		
+
 		TableStoreList result = null;
 		try {
 			result = new TableStoreList();
@@ -561,19 +561,19 @@ public class UiConfigMaintenanceResource {
 			} else {
 				TableStore tableStore = null;
 				List<TableStore> tableStoreList = new ArrayList<TableStore>();
-				
+
 				tableStore = new TableStore();
 				tableStore.setLevelKey(StaticParameter.key_all);
 				tableStore.setCategory(StaticParameter.key_all_str);
 				tableStore.setStoreEntries(storeEntryList);
 				tableStoreList.add(tableStore);
-				
+
 				tableStore = new TableStore();
 				tableStore.setLevelKey(StaticParameter.key_store);
 				tableStore.setCategory(StaticParameter.key_store_str);
 				tableStore.setStoreEntries(storeEntryList);
 				tableStoreList.add(tableStore);
-				
+
 				result.setTableStore(tableStoreList);
 			}
 		} catch (DaoException ex) {
@@ -597,7 +597,7 @@ public class UiConfigMaintenanceResource {
         }
 		return result;
     }
-    
+
 	private String getNoticeJson(HashMap<String, String> ref) {
 
 		StringBuilder builder = new StringBuilder();
@@ -632,7 +632,7 @@ public class UiConfigMaintenanceResource {
 			@ApiParam(name="sizeType", value="サイズタイプ") @FormParam("sizeType") final int sizeType,
 			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID) {
 		// Logs given parameters.
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "PictureListServlet";
 		tp.methodEnter("/pictureList");
 		tp.println("folder", folder).
 		println("sizeType", sizeType).
@@ -643,7 +643,7 @@ public class UiConfigMaintenanceResource {
 		try {
 			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
 			File dir_resource = new File(url, folder);
-			
+
 			if (dir_resource.exists()) {
 				String baseDir = dir_resource.getPath();
 				List<String> filelist = new ArrayList<String>();
@@ -662,7 +662,7 @@ public class UiConfigMaintenanceResource {
 						path = path.replace("\\", StaticParameter.str_separator);
 						list.add(path);
 					}
-					
+
 					result.setResult(list);
 					return result;
 				}
@@ -756,11 +756,11 @@ public class UiConfigMaintenanceResource {
 	public final GetScheduleInfo getSchedule (
 			@ApiParam(name="resource", value="リソースタイプ") @FormParam("resource") final String resource,
 			@ApiParam(name="companyID", value="会社コード") @FormParam("companyID") final String companyID){
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getSchedule";
 		tp.methodEnter("/getSchedule");
 		tp.println("resource", resource).
 		println("companyID", companyID);
-		
+
 		File xml_schedule = null;
 		GetScheduleInfo result = null;
 
@@ -797,7 +797,7 @@ public class UiConfigMaintenanceResource {
 		}
 		return result;
 	}
-	
+
 	@Path("/setSchedule")
     @POST
     @Produces({"application/json;charset=UTF-8"})
@@ -812,8 +812,8 @@ public class UiConfigMaintenanceResource {
 			@ApiParam(name="schedulejson", value="スケジュールデータ") @FormParam("schedulejson") final String schedulejson,
 			@ApiParam(name="resource", value="リソースタイプ") @FormParam("resource") final String resource,
 			@ApiParam(name="companyID", value="会社コード") @FormParam("companyID") final String companyID) {
-    	
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "requestSetSchedule";
 		tp.methodEnter("/setSchedule");
 		tp.println("filename", filename).
 		println("schedulejson", schedulejson).
@@ -861,7 +861,7 @@ public class UiConfigMaintenanceResource {
 		}
 		return result;
 	}
-	
+
 	@Path("/fileRemove")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
@@ -872,7 +872,7 @@ public class UiConfigMaintenanceResource {
 			@ApiParam(name="filename", value="ファイル名") @FormParam("filename") final String filename,
 			@ApiParam(name="confirmDel", value="利用中確認フラグ") @FormParam("confirmDel") final String confirmDel,
 			@ApiParam(name="delFileList", value="削除失敗ファイルリスト") @FormParam("delFileList") final String delFileList){
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "requestConfigFileRemove";
 		tp.methodEnter("/fileRemove");
 		tp.println("companyID",companyID)
 		  .println("folder", folder)
@@ -944,7 +944,7 @@ public class UiConfigMaintenanceResource {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * ファイル削除（ファイル用）
 	 * @param pResource : pickList/notices
@@ -1125,7 +1125,7 @@ public class UiConfigMaintenanceResource {
 
 		} catch (Exception e) {
 			tp.println("The message id of SQL Exception.");
-		} 
+		}
 		return retFlg;
 	}
 
@@ -1256,7 +1256,7 @@ public class UiConfigMaintenanceResource {
 
 	private List<FileRemove> imageFileArr = null;
 	private static final String KEY_FULLNAME = "fullName";
-	
+
 	@Path("/pictureUpload")
 	@POST
     @Produces({"application/json;charset=UTF-8"})
@@ -1269,7 +1269,7 @@ public class UiConfigMaintenanceResource {
 	public final PictureInfoUpload requestConfigPictureUpload(
 			@Context final HttpServletRequest request){
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "requestConfigPictureUpload";
 		tp.methodEnter("/pictureUpload");
 
 		String companyID = "";

@@ -41,7 +41,7 @@ public class CustomerClassInfoResource {
 
 	/**
 	 * Get customer class info list
-	 * 
+	 *
 	 * @param company
 	 *            id
 	 * @param store
@@ -59,7 +59,7 @@ public class CustomerClassInfoResource {
     })
 	public final CustomerClassInfoList getCustomerClassInfo(@ApiParam(name="companyId", value="âÔé–ÉRÅ[Éh") @QueryParam("companyId") final String companyId,
 			@ApiParam(name="storeId", value="ìXî‘çÜ") @QueryParam("storeId") final String storeId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getCustomerClassInfo";
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 		CustomerClassInfoList customerInfo = new CustomerClassInfoList();
 

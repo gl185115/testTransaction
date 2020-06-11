@@ -94,7 +94,7 @@ public class CustomerSearchResource {
     		@ApiParam(name="phone", value="電話番号") @FormParam("phone") final String phone,
     		@ApiParam(name="maxResult", value="最大カウント") @FormParam("maxResult") final String maxResult) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMemberSearch";
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
 
         try {
@@ -139,7 +139,7 @@ public class CustomerSearchResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(CustomerSearchConstants.API_B0110);
-            
+
             StringBuilder strbParams = new StringBuilder();
             // add maxResult
             strbParams.append("maxResult=");
@@ -242,7 +242,7 @@ public class CustomerSearchResource {
                         .setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
                 customerSearchReturnBean
                         .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-                customerSearchReturnBean.setMessage(e.getMessage());        		
+                customerSearchReturnBean.setMessage(e.getMessage());
         	}
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
@@ -288,7 +288,7 @@ public class CustomerSearchResource {
     		@ApiParam(name="maxResult", value="リストの返送最大数") @FormParam("maxResult") final String maxResult,
     		@ApiParam(name="forcedBflag", value="検索フラグ") @FormParam("forcedBflag") final String forcedBflag) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMemberTradeList";
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
 
         try {
@@ -338,7 +338,7 @@ public class CustomerSearchResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(CustomerSearchConstants.API_B0407);
-            
+
             StringBuilder strbParams = new StringBuilder();
             // add cardNo
             strbParams.append("cardNo=");
@@ -446,7 +446,7 @@ public class CustomerSearchResource {
 
         return customerSearchReturnBean;
     }
-    
+
     /**
      * Login Key Change API
      * @param loginKey : Login Key
@@ -468,7 +468,7 @@ public class CustomerSearchResource {
     public final CustomerSearchReturnBean getChangedLoginKey(
             @ApiParam(name="loginKey", value="ログインキー") @FormParam("loginKey") final String loginKey) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getChangeLoginKey";
         tp.methodEnter(functionName);
         tp.println("loginKey", loginKey);
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
@@ -515,7 +515,7 @@ public class CustomerSearchResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(CustomerSearchConstants.API_B0001);
-            
+
             StringBuilder strbParams = new StringBuilder();
             // add loginKey
             strbParams.append("loginKey=");
@@ -524,7 +524,7 @@ public class CustomerSearchResource {
             // basic authenticate
             // send url
             List<String> lstReturn = null;
-            
+
             for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
                 lstReturn = new ArrayList<String>();
                 if (GlobalConstant.getMemberServerDebug()){
@@ -547,7 +547,7 @@ public class CustomerSearchResource {
                             mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
                             mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
                 }
-                
+
                 if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
             }
 
@@ -627,7 +627,7 @@ public class CustomerSearchResource {
 
         return customerSearchReturnBean;
     }
-    
+
     /**
      * Get Rank Info API
      * @param memberCode : Member Code
@@ -649,7 +649,7 @@ public class CustomerSearchResource {
     public final CustomerSearchReturnBean getRankInfo(
             @ApiParam(name="memberCode", value="会員番号") @FormParam("memberCode") final String memberCode) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getRankInfo";
         tp.methodEnter(functionName);
         tp.println("memberCode", memberCode);
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
@@ -696,7 +696,7 @@ public class CustomerSearchResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(CustomerSearchConstants.API_B2001);
-            
+
             StringBuilder strbParams = new StringBuilder();
             // add memberCode
             strbParams.append("memberCode=");
@@ -705,7 +705,7 @@ public class CustomerSearchResource {
             // basic authenticate
             // send url
             List<String> lstReturn = null;
-            
+
             for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
                 lstReturn = new ArrayList<String>();
                 if (GlobalConstant.getMemberServerDebug()){
@@ -728,10 +728,10 @@ public class CustomerSearchResource {
                             mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
                             mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
                 }
-                
+
                 if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
             }
-            
+
 
             // sorting the returned data
             if (lstReturn == null || lstReturn.size() == 0) {
@@ -809,7 +809,7 @@ public class CustomerSearchResource {
 
         return customerSearchReturnBean;
     }
-    
+
     /**
      * Get Member Info API
      * @param memberCode : Member Code
@@ -831,7 +831,7 @@ public class CustomerSearchResource {
     public final CustomerSearchReturnBean getMemberInfo(
             @ApiParam(name="memberCode", value="会員番号") @FormParam("memberCode") final String memberCode) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMemberInfo";
         tp.methodEnter(functionName);
         tp.println("memberCode", memberCode);
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
@@ -878,7 +878,7 @@ public class CustomerSearchResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(CustomerSearchConstants.API_B0102);
-            
+
             StringBuilder strbParams = new StringBuilder();
             // add memberCode
             strbParams.append("memberCode=");
@@ -909,10 +909,10 @@ public class CustomerSearchResource {
                             mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
                             mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
                 }
-                
+
                 if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
             }
-            
+
 
             // sorting the returned data
             if (lstReturn == null || lstReturn.size() == 0) {

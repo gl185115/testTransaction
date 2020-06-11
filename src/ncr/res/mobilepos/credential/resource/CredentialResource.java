@@ -253,7 +253,7 @@ public class CredentialResource {
     public final Operator getStatusOfOperator(@ApiParam(name="companyid", value="会社コード") @PathParam("companyid") final String companyid,
     		@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String empCode) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getStatusOfOperator";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyid);
         tp.println("EmpCode", empCode);
@@ -327,7 +327,7 @@ public class CredentialResource {
     		@ApiParam(name="operatorid", value="オペレータコード") @QueryParam("operatorid") final String operatorId,
     		@ApiParam(name="operatorpass", value="オペレータパスワード") @QueryParam("operatorpass") final String operatorPass) {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getAttribute";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyId)
 	        .println("RetailStoreId", retailStoreId)
@@ -336,7 +336,7 @@ public class CredentialResource {
         	.println("OperatorPass", operatorPass);
 
         Operator operator = new Operator();
-        
+
         try {
             if (StringUtility.isNullOrEmpty(companyId, retailStoreId, terminalId, operatorId, operatorPass)) {
                 tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
@@ -395,7 +395,7 @@ public class CredentialResource {
     		@ApiParam(name="storeId", value="店番号") @FormParam("storeId") final String storeId,
     		@ApiParam(name="nameCategory", value="名称区分") @FormParam("nameCategory") final String nameCategory) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getSystemNameMasterList";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("storeId", storeId).println("nameCategory", nameCategory);
 
@@ -549,7 +549,7 @@ public class CredentialResource {
 
         return employees;
     }
-   
+
     /**
      * deletes an employee.
      *
@@ -668,7 +668,7 @@ public class CredentialResource {
 
         return viewEmployee;
     }
-    
+
     private String getOpeCode() {
         return ((securityContext != null) && (securityContext.getUserPrincipal()) != null)
                 ? securityContext.getUserPrincipal().getName() : null;

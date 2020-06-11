@@ -44,12 +44,12 @@ extends AbstractDao implements ISystemSettingDAO {
         this.dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
-    }    
+    }
 
     @Override
     public final DateSetting getDateSetting(final String companyId, final String storeId) throws DaoException {
-       
-        String functionName = DebugLogger.getCurrentMethodName();
+
+        String functionName = "getDateSetting";
         tp.methodEnter(functionName);
         Connection conn = null;
         PreparedStatement selectBizDayPrpStmnt = null;
@@ -63,7 +63,7 @@ extends AbstractDao implements ISystemSettingDAO {
                     sqlStatement.getProperty("select-date-setting"));
             selectBizDayPrpStmnt.setString(SQLStatement.PARAM1, companyId);
             selectBizDayPrpStmnt.setString(SQLStatement.PARAM2, storeId);
-            
+
             result = selectBizDayPrpStmnt.executeQuery();
             if (result.next()) {
                 String businessdate = result.getString(
@@ -94,7 +94,7 @@ extends AbstractDao implements ISystemSettingDAO {
                     + " - Error update Business Date process", ex);
         } finally {
             closeConnectionObjects(conn, selectBizDayPrpStmnt, result);
-            
+
             if (null != retDateSetting) {
                 tp.methodExit(retDateSetting.toString());
             } else {
@@ -103,10 +103,10 @@ extends AbstractDao implements ISystemSettingDAO {
         }
         return retDateSetting;
     }
-    
+
     @Override
 	public int updateDateSetting(String companyid, String storeid, String bizdate) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "updateDateSetting";
         tp.methodEnter(functionName);
         Connection connection = null;
         int resultCode = 0;

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2017 NCR/JAPAN Corporation SW-R&D
- * 
+ *
  * AppServerResource
- * 
+ *
  * Resource which provides a list of Application Server for checking WebApp connection.
- * 
+ *
  */
 package ncr.res.mobilepos.appserver.resource;
 
@@ -31,7 +31,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
- * AppServerResource Web Resource Class. 
+ * AppServerResource Web Resource Class.
  * This gets application servers (Tomcat or IIS web application request url).
  */
 @Path("/servertable")
@@ -57,7 +57,7 @@ public class AppServerResource {
 
 	/**
 	 * This method get the list of AP Server with request url.
-	 * 
+	 *
 	 * @return AppServers
 	 */
 	@Path("/get")
@@ -71,7 +71,7 @@ public class AppServerResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="îƒópÉGÉâÅ["),
         })
 	public final AppServers getAppServers() {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getAppServers";
 		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread()
 				.getId(), getClass());
 		if (tp != null) {

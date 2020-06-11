@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 /**
  * @author xxj
@@ -46,7 +46,7 @@ public class CashAbstractResource {
     }
 
     /**
-     * 
+     *
      * @param companyId,
      *            storeId, cashFlowDirection
      * @return Tender
@@ -62,11 +62,11 @@ public class CashAbstractResource {
     })
     public final JSONData getcashAbstract(
             @ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-            @ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId, 
+            @ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId,
             @ApiParam(name="CashFlowDirection", value="入出金区分") @QueryParam("CashFlowDirection") final String cashFlowDirection,
             @ApiParam(name="TenderId", value="種別コード") @QueryParam("TenderId") final String tenderId,
             @ApiParam(name="TenderType", value="支払種別") @QueryParam("TenderType") final String tenderType) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getcashAbstract";
         tp.methodEnter(functionName)
         .println("CompanyId", companyId)
         .println("StoreId", storeId)

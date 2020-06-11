@@ -70,7 +70,7 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
     public final ReceiptCredit getReceiptCredit(final String txid)
             throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getReceiptCredit";
         tp.methodEnter(functionName).println("txid", txid);
 
         ReceiptCredit receiptCredit = new ReceiptCredit();
@@ -114,7 +114,7 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
      */
     @Override
     public final String getOperatorName(final String operatorNo) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getOperatorName";
         tp.methodEnter(functionName).println("operatorNo", operatorNo);
 
         String operatorName = null;

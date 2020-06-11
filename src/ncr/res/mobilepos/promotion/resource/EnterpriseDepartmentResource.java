@@ -59,7 +59,7 @@ public class EnterpriseDepartmentResource {
 
 	/**
 	 * get Department DetailInfo
-	 * 
+	 *
 	 * @param companyId
 	 *			The companyId
 	 * @param retailStoreId
@@ -76,7 +76,7 @@ public class EnterpriseDepartmentResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@ApiOperation(value="ïîñÂèÓïÒéÊìæ", response=Void.class)
 	public final ViewDepartment departmentInfo(@Context HttpServletRequest request,@Context HttpServletResponse response) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "departmentInfo";
 		String companyId = request.getParameter("companyId");
 		String retailStoreId = request.getParameter("retailStoreId");
 		String codeTemp = request.getParameter("codeTemp");
@@ -105,7 +105,7 @@ public class EnterpriseDepartmentResource {
 				e.printStackTrace();
 			}
 		} catch (DaoException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get department Info.", e); 
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get department Info.", e);
 		}
 		return departmentInfo;
 	}

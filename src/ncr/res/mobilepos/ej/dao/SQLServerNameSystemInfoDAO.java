@@ -73,7 +73,7 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
      */
     @Override
 	public final List<EjInfo> getNameSystemInfo() throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getNameSystemInfo";
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
@@ -139,7 +139,7 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
     @Override
     public List<EjInfo> getEjInfo(String CompanyId,String RetailStoreId,String WorkstationId,String TxType,String SequencenumberFrom,String SequencenumberTo,
     		String BusinessDateTimeFrom,String BusinessDateTimeTo,String OperatorId,String SalesPersonId, String TrainingFlag) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getEjInfo";
 		Connection connection = null;
 		PreparedStatement select = null;
 		ResultSet result = null;
@@ -227,7 +227,7 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
 	 */
     public PosLogInfo getPosLogInfo(String CompanyId, String RetailStoreId, String WorkstationId, String Sequencenumber,
 			String BusinessDateTime, String TrainingFlag) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPosLogInfo";
 		Connection connection = null;
 		PreparedStatement select = null;
 		ResultSet result = null;

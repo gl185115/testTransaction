@@ -32,7 +32,7 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
      * The Trace Printer.
      */
     private Trace.Printer tp;
-    
+
     /**
      * Default Constructor for SQLServerMixMatchDAO
      *
@@ -61,21 +61,21 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
      * Get PromotionId from MST_QRCODE_INFO and MST_QRCODE_STORE
      * @param companyId,
 	 *        storeId,
-	 *        dayDate   
+	 *        dayDate
      * @return QrCodeList
      * @throws DaoException Exception when error occurs.
      */
     @Override
 	public final List<QrCodeInfo> getQrCodeInfoList(String companyId, String storeId, String dayDate) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getQrCodeInfoList";
     	tp.println("CompanyId", companyId);
         tp.println("storeId", storeId);
         tp.println("dayDate", dayDate);
-        
+
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
-        
+
         List<QrCodeInfo> QrCodeList = null;
         try {
             connection = dbManager.getConnection();
@@ -85,7 +85,7 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
             select.setString(SQLStatement.PARAM2, storeId);
             select.setString(SQLStatement.PARAM3, dayDate);
             result = select.executeQuery();
-            
+
             QrCodeInfo codeInfo = null;
             while(result.next()){
                 if (QrCodeList == null){
@@ -135,10 +135,10 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
             closeConnectionObjects(connection, select, result);
             tp.methodExit(QrCodeList);
         }
-        
+
         return QrCodeList;
     }
-    
+
     /**
      * Get CustomerId from MST_QRCODE_MEMBERID
      * @param promotionId,
@@ -147,15 +147,15 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
      * @throws DaoException Exception when error occurs.
      */
     public final String getCustomerQrCodeInfoList(String companyId, String promotionId, String customerId) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getCustomerQrCodeInfoList";
     	tp.println("CompanyId", companyId);
     	tp.println("PromotionId", promotionId);
         tp.println("CustomerId", customerId);
-        
+
     	Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
-        
+
         String rightCustomerId = null;
         try {
             connection = dbManager.getConnection();
@@ -165,7 +165,7 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
             select.setString(SQLStatement.PARAM2, promotionId);
             select.setString(SQLStatement.PARAM3, customerId);
             result = select.executeQuery();
-            
+
             while(result.next()){
                 rightCustomerId = result.getString(result.findColumn("MemberId"));
             }

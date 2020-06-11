@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2017 NCR/JAPAN Corporation SW-R&D
- * 
+ *
  * POSMailInfoResource
- * 
+ *
  * Resource which provides a list of POS Mail notification messages.
- * 
+ *
  */
 package ncr.res.mobilepos.posmailinfo.resource;
 
@@ -57,7 +57,7 @@ public class POSMailInfoResource {
     		@ApiParam(name="retailstoreid", value="店番号") @QueryParam("retailstoreid") final String retailStoreId,
     		@ApiParam(name="workstationid", value="ターミナル番号") @QueryParam("workstationid") final String workstationId,
     		@ApiParam(name="businessdate", value="業務日付") @QueryParam("businessdate") final String businessDate) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getPOSMailInfo";
     	tp.methodEnter(functionName)
     		.println("companyId", companyId)
     		.println("retailStoreId", retailStoreId)

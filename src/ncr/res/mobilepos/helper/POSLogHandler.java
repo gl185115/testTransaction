@@ -6,11 +6,11 @@ package ncr.res.mobilepos.helper;
  */
 import java.lang.reflect.Field;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.TxTypes;
 import ncr.res.mobilepos.journalization.model.poslog.ControlTransaction;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
@@ -43,10 +43,7 @@ public final class POSLogHandler {
      * @throws JAXBException     The Exception thrown when the method fails
      */
     public static PosLog toObject(final String xml) throws JAXBException {
-        XmlSerializer<PosLog> poslogSerializer =
-            new XmlSerializer<PosLog>();
-
-        return poslogSerializer.unMarshallXml(xml, PosLog.class);
+       return GlobalConstant.poslogDataBinding.unMarshallXml(xml);
     }
 
     /**

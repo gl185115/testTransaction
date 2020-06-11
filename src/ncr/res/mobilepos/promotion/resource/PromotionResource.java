@@ -197,7 +197,7 @@ public class PromotionResource {
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNo,
 			@ApiParam(name = "companyid", value = "会社コード") @FormParam("companyid") final String companyid,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "beginTransaction";
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("WorkstationId", workStationId)
 				.println("SequenceNumber", sequenceNo).println("companyid", companyid)
 				.println("Transaction", transactionJson);
@@ -267,7 +267,7 @@ public class PromotionResource {
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String jsonTransaction) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "endTransaction";
 		tp.methodEnter(functionName).println("RetailStoreID", retailStoreId).println("WorkStationID", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", jsonTransaction);
 		ResultBase result = new ResultBase();
@@ -359,7 +359,7 @@ public class PromotionResource {
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
 			@ApiParam(name = "priceCheck", value = "価格照会フラグ") @FormParam("priceCheck") final String priceCheck,
 			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "itemEntry";
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("WorkstationId", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transaction)
 				.println("businessDate", businessDate).println("companyId", companyId).println("priceCheck", priceCheck);
@@ -436,7 +436,7 @@ public class PromotionResource {
 					response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 					return response;
 				}
-				
+
 				info.setQuantity(saleIn.getQuantity());
 				info.setEntryId(saleIn.getItemEntryId());
 
@@ -495,7 +495,7 @@ public class PromotionResource {
 				} else {
 					// 部門コードを取得する
 					codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);
-	
+
 					// 商品マスタから取得失敗の場合
 					if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
 						// 各種特売情報を取得する
@@ -516,11 +516,11 @@ public class PromotionResource {
 								}else{
 									saleItem.setCompanyId(companyId);
 									saleItem.setStoreId(retailStoreId);
-	
+
 									// 税率の情報を取得する
 									getSaleTaxRateInfo(saleItem ,response);
 								}
-	
+
 								if(ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode() || ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode()){
 									return response;
 								}else {
@@ -528,7 +528,7 @@ public class PromotionResource {
 									response.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
 								}
 							}
-							
+
 							if (!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode()) && !"1".equals(priceCheck)) {
 								terminalItem.addBmRuleMap(saleItem.getMixMatchCode(), saleItem, saleIn.getItemEntryId());
 							}
@@ -541,14 +541,14 @@ public class PromotionResource {
 						}
 						return response;
 					}
-					
+
 					if (codeTempConn.contains(" ")) {
 						codeTemp = codeTempConn.split(" ")[0];
 						cCode = codeTempConn.split(" ")[1];
 					} else {
 						codeTemp = codeTempConn;
 					}
-					
+
 					String mdName = null;
 					Sale saleMdName = null;
 					if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item != null) {
@@ -604,7 +604,7 @@ public class PromotionResource {
 					if (saleMdName != null) {
 						mdName = saleMdName.getMdNameLocal();
 					}
-					
+
 					// 部門コードを部門マスタテーブルに存在チェック
 					if (departmentInfo == null) {
 						dptCode = null;
@@ -628,11 +628,11 @@ public class PromotionResource {
 				salePrice = item.getRegularSalesUnitPrice();
 				// 各種特売情報を取得する
 				item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
-				
+
 				info.setTruePrice(item.getRegularSalesUnitPrice());
 
 				Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-				
+
 				// 税率区分の値を取得したマスターテーブルの番号
 				saleItem = chooseTaxSource(saleItem);
 
@@ -652,7 +652,7 @@ public class PromotionResource {
 				if(response.getNCRWSSResultCode() != ResultBase.RES_OK){
 					return response;
 				}
-				
+
 				if (saleItem.isPriceOverride()) {
 					saleItem.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
 					double price = saleIn.getActualSalesUnitPrice() * saleIn.getQuantity();
@@ -660,7 +660,7 @@ public class PromotionResource {
 					saleItem.setDiscount(0);
 					saleItem.setDiscountAmount(0);
 				}
-				
+
 				if (!BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)) {
 					if (saleItem.getDiscountClass() == 0 && !StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
 						saleItem.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
@@ -681,13 +681,13 @@ public class PromotionResource {
 						discounttype = departmentInfo.getDepartment().getDiscountType();
 						saleItem.setDptDiscountType(discounttype);
 					}
-					
+
 					Double barCodePrice = null;
 					barCodePrice = barCodePriceCalculation(varietiesName, itemId);
 					if (barCodePrice != null) {
 						saleItem.setLabelPrice(barCodePrice);
 					}
-					
+
 					// バーコード価格を使用
 					if (saleItem.getRegularSalesUnitPrice() == 0.0) {
 						String taxType = departmentInfo.getDepartment().getTaxType();
@@ -701,7 +701,7 @@ public class PromotionResource {
 							saleItem.setActualSalesUnitPrice(barCodePrice);
 						}
 					}
-					
+
 					if (!StringUtility.isNullOrEmpty(cCode)) {
 						if (cCode.length() == 4) {
 							saleItem.setCategoryCode(cCode);
@@ -717,7 +717,7 @@ public class PromotionResource {
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
 //				promotion.setQrCodeInfoList(terminalItem.getQrCodeInfoList(item));
-				
+
 				boolean runFlag = true;
 				if(BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)){
 					if(!StringUtility.isNullOrEmpty(item.getSaleSizeCode()) && !StringUtility.isNullOrEmpty(item.getSizePatternId())){
@@ -827,9 +827,9 @@ public class PromotionResource {
 	 * @return
 	 */
 	private void getSaleTaxRateInfo(Sale saleItem ,PromotionResponse response){
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getSaleTaxRateInfo";
 		tp.methodEnter(functionName).println("Sale", saleItem).println("response", response);
-		
+
 		List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
 		DefaultTaxRate defaultTaxRate = null;
 		ChangeableTaxRate changeableTaxRate = null;
@@ -918,7 +918,7 @@ public class PromotionResource {
 		}
 		return saleItem;
 	}
-	
+
 	/**
 	 * 部門情報を取得する
 	 *
@@ -946,7 +946,7 @@ public class PromotionResource {
 			PromotionResponse response,Item item,ViewDepartment departmentInfo,String businessDate,IItemDAO dao,
 			String itemIdTemp,String mdName,String priceCheck,Sale saleIn,TerminalItem terminalItem,
 			Transaction transactionOut,String dptCode,String cCode) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDptPromotion";
 		tp.methodEnter(functionName).println("companyId", companyId).println("retailStoreId", retailStoreId).println("itemId", itemId).println("varietiesName", varietiesName)
 			.println("response", response).println("item", item).println("departmentInfo", departmentInfo).println("businessDate", businessDate).println("dao", dao)
 			.println("itemIdTemp", itemIdTemp).println("mdName", mdName).println("priceCheck", priceCheck).println("saleIn", saleIn)
@@ -955,14 +955,14 @@ public class PromotionResource {
 		Sale saleOut = new Sale();
 		boolean twoStep = false;
 		String barcode_sec = "";
-				
+
 		if (itemId.contains(" ")) {
 			twoStep = Boolean.parseBoolean(ResultBase.TRUE);
 			barcode_sec = itemId.split(" ")[1];
 		} else {
 			twoStep = Boolean.parseBoolean(ResultBase.FALSE);
 		}
-		
+
 		// 部門情報を戻る
 		saleOut.setHostFlag(1);
 		String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
@@ -1006,11 +1006,11 @@ public class PromotionResource {
 				saleOut.setActualSalesUnitPrice(barCodePrice);
 			}
 		}
-		
+
 		double salePrice = saleOut.getRegularSalesUnitPrice();
 		// 各種特売情報を取得する
 		item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
-		
+
 		if (item != null) {
 			if (item.getDiscountClass() != 0) {
 				saleOut.setDiscountClass(item.getDiscountClass());
@@ -1043,7 +1043,7 @@ public class PromotionResource {
 			} else {
 				saleOut.setPromotionType(departmentInfo.getPromotionType());
 			}
-			
+
 			// バンドルミックス(PRICE_MM_INFO mixmatch)
 			saleOut.setMixMatchCode(item.getMixMatchCode());
 			saleOut.setRuleQuantity1(item.getRuleQuantity1());
@@ -1073,7 +1073,7 @@ public class PromotionResource {
 			}
 			if (departmentInfo.getDiscountAmt() != null) {
 				saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
-			} 
+			}
 			if (departmentInfo.getDiscountRate() != null) {
 				saleOut.setDiacountRate(departmentInfo.getDiscountRate());
 			}
@@ -1136,10 +1136,10 @@ public class PromotionResource {
 	 * @param companyId
 	 * @param businessDate
 	 * @param dao
-	 * @throws DaoException 
+	 * @throws DaoException
 	 */
 	private Item getRelatedInformation(String itemId, Item item, double salePrice, String retailStoreId, String companyId, String businessDate, IItemDAO dao) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getRelatedInformation";
 		tp.methodEnter(functionName).println("itemId", itemId).println("item", item).println("salePrice", salePrice).println("retailStoreId", retailStoreId)
 			.println("companyId", companyId).println("businessDate", businessDate).println("dao", dao);
 
@@ -1156,7 +1156,7 @@ public class PromotionResource {
 			priceMMInfo = itemResource.getPriceMMInfo(item.getSku());
 			pricePromInfo = itemResource.getPricePromInfo(item.getSku(), item.getDepartment(), item.getLine());
 		}
-		
+
 		// 特売管理(PROM_INFO 自動割引)
 		dao.isHasPromDetailInfoList(pricePromInfo, item, salePrice);
 		// if (!dao.isHasPromDetailInfoList(pricePromInfo, item)) {
@@ -1177,10 +1177,10 @@ public class PromotionResource {
 			// プレミアム商品（PREMIUMITEM_INFO）
 			dao.getPremiumitemInfo(retailStoreId, item, companyId, businessDate);
 		}
-		
+
 		return item;
 	}
-	
+
 	/**
 	 * 部門コードを取得する
 	 *
@@ -1196,7 +1196,7 @@ public class PromotionResource {
 	 */
 	private String getDptCode(ICodeConvertDAO codeCvtDAO,String itemId,String varietiesName,
 			String companyId,String StoreId,PromotionResponse response,Item item) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDptCode";
 		tp.methodEnter(functionName).println("codeCvtDAO", codeCvtDAO).println("itemId", itemId)
 			.println("varietiesName", varietiesName).println("companyId", companyId).println("StoreId", StoreId)
 			.println("response", response).println("item", item);
@@ -1362,7 +1362,7 @@ public class PromotionResource {
 	 * @return commodityPrice
 	 */
 	private Double barCodePriceCalculation(String varietiesName, String itemId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "barCodePriceCalculation";
 		tp.methodEnter(functionName).println("varietiesName", varietiesName).println("itemId", itemId);
 
 		Double commodityPrice = null;
@@ -1398,7 +1398,7 @@ public class PromotionResource {
 	 * @return itemId
 	 */
 	private String CDCalculation(String itemId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "CDCalculation";
 		tp.methodEnter(functionName).println("itemId", itemId);
 
 		char cd = CheckDigitValue.generate("978" + itemId.substring(0, 9), 12, "131313131313", 10,
@@ -1416,7 +1416,7 @@ public class PromotionResource {
 	 * @return code
 	 */
 	private String JaCodeCvt(String code) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "JaCodeCvt";
 		tp.methodEnter(functionName).println("code", code);
 
 		if ("0000".equals(code)){
@@ -1436,7 +1436,7 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private Double foreignMagazine(String itemId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "foreignMagazine";
 		tp.methodEnter(functionName).println("itemId", itemId);
 
 		Double price = Double.parseDouble(itemId.substring(9, 12)) * 10;
@@ -1452,7 +1452,7 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private Double janMagazine(String itemId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "janMagazine";
 		tp.methodEnter(functionName).println("itemId", itemId);
 		if (itemId.length() < 18) {
 			return Double.parseDouble("0");
@@ -1471,7 +1471,7 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private Double foreignBook(String itemId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "foreignBook";
 		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String[] item = itemId.split(" ");
@@ -1493,7 +1493,7 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private Double janBook(String itemId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "janBook";
 		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String[] item = itemId.split(" ");
@@ -1545,7 +1545,7 @@ public class PromotionResource {
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transaction,
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
 			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "itemMixMatchInfobySku";
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("WorkstationId", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transaction)
 				.println("businessDate", businessDate).println("companyId", companyId).println("requestFrom");
@@ -1642,7 +1642,7 @@ public class PromotionResource {
      */
     private final Sale getMdName(String companyId, String retailStoreId, String itemCode)
             throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMdName";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId)
                 .println("ItemCode", itemCode);
         JSONObject result = null;
@@ -1711,7 +1711,7 @@ public class PromotionResource {
 	 */
 	private final ViewDepartment getDptInfoData(String companyId, String retailStoreId, String codeTemp, String searchRetailStoreID)
 			throws Exception {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDptInfoData";
 		tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId)
 				.println("CodeTemp", codeTemp).println("SearchRetailStoreID", searchRetailStoreID);
 		JSONObject result = null;
@@ -1782,7 +1782,7 @@ public class PromotionResource {
 	 */
 	private final Item getdetailInfoData(String retailStoreId, String pluCode, String companyId, String businessDate)
 			throws Exception {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getdetailInfoData";
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("pluCode", pluCode)
 		.println("companyId", companyId).println("businessDate", businessDate);
 		JSONObject result = null;
@@ -2106,7 +2106,7 @@ public class PromotionResource {
         item.setLineTaxType(StringUtility.convNullStringToNull(json.getString("lineTaxType")));
         item.setLineDiscountType(StringUtility.convNullStringToNull(json.getString("lineDiscountType")));
         item.setPluTaxType(StringUtility.convNullStringToNull(json.getString("taxType")));
-        
+
 		if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));
@@ -2137,7 +2137,7 @@ public class PromotionResource {
 			}
 			item.setQrCodeList(list);
 		}
-		
+
 		if (!"null".equals(json.getString("couponNo"))) {
 			item.setCouponNo(json.getString("couponNo"));
 			item.setEvenetName(json.getString("evenetName"));
@@ -2179,7 +2179,7 @@ public class PromotionResource {
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "itemUpdate";
 		tp.methodEnter(functionName).println("RetailStoreID", retailStoreId).println("WorkStationID", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transactionJson);
 		PromotionResponse promotionResponse = new PromotionResponse();
@@ -2288,7 +2288,7 @@ public class PromotionResource {
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate,
 			@ApiParam(name = "transaction", value = "商品情報と会員情報") @FormParam("transaction") final String transaction) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getQrCodeInfoList";
 		tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
 				.println("WorkstationId", workStationId).println("SequenceNumber", sequenceNumber)
 				.println("businessDate", businessDate).println("Transaction", transaction);
@@ -2402,7 +2402,7 @@ public class PromotionResource {
 	 * @throws DaoException
 	 */
 	private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getQrCodeInfo";
 		tp.methodEnter(functionName).println("Transaction", transactionIn);
 
 		String SexTypeIn = transactionIn.getCustomerClass().getSexType();
@@ -2535,7 +2535,7 @@ public class PromotionResource {
 	 * @return List<QrCodeInfo>
 	 */
 	private List<QrCodeInfo> getQrCodeInfoListTemp(Map<String, List<ItemList>> qrItemMap) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getQrCodeInfoListTemp";
 		tp.methodEnter(functionName).println("qrItemMap", qrItemMap);
 
 		List<QrCodeInfo> qrCodeInfoListTemp = new ArrayList<QrCodeInfo>();
@@ -2614,7 +2614,7 @@ public class PromotionResource {
 	 * @throws Exception
 	 */
 	private void getQrCodeFileExist(List<QrCodeInfo> qrCodeInfoListOut, String companyId, String storeId, String terminalId) throws Exception {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getQrCodeFileExist";
 		tp.methodEnter(functionName).println("qrCodeInfoListOut", qrCodeInfoListOut).println("companyId", companyId)
 			.println("storeId", storeId).println("terminalId", terminalId);
 
@@ -2704,7 +2704,7 @@ public class PromotionResource {
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "businessdate", value = "業務日付") @FormParam("businessdate") final String businessDate,
 			@ApiParam(name = "transaction", value = "商品情報") @FormParam("transaction") final String transaction) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPromotionMessageList";
 		tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
 				.println("WorkstationId", workStationId).println("sequencenumber", sequenceNumber)
 				.println("businessDate", businessDate).println("Transaction", transaction);

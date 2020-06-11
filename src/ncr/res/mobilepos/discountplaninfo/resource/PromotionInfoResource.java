@@ -59,13 +59,13 @@ public class PromotionInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
     })
     public final JSONData getPromotionInfo(@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId,
     		@ApiParam(name="DiscountReason", value="割引理由コード") @QueryParam("DiscountReason") final String discountReason,
     		@ApiParam(name="DiscountBarcodeType", value="割引バーコードタイプ") @QueryParam("DiscountBarcodeType") final String discountBarcodeType,
     		@ApiParam(name="PartialFlag", value="割引部分フラグ") @QueryParam("PartialFlag") final String partialFlag,
     		@ApiParam(name="PriceDiscountFlag", value="割引額フラグ") @QueryParam("PriceDiscountFlag") final String priceDiscountFlag,
     		@ApiParam(name="RateDiscountFlag", value="割引率フラグ") @QueryParam("RateDiscountFlag") final String rateDiscountFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPromotionInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("DiscountReason", discountReason).println("DiscountBarcodeType", discountBarcodeType)
                 .println("PartialFlag", partialFlag).println("PriceDiscountFlag", priceDiscountFlag)

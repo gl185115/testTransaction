@@ -25,7 +25,7 @@ import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.model.SearchedProducts;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.DataBinding;
 import ncr.res.mobilepos.barcodeassignment.model.MultiForwardRecallCard;
 
 import org.dbunit.operation.DatabaseOperation;
@@ -84,13 +84,13 @@ public class ItemResourceSteps extends Steps {
     public final void IHaveItemResource() {
     	this.context = Requirements.getMockServletContext();
         itemres = new ItemResource();
-        try 
+        try
         {
         	this.context = Requirements.getMockServletContext();
             Field context = itemres.getClass().getDeclaredField("context");
             context.setAccessible(true);
             context.set(itemres, this.context);
-        } catch (Exception ex) { 
+        } catch (Exception ex) {
             Assert.fail("Cannot Start the WebAPI");
         }
     }
@@ -103,16 +103,16 @@ public class ItemResourceSteps extends Steps {
         if (pluCode.equals("null")) {
             pluCode = null;
         }
-        
+
         if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(storeid)) {
 			PricePromInfoFactory.initialize(companyId,storeid);
 			PriceMMInfoFactory.initialize(companyId,storeid);
 		}
-        
+
         actualProduct = itemres.getItemByPLUcode(storeid, pluCode, companyId, businessDay);
         expctdResultCode = actualProduct.getNCRWSSResultCode();
     }
-    
+
     @Then("I should have item with promo values $tagcode, $taxtype, $discounttype, $mustbuyflag, $salesitemflag")
     public final void checkPromotionValues(String tagcode, String taxtype, String discounttype, int mustbuyflag, int salesitemflag) {
         if (tagcode.equals("null")) {
@@ -149,7 +149,7 @@ public class ItemResourceSteps extends Steps {
                     xml, writer.toString());
 
 
-        } catch (JAXBException e) {    
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
@@ -165,7 +165,7 @@ public class ItemResourceSteps extends Steps {
             Assert.assertEquals("Assert the xml String",
                     xml, writer.toString());
 
-        } catch (JAXBException e) {   
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
@@ -204,9 +204,9 @@ public class ItemResourceSteps extends Steps {
         Field barcodeAssignmentField;
         try {
             File configFile = new File("test\\ncr\\res\\mobilepos\\pricing\\resource\\datasets" + File.separator + "itemCode.xml");
-            XmlSerializer<BarcodeAssignment> serializer = new XmlSerializer<BarcodeAssignment>();
-            BarcodeAssignment barcodeAssignment = serializer.unMarshallXml(configFile, BarcodeAssignment.class);
-            
+            DataBinding<BarcodeAssignment> serializer = new DataBinding<BarcodeAssignment>(BarcodeAssignment.class);
+            BarcodeAssignment barcodeAssignment = serializer.unMarshallXml(configFile);
+
             barcodeAssignmentField = itemres.getClass().getDeclaredField("barcodeAssignment");
             barcodeAssignmentField.setAccessible(true);
             barcodeAssignmentField.set(itemres, barcodeAssignment);

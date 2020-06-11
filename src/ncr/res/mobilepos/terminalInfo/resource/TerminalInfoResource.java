@@ -92,7 +92,7 @@ public class TerminalInfoResource {
             @ApiParam(name = "workstationId", value = "ターミナル番号") @QueryParam("workstationId") final String workstationId,
             @ApiParam(name = "businessdaydate", value = "業務日付") @QueryParam("businessdaydate") final String businessDayDate,
             @ApiParam(name = "trainingmode", value = "トレーニングモードフラグ") @QueryParam("trainingmode") final int trainingMode) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCurrentDateTime";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("storeId", storeId).println("workstationId", workstationId)
                 .println("businessDayDate", businessDayDate).println("trainingMode", trainingMode);

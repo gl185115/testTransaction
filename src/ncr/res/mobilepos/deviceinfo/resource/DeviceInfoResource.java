@@ -161,7 +161,7 @@ public class DeviceInfoResource {
             @ApiParam(name="retailstoreid", value="店番号") @PathParam("retailstoreid") final String retailStoreID,
             @ApiParam(name="deviceid", value="ターミナル番号") @PathParam("deviceid") final String deviceID,
             @ApiParam(name="trainingmode", value="トレーニングモードフラグ") @PathParam("trainingmode") final int trainingMode) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDeviceInfo";
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)
 			.println("retailstoreid", retailStoreID)
@@ -251,7 +251,7 @@ public class DeviceInfoResource {
 			@ApiParam(name="retailstoreid", value="店番号") @PathParam("retailstoreid") final String storeId,
 			@ApiParam(name="poslinkid", value="posリンクコード") @PathParam("poslinkid") final String posLinkId) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLinkItem";
 		tp.methodEnter(functionName).println("linktype", linkType)
 				.println("retailstoreid", storeId)
 				.println("poslinkid", posLinkId);
@@ -353,7 +353,7 @@ public class DeviceInfoResource {
     		@ApiParam(name="name", value="検索名") @QueryParam("name") final String name,
     		@ApiParam(name="limit", value="最大リスト返送数") @QueryParam("limit") final int limit) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLinksList";
 		tp.methodEnter(functionName).println("linktype", linkType)
 				.println("storeid", storeId).println("key", key)
 				.println("name", name).println("limit", limit);
@@ -455,7 +455,7 @@ public class DeviceInfoResource {
     		@ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeid,
     		@ApiParam(name="key", value="検索キー") @QueryParam("key") final String key,
     		@ApiParam(name="limit", value="最大返送数") @QueryParam("limit") final int limit) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getAllTills";
 		tp.methodEnter(functionName).println("storeid", storeid)
 				.println("key", key).println("limit", limit);
 
@@ -515,7 +515,7 @@ public class DeviceInfoResource {
     		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="training", value="トレーニングモードフラグ") @QueryParam("training") final String training) {
-		final String functionName = DebugLogger.getCurrentMethodName();
+		final String functionName = "getAttribute";
 		tp.methodEnter(functionName);
 		tp.println("storeid", storeId)
                 .println("terminalId", terminalId)
@@ -600,7 +600,7 @@ public class DeviceInfoResource {
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDeviceAttribute";
 
 		tp.methodEnter(functionName);
 		tp.println("companyid", companyId)
@@ -661,7 +661,7 @@ public class DeviceInfoResource {
     	@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     	@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     	@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getTerminalInfo";
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId)
 			.println("storeId", storeId)
@@ -724,7 +724,7 @@ public class DeviceInfoResource {
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
-        final String functionName = DebugLogger.getCurrentMethodName();
+        final String functionName = "getDeviceStatus";
         tp.methodEnter(functionName)
                 .println("companyId", companyId)
                 .println("storeid", storeId)
@@ -795,7 +795,7 @@ public class DeviceInfoResource {
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
-        final String functionName = DebugLogger.getCurrentMethodName();
+        final String functionName = "getWorkingDevices";
         tp.methodEnter(functionName)
                 .println("companyId", companyId)
                 .println("storeid", storeId)
@@ -848,7 +848,7 @@ public class DeviceInfoResource {
         }
         return resultBase;
     }
-    
+
     /**
      * Gets all the Indicator from RESMaster.dbo.PRM_DEVICE_INDICATOR
      * @param attributeid - attribute ID
@@ -866,7 +866,7 @@ public class DeviceInfoResource {
     })
     public final Indicators getDeviceIndicators(
             @ApiParam(name="attributeid", value="ターミナル") @QueryParam("attributeid") final String attributeid) {
-        final String functionName = DebugLogger.getCurrentMethodName();
+        final String functionName = "getDeviceIndicators";
         tp.methodEnter(functionName).println("attributeid", attributeid);
 
         Indicators indicatorList = new Indicators();
@@ -948,7 +948,7 @@ public class DeviceInfoResource {
                 }
             }
         }
-        
+
         // This terminal belongs to the group, so keeps the reference as own group.
         ownGroup = activeGroups.get(tillId);
         // Creates WorkingDevices for JSON return.

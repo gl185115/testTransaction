@@ -38,7 +38,7 @@ public class SQLServerCustomerClassInfoDAO extends AbstractDao implements ICusto
 
 	/**
 	 * Initializes DBManager.
-	 * 
+	 *
 	 * @throws DaoException
 	 *             if error exists.
 	 */
@@ -49,7 +49,7 @@ public class SQLServerCustomerClassInfoDAO extends AbstractDao implements ICusto
 
 	/**
 	 * Retrieves DBManager.
-	 * 
+	 *
 	 * @return dbManager instance of DBManager.
 	 */
 	public final DBManager getDBManager() {
@@ -58,14 +58,14 @@ public class SQLServerCustomerClassInfoDAO extends AbstractDao implements ICusto
 
 	/**
 	 * get customer class info
-	 * 
+	 *
 	 * @return customer class info
 	 * @throws DaoException
 	 *             Exception when the method fail.
 	 */
 	@Override
 	public List<CustomerClassInfo> getCustomerClassInfo(String companyId, String storeId) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getCustomerClassInfo";
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 
 		Connection connection = null;

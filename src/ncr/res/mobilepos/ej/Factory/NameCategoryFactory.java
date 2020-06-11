@@ -50,7 +50,7 @@ public class NameCategoryFactory {
      */
     private static List<EjInfo> nameSystemInfoConstant() throws DaoException {
     	Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), TaxRateInfoFactory.class);
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "nameSystemInfoConstant";
 
         List<EjInfo> listNameSystemInfo = new ArrayList<EjInfo>();
 

@@ -13,6 +13,7 @@ import javax.xml.bind.JAXBException;
 
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.constant.SuspendTransactionStatus;
 import ncr.res.mobilepos.credential.model.Employee;
@@ -22,13 +23,11 @@ import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
@@ -94,7 +93,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                                       String posLogXml,
                                       String queue) throws DaoException {
 
-		String functioName = DebugLogger.getCurrentMethodName();
+		String functioName = "saveTransactionToQueue";
 		tp.methodEnter(functioName).println("storeid", posLogXml)
 				.println("queue", queue);
 
@@ -159,7 +158,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 	}
 
     private void updateLastSuspendTxId(PosLog posLog, Connection connection) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateLastSuspendTxId";
         try {
             IDeviceInfoDAO iDeviceInfoDao = DAOFactory.getDAOFactory(
             		DAOFactory.SQLSERVER).getDeviceInfoDAO();
@@ -196,7 +195,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             final String workStationId, final String sequenceNumber,
             final String businessDayDate, final int trainingFlag) throws DaoException {
 
-        String functioName = DebugLogger.getCurrentMethodName();
+        String functioName = "selectTransactionFromQueue";
         tp.methodEnter(functioName)
                 .println("companyid", companyId)
                 .println("storeid", retailStoreId)
@@ -310,7 +309,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			final String retailStoreId) throws DaoException {
 
     	String result = null;
-        String functioName = DebugLogger.getCurrentMethodName();
+        String functioName = "selectOldestTransactionFromQueue";
 		tp.methodEnter(functioName).println("queue", queue)
 				.println("storeid", retailStoreId);
 
@@ -388,7 +387,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             final String queue, final String companyId, final String retailStoreId,
             final String workstationId, final int trainingFlag) throws DaoException {
 
-        String functioName = DebugLogger.getCurrentMethodName();
+        String functioName = "listTransactionFromQueue";
         tp.methodEnter(functioName).println("queue", queue)
                 .println("storeid", companyId)
                 .println("storeid", retailStoreId)
@@ -401,7 +400,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
         ResultSet resultset = null;
 
         List<BusteredTransaction> bustList = new ArrayList<BusteredTransaction>();
-		XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
 
         try {
 			connection = dbManager.getConnection();
@@ -423,8 +421,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 				String sequenceNumber = resultset.getString("SequenceNumber");
 				String businessDayDate = resultset.getString("BusinessDayDate");
 
-				PosLog poslog = poslogSerializer.unMarshallXml(poslogxml,
-						PosLog.class);
+				PosLog poslog = GlobalConstant.poslogDataBinding.unMarshallXml(poslogxml);
 				Transaction transaction = poslog.getTransaction();
 				BusteredTransaction bustTransaction = new BusteredTransaction();
 				bustTransaction.setSequencenumber(sequenceNumber);
@@ -434,7 +431,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 						.getReceiptDateTime());
 				bustTransaction.setSummaryReceiptReservation(transaction
 						.getSummaryReceiptReservation());
-				
+
 				// get subtotal
 				double grandAmount = 0;
 				List<Total> totals = null;
@@ -517,7 +514,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			final String businessDate, final String sequenceNumber,
 			final String status) throws DaoException {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "updateBustedTransactionStatusFromQueue";
 		tp.methodEnter(functionName).println("storeid", retailStoreId)
 				.println("queue", queue).println("termid", workstationId)
 				.println("txdate", businessDate)
@@ -565,7 +562,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			throws DaoException {
 
 		int result = 0;
-		String functioName = DebugLogger.getCurrentMethodName();
+		String functioName = "forwardTransactionToQueue";
 		tp.methodEnter(functioName).println("poslogxml", posLogXml);
 
         String retailstoreid = "";
@@ -578,9 +575,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 
         try {
 
-            XmlSerializer<PosLog> xmlTmpl = new XmlSerializer<PosLog>();
-            PosLog posLog =
-                (PosLog) xmlTmpl.unMarshallXml(posLogXml, PosLog.class);
+            PosLog posLog = GlobalConstant.poslogDataBinding.unMarshallXml(posLogXml);
 
             Transaction poslogTransaction = posLog.getTransaction();
             if (poslogTransaction != null) {
@@ -646,7 +641,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			final String txdate, final String workstationid, final String txid,
 			final int methodCode) throws DaoException {
 
-    	String functioName = DebugLogger.getCurrentMethodName();
+    	String functioName = "updateQueuedTransactionStatus";
 		tp.methodEnter(functioName).println("storeid", retailstoreid)
 				.println("txdate", txdate).println("termid", workstationid)
 				.println("txid", txid).println("methodcode", methodCode);
@@ -714,7 +709,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			final String retailStoreID, final String txDate,
 			final String workstationID, final String txID) throws DaoException {
 
-		String functioName = DebugLogger.getCurrentMethodName();
+		String functioName = "selectSuspendTransactionFromQueue";
 		tp.methodEnter(functioName).println("storeid", retailStoreID)
 				.println("workstationid", workstationID)
 				.println("txdate", txDate).println("txid", txID);
@@ -798,7 +793,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             final String workstationid, final String txid, final int status)
             throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "validateRequestToQueuedTransaction";
         tp.methodEnter(functionName).println("storeid", retailstoreid)
             .println("txdate", txdate)
             .println("termid", workstationid)
@@ -870,7 +865,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 	public final ResultBase deleteForwardItem(final String companyId,
 			final String storeId, final String businessDayDate)
 					throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "deleteForwardItem";
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId)
 			.println("storeid", storeId)
@@ -944,8 +939,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             cashDrawer.setStoreId(storeId);
             cashDrawer.setCashOnHand("0");
     		if (result.next()) {
-    		    XmlSerializer<PosLog> xmlTmpl = new XmlSerializer<PosLog>();
-    		    poslog = (PosLog) xmlTmpl.unMarshallXml(result.getString("Tx"), PosLog.class);
+     		    poslog = GlobalConstant.poslogDataBinding.unMarshallXml(result.getString("Tx"));
     		    TillSettle tillSettle = poslog.getTransaction().getTenderControlTransaction().getTillSettle();
     			String cashOnHand =  tillSettle.getTender().getAmount();
     			cashDrawer.setCashOnHand(cashOnHand);
@@ -968,7 +962,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 		tp.methodEnter("updatePreviousAmount");
     	tp.println(cashDrawer.toString());
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "updatePreviousAmount";
         PreparedStatement updateSOD = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();

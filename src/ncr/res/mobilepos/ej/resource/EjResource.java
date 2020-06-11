@@ -126,7 +126,7 @@ public class EjResource {
 			@ApiParam(name = "CountFrom", value = "表示リスト開始カウント番号") @FormParam("CountFrom") final String CountFrom,
 			@ApiParam(name = "CountTo", value = "表示リスト終了カウント番号") @FormParam("CountTo") final String CountTo,
 			@ApiParam(name = "TrainingFlag", value = "トレーニングモードフラグ ") @FormParam("TrainingFlag") final String TrainingFlag) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getJournalList";
 		tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailstoreId)
 				.println("WorkstationId", WorkstationId).println("TxType", TxType)
 				.println("SequencenumberFrom", SequencenumberFrom).println("SequencenumberTo", SequencenumberTo)
@@ -186,7 +186,7 @@ public class EjResource {
 			@ApiParam(name = "Sequencenumber", value = "取引番号") @FormParam("Sequencenumber") final String Sequencenumber,
 			@ApiParam(name = "BusinessDate", value = "業務日付") @FormParam("BusinessDate") final String BusinessDate,
 			@ApiParam(name = "TrainingFlag", value = "トレーニングモードフラグ") @FormParam("TrainingFlag") final String TrainingFlag){
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getPOSLog";
 		tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailstoreId)
 				.println("WorkstationId", WorkstationId).println("Sequencenumber", Sequencenumber)
 				.println("BusinessDate", BusinessDate).println("TrainingFlag", TrainingFlag);
@@ -232,7 +232,7 @@ public class EjResource {
 	 */
     private final EjInfos getSubEjInfo(String CompanyId,String RetailstoreId,String WorkstationId,String TxType,String SequencenumberFrom,String SequencenumberTo,
     		String BusinessDateTimeFrom,String BusinessDateTimeTo,String CountFrom, String CountTo, String OperatorId,String SalesPersonId,String TrainingFlag) throws Exception{
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getSubEjInfo";
 		tp.methodEnter(functionName).println("companyid", CompanyId).println("retailstoreid", RetailstoreId)
 				.println("workstationid", WorkstationId).println("txtype", TxType)
 				.println("SequencenumberFrom", SequencenumberFrom).println("SequencenumberTo", SequencenumberTo)
@@ -336,7 +336,7 @@ public class EjResource {
      */
     public final PosLogInfo getSubPOSLogInfo(String companyId, String retailstoreId, String workstationId, String sequencenumber, String businessDate,
     		String trainingFlag ) throws Exception{
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getSubPOSLogInfo";
 		tp.methodEnter(functionName).println("companyid", companyId).println("retailstoreid", retailstoreId)
 				.println("sequencenumber", sequencenumber).println("businessDate", businessDate)
 				.println("trainingFlag", trainingFlag);
@@ -518,7 +518,7 @@ public class EjResource {
 	public EjInfos getEjInfoByTaxType(String companyId, String retailstoreId, String workstationId, String txType, String sequencenumberFrom,
 			String sequencenumberTo, String businessDateTimeFrom, String businessDateTimeTo, String countFrom, String countTo, String operatorId,
 			 String salesPersonId, String trainingFlag ) throws Exception{
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getEjInfoByTaxType";
 		DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
         INameSystemInfoDAO systemNameDao = dao.getNameSystemInfo();

@@ -54,7 +54,6 @@ import ncr.res.mobilepos.helper.POSLogUtility;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.constants.JournalizationConstants;
 import ncr.res.mobilepos.journalization.constants.PosLogRespConstants;
 import ncr.res.mobilepos.journalization.dao.ICommonDAO;
@@ -149,7 +148,7 @@ public class JournalizationResource {
         SpmFileWriter spmFw = SpmFileWriter.getInstance();
         JrnSpm jrnlSpm = JrnSpm.startSpm(spmFw);
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "journalize";
 		tp.methodEnter(functionName).println("POSLog xml", posLogXml);
 
         PosLogResp posLogResponse = null;
@@ -157,8 +156,7 @@ public class JournalizationResource {
         PosLog posLog = null;
 
         try {
-        	XmlSerializer<PosLog> xmlTmpl = new XmlSerializer<PosLog>();
-	        posLog = (PosLog) xmlTmpl.unMarshallXml(posLogXml, PosLog.class);
+	        posLog = (PosLog) GlobalConstant.poslogDataBinding.unMarshallXml(posLogXml);
 
 	        if (!POSLogHandler.isValid(posLog)) {
 	        	tp.println("Required POSLog elements are missing.");
@@ -281,7 +279,7 @@ public class JournalizationResource {
     		@ApiParam(name="txid", value="取引番号") @QueryParam("txid") final String txId,
     		@ApiParam(name="trainingmode", value="トレーニングモードフラグ") @QueryParam("trainingmode") final int trainingFlag,
     		@ApiParam(name="txtype", value="取引種別") @QueryParam("txtype") final String txtype) {
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
+        tp.methodEnter("getPOSLogTransactionByNumber")
           .println("CompanyId", companyId)
           .println("StoreID", storeId)
           .println("WorkstationId", workstationId)
@@ -306,11 +304,7 @@ public class JournalizationResource {
                 poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
                 tp.println("Transaction not found.");
             } else {
-                XmlSerializer<SearchedPosLog> poslogSerializer =
-                    new XmlSerializer<SearchedPosLog>();
-                poslog =
-                    poslogSerializer.unMarshallXml(poslogXML,
-                            SearchedPosLog.class);
+                poslog = GlobalConstant.searchedposlogDataBinding.unMarshallXml(poslogXML);
 
                 info = posLogDAO.getVoidedAndReturned(companyId, storeId, workstationId, businessDate, txId, trainingFlag, txtype);
                 lockStatus = posLogDAO.getOrUpdLockStatus(companyId, storeId, workstationId, businessDate, Integer.parseInt(txId), trainingFlag, "", "", "", "getLockStatus");
@@ -323,8 +317,7 @@ public class JournalizationResource {
                            pointPosted.getBusinessDayDate(), pointPosted.getSequenceNumber(), pointPosted.getTrainingFlag(), txtype);
                    if (!StringUtility.isNullOrEmpty(pointXML)) {
                        SearchedPosLog pointPoslog = new SearchedPosLog();
-                       pointPoslog = poslogSerializer.unMarshallXml(pointXML,
-                                       SearchedPosLog.class);
+                       pointPoslog = GlobalConstant.searchedposlogDataBinding.unMarshallXml(pointXML);
                        setMemberInfo(poslog,pointPoslog);
                    }
                 }
@@ -373,7 +366,7 @@ public class JournalizationResource {
     public final String getBussinessDate(
     	@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
         @ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeId) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getBussinessDate";
         tp.methodEnter(functionName)
             .println("companyid", companyId)
             .println("storeid", storeId);
@@ -416,7 +409,7 @@ public class JournalizationResource {
             @ApiParam(name="APIType", value="APIタイプ") @FormParam("APIType") String APIType,
             @ApiParam(name="JournalData", value="ジャーナルデータ") @FormParam("JournalData") String JournalData) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTransactionReport";
         tp.methodEnter(functionName);
         tp.println("APIType", APIType);
         tp.println("JournalData", JournalData);
@@ -517,7 +510,7 @@ public class JournalizationResource {
     		@ApiParam(name="sequenceNo", value="取引番号") @QueryParam("sequenceNo") final String sequenceNo,
     		@ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") final String businessDate) {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getAdvancedInfoBySequenceNo";
         tp.methodEnter(functionName).println("storeId", storeId)
                 .println("deviceId", deviceId)
                 .println("sequenceNo", sequenceNo)
@@ -582,7 +575,7 @@ public class JournalizationResource {
 			 @ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") String terminalId,
 			 @ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") String businessDate,
 			 @ApiParam(name="trainingFlag", value="トレーニングモードフラグ") @QueryParam("trainingFlag") int trainingFlag) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLastPayTxPoslog";
 		tp.methodEnter(functionName)
      		.println("companyid", companyId)
          	.println("storeId", storeId)
@@ -610,10 +603,7 @@ public class JournalizationResource {
 				poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				poslog.setMessage("Last pay tx poslog not found.");
 			} else {
-				XmlSerializer<SearchedPosLog>
-						poslogSerializer = new XmlSerializer<SearchedPosLog>();
-				poslog = poslogSerializer.unMarshallXml(
-						poslogString, SearchedPosLog.class);
+				poslog = GlobalConstant.searchedposlogDataBinding.unMarshallXml(poslogString);
 			 }
 		} catch (Exception e) {
 			String loggerErrorCode = null;
@@ -655,7 +645,7 @@ public class JournalizationResource {
 			 @ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") String terminalId,
 			 @ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") String businessDate,
 			 @ApiParam(name="trainingFlag", value="トレーニングモードフラグ") @QueryParam("trainingFlag") int trainingFlag) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLastBalancingTxPoslog";
 		tp.methodEnter(functionName)
      		.println("companyid", companyId)
          	.println("storeId", storeId)
@@ -685,10 +675,7 @@ public class JournalizationResource {
 			poslogString = poslogDao.getLastBalancingTxPoslog(companyId, storeId,
 					terminalId, businessDate, trainingFlag);
 			if (poslogString != null) {
-				XmlSerializer<SearchedPosLog>
-						poslogSerializer = new XmlSerializer<SearchedPosLog>();
-				poslog = poslogSerializer.unMarshallXml(
-						poslogString, SearchedPosLog.class);
+				poslog = GlobalConstant.searchedposlogDataBinding.unMarshallXml(poslogString);
 			}
 		} catch (Exception e) {
 			String loggerErrorCode = null;
@@ -746,7 +733,7 @@ public class JournalizationResource {
     		 @ApiParam(name="CallType", value="呼出し種別") @FormParam("CallType") String CallType,
     		 @ApiParam(name="AppId", value="プログラムID") @FormParam("AppId") String AppId,
     		 @ApiParam(name="UserId", value="ユーザーID") @FormParam("UserId") String UserId) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "UpdateLockStatus";
         tp.println("Type", Type);
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);

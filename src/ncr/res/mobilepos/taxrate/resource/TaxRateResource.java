@@ -90,7 +90,7 @@ public class TaxRateResource {
         })
     public final Map<String,String> itemMixMatchInfobySku(
     		@ApiParam(name="businessDate", value="業務日付")@FormParam("businessDate") final String businessdate) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "itemMixMatchInfobySku";
         tp.methodEnter(functionName).println("businessdate", businessdate);
         Map<String,String> map = new HashMap<String,String>();
         try {
@@ -136,7 +136,7 @@ public class TaxRateResource {
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
     		@ApiParam(name="storeid", value="店番号") @QueryParam("retailstoreid") final String retailstoreId,
     		@ApiParam(name="departmentid", value="部門コード") @QueryParam("departmentid") final String departmentId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDptTaxRate";
 		tp.methodEnter(functionName).println("companyid", companyId)
 									.println("retailstoreid", retailstoreId)
 									.println("departmentid", departmentId);
@@ -172,7 +172,7 @@ public class TaxRateResource {
 					taxType = taxId_Type;
 				}
 			}
-			
+
 			// 非課税の場合、商品の税率情報を取得する
 			if(("2").equals(taxType)){
 				defaultTaxRate = new DefaultTaxRate();
@@ -181,7 +181,7 @@ public class TaxRateResource {
 				taxRateInfo.setDefaultTaxRate(defaultTaxRate);
 				return taxRateInfo;
 			}
-			
+
 			if (taxRateInfoList != null) {
 				for (TaxRateInfo TaxInfo : taxRateInfoList) {
 					if (TaxInfo.getTaxId().equals(taxRateInfo.getTaxId())) {
@@ -229,7 +229,7 @@ public class TaxRateResource {
 					}
 				}
 			}
-			
+
 			if(changeableTaxRate != null || defaultTaxRate != null){
 				taxRateInfo.setDepartmentId(departmentId);
 				taxRateInfo.setChangeableTaxRate(changeableTaxRate);

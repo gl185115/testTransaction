@@ -82,7 +82,7 @@ public class PoslogStatusResource {
             @ApiParam(name="businessDayDate", value="業務日付") @QueryParam("businessDayDate") final String businessDayDate,
             @ApiParam(name="consolidation", value="Consolidationフラグ") @QueryParam("consolidation") final boolean consolidation,
             @ApiParam(name="transfer", value="POSLog転送フラグ") @QueryParam("transfer") final boolean transfer) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "checkResultCount";
 		tp.methodEnter(functionName).println("Consolidation", consolidation).println("Transfer", transfer);
     	PoslogStatusInfo response = new PoslogStatusInfo();
     	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);

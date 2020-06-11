@@ -35,6 +35,8 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.journalization.model.poslog.PosLog;
+import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.point.factory.PointRateFactory;
 import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
@@ -44,6 +46,10 @@ import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
+import ncr.res.mobilepos.helper.DataBinding;
+import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
+import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
+
 
 
 /**
@@ -111,7 +117,7 @@ public class WebContextListener implements ServletContextListener {
         spmFileWriter.write(JrnSpm.HEADER);
 
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "initializeLoggers";
         if(tp != null) {
             tp.methodEnter(functionName);
             tp.println(" - The WebAPI StartApp called. ");
@@ -162,6 +168,20 @@ public class WebContextListener implements ServletContextListener {
         // Loads System Name Information
     	NameCategoryFactory.initialize();
 
+    	// POSLog.xmlのパーシング用のオブジェクト (DataBinding)の生成
+        GlobalConstant.poslogDataBinding = new DataBinding<PosLog>(PosLog.class);
+
+        // ForwardCountDataオブジェクトをxml変換するDataBindingオブジェクトの生成
+        GlobalConstant.forwardcountdataDataBinding = new DataBinding<ForwardCountData>(ForwardCountData.class);
+
+        // SearchedPosLog(POSLog.xml)のパーシング用のオブジェクト (DataBinding)の生成
+        GlobalConstant.searchedposlogDataBinding = new DataBinding<SearchedPosLog>(SearchedPosLog.class);
+
+        // schedule.xmlのパーシング用のオブジェクト (DataBinding)の生成
+        GlobalConstant.scheduleDataBinding = new DataBinding<Schedule>(Schedule.class);
+
+
+
         if(!windowsEnvironmentVariables.isServerTypeEnterprise()) {
             String companyId =  systemFileConfig.getCompanyId();
             String storeId = systemFileConfig.getStoreId();
@@ -196,7 +216,7 @@ public class WebContextListener implements ServletContextListener {
             initializeEnvironmentVariables();
             initializeLoggers();
 
-            functionName = DebugLogger.getCurrentMethodName();
+            functionName = "contextInitialized";
             tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
             tp.methodEnter(functionName);
             tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");

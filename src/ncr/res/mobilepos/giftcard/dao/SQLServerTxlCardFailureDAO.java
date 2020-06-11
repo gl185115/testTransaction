@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 NCR Japan Ltd. 
+ * Copyright (c) 2015 NCR Japan Ltd.
  */
 package ncr.res.mobilepos.giftcard.dao;
 
@@ -22,7 +22,7 @@ import ncr.res.giftcard.toppan.dao.DataBaseConnection;
 import ncr.res.giftcard.toppan.model.Message;
 
 /**
- * SQL Server implementation of TXL_CARD_FAILURE 
+ * SQL Server implementation of TXL_CARD_FAILURE
  */
 public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardFailureDAO {
 
@@ -30,24 +30,24 @@ public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardF
      * The Program Name.
      */
     private static final String PROG_NAME = "CARDFDAO";
-    
-    /** 
-     * The database manager. 
+
+    /**
+     * The database manager.
      */
     private DBManager dbManager = null;
-    
-    /** 
+
+    /**
      * A private member variable used for logging the class implementations.
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
-    
-    /** 
-     * The instance of the trace debug printer. 
+
+    /**
+     * The instance of the trace debug printer.
      */
     private Trace.Printer tp = null;
 
-    /** 
-     * The instance of the SnapLogger. 
+    /**
+     * The instance of the SnapLogger.
      */
     private SnapLogger snap = null;
 
@@ -73,10 +73,10 @@ public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardF
     }
 
     public void storeRequest(Message request) throws SQLException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "storeRequest";
         tp.methodEnter(functionName);
         tp.println("Message", request.toString());
-        
+
         Connection conn = null;
         try {
         	conn = this.getDbManager().getConnection();
@@ -108,12 +108,12 @@ public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardF
     }
 
     public void updateStore(int id, int status, Message response) throws SQLException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "updateStore";
         tp.methodEnter(functionName);
         tp.println("id", String.valueOf(id));
         tp.println("status", String.valueOf(status));
         tp.println("response", response.toString());
-        
+
         Connection conn = null;
         try {
         	conn = this.getDbManager().getConnection();
@@ -145,10 +145,10 @@ public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardF
     }
 
     public int readUnsent(Message message) throws SQLException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "readUnsent";
         tp.methodEnter(functionName);
         tp.println("Message", message.toString());
-        
+
         Connection conn = null;
         try {
         	conn = this.getDbManager().getConnection();
@@ -171,7 +171,7 @@ public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardF
             }
             tp.methodExit();
         }
-        
+
         return NO_RECORD;
     }
 }

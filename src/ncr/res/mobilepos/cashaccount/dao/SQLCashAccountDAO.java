@@ -37,25 +37,25 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
      * Program name, used for logging
      */
     private String progName = "CashAcct";
-    
+
     public SQLCashAccountDAO() throws DaoException {
     	this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     	this.dbManager = JndiDBManagerMSSqlServer.getInstance();
     }
-    
+
 	@Override
-	public GetCashBalance getCashBalance(String tillId, String storeId, 
+	public GetCashBalance getCashBalance(String tillId, String storeId,
 			String businessDayDate) throws DaoException {
 		tp.methodEnter("getCashBalance");
     	tp.println("Till Id", tillId)
     		.println("Store Id", storeId)
     		.println("Business Day Date", businessDayDate);
-    	
+
     	Connection connection = null;
     	PreparedStatement statement = null;
     	ResultSet result = null;
     	GetCashBalance getCashBalance = new GetCashBalance();
-    	
+
     	try {
     		connection = dbManager.getConnection();
     		SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -64,23 +64,23 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
     		statement.setString(SQLStatement.PARAM1, storeId);
     		statement.setString(SQLStatement.PARAM2, tillId);
     		statement.setString(SQLStatement.PARAM3, businessDayDate);
-    		
+
     		result = statement.executeQuery();
-    		
+
     		if (result.next()) {
     			String cashOnHand = result.getString("cashOnHand");
     			if (cashOnHand == null) {
         			getCashBalance.setNCRWSSResultCode(
         					ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
         			tp.println("Cash balance not retrieved.");
-        			
+
         			return getCashBalance;
     			}
-    			
+
     			CashBalance cashBalance = new CashBalance();
     			cashBalance.setCashOnHand(cashOnHand);
     			cashBalance.setTillId(tillId);
-    			
+
     			getCashBalance.setCashBalance(cashBalance);
     		} else {
     			getCashBalance.setNCRWSSResultCode(
@@ -88,29 +88,29 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
     			tp.println("Cash balance not retrieved.");
     		}
     	} catch (SQLException e) {
-    		LOGGER.logAlert(progName, "SQLCashAccountDAO.getCashBalance()", 
-    				Logger.RES_EXCEP_SQL, 
+    		LOGGER.logAlert(progName, "SQLCashAccountDAO.getCashBalance()",
+    				Logger.RES_EXCEP_SQL,
     				"Failed to get cash balance.\n" + e.getMessage());
     		throw new DaoException("SQLException: "
     				+ "@SQLCashAccountDAO.getCashBalance() - " + e.getMessage(), e);
     	} finally {
             closeConnectionObjects(connection, statement, result);
-            
+
             tp.methodExit(getCashBalance.toString());
-    		
+
     	}
-    	
+
 		return getCashBalance;
 	}
-	
+
 	 /* (non-Javadoc)
      * @see ncr.res.mobilepos.report.dao.IReportDAO#getDailyReport(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int, int, int, int)
      */
     @Override
     public GetCashBalance getCashBalance(String companyId, String storeId, String terminalId, String businessDate,
             int trainingFlag, String dataType, String itemLevel1) throws DaoException {
-        
-        String functionName = DebugLogger.getCurrentMethodName();
+
+        String functionName = "getCashBalance";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("storeId", storeId)
@@ -119,12 +119,12 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
           .println("itemLevel1", itemLevel1);
-        
+
         PreparedStatement selectStmnt = null;
         ResultSet result = null;
         Connection connection = null;
         GetCashBalance getCashBalance = new GetCashBalance();
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -136,9 +136,9 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             selectStmnt.setString(SQLStatement.PARAM6, dataType);
             selectStmnt.setString(SQLStatement.PARAM7, itemLevel1);
-            
+
             result = selectStmnt.executeQuery();
-            
+
             if (result.next()) {
                 String cashOnHand = result.getString("ItemAmt");
                 String tillId = result.getString("RetailStoreId") + result.getString("WorkstationId");
@@ -146,20 +146,20 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
                     getCashBalance.setNCRWSSResultCode(
                             ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
                     tp.println("Cash balance not retrieved.");
-                    
+
                     return getCashBalance;
                 }
-                
+
                 CashBalance cashBalance = new CashBalance();
                 cashBalance.setCashOnHand(cashOnHand);
                 cashBalance.setTillId(tillId);
-                
+
                 getCashBalance.setCashBalance(cashBalance);
             }
          } catch (Exception e) {
              LOGGER.logAlert(functionName,
                      functionName,
-                     Logger.RES_EXCEP_GENERAL, 
+                     Logger.RES_EXCEP_GENERAL,
                      "Failed to get Daily Report item.\n"
                               + e.getMessage());
              throw new DaoException("Exception: @"
@@ -177,8 +177,8 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
     @Override
     public GetCashBalance getCashBalanceByTillId(String companyId, String storeId, String tillId, String businessDate,
             int trainingFlag, String dataType, String itemLevel1) throws DaoException {
-        
-        String functionName = DebugLogger.getCurrentMethodName();
+
+        String functionName = "getCashBalanceByTillId";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("storeId", storeId)
@@ -187,12 +187,12 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
           .println("itemLevel1", itemLevel1);
-        
+
         PreparedStatement selectStmnt = null;
         ResultSet result = null;
         Connection connection = null;
         GetCashBalance getCashBalance = new GetCashBalance();
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -204,29 +204,29 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             selectStmnt.setString(SQLStatement.PARAM6, dataType);
             selectStmnt.setString(SQLStatement.PARAM7, itemLevel1);
-            
+
             result = selectStmnt.executeQuery();
-            
+
             if (result.next()) {
                 String cashOnHand = result.getString("AmtSum");
                 if (cashOnHand == null) {
                     getCashBalance.setNCRWSSResultCode(
                             ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
                     tp.println("Cash balance not retrieved.");
-                    
+
                     return getCashBalance;
                 }
-                
+
                 CashBalance cashBalance = new CashBalance();
                 cashBalance.setCashOnHand(cashOnHand);
                 cashBalance.setTillId(tillId);
-                
+
                 getCashBalance.setCashBalance(cashBalance);
             }
          } catch (Exception e) {
              LOGGER.logAlert(functionName,
                      functionName,
-                     Logger.RES_EXCEP_GENERAL, 
+                     Logger.RES_EXCEP_GENERAL,
                      "Failed to get Daily Report item.\n"
                               + e.getMessage());
              throw new DaoException("Exception: @"

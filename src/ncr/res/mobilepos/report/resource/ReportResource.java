@@ -108,7 +108,7 @@ public class ReportResource {
     		@ApiParam(name="tillid", value="ドロワーId")@QueryParam("tillid") final String tillid,
     		@ApiParam(name="language", value="言語")@QueryParam("language") final String language ) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getAccountancyReport";
         tp.methodEnter(functionName);
         tp.println("storeid", storeid).println("tillid", tillid)
                 .println("language", language);
@@ -183,7 +183,7 @@ public class ReportResource {
     		@ApiParam(name="tillId", value="ドロワーId")@QueryParam("tillId") final String tillId,
     		@ApiParam(name="businessDate", value="業務日付")@QueryParam("businessDate") final String businessDate) {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getTotalAmount";
 
 		tp.methodEnter(functionName);
 		tp.println("storeid", storeId)
@@ -243,7 +243,7 @@ public class ReportResource {
     		@ApiParam(name="businessDate", value="業務日付")@FormParam("businessDate") final String businessDate,
     		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@FormParam("trainingFlag") final int trainingFlag) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getReportItems";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("storeId", storeId)

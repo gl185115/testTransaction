@@ -277,7 +277,7 @@ public class TillInfoResource {
     		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
     		@ApiParam(name="processing", value="処理タイプ") @FormParam("processing") final String processingType,
     		@ApiParam(name="compulsoryflag", value="強制フラグ") @FormParam("compulsoryflag") final String compulsoryFlag) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "getExecuteAuthority";
 		tp.methodEnter(functionName)
 		        .println("companyid", companyId)
 				.println("retailstoreid", storeId)
@@ -537,7 +537,7 @@ public class TillInfoResource {
     		@ApiParam(name="terminalid",value="ターミナル番号") @FormParam("terminalid") final String terminalId,
     		@ApiParam(name="operatorno",value="従業員番号") @FormParam("operatorno") final String operatorNo,
     		@ApiParam(name="processing",value="処理タイプ") @FormParam("processing") final String processingType) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "releaseExecuteAuthority";
 		tp.methodEnter(functionName)
 		        .println("companyid", companyId)
 				.println("retailstoreid", storeId)
@@ -741,7 +741,7 @@ public class TillInfoResource {
     		@ApiParam(name="retailstoreid",value="店番号") @FormParam("retailstoreid") final String storeId,
     		@ApiParam(name="tillid",value="Till ID") @FormParam("tillid") final String tillId,
     		@ApiParam(name="terminalid",value="ターミナル番号") @FormParam("terminalid") final String terminalId) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "search";
 		tp.methodEnter(functionName)
 		        .println("companyid", companyid)
 				.println("storeId", storeId)
@@ -810,7 +810,7 @@ public class TillInfoResource {
     })
     public final ViewTill getTillList(
     		@ApiParam(name="storeId", value="店番号") @FormParam("storeId") final String storeId){
-            String functionName = DebugLogger.getCurrentMethodName();
+            String functionName = "getTillList";
         tp.methodEnter(functionName);
         tp.println("storeId", storeId);
         ViewTill result = new ViewTill();
@@ -879,7 +879,7 @@ public class TillInfoResource {
 			@ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") final String businessDate,
 			@ApiParam(name="trainingFlag", value="トレーニングモードフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
 		// Trace Logging
-		final String functionName = DebugLogger.getCurrentMethodName();
+		final String functionName = "getActivatedTillsOnBusinessDay";
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId);
 		tp.println("storeId", storeId);
@@ -950,7 +950,7 @@ public class TillInfoResource {
 			@ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") final String businessDate,
 			@ApiParam(name="trainingFlag", value="トレーニングモードフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
 		// Trace Logging
-		final String functionName = DebugLogger.getCurrentMethodName();
+		final String functionName = "getUnclosedTillsOnBusinessDay";
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId);
 		tp.println("storeId", storeId);

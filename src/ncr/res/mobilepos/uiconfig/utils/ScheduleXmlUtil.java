@@ -16,8 +16,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.json.JSONObject;
 
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.uiconfig.model.schedule.Company;
 import ncr.res.mobilepos.uiconfig.model.schedule.Config;
 import ncr.res.mobilepos.uiconfig.model.schedule.Deploy;
@@ -298,14 +298,13 @@ public class ScheduleXmlUtil {
 	public static boolean saveSchedule(Schedule pSchedule, File pScheduleXml) {
 
 		String xmlString = null;
-		XmlSerializer<Schedule> xmlSer = new XmlSerializer<Schedule>();
 		boolean retFlg = false;
 
 		try {
 			if (pSchedule != null) {
 				FileUtil.fileBackupByCmdCopy(pScheduleXml, false);
 
-				xmlString = xmlSer.marshallObj(Schedule.class, pSchedule, StaticParameter.code_UTF8);
+				xmlString = GlobalConstant.scheduleDataBinding.marshallObj(pSchedule, StaticParameter.code_UTF8);
 				xmlString = prettyFormat(xmlString);
 
 				if (FileUtil.fileSave(pScheduleXml, xmlString, false, StaticParameter.code_UTF8)) {
@@ -326,7 +325,6 @@ public class ScheduleXmlUtil {
 	public static String saveScheduleByJSON(String pScheduleJson, File pSchedulePath) {
 
 		String xmlString = null;
-		XmlSerializer<Schedule> xmlSer = new XmlSerializer<Schedule>();
 
 		try {
 			if (!StringUtility.isNullOrEmpty(pScheduleJson)) {
@@ -336,11 +334,11 @@ public class ScheduleXmlUtil {
 
 				JSONObject json = new JSONObject(pScheduleJson);
 				xmlString = org.json.XML.toString(json);
-				Schedule scheduleModel = xmlSer.unMarshallXml(xmlString, Schedule.class);
+				Schedule scheduleModel = GlobalConstant.scheduleDataBinding.unMarshallXml(xmlString);
 
 				if (scheduleModel != null) {
-					xmlString = xmlSer.marshallObj(Schedule.class, scheduleModel, StaticParameter.code_MS932);
-					xmlString = xmlSer.marshallObj(Schedule.class, scheduleModel, StaticParameter.code_UTF8);
+					//xmlString = GlobalConstant.scheduleDataBinding.marshallObj(scheduleModel, StaticParameter.code_MS932);
+					xmlString = GlobalConstant.scheduleDataBinding.marshallObj(scheduleModel, StaticParameter.code_UTF8);
 					xmlString = prettyFormat(xmlString);
 
 					if (FileUtil.fileSave(pSchedulePath, xmlString, false, StaticParameter.code_UTF8)) {

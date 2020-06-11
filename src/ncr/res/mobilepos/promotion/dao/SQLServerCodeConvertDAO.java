@@ -31,7 +31,7 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
      * The Trace Printer.
      */
     private Trace.Printer tp;
-    
+
     /**
      * Default Constructor for SQLServerMixMatchDAO
      *
@@ -66,16 +66,16 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
      */
     @Override
 	public final String convertCCodeToDpt(final String companyId, final String code, final String storeId) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "convertCCodeToDpt";
     	tp.methodEnter("convertCCodeToDpt");
     	tp.println("CompanyId", companyId);
         tp.println("Code", code);
-        
+
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
         String dptCode = null;
-        
+
         try {
         	connection = dbManager.getConnection();
         	SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -85,7 +85,7 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
             select.setString(SQLStatement.PARAM2, code);
             select.setString(SQLStatement.PARAM3, storeId);
             result = select.executeQuery();
-            
+
             if (result.next()) {
             	dptCode = result.getString("Dpt");
             }
@@ -96,12 +96,12 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
 					+ "SQLServerItemInfoDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(result.toString());
         }
         return dptCode;
     }
-    
+
     /**
      * Convert MagCode to DptCode from MST_MAGCODEINFO.
      * @param companyId ,
@@ -112,17 +112,17 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
      */
     @Override
 	public final String convertMagCodeToDpt(final String companyId, final String code, final String storeId) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "convertMagCodeToDpt";
     	tp.methodEnter("convertMagCodeToDpt");
     	tp.println("CompanyId", companyId);
         tp.println("Code", code);
         tp.println("storeId", storeId);
-        
+
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
         String dptCode = null;
-        
+
         try {
         	connection = dbManager.getConnection();
         	SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -132,7 +132,7 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
             select.setString(SQLStatement.PARAM2, code);
             select.setString(SQLStatement.PARAM3, storeId);
             result = select.executeQuery();
-            
+
             if (result.next()) {
             	dptCode = result.getString("Dpt");
             }
@@ -143,7 +143,7 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
 					+ "SQLServerItemInfoDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(result.toString());
         }
         return dptCode;

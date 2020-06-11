@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import javax.xml.bind.JAXBException;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -23,12 +24,13 @@ import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.DataBinding;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
+
 /**
  * A Data Access Object implementation for
  * Transfer transactions between smart phone and POS.
@@ -289,9 +291,7 @@ extends AbstractDao implements IForwardItemListDAO {
         int result = 0;
 
 		try {
-            XmlSerializer<PosLog> xmlTmpl = new XmlSerializer<PosLog>();
-            PosLog posLog =
-                (PosLog) xmlTmpl.unMarshallXml(poslogXml, PosLog.class);
+            PosLog posLog = GlobalConstant.poslogDataBinding.unMarshallXml(poslogXml);
 
             Transaction transaction = posLog.getTransaction();
             String txid = transaction.getSequenceNo();
@@ -361,7 +361,7 @@ extends AbstractDao implements IForwardItemListDAO {
     public final String selectForwardItemCount(final String companyId,
             final String storeId, final String businessDayDate,
             final String workstationId, final String queue, final String trainingFlag) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "selectForwardItemCount";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyId)
             .println("StoreId", storeId)

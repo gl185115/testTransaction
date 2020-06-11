@@ -38,7 +38,7 @@ public class SQLServerNationalityInfoDAO extends AbstractDao implements INationa
 
 	/**
 	 * Initializes DBManager.
-	 * 
+	 *
 	 * @throws DaoException
 	 *             if error exists.
 	 */
@@ -49,7 +49,7 @@ public class SQLServerNationalityInfoDAO extends AbstractDao implements INationa
 
 	/**
 	 * Retrieves DBManager.
-	 * 
+	 *
 	 * @return dbManager instance of DBManager.
 	 */
 	public final DBManager getDBManager() {
@@ -58,14 +58,14 @@ public class SQLServerNationalityInfoDAO extends AbstractDao implements INationa
 
 	/**
 	 * get nationality info
-	 * 
+	 *
 	 * @return nationality info
 	 * @throws DaoException
 	 *             Exception when the method fail.
 	 */
 	@Override
 	public List<NationalityInfo> getNationalityInfo(String companyId, String storeId) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getNationalityInfo";
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 
 		Connection connection = null;

@@ -40,7 +40,7 @@ public class BarCodeResource {
     }
 
     /**
-     * 
+     *
      * @param companyId
      * @param storeId
      * @param cardType
@@ -63,7 +63,7 @@ public class BarCodeResource {
     		@ApiParam(name="CardType", value="割引券種コード") @QueryParam("CardType") final String cardType,
     		@ApiParam(name="SeqNo", value="シーケンス番号") @QueryParam("SeqNo") final String seqNo,
     		@ApiParam(name="DiscountType", value="割引種別") @QueryParam("DiscountType") final String discountType) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getDiscountInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("CardType", cardType).println("SeqNo", seqNo).println("DiscountType", discountType);
         JSONData discountInfo = new JSONData();
@@ -95,9 +95,9 @@ public class BarCodeResource {
         }
         return discountInfo;
     }
-    
+
     /**
-     * 
+     *
      * @param companyId
      * @param storeId
      * @param cardType
@@ -114,7 +114,7 @@ public class BarCodeResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         })
     public final JSONData isMemberCard(@ApiParam(name="cardCode", value="カードコード") @FormParam("cardCode") final String cardCode) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "isMemberCard";
         tp.methodEnter(functionName).println("cardCode", cardCode);
         JSONData jsondata = new JSONData();
         try {

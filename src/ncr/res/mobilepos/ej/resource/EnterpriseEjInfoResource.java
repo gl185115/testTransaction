@@ -122,7 +122,7 @@ public class EnterpriseEjInfoResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@ApiOperation(value="E/JÉfÅ[É^(POSLog)ÇÃéÊìæ", response=Void.class)
 	public final PosLogInfo getSubPosLogInfo(@Context HttpServletRequest request,@Context HttpServletResponse response) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getSubPosLogInfo";
 		String companyId = request.getParameter("companyId");
 		String retailstoreId = request.getParameter("retailStoreId");
 		String workstationId = request.getParameter("workstationId");

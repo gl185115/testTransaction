@@ -54,7 +54,7 @@ public class PriceMMInfoFactory {
 	 */
 	private static List<PriceMMInfo> priceMMInfoConstant(String companyId, String storeId) throws Exception {
 		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PriceMMInfoFactory.class);
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "priceMMInfoConstant";
 
 		List<PriceMMInfo> PriceMMList = null;
 

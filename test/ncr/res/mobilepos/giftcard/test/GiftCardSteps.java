@@ -26,25 +26,25 @@ import ncr.res.mobilepos.giftcard.model.GiftResult;
 import ncr.res.mobilepos.giftcard.resource.ToppanGiftcardResource;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.DataBinding;
 
 import static org.mockito.Matchers.anyObject;
 
 public class GiftCardSteps extends Steps {
 	private ToppanGiftcardResource toppanGiftcardResource = null;
 	private GiftResult giftResult = null;
-	
+
 	@BeforeScenario
     public final void setUpClass() {
         Requirements.SetUp();
         initResources();
     }
-	
+
     @AfterScenario
     public final void tearDownClass() {
         Requirements.TearDown();
     }
-    
+
     private void initResources() {
 		ServletContext context = Requirements.getMockServletContext();
 		try {
@@ -59,7 +59,7 @@ public class GiftCardSteps extends Steps {
 			Assert.fail("Cant load Mock Servlet Context.");
 		}
 	}
-	
+
     @Given("toppan-gift.xml file does not exist.")
     public void giftXmlNotFound() {
     	Field toppanGiftcardConfigField;
@@ -81,15 +81,15 @@ public class GiftCardSteps extends Steps {
 			e.printStackTrace();
 		}
     }
-    
+
     @Given("toppan-gift.xml file exists.")
     public void giftXmlFound() {
     	Field toppanGiftcardConfigField;
 		try {
 			File configFile = new File("test\\ncr\\res\\mobilepos\\giftcard\\test" + File.separator + Config.FILENAME);
-			XmlSerializer<Config> serializer = new XmlSerializer<Config>();
-			Config config = serializer.unMarshallXml(configFile, Config.class);
-			
+			DataBinding<Config> serializer = new DataBinding<Config>(Config.class);
+			Config config = serializer.unMarshallXml(configFile);
+
 			toppanGiftcardConfigField = toppanGiftcardResource.getClass().getDeclaredField("toppanGiftcardConfig");
 	    	toppanGiftcardConfigField.setAccessible(true);
 	    	toppanGiftcardConfigField.set(toppanGiftcardResource, config);
@@ -110,7 +110,7 @@ public class GiftCardSteps extends Steps {
 			e.printStackTrace();
 		}
     }
-    
+
 	@When("I test queryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardQuery(
 			String storeId, String workstationId, String transactionId,
@@ -120,10 +120,10 @@ public class GiftCardSteps extends Steps {
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
 		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
-		
+
 		giftResult = toppanGiftcardResource.queryMember(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
-	
+
 	@When("I test sales with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardSales(
 			String storeId, String workstationId, String transactionId,
@@ -133,10 +133,10 @@ public class GiftCardSteps extends Steps {
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
 		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
-		
+
 		giftResult = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
-	
+
 	@When("I test cancel with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardCancel(
 			String storeId, String workstationId, String transactionId,
@@ -146,10 +146,10 @@ public class GiftCardSteps extends Steps {
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
 		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
-		
+
 		giftResult = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
-	
+
 	@When("I test activate with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardActivate(
 			String storeId, String workstationId, String transactionId,
@@ -159,10 +159,10 @@ public class GiftCardSteps extends Steps {
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
 		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
-		
+
 		giftResult = toppanGiftcardResource.activate(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
-	
+
 	@When("I test charge with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard campaign $campaign privatebrand $privatebrand")
 	public final void giftCardCharge(
 			String storeId, String workstationId, String transactionId,
@@ -172,7 +172,7 @@ public class GiftCardSteps extends Steps {
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
 		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
-		
+
 		giftResult = toppanGiftcardResource.charge(storeId, workstationId, transactionId, test, giftcard, campaign, cardFlag);
 	}
 
@@ -192,7 +192,7 @@ public class GiftCardSteps extends Steps {
 			Mockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
 			Mockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
 			Mockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
-			
+
 			Field centerAccessField = toppanGiftcardResource.getClass().getDeclaredField("centerAccess");
 			centerAccessField.setAccessible(true);
 			centerAccessField.set(toppanGiftcardResource, mockCenterAccess);
@@ -201,13 +201,13 @@ public class GiftCardSteps extends Steps {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Then("I should get the result: $expectedJson")
 	public final void giftCardGetData(final int expectedJson) {
 		Assert.assertEquals("Expect the  result code", expectedJson,
 				giftResult.getNCRWSSResultCode());
 	}
-	
+
 	@Then("I should get the GiftResult : $examplesResult")
 	public final void giftCardGetData(final ExamplesTable examplesResult) {
 		Assert.assertEquals("Expect the  result code", 0, giftResult.getNCRWSSResultCode());

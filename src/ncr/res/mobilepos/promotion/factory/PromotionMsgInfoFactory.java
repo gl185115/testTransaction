@@ -55,7 +55,7 @@ public class PromotionMsgInfoFactory {
      */
     private static List<PromotionMsgInfo> promotionMsgInfoConstant(String companyId, String storeId) throws DaoException {
     	Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PromotionMsgInfoFactory.class);
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "promotionMsgInfoConstant";
 
         List<PromotionMsgInfo> promMsgList = null;
 

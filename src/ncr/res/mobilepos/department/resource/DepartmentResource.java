@@ -201,7 +201,7 @@ public class DepartmentResource {
 
         String functionName = "DepartmentResource.listDepartments";
 
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
+        tp.methodEnter("listDepartments")
              .println("companyid", companyId)
              .println("retailstoreid", storeId)
              .println("key", key)

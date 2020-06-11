@@ -58,7 +58,7 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements IUiConfig
 	@Override
 	public List<CompanyInfo> getCompanyInfo() throws DaoException {
 		// TODO Auto-generated method stub
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getCompanyInfo";
 		tp.methodEnter(functionName);
 
 		List<CompanyInfo> companylist = null;
@@ -107,7 +107,7 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements IUiConfig
 	@Override
 	public List<StoreEntry> getStoreEntryList(String companyId) throws DaoException {
 		// TODO Auto-generated method stub
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getStoreEntryList";
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId);
 

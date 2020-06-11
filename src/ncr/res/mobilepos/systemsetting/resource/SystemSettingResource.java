@@ -73,7 +73,7 @@ public class SystemSettingResource {
     public final void setContext(final ServletContext contextToSet) {
         this.context = contextToSet;
     }
-    
+
     /**
      * Logger.
      */
@@ -98,7 +98,7 @@ public class SystemSettingResource {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
-    }    
+    }
 
     /**
      * A Web Method Call used to get the System's Date Settings.
@@ -161,7 +161,7 @@ public class SystemSettingResource {
 
         return systemSetting;
     }
-    
+
     /**
      * Web Method Call used to get the Server Machine's current Date
      * and Time.
@@ -201,7 +201,7 @@ public class SystemSettingResource {
         }
         return dateTime;
     }
-    
+
     /**
      * Ping check connection to IpAddress.
      * @param ipAddress IP to ping
@@ -218,7 +218,7 @@ public class SystemSettingResource {
 			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message="汎用エラー")})
 	public final ResultBase ping(
 			@ApiParam(name = "ipaddress", value = "ipaddress") @FormParam("ipaddress") final String ipAddress) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "ping";
 		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread()
 				.getId(), getClass());
 		if (tp != null) {
@@ -233,24 +233,24 @@ public class SystemSettingResource {
 		    }
 		    // 送信バイト数　9999バイト
 		    String cmd = "ping -n 1 -l 9999 -w " + pingTimeout + " " + ipAddress;
-		    
+
 		    pingProc = Runtime.getRuntime().exec(cmd);
 		    pingProc.waitFor();
-		    
+
 		    BufferedReader in = new BufferedReader(new InputStreamReader(pingProc.getInputStream()));
             String inputLine = "";
             String tmp;
             while ((tmp = in.readLine()) != null) {
                 inputLine += tmp;
             }
-		    
+
 		    if (pingProc.exitValue() == 0 && inputLine.contains("=9999")){//応答バイト数　9999バイト
 		        result.setNCRWSSResultCode(ResultBase.RES_OK);
 		    } else {
 		        result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
                 result.setMessage(ipAddress + " ping failed.");
 		    }
-		    
+
 		    if (pingProc != null) {
 		        pingProc.destroy();
 		    }
@@ -268,7 +268,7 @@ public class SystemSettingResource {
 		}
 		return result;
 	}
-	
+
     /**
      * get mex host terminal info
      * @return TerminalInfo
@@ -280,7 +280,7 @@ public class SystemSettingResource {
 	@ApiResponses(value = {
 			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message="汎用エラー")})
 	public final TerminalInfo getMeXHostTerminalInfo() {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getMeXHostTerminalInfo";
 		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread()
 				.getId(), getClass());
 		if (tp != null) {
@@ -292,7 +292,7 @@ public class SystemSettingResource {
 			String companyId = systemFileConfig.getCompanyId();
 			String storeId = systemFileConfig.getStoreId();
 			String terminalId = systemFileConfig.getTerminalId();
-			
+
 			terminalInfo.setCompanyId(companyId);
 			terminalInfo.setStoreId(storeId);
 			terminalInfo.setTerminalId(terminalId);
@@ -306,7 +306,7 @@ public class SystemSettingResource {
 		}
 		return terminalInfo;
 	}
-	
+
     /**
      * get reloadMasterTables
      * @return ResultBase
@@ -345,14 +345,14 @@ public class SystemSettingResource {
         	TaxRateInfoFactory.initialize(companyId, storeId);
         	logName = "NameCategoryFactory";
         	NameCategoryFactory.initialize();
-        	
+
             result.setNCRWSSResultCode(ResultBase.RES_OK);
             result.setMessage("Success");
             LOGGER.logWarning(PROG_NAME, functionname, Logger.RES_SUCCESS,
             		"\nマスターテーブル再読込完了。");
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, functionname, Logger.RES_EXCEP_GENERAL,
-            		"\n" + logName 
+            		"\n" + logName
             		+ " error has happend.\nFailed to get the Master table data. \n"
                     + e.getMessage());
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -362,7 +362,7 @@ public class SystemSettingResource {
         }
         return result;
     }
-    
+
     /**
      * Update BizDate
      *
@@ -384,7 +384,7 @@ public class SystemSettingResource {
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
     		@ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeId,
     		@ApiParam(name="bizdate", value="業務日付") @QueryParam("bizdate") final String bizDate) {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "updateDateSetting";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyId)
 	        .println("StoreId", storeId)

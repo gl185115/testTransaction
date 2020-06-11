@@ -38,7 +38,7 @@ public class SQLServerBuyadditionalInfoDAO extends AbstractDao implements IBuyad
 
 	/**
 	 * Initializes DBManager.
-	 * 
+	 *
 	 * @throws DaoException
 	 *             if error exists.
 	 */
@@ -49,7 +49,7 @@ public class SQLServerBuyadditionalInfoDAO extends AbstractDao implements IBuyad
 
 	/**
 	 * Retrieves DBManager.
-	 * 
+	 *
 	 * @return dbManager instance of DBManager.
 	 */
 	public final DBManager getDBManager() {
@@ -58,14 +58,14 @@ public class SQLServerBuyadditionalInfoDAO extends AbstractDao implements IBuyad
 
 	/**
 	 * get buy additional info
-	 * 
+	 *
 	 * @return buy additional info
 	 * @throws DaoException
 	 *             Exception when the method fail.
 	 */
 	@Override
 	public List<BuyadditionalInfo> getBuyadditionalInfo(String companyId, String storeId) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getBuyadditionalInfo";
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 
 		Connection connection = null;

@@ -102,7 +102,7 @@ public class EmployeeResource {
 	public final EmployeeInfoResponse getallempinfo(
 			@ApiParam(name = "CompanyId", value = "âÔé–ÉRÅ[Éh") @QueryParam("CompanyId") final String companyId) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getallempinfo";
 		tp.methodEnter(functionName);
 		tp.println("CompanyId", companyId);
 

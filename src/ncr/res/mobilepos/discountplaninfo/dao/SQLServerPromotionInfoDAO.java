@@ -38,7 +38,7 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -49,7 +49,7 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -71,7 +71,7 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
     public JSONData getPromotionInfo(String companyId, String storeId, String discountReason,
             String discountBarcodeType, String partialFlag, String priceDiscountFlag, String rateDiscountFlag)
                     throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPromotionInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("DiscountReason", discountReason).println("DiscountBarcodeType", discountBarcodeType)
                 .println("PartialFlag", partialFlag).println("PriceDiscountFlag", priceDiscountFlag)

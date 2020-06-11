@@ -24,7 +24,7 @@ import ncr.res.mobilepos.credential.resource.CredentialResource;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.DataBinding;
 
 import static org.junit.Assert.assertEquals;
 
@@ -68,7 +68,7 @@ public class ListOperatorsSteps extends Steps {
     public final void tearDownClass() {
         Requirements.TearDown();
     }
-    
+
 	private void initResources() {
 		ServletContext context = Requirements.getMockServletContext();
 		testCredentialResource = new CredentialResource();
@@ -100,10 +100,10 @@ public class ListOperatorsSteps extends Steps {
                     + " table for MST_USER CREDENTIALS failed");
         }
     }
-    
+
     /**
      * A When step to set GlobalConstant for Max search result
-     * 
+     *
      * @param limit
      */
     @When("I set the search limit to $limit")
@@ -123,10 +123,10 @@ public class ListOperatorsSteps extends Steps {
     public final void aRequestToListAllTheOperatorsWithRetailStoreID(
             final String retailStoreid, final String key, final String name, final int limit) {
         actualEmployeeTransactionList = testCredentialResource
-                .listOperators(retailStoreid, key, name, limit);        
+                .listOperators(retailStoreid, key, name, limit);
     }
 
-   
+
     /**
      * A Then step, tests actual and expected employees.
      *
@@ -139,7 +139,7 @@ public class ListOperatorsSteps extends Steps {
         List<Employee> actualEmployees = actualEmployeeTransactionList
                 .getEmployeeList();
 
-        
+
         Assert.assertEquals("Must exact number of Employee from the List",
                 expectedEmployees.getRowCount(), actualEmployees.size());
 
@@ -182,10 +182,9 @@ public class ListOperatorsSteps extends Steps {
      */
     @Then("xml string should be $xml")
     public final void seriallize(final String xml) throws Exception {
-        XmlSerializer<Employees> posLogRespSrlzr =
-            new XmlSerializer<Employees>();
-        String actual = posLogRespSrlzr.marshallObj(Employees.class,
-                actualEmployeeTransactionList, "UTF-8");
+        DataBinding<Employees> posLogRespSrlzr =
+            new DataBinding<Employees>(Employees.class);
+        String actual = posLogRespSrlzr.marshallObj(actualEmployeeTransactionList, "UTF-8");
         System.out.println(actual);
         assertEquals(xml, actual);
     }

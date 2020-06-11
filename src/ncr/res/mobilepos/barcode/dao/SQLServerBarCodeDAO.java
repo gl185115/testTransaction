@@ -38,12 +38,12 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
      * The Trace Printer.
      */
     private Trace.Printer tp;
-    
+
     private static final int MEMBERCARD13 = 13;
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -54,15 +54,15 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
         return dbManager;
     }
-    
+
     /**
-     * 
+     *
      * @param companyId
      * @param storeId
      * @param cardType
@@ -74,7 +74,7 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
     @Override
     public JSONData getDiscountInfo(String companyId, String storeId, String cardType, String seqNo, String discountType)
  throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getDiscountInfo";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("CardType", cardType).println("SeqNo", seqNo).println("DiscountType", discountType);
 
@@ -146,7 +146,7 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
 
     @Override
     public JSONObject isMemberCard(String cardCode) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "isMemberCard";
         tp.methodEnter(functionName).println("cardCode", cardCode);
 
         PreparedStatement selectStmnt = null;
@@ -157,7 +157,7 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
         boolean newRegistFlag = false;
         try {
             connection = dbManager.getConnection();
-           
+
             SQLStatement sqlStatement = SQLStatement.getInstance();
             selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-isMemberCard-info"));
             selectStmnt.setString(SQLStatement.PARAM1, cardCode);
@@ -186,11 +186,11 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
 	                            flagArray.put("subCode2",resultSet.getString("SubCode2"));
 	                            flagArray.put("subCode3",resultSet.getString("SubCode3"));
 	                            break;
-                            } 
+                            }
                         }
                     }
               }
-                                
+
             }
             flagArray.put("flag",flag);
             flagArray.put("newRegistFlag",newRegistFlag);

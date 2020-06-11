@@ -71,7 +71,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
      *                        Parameters fails
      */
     public List<SystemConfigInfo> getSystemConfigInfo() throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getSystemConfigInfo";
 		tp.methodEnter(functionName);
 
 		List<SystemConfigInfo> systemConfigInfoList = new ArrayList<SystemConfigInfo>();
@@ -150,7 +150,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
      */
 	public final String getParameterString(final String key,
 			final String category) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getParameterString";
 		tp.methodEnter(functionName).println("Key", key)
 				.println("Category", category);
 
@@ -195,7 +195,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
      */
 	public final boolean getParameterBoolean(final String key,
 			final String category) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getParameterBoolean";
 		tp.methodEnter(functionName).println("Key", key)
 				.println("Category", category);
 
@@ -221,7 +221,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
      */
 	public final int setParameterString(final String... params)
 			throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "setParameterString";
         tp.methodEnter(functionName);
 
         int result = 0;
@@ -268,7 +268,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
      */
 	public final int addParameterString(final String... params)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "addParameterString";
 		tp.methodEnter(functionName);
 
         int result = 0;
@@ -315,7 +315,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
      */
 	public final int setParameterValue(final Map<String, String> keyPairParam)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "setParameterValue";
 		tp.methodEnter(functionName);
 
         int result = 0;

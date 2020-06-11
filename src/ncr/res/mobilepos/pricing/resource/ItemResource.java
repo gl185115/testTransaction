@@ -115,7 +115,7 @@ public class ItemResource {
     private static BarcodeAssignment barcodeAssignment;
 
 	private final List<PricePromInfo> pricePromInfoList;
-	
+
 	private final List<PriceMMInfo> priceMMInfoList;
 
 	public static final String PROMOTIONTYPE_DPT = "1";
@@ -183,7 +183,7 @@ public class ItemResource {
     		@ApiParam(name="bussinessDate", value="業務日付") @FormParam("bussinessDate") final String bussinessDate) {
 
         String functionName = "ItemResource.getItemByPLUcode";
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
+        tp.methodEnter("getItemByPLUcode")
                 .println("storeid", storeID)
                 .println("plucode", pluCode)
                 .println("companyId", companyId);
@@ -260,7 +260,7 @@ public class ItemResource {
     		@ApiParam(name="StoreId", value="店番号") @FormParam("StoreId") String storeId,
     		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String companyId ,
     		@ApiParam(name="businessDate", value="業務日付") @FormParam("businessDate") String businessDate) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getItemsPrice";
         tp.methodEnter(functionName).println("transaction", transaction).println("storeId", storeId)
                 .println("companyId", companyId);
 
@@ -317,7 +317,7 @@ public class ItemResource {
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="itemType", value="アイテムタイプ") @QueryParam("itemType") final String itemType) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPickList";
         tp.methodEnter(functionName)
           .println("companyId", companyId)
           .println("storeId", storeId)
@@ -349,7 +349,7 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
 	public final BarcodeAssignment getBarcodeInfo() {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getBarcodeInfo";
 		tp.methodEnter(functionName);
 
 		try {
@@ -450,7 +450,7 @@ public class ItemResource {
 		}
 		return null;
 	}
-    
+
     /**
      * Get The Price MM Info.
      * @param sku The ID of The Sku
@@ -461,7 +461,7 @@ public class ItemResource {
 		if (priceMMInfoList == null || StringUtility.isNullOrEmpty(sku)){
 			return null;
 		}
-		
+
 		List<PriceMMInfo> priceMMInfoListTemp = new ArrayList<PriceMMInfo>();
 		for (PriceMMInfo priceMMInfo : priceMMInfoList) {
 			String priceMMSku = priceMMInfo.getSku();
@@ -477,11 +477,11 @@ public class ItemResource {
 				}
 			}
 		}
-		
+
 		if (!(priceMMInfoListTemp.size() > 0)){
 			return null;
 		}
-		
+
 		for(PriceMMInfo priceMMInfoTemp : priceMMInfoListTemp) {
 			if ("1".equals(priceMMInfoTemp.getTargetStoreType())) {
 				return priceMMInfoTemp;

@@ -25,7 +25,7 @@ import ncr.res.mobilepos.property.SQLStatement;
 
 /**
  * SQLQueueBusterLinkDAO data access object.
- * 
+ *
  * @see IQueueBusterLinkDAO
  */
 public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
@@ -48,7 +48,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 
     /**
      * SQLQueueBusterLinkDAO default constructor.
-     * 
+     *
      * @throws DaoException
      *             database exception
      */
@@ -62,8 +62,8 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 	public final ResultBase createLink(final String storeid,
 			final String poslinkid, final POSLinkInfo poslinkinfo)
 			throws SQLException, DaoException, IOException {
-        
-		String functionName = DebugLogger.getCurrentMethodName();
+
+		String functionName = "createLink";
 		tp.methodEnter(functionName).println("StoreId", storeid)
 				.println("PosLinkId", poslinkid)
 				.println("POSLinkInfo", poslinkinfo.toString());
@@ -129,13 +129,13 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 			throw new DaoException("Exception: @" + functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, create);
-			
+
 			tp.methodExit(resultBase);
 		}
 
 		return resultBase;
 	}
-        
+
         public final ViewPosLinkInfo updateLink(final String storeID,
                 final String posLinkID, final POSLinkInfo posLinkInfo, Connection connection)
                 throws DaoException, SQLException {
@@ -147,14 +147,14 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
             ViewPosLinkInfo newPosLinkInfo = new ViewPosLinkInfo();
             ResultSet result = null;
             PreparedStatement update = null;
-            boolean isNewConnection = false;	
+            boolean isNewConnection = false;
             try {
-            	
+
             	if(connection == null){
             		connection = dbManager.getConnection();
             		isNewConnection = true;
             	}
-                
+
                 SQLStatement sqlStatement = SQLStatement.getInstance();
                 update = connection.prepareStatement(sqlStatement
                         .getProperty("update-queuebusterlink"));
@@ -164,7 +164,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                 update.setString(SQLStatement.PARAM3, posLinkInfo.getLinkName());
                 update.setString(SQLStatement.PARAM4, posLinkInfo.getUpdAppId());
                 update.setString(SQLStatement.PARAM5, posLinkInfo.getUpdOpeCode());
-                
+
                 update.setString(SQLStatement.PARAM6, storeID);
                 update.setString(SQLStatement.PARAM7, posLinkID);
 
@@ -196,7 +196,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                         .abs(SQLResultsConstants.ROW_DUPLICATE)) {
                     newPosLinkInfo
                             .setNCRWSSResultCode(ResultBase.RES_LINK_ALREADYEXISTS);
-                    
+
                     POSLinkInfo prevLink = getLinkItem(storeID, posLinkID);
                     String storeIdToSet = posLinkInfo.getRetailStoreId()!= null? posLinkInfo.getRetailStoreId():storeID;
                 	String linkIdToSet = posLinkInfo.getPosLinkId()!= null? posLinkInfo.getPosLinkId():posLinkID;
@@ -206,7 +206,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                     	connection = dbManager.getConnection();
                     	if(posLinkInfo.getLinkName() == null){
                     		posLinkInfo.setLinkName(prevLink.getLinkName());
-                    	}	
+                    	}
                         ResultBase activateResult = activateLink(storeIdToSet, linkIdToSet, connection);
                         if(activateResult.getNCRWSSResultCode() == 0){
                         	ViewPosLinkInfo viewPosLinkInfo = updateLink(storeIdToSet, linkIdToSet, posLinkInfo, connection);
@@ -220,12 +220,12 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                         	}else{
                         		rollBack(connection, "updateLink", null);
                         	}
-                        	
+
                         }
-                        
+
                     }
                 } else {
-                    
+
                     throw new DaoException("SQLException:"
                             + " @SQLQueueBusterLinkDAO.updateLink", ex);
                 }
@@ -245,7 +245,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
             	}else{
             		closeConnectionObjects(null, update, result);
             	}
-				
+
                 tp.methodExit(newPosLinkInfo);
             }
 
@@ -257,8 +257,8 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 	public final ResultBase deleteLink(final String storeid,
 			final String poslinkid, final String appId, final String opeCode)
 			throws SQLException, DaoException {
-		
-    	String functionName = DebugLogger.getCurrentMethodName();
+
+    	String functionName = "deleteLink";
 		tp.methodEnter(functionName).println("StoreId", storeid)
 				.println("PosLinkId", poslinkid).println("UpdAppId", appId)
 				.println("UpdOpeCode", opeCode);
@@ -303,7 +303,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 					+ functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, delete);
-			
+
 			tp.methodExit(resultBase);
 		}
 
@@ -314,7 +314,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 	public final POSLinkInfo getLinkItem(final String retailstoreid,
 			final String poslinkid) throws SQLException, DaoException {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLinkItem";
 		tp.methodEnter(functionName).println("RetailStoreID", retailstoreid)
 				.println("POSLinkID", poslinkid);
 
@@ -322,7 +322,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -357,7 +357,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 					+ functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			if (posLinkInfo != null) {
 				tp.methodExit(posLinkInfo.toString());
 			} else {
@@ -367,7 +367,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 		return posLinkInfo;
 	}
 
-    
+
     private ResultBase activateLink(final String storeID,
             final String posLinkID, Connection connection)
             throws DaoException {
@@ -379,11 +379,11 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
         PreparedStatement activate = null;
 
         try {
-            
+
             SQLStatement sqlStatement = SQLStatement.getInstance();
             activate = connection.prepareStatement(sqlStatement
                     .getProperty("activate-queuebusterlink"));
-            
+
             activate.setString(SQLStatement.PARAM1, storeID);
             activate.setString(SQLStatement.PARAM2, posLinkID);
 
@@ -418,7 +418,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                     + " @SQLQueueBusterLinkDAO.activateLink", ex);
         } finally {
                tp.methodExit(resultBase);
-               
+
         }
 
         return resultBase;
@@ -429,7 +429,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 			final String key, final String name, final int limit)
 			throws SQLException, DaoException {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getLinks";
 		tp.methodEnter(functionName).println("RetailStoreID", storeId)
 				.println("Key", key).println("Name", name)
 				.println("Limit", limit);
@@ -438,7 +438,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 		ResultSet result = null;
 		Connection connection = null;
 		PreparedStatement select = null;
-		
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -448,7 +448,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
             select.setString(SQLStatement.PARAM2, (StringUtility.isNullOrEmpty(storeId))?"%":storeId);
             select.setString(SQLStatement.PARAM3, (StringUtility.isNullOrEmpty(key))?"%":StringUtility.escapeCharatersForSQLqueries(key.trim())+"%");
             select.setString(SQLStatement.PARAM4, (StringUtility.isNullOrEmpty(name))?"%":"%"+StringUtility.escapeCharatersForSQLqueries(name.trim())+"%");
-            
+
             result = select.executeQuery();
 
             while (result.next()) {
@@ -473,7 +473,7 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 					+ functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			tp.methodExit("Count:" + Integer.toString(links.size()));
 		}
 		return links;

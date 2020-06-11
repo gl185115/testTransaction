@@ -166,7 +166,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 passcodeDB = result.getString(result.findColumn("PassCode"));
                 operatorName = result.getString(result
                         .findColumn("OperatorName"));
-                
+
                 opeNameKana = result.getString(result.findColumn("OpeKanaName"));
 
                 String status = result.getString(result.findColumn("Status"));
@@ -175,7 +175,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                     operator.setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND);
                     tp.println("Operator not found");
                     return operator;
-                } 
+                }
 
                 if (passcodeDB == null || passcodeDB.isEmpty()) {
                     update = connection.prepareStatement(sqlStatement
@@ -244,7 +244,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         }
 
         return operator;
-    }   
+    }
 
     /**
      * Signs Off an operator by specifying the operator number.
@@ -404,7 +404,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
     public final Operator getStatusOfOperator(final String companyId, final String empCode)
             throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getStatusOfOperator";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyId);
         tp.println("EmpCode", empCode);
@@ -434,10 +434,10 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 operator.setOpeKananame(result.getString("OpeKanaName"));
                 operator.setSecuritylevel(result.getString("SecLevel2"));
                 operator.setOperatorType(result.getInt("OpeType"));
-                
+
                 Permissions permissions = getUserGroupPermission(operator.getOperatorType(), connection);
                 operator.setPermissions(permissions);
-                
+
                 operator.setNCRWSSResultCode(ResultBase.RESRPT_OK);
                 operator.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 operator.setMessage(ResultBase.RES_SUCCESS_MSG);
@@ -473,7 +473,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
     public final List<NameMasterInfo> getSystemNameMaster(
             final String companyId, final String StoreId,
             final String nameCategory) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getSystemNameMaster";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("StoreId", StoreId)
@@ -562,7 +562,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
             String passcode = null;
             String operatorName = null;
-           
+
             if (!resultSelect.next()) {
                 passcode = "111";
                 createOperator(operatorNumber, passcode);
@@ -667,7 +667,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                     .getMaxSearchResults() : limit;
             selectStmt.setString(SQLStatement.PARAM1, (StringUtility.isNullOrEmpty(retailStoreID)) ? null : retailStoreID);
             selectStmt.setString(SQLStatement.PARAM2, (StringUtility.isNullOrEmpty(key)) ? null : StringUtility.escapeCharatersForSQLqueries(key.trim()) + "%");
-            selectStmt.setString(SQLStatement.PARAM3, (StringUtility.isNullOrEmpty(name)) ? null : "%" + StringUtility.escapeCharatersForSQLqueries(name.trim()) + "%"); 
+            selectStmt.setString(SQLStatement.PARAM3, (StringUtility.isNullOrEmpty(name)) ? null : "%" + StringUtility.escapeCharatersForSQLqueries(name.trim()) + "%");
             selectStmt.setInt(SQLStatement.PARAM4, searchLimit);
             rs = selectStmt.executeQuery();
             while (rs.next()) {
@@ -685,7 +685,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 String companyId = null;
                 String storeId = null;
                 String tempStore = null;
-                
+
                 companyId = rs.getString(rs.findColumn("CompanyId"));
                 tempStore = rs.getString(rs.findColumn("StoreId"));
                 storeId = (tempStore == null) ? "" : tempStore;
@@ -718,7 +718,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
         return operators;
     }
-   
+
     @Override
     public final ResultBase createEmployee(final String retailStoreID,
             final String operatorID, final Employee employee)
@@ -1148,10 +1148,10 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
         return newEmployee;
     }
-    
+
     /**
      * get authorization level of an operator
-     * 
+     *
      * @param companyId
      * @param opeCode
      * @return Authorization
@@ -1176,7 +1176,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             	authorizationStmt = connection.prepareStatement(
                         sqlStatement.getProperty("view-authorization"));
                 authorizationStmt.setString(SQLStatement.PARAM1, companyId);
-                authorizationStmt.setString(SQLStatement.PARAM2, opeCode);            	
+                authorizationStmt.setString(SQLStatement.PARAM2, opeCode);
             } else {
             	authorizationStmt = connection.prepareStatement(
                         sqlStatement.getProperty("view-authorization-with-passcode"));
@@ -1215,7 +1215,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         }
         return authorization;
     }
-    
+
     /**
      * Creates a new operator.
      *

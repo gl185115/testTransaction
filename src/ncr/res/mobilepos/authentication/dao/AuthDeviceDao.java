@@ -469,7 +469,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 			final String terminalId, final boolean isMatchAll)
 			throws DaoException {
 		String functionName = className + "isDeviceExisting";
-		tp.methodEnter(DebugLogger.getCurrentMethodName())
+		tp.methodEnter("isDeviceExisting")
 				.println("storeid", storeId).println("terminalid", terminalId)
 				.println("matchall", isMatchAll);
 
@@ -898,7 +898,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 	public final ViewCorpStore validateCorpStore(final String companyId, final String storeId,
 			final String passCode) throws DaoException {
         String functionName = className + ".validateCorpStore";
-		tp.methodEnter(DebugLogger.getCurrentMethodName())
+		tp.methodEnter("validateCorpStore")
 				.println("storeid", storeId).println("passcode", passCode)
 				.println("companyid", companyId);
 

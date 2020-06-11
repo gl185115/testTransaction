@@ -42,7 +42,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -53,7 +53,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -63,7 +63,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
     @Override
     public List<CardClassInfo> getCardClassInfo(String companyId, String storeId, String cardClassId,
             String membershipId) throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCardClassInfo";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId)
                 .println("cardClassId", cardClassId).println("membershipId", membershipId);
 
@@ -122,7 +122,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
     @Override
     public List<CardTypeInfo> getCardTypeInfoByCardType(String companyId, String storeId, String cardTypeNo)
             throws Exception {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCardTypeInfoByCardType";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("cardClassId",
                 cardTypeNo);
 
@@ -190,7 +190,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
 
     @Override
     public MemberInfo getMemberInfoById(String companyId, String storeId, String membershipId) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMemberInfoById";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("membershipId",
                 membershipId);
 
@@ -243,7 +243,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
     }
     @Override
     public StatusInfo getStatusInfoByCode(String companyId, String storeId, String statusCode) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getStatusInfoByCode";
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("statusCode",
                 statusCode);
 

@@ -32,14 +32,14 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 /**
  * A data access obbject implementation for POS Mail notification messages.
- * 
+ *
  * @see IPOSMailInfoDAO
  */
 public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfoDAO {
 	private DBManager dbManager;
 	private static final Logger LOGGER = (Logger) Logger.getInstance();
 	private static final String PROG_NAME = "POSMailInfoDAO";
-	private Trace.Printer tp;	
+	private Trace.Printer tp;
 	private static final String parse(Date date) throws ParseException {
         return new SimpleDateFormat("yyyy/mm/dd").format(date);
     }
@@ -54,7 +54,7 @@ public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfo
     }
 	/**
 	 * Gets the list of POS Mail notification messages.
-	 * 
+	 *
      * @param companyId
      * @param storeId
      * @param workstationId
@@ -65,7 +65,7 @@ public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfo
 	@Override
 	public JSONData getPOSMailInfo(String companyId, String retailStoreId, String workstationId, String businessDate)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPOSMailInfo";
 		tp.methodEnter(functionName)
 			.println("companyId", companyId)
 			.println("retailStoreId", retailStoreId)
@@ -75,7 +75,7 @@ public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfo
 		JSONData posMailInfo = new JSONData();
 		JSONArray infoData = new JSONArray();
 		SQLStatement sqlStatement = SQLStatement.getInstance();
-		
+
 		try (Connection connection = dbManager.getConnection();
 				PreparedStatement selectStmnt = getPOSMailInfoPreparedStatement(
 						companyId, retailStoreId, workstationId, businessDate,

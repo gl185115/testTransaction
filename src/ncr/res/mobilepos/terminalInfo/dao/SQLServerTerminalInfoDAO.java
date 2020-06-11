@@ -38,7 +38,7 @@ public class SQLServerTerminalInfoDAO extends AbstractDao implements ITerminalIn
 
     /**
      * SQL Server for System Setting.
-     * 
+     *
      * @throws DaoException Exception when error occurs
      */
     public SQLServerTerminalInfoDAO() throws DaoException {
@@ -50,7 +50,7 @@ public class SQLServerTerminalInfoDAO extends AbstractDao implements ITerminalIn
     public TerminalInfo getTxidInfo(String companyid, String storeid, String workstationid, String businessDayDate,
             int trainingmode) throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getTxidInfo";
         tp.methodEnter(functionName);
         Connection conn = null;
         PreparedStatement getTxidInfoPrpStmnt = null;

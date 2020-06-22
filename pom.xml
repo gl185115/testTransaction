@@ -612,7 +612,7 @@
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <repositoryId>resmex-snapshots</repositoryId>
+                            <repositoryId>snapshots</repositoryId>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${myArtifactId}</artifactId>
                             <version>${project.version}</version>
@@ -631,7 +631,7 @@
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <repositoryId>resmex-snapshots</repositoryId>
+                            <repositoryId>snapshots</repositoryId>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>apidoc</artifactId>
                             <version>${project.version}</version>

@@ -618,7 +618,7 @@
                             <version>${project.version}</version>
                             <packaging>war</packaging>
                             <file>${project.build.directory}/${myArtifactId}.war</file>
-                            <pomFile>pom.xml</pomFile>
+                            <pomFile>pom_jfrog.xml</pomFile>
                             <generatePom>true</generatePom>
                             <uniqueVersion>false</uniqueVersion>
                             <url>${project.distributionManagement.snapshotRepository.url}</url>
@@ -636,7 +636,7 @@
                             <artifactId>apidoc</artifactId>
                             <version>${project.version}</version>
                             <packaging>html</packaging>
-                            <pomFile>pom.xml</pomFile>
+                            <pomFile>pom_jfrog.xml</pomFile>
                             <file>${project.build.directory}/api_document.html</file>
                             <uniqueVersion>false</uniqueVersion>
                             <generatePom>true</generatePom>

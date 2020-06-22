@@ -41,28 +41,29 @@
 
     <repositories>
         <repository>
-            <id>resmex-releases</id>
-            <name>RES MeX Releases</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
+            <id>resmex-maven-group</id>
+            <name>ncr-artifactory-member-0-releases</name>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-release</url>
         </repository>
+
         <repository>
-            <id>resmex-snapshots</id>
-            <name>RES MeX SnapShots</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
+            <id>snapshots</id>
+            <name>ncr-artifactory-member-1-snapshots</name>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-release</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <repository>
-            <id>resmex-releases</id>
-            <name>RES MeX Releases</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
+            <id>central</id>
+            <name>ncr-artifactory-member-0-releases</name>
+            <url>https://ncr.jfrog.io/ncr/resmex-maven-releases</url>
         </repository>
+
         <snapshotRepository>
-            <id>resmex-snapshots</id>
-            <name>RES MeX Snapshots</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>snapshots</id>
+            <name>ncr-artifactory-member-1-snapshots</name>
+            <url>https://ncr.jfrog.io/ncr/resmex-maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -70,7 +71,7 @@
         <dependency>
             <groupId>ncr.res.base</groupId>
             <artifactId>mex-common</artifactId>
-            <version>3.5.0.7</version>
+            <version>3.5.1.18</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -206,16 +207,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>ncr.res.base.javalib</groupId>
+            <groupId>ncr.res.base</groupId>
             <artifactId>toppan-giftcard-mobile</artifactId>
-            <version>3.5.1.7</version>
-            <scope>compile</scope>
+            <version>3.5.2.9</version>
         </dependency>
         <dependency>
-            <groupId>mobilepos</groupId>
+            <groupId>ncr.res.base</groupId>
             <artifactId>poslog-binding</artifactId>
-            <version>3.5.0.26</version>
-            <scope>compile</scope>
+            <version>3.5.1.2</version>
         </dependency>
 
         <!-- For Test -->

@@ -43,13 +43,13 @@
         <repository>
             <id>resmex-maven-group</id>
             <name>ncr-artifactory-member-0-releases</name>
-            <url>https://ncr.jfrog.io/artifactory/resmex-maven-release</url>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-releases</url>
         </repository>
 
         <repository>
             <id>snapshots</id>
             <name>ncr-artifactory-member-1-snapshots</name>
-            <url>https://ncr.jfrog.io/artifactory/resmex-maven-release</url>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-snapshots</url>
         </repository>
     </repositories>
 

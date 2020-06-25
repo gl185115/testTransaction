@@ -41,7 +41,7 @@
 
     <repositories>
         <repository>
-            <id>resmex-maven-group</id>
+            <id>central</id>
             <name>ncr-artifactory-member-0-releases</name>
             <url>https://ncr.jfrog.io/artifactory/resmex-maven-releases</url>
         </repository>
@@ -612,7 +612,7 @@
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <repositoryId>snapshots</repositoryId>
+                            <repositoryId>central</repositoryId>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${myArtifactId}</artifactId>
                             <version>${project.version}</version>
@@ -621,26 +621,26 @@
                             <pomFile>pom_jfrog.xml</pomFile>
                             <generatePom>true</generatePom>
                             <uniqueVersion>false</uniqueVersion>
-                            <url>${project.distributionManagement.snapshotRepository.url}</url>
+                            <url>${project.distributionManagement.repository.url}</url>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>apidoc</id>
+                        <id>resTransaction-APIdocument</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <repositoryId>snapshots</repositoryId>
+                            <repositoryId>central</repositoryId>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>apidoc</artifactId>
+                            <artifactId>resTransaction-APIdocument</artifactId>
                             <version>${project.version}</version>
                             <packaging>html</packaging>
                             <pomFile>pom_jfrog.xml</pomFile>
-                            <file>${project.build.directory}/api_document.html</file>
+                            <file>${project.build.directory}/resTransaction-APIdocument.html</file>
                             <uniqueVersion>false</uniqueVersion>
                             <generatePom>true</generatePom>
-                            <url>${project.distributionManagement.snapshotRepository.url}</url>
+                            <url>${project.distributionManagement.repository.url}</url>
                         </configuration>
                     </execution>
                 </executions>
@@ -665,7 +665,7 @@
                             <outputTemplate>${project.basedir}/resources/strapdown.html.mustache</outputTemplate>
                             <mustacheFileRoot>${project.basedir}/resources/</mustacheFileRoot>
                             <useOutputFlatStructure>false</useOutputFlatStructure>
-                            <outputPath>${project.build.directory}/api_document.html</outputPath>
+                            <outputPath>${project.build.directory}/resTransaction-APIdocument.html</outputPath>
                             <swaggerDirectory>${project.build.directory}/swagger-ui_data</swaggerDirectory>
                         </apiSource>
                     </apiSources>

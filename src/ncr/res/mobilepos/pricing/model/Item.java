@@ -1276,6 +1276,20 @@ public class Item extends ResultBase {
 
     private String updOpeCode;
 
+    // FDMM add start by mt185204 2020-07-15
+    @XmlElement(name = "PharmaceuticalFlag")
+    private String PharmaceuticalFlag;
+
+    @ApiModelProperty(value="コデイン含有医薬品", notes="コデイン含有医薬品")
+    public String getPharmaceuticalFlag() {
+        return PharmaceuticalFlag;
+    }
+
+    public void setPharmaceuticalFlag(String PharmaceuticalFlag) {
+        this.PharmaceuticalFlag = PharmaceuticalFlag;
+    }
+    // FDMM add end by mt185204 2020-07-15
+
     // constructors
     public Item() {
     }
@@ -1343,6 +1357,9 @@ public class Item extends ResultBase {
         this.subCode3 = item.getSubCode3();
         this.subNum2 = item.getSubNum2();
         //end
+        // FDMM add start by mt185204 2020-07-15
+        this.PharmaceuticalFlag = item.getPharmaceuticalFlag();
+        // FDMM add end by mt185204 2020-07-15
     }
 
     public Item(final String itemId, final Description description,

@@ -264,6 +264,9 @@ public final class SaleItemsHandler {
         saleRes.setLineTaxType(item.getLineTaxType());
         saleRes.setLineDiscountType(item.getLineDiscountType());
         saleRes.setPluTaxType(item.getPluTaxType());
+        // FDMM add start by mt185204 2020-07-15
+        saleRes.setPharmaceuticalFlag(item.getPharmaceuticalFlag());
+        // FDMM add end by mt185204 2020-07-15
         return saleRes;
     }
 

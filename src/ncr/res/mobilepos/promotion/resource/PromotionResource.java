@@ -2106,6 +2106,9 @@ public class PromotionResource {
         item.setLineTaxType(StringUtility.convNullStringToNull(json.getString("lineTaxType")));
         item.setLineDiscountType(StringUtility.convNullStringToNull(json.getString("lineDiscountType")));
         item.setPluTaxType(StringUtility.convNullStringToNull(json.getString("taxType")));
+        // FDMM add start by mt185204 2020-07-15
+        item.setPharmaceuticalFlag(StringUtility.convNullStringToNull(json.getString("pharmaceuticalFlag")));
+        // FDMM add end by mt185204 2020-07-15
 
 		if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));

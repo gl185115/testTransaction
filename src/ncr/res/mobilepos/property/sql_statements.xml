@@ -287,6 +287,7 @@ SELECT TOP 1
        plu.MdName,
        pluNameInfo.MdName pluMdName,
        plu.SubCode5 BrandSaleName,
+       plu.SubCode9 PharmaceuticalFlag,
        %s,
        %s,
        classInfo.ClassNameLocal,

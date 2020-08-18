@@ -1231,9 +1231,6 @@ public class Item extends ResultBase {
     @XmlElement(name = "Class")
     private String itemClass;
 
-    @XmlElement(name = "AgeRestrictedFlag")
-    private int ageRestrictedFlag = -1;
-
     @XmlElement(name = "CouponFlag")
     private String couponFlag;
 
@@ -1290,6 +1287,66 @@ public class Item extends ResultBase {
     }
     // FDMM add end by mt185204 2020-07-15
 
+    // FDMM add start RESD-3824 2020-08-18
+    @XmlElement(name = "AgeRestrictedFlag")
+    private String ageRestrictedFlag;
+    
+    @XmlElement(name = "ClsAgeRestrictedFlag")
+    private String ClsAgeRestrictedFlag;
+    
+    @XmlElement(name = "LineAgeRestrictedFlag")
+    private String LineAgeRestrictedFlag;
+    
+    @XmlElement(name = "DptAgeRestrictedFlag")
+    private String DptAgeRestrictedFlag;
+    
+    @XmlElement(name = "AgeSource")
+    private String AgeSource;
+    
+    @ApiModelProperty(value="年齢制限フラグ", notes="年齢制限フラグ")
+    public final String getAgeRestrictedFlag() {
+        return this.ageRestrictedFlag;
+    }
+
+    public final void setAgeRestrictedFlag(final String ageRestrictedFlag) {
+        this.ageRestrictedFlag = ageRestrictedFlag;
+    }
+    
+    @ApiModelProperty(value="class免税区分", notes="class免税区分")
+	public String getClsAgeRestrictedFlag() {
+		return ClsAgeRestrictedFlag;
+	}
+
+	public void setClsAgeRestrictedFlag(String ClsAgeRestrictedFlag) {
+		this.ClsAgeRestrictedFlag = ClsAgeRestrictedFlag;
+	}
+	@ApiModelProperty(value="line免税区分", notes="line免税区分")
+	public String getLineAgeRestrictedFlag() {
+		return LineAgeRestrictedFlag;
+	}
+
+	public void setLineAgeRestrictedFlag(String LineAgeRestrictedFlag) {
+		this.LineAgeRestrictedFlag = LineAgeRestrictedFlag;
+	}
+	@ApiModelProperty(value="dpt免税区分", notes="dpt免税区分")
+	public String getDptAgeRestrictedFlag() {
+		return DptAgeRestrictedFlag;
+	}
+
+	public void setDptAgeRestrictedFlag(String DptAgeRestrictedFlag) {
+		this.DptAgeRestrictedFlag = DptAgeRestrictedFlag;
+	}
+	
+	@ApiModelProperty(value="年齢制限フラグを取得したマスターテーブルの識別子", notes="年齢制限フラグを取得したマスターテーブルの識別子")
+	public String getAgeSource() {
+		return AgeSource;
+	}
+
+	public void setAgeSource(String AgeSource) {
+		this.AgeSource = AgeSource;
+	}
+    // FDMM add end RESD-3824 2020-08-18
+    
     // constructors
     public Item() {
     }
@@ -1315,7 +1372,6 @@ public class Item extends ResultBase {
         this.subInt10 = item.getSubInt10();
         this.line = item.getLine();
         this.itemClass = item.getItemClass();
-        this.ageRestrictedFlag = item.getAgeRestrictedFlag();
         this.couponFlag = item.getCouponFlag();
         this.discountFlag = item.getDiscountFlag();
         this.mustBuyFlag = item.getMustBuyFlag();
@@ -1360,6 +1416,12 @@ public class Item extends ResultBase {
         // FDMM add start by mt185204 2020-07-15
         this.PharmaceuticalFlag = item.getPharmaceuticalFlag();
         // FDMM add end by mt185204 2020-07-15
+        // FDMM add start RESD-3824 2020-08-18
+        this.ageRestrictedFlag = item.getAgeRestrictedFlag();
+        this.ClsAgeRestrictedFlag = item.getClsAgeRestrictedFlag();
+        this.LineAgeRestrictedFlag = item.getLineAgeRestrictedFlag();
+        this.DptAgeRestrictedFlag = item.getDptAgeRestrictedFlag();
+        // FDMM add end RESD-3824 2020-08-18
     }
 
     public Item(final String itemId, final Description description,
@@ -1612,16 +1674,7 @@ public class Item extends ResultBase {
     public final void setItemClass(final String itemClass) {
         this.itemClass = itemClass;
     }
-
-    @ApiModelProperty(value="年齢制限フラグ", notes="年齢制限フラグ")
-    public final int getAgeRestrictedFlag() {
-        return this.ageRestrictedFlag;
-    }
-
-    public final void setAgeRestrictedFlag(final int ageRestrictedFlag) {
-        this.ageRestrictedFlag = ageRestrictedFlag;
-    }
-
+    
     @ApiModelProperty(value="クーポン券フラグ", notes="クーポン券フラグ")
     public final String getCouponFlag() {
         return couponFlag;

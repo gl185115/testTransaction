@@ -317,7 +317,13 @@ SELECT TOP 1
        sizePtnInfo.SizePatternId,
        lineInfo.TaxType lineTaxType,
        lineInfo.discountType lineDiscountType,
-       %s
+       %s,
+       <!-- FDMM add start RESD-3824 2020-08-18 -->
+       plu.AgeRestrictedFlag,
+       classInfo.AgeRestrictedFlag ClsAgeRestrictedFlag,
+       dpt.AgeRestrictedFlag DptAgeRestrictedFlag,
+       lineInfo.AgeRestrictedFlag LineAgeRestrictedFlag
+       <!-- FDMM add end RESD-3824 2020-08-18 -->
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore

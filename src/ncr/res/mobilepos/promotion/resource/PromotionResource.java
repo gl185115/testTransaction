@@ -635,6 +635,9 @@ public class PromotionResource {
 
 				// 税率区分の値を取得したマスターテーブルの番号
 				saleItem = chooseTaxSource(saleItem);
+				
+				// 年齢制限フラグを取得したマスターテーブルの識別子
+				saleItem = chooseAgeSource(saleItem);
 
 				// 非課税の場合、商品の税率情報を取得する
 				if(("2").equals(saleItem.getTaxType())){
@@ -820,6 +823,40 @@ public class PromotionResource {
 		return saleItem;
 	}
 
+	// FDMM add start RESD-3824 2020-08-18
+	/**
+	 * 年齢制限フラグを取得したマスターテーブルの識別子
+	 *
+	 * @param saleItem
+	 */
+	private Sale chooseAgeSource(Sale saleItem) {
+		if(!StringUtility.isNullOrEmpty(saleItem.getAgeRestrictedFlag())){
+			//年齢制限フラグを取得
+			saleItem.setAgeSource(PRIORITY_ONE);
+			saleItem.setAgeRestrictedFlag(saleItem.getAgeRestrictedFlag());
+			return saleItem;
+		}
+		if (!StringUtility.isNullOrEmpty(saleItem.getClsAgeRestrictedFlag())) {
+			//年齢制限フラグを取得
+			saleItem.setAgeSource(PRIORITY_TWO);
+			saleItem.setAgeRestrictedFlag(saleItem.getClsAgeRestrictedFlag());
+			return saleItem;
+		}
+		if (!StringUtility.isNullOrEmpty(saleItem.getLineAgeRestrictedFlag())) {
+			//年齢制限フラグを取得
+			saleItem.setAgeSource(PRIORITY_THREE);
+			saleItem.setAgeRestrictedFlag(saleItem.getLineAgeRestrictedFlag());
+			return saleItem;
+		}
+		if (!StringUtility.isNullOrEmpty(saleItem.getDptAgeRestrictedFlag())) {
+			//年齢制限フラグを取得
+			saleItem.setAgeSource(PRIORITY_FOUR);
+			saleItem.setAgeRestrictedFlag(saleItem.getDptAgeRestrictedFlag());
+		}
+		return saleItem;
+	}
+	// FDMM add end RESD-3824 2020-08-18
+	
 	/**
 	 * 税率の情報を取得する
 	 *
@@ -2037,7 +2074,6 @@ public class PromotionResource {
 		item.setPremiumList(premiumList);
 
 		item.setItemClass(StringUtility.convNullStringToNull(json.getString("itemClass")));
-		item.setAgeRestrictedFlag(json.getInt("ageRestrictedFlag"));
 		item.setCouponFlag(StringUtility.convNullStringToNull(json.getString("couponFlag")));
 		item.setRetailStoreId(StringUtility.convNullStringToNull(json.getString("retailStoreId")));
 		item.setEventId(StringUtility.convNullStringToNull(json.getString("eventId")));
@@ -2109,8 +2145,14 @@ public class PromotionResource {
         // FDMM add start by mt185204 2020-07-15
         item.setPharmaceuticalFlag(StringUtility.convNullStringToNull(json.getString("pharmaceuticalFlag")));
         // FDMM add end by mt185204 2020-07-15
-
-		if (!"null".equals(json.getString("qrPromotionId"))) {
+        // FDMM add start RESD-3824 2020-08-18
+        item.setAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("ageRestrictedFlag")));
+        item.setClsAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("clsAgeRestrictedFlag")));
+        item.setLineAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("lineAgeRestrictedFlag")));
+        item.setDptAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("dptAgeRestrictedFlag")));
+        // FDMM add end RESD-3824 2020-08-18
+        
+        if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));
 			item.setQrBmpFileName(StringUtility.convNullStringToNull(json.getString("qrBmpFileName")));

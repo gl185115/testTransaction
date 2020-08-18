@@ -245,7 +245,6 @@ public final class SaleItemsHandler {
             saleRes.setPriceOverride(0 < saleIn.getActualSalesUnitPrice() && saleRes.getDiscountable()
                     && saleIn.getActualSalesUnitPrice() != saleRes.getActualSalesUnitPrice());
         }
-        saleRes.setAgeRestrictedFlag(item.getAgeRestrictedFlag());
         saleRes.setCouponFlag(item.getCouponFlag());
         saleRes.setTaxTypeSource(item.getTaxTypeSource());
         saleRes.setDiscountTypeSource(item.getDiscountTypeSource());
@@ -267,6 +266,12 @@ public final class SaleItemsHandler {
         // FDMM add start by mt185204 2020-07-15
         saleRes.setPharmaceuticalFlag(item.getPharmaceuticalFlag());
         // FDMM add end by mt185204 2020-07-15
+        // FDMM add start RESD-3824 2020-08-18
+        saleRes.setAgeRestrictedFlag(item.getAgeRestrictedFlag());
+        saleRes.setClsAgeRestrictedFlag(item.getClsAgeRestrictedFlag());
+        saleRes.setLineAgeRestrictedFlag(item.getLineAgeRestrictedFlag());
+        saleRes.setDptAgeRestrictedFlag(item.getDptAgeRestrictedFlag());
+        // FDMM add end RESD-3824 2020-08-18
         return saleRes;
     }
 

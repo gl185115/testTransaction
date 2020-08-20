@@ -1347,7 +1347,31 @@ public class Item extends ResultBase {
 	}
     // FDMM add end RESD-3824 2020-08-18
     
-    // constructors
+	// FDMM add start RESD-3584 2020-08-19
+	@XmlElement(name = "SelfFlag")
+    private String SelfFlag;
+	@XmlElement(name = "SelfMedicationMark")
+    private String SelfMedicationMark;
+	
+	@ApiModelProperty(value="セルフメディケーション税制フラグ", notes="セルフメディケーション税制フラグ")
+	public String getSelfFlag() {
+		return SelfFlag;
+	}
+
+	public void setSelfFlag(String SelfFlag) {
+		this.SelfFlag = SelfFlag;
+	}
+	@ApiModelProperty(value="セルフメディケーションマーク", notes="セルフメディケーションマーク")
+	public String getSelfMedicationMark() {
+		return SelfMedicationMark;
+	}
+
+	public void setSelfMedicationMark(String SelfMedicationMark) {
+		this.SelfMedicationMark = SelfMedicationMark;
+	}
+	// FDMM add end RESD-3584 2020-08-19
+    
+	// constructors
     public Item() {
     }
 
@@ -1422,6 +1446,10 @@ public class Item extends ResultBase {
         this.LineAgeRestrictedFlag = item.getLineAgeRestrictedFlag();
         this.DptAgeRestrictedFlag = item.getDptAgeRestrictedFlag();
         // FDMM add end RESD-3824 2020-08-18
+        // FDMM add start RESD-3584 2020-08-19
+        this.SelfFlag = item.getSelfFlag();
+        this.SelfMedicationMark = item.getSelfMedicationMark();
+        // FDMM add end RESD-3584 2020-08-19
     }
 
     public Item(final String itemId, final Description description,

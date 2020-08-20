@@ -8,7 +8,7 @@
 DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),@sizeId VARCHAR(10),
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
         @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10),
-        @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10)
+        @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10), @selfmedicationStoreId VARCHAR(10)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
     SET @MdInternal = LTRIM(RTRIM(?))
@@ -25,6 +25,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @pluNameStoreId = @storeId
     SET @sizePtnStoreId = @storeId
     SET @lineStoreId = @storeId
+    SET @selfmedicationStoreId = @storeId
 
     IF NOT EXISTS (
        SELECT *
@@ -218,6 +219,22 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @lineStoreId = '0'
+    
+    IF NOT EXISTS (
+       SELECT *
+       FROM
+         RESMaster.dbo.MST_SELFMEDICATION_TBL selfmedication
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = selfmedication.CompanyId
+        AND selfmedication.StoreId = @selfmedicationStoreId
+        AND CONVERT(DATE, @businessDate) BETWEEN selfmedication.DisplayStartDate AND selfmedication.DisplayEndDate
+        AND selfmedication.DeleteFlag = 0.0
+       WHERE
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
+    )
+    SET @selfmedicationStoreId = '0'
 
 SELECT TOP 1
        plu.CompanyId,
@@ -322,8 +339,12 @@ SELECT TOP 1
        plu.AgeRestrictedFlag,
        classInfo.AgeRestrictedFlag ClsAgeRestrictedFlag,
        dpt.AgeRestrictedFlag DptAgeRestrictedFlag,
-       lineInfo.AgeRestrictedFlag LineAgeRestrictedFlag
+       lineInfo.AgeRestrictedFlag LineAgeRestrictedFlag,
        <!-- FDMM add end RESD-3824 2020-08-18 -->
+       <!-- FDMM add start RESD-3584 2020-08-19 -->
+       plu.SubCode8 SelfFlag,
+       selfmedication.SelfMedicationMark
+       <!-- FDMM add start RESD-3584 2020-08-19 -->
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
@@ -408,6 +429,11 @@ AND lineInfo.StoreId = @lineStoreId
 AND plu.Dpt = lineInfo.Dpt
 AND plu.Line = lineInfo.Line
 AND lineInfo.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_SELFMEDICATION_TBL selfmedication
+ON plu.CompanyId = selfmedication.CompanyId
+AND selfmedication.StoreId = @selfmedicationStoreId
+AND CONVERT(DATE, @businessDate) BETWEEN selfmedication.DisplayStartDate AND selfmedication.DisplayEndDate
+AND selfmedication.DeleteFlag = 0.0
 
 WHERE plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2

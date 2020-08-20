@@ -2151,7 +2151,10 @@ public class PromotionResource {
         item.setLineAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("lineAgeRestrictedFlag")));
         item.setDptAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("dptAgeRestrictedFlag")));
         // FDMM add end RESD-3824 2020-08-18
-        
+        // FDMM add start RESD-3584 2020-08-19
+        item.setSelfFlag(StringUtility.convNullStringToNull(json.getString("selfFlag")));
+        item.setSelfMedicationMark(StringUtility.convNullStringToNull(json.getString("selfMedicationMark")));
+        // FDMM add end RESD-3584 2020-08-19
         if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));

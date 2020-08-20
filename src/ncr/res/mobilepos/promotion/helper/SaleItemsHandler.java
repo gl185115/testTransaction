@@ -272,6 +272,10 @@ public final class SaleItemsHandler {
         saleRes.setLineAgeRestrictedFlag(item.getLineAgeRestrictedFlag());
         saleRes.setDptAgeRestrictedFlag(item.getDptAgeRestrictedFlag());
         // FDMM add end RESD-3824 2020-08-18
+        // FDMM add start RESD-3584 2020-08-19
+        saleRes.setSelfFlag(item.getSelfFlag());
+        saleRes.setSelfMedicationMark(item.getSelfMedicationMark());
+        // FDMM add end RESD-3584 2020-08-19
         return saleRes;
     }
 

@@ -1287,6 +1287,32 @@ public class Item extends ResultBase {
     }
     // FDMM add end by mt185204 2020-07-15
 
+    // FDMM add start RESD-3589 2020-09-8
+    @XmlElement(name = "RecallFlag")
+    private String RecallFlag;
+
+    @ApiModelProperty(value="回収指示", notes="回収指示")
+    public String getRecallFlag() {
+        return RecallFlag;
+    }
+    
+    public void setRecallFlag(String RecallFlag) {
+        this.RecallFlag = RecallFlag;
+    }
+    
+    @XmlElement(name = "CallInReason")
+    private String CallInReason;
+
+    @ApiModelProperty(value="回収理由", notes="回収理由")
+    public String getCallInReason() {
+        return CallInReason;
+    }
+
+    public void setCallInReason(String CallInReason) {
+        this.CallInReason = CallInReason;
+    }
+    // FDMM add end RESD-3589 2020-09-8
+
     // FDMM add start RESD-3824 2020-08-18
     @XmlElement(name = "AgeRestrictedFlag")
     private String ageRestrictedFlag;
@@ -1450,6 +1476,10 @@ public class Item extends ResultBase {
         this.SelfFlag = item.getSelfFlag();
         this.SelfMedicationMark = item.getSelfMedicationMark();
         // FDMM add end RESD-3584 2020-08-19
+        // FDMM add start RESD-3589 2020-09-8
+        this.RecallFlag = item.getRecallFlag();
+        this.CallInReason = item.getCallInReason();
+        // FDMM add end RESD-3589 2020-09-8
     }
 
     public Item(final String itemId, final Description description,

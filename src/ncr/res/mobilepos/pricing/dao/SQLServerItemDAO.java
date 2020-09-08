@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import ncr.realgate.util.Trace;
@@ -358,6 +360,21 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setSelfFlag(result.getString(result.findColumn("SelfFlag")));
                 searchedItem.setSelfMedicationMark(result.getString(result.findColumn("SelfMedicationMark")));
                 // FDMM add end RESD-3584 2020-08-19
+                // FDMM add start RESD-3589 2020-09-8
+                searchedItem.setCallInReason(result.getString(result.findColumn("CallInReason")));
+                if (result.getObject(result.findColumn("DisplayEndDate")) != null) {
+                    Date today = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date endDate = sdf.parse(result.getString(result.findColumn("DisplayEndDate")));
+                    if (today.before(endDate)) {
+                        searchedItem.setRecallFlag(result.getString(result.findColumn("RecallFlag")));
+                    } else {
+                        searchedItem.setRecallFlag("0");
+                    }
+                } else {
+                    searchedItem.setRecallFlag(result.getString(result.findColumn("RecallFlag")));
+                }
+                // FDMM add end RESD-3589 2020-09-8
                 if (storeFixation) {
                     searchedItem.setLine(result.getString(result.findColumn("Line")));
                     searchedItem.setItemClass(result.getString(result.findColumn("Class")));

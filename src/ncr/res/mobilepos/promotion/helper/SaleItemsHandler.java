@@ -276,6 +276,10 @@ public final class SaleItemsHandler {
         saleRes.setSelfFlag(item.getSelfFlag());
         saleRes.setSelfMedicationMark(item.getSelfMedicationMark());
         // FDMM add end RESD-3584 2020-08-19
+        // FDMM add start RESD-3589 2020-09-8
+        saleRes.setRecallFlag(item.getRecallFlag());
+        saleRes.setCallInReason(item.getCallInReason());
+        // FDMM add end RESD-3589 2020-09-8
         return saleRes;
     }
 

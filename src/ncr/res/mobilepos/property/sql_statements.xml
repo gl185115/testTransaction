@@ -8,7 +8,8 @@
 DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),@sizeId VARCHAR(10),
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
         @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10),
-        @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10), @selfmedicationStoreId VARCHAR(10)
+        @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10), @selfmedicationStoreId VARCHAR(10),
+        @callinStoreId VARCHAR(10)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
     SET @MdInternal = LTRIM(RTRIM(?))
@@ -26,6 +27,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @sizePtnStoreId = @storeId
     SET @lineStoreId = @storeId
     SET @selfmedicationStoreId = @storeId
+    SET @callinStoreId = @storeId
 
     IF NOT EXISTS (
        SELECT *
@@ -219,6 +221,23 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @lineStoreId = '0'
+	
+	IF NOT EXISTS (
+       SELECT *
+       FROM
+         RESMaster.dbo.MST_CALLINITEM_TBL callinitem
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = callinitem.CompanyId
+        AND callinitem.StoreId = @callinStoreId
+        AND plu.MdInternal = callinitem.MdInternal
+        AND plu.SubCode11 = callinitem.CallInArea
+        AND callinitem.DeleteFlag = 0.0
+       WHERE
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
+    )
+    SET @callinStoreId = '0'
     
     IF NOT EXISTS (
        SELECT *
@@ -305,6 +324,7 @@ SELECT TOP 1
        pluNameInfo.MdName pluMdName,
        plu.SubCode5 BrandSaleName,
        plu.SubCode9 PharmaceuticalFlag,
+       plu.SubCode11 RecallFlag,
        %s,
        %s,
        classInfo.ClassNameLocal,
@@ -343,8 +363,12 @@ SELECT TOP 1
        <!-- FDMM add end RESD-3824 2020-08-18 -->
        <!-- FDMM add start RESD-3584 2020-08-19 -->
        plu.SubCode8 SelfFlag,
-       selfmedication.SelfMedicationMark
+       selfmedication.SelfMedicationMark,
        <!-- FDMM add start RESD-3584 2020-08-19 -->
+       <!-- FDMM add start RESD-3589 2020-09-08 -->
+       callinitem.CallInReason,
+       callinitem.DisplayEndDate
+       <!-- FDMM add end RESD-3589 2020-09-08 -->
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
@@ -429,6 +453,12 @@ AND lineInfo.StoreId = @lineStoreId
 AND plu.Dpt = lineInfo.Dpt
 AND plu.Line = lineInfo.Line
 AND lineInfo.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_CALLINITEM_TBL callinitem
+ON plu.CompanyId = callinitem.CompanyId
+AND callinitem.StoreId = @callinStoreId
+AND plu.MdInternal = callinitem.MdInternal
+AND plu.SubCode11 = callinitem.CallInArea
+AND callinitem.DeleteFlag = 0.0
 LEFT JOIN RESMaster.dbo.MST_SELFMEDICATION_TBL selfmedication
 ON plu.CompanyId = selfmedication.CompanyId
 AND selfmedication.StoreId = @selfmedicationStoreId

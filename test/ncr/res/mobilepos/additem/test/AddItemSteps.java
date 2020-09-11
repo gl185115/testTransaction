@@ -153,7 +153,7 @@ public class AddItemSteps extends Steps {
 				+ itemCode
 				+ "\",\"ItemIDType\":\"EAN13\",\"Department\":\"\",\"Quantity\":1}}";
 		itemEntryResponse = testpromotionResource.itemEntry(this.storeId,
-				this.terminalId, this.seqNo, itemEntryJson, this.companyId, this.priceCheck,
+				this.terminalId, this.seqNo, itemEntryJson, this.companyId, false, this.priceCheck,
 				this.businessDate);
 		departmentInfoResponse = testDepartmentResource.selectDepartmentDetail(
 				this.companyId, this.storeId, itemEntryResponse

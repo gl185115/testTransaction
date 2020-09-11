@@ -222,7 +222,7 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 
 		actualResultBase = testpromotionResource.itemEntry(retailStoreId,
-				workStationId, sequenceNo, transactionJson, companyId, priceCheck,
+				workStationId, sequenceNo, transactionJson, companyId, false, priceCheck,
 				businessDate);
 	}
 

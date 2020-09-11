@@ -136,4 +136,16 @@ public final class DebugLogger {
             }
         }
     }
+
+    /**
+     * Get the Method Name that invoke this method.
+     * @return  The Method Name.
+     */
+    public static String getCurrentMethodName() {
+        // Magic number for getStackTrace()[n].
+        // 0 to expect 'getStackTrace()'
+        // 1 to expect 'getCurrentMethodName()'
+        // 2 to expect invoking method.
+        return Thread.currentThread().getStackTrace()[2].getMethodName();
+    }
 }

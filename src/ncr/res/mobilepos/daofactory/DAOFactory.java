@@ -52,6 +52,7 @@ import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.posmailinfo.dao.IPOSMailInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
@@ -361,6 +362,15 @@ public abstract class DAOFactory {
      *             exception
      */
     public abstract ICodeConvertDAO getCodeConvertDAO() throws DaoException;
+
+    /**
+     * Gets the DAO Object for PairMatch Info.
+     *
+     * @return IPMInfoDAO
+     * @throws DaoException
+     *             exception
+     */
+    public abstract IPMInfoDAO getPMInfoDAO() throws DaoException;
 
     /**
      * Gets the DAO Object for QrCodeInfo.

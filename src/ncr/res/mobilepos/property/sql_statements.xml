@@ -838,6 +838,93 @@ ELSE
         ORDER BY info.MMNo ASC
 </entry>
 
+ <entry key="get-price-pm-info">
+	DECLARE
+		@storeId VARCHAR (10) ,@companyId VARCHAR (12),
+		@mdInternal VARCHAR (32),
+		@businessDate VARCHAR (32),
+		@BizCatId VARCHAR(20)
+
+	SET @storeId = LTRIM(RTRIM(?))
+	SET @companyId = LTRIM(RTRIM(?))
+	SET @mdInternal = LTRIM(RTRIM(?))
+	SET @businessDate = LTRIM(RTRIM(?))
+	SELECT
+    @BizCatId = BizCatId
+	FROM RESMaster.dbo.MST_STOREINFO
+	WHERE CompanyId = @companyId
+    AND StoreId = @storeId
+
+	SELECT
+		info.DiscountClass,
+		info.DecisionPMPrice,
+		info.PMRate,
+		info.DecisionPMRate,
+		info.PMNo,
+		info.SubNum1,
+		info.PMName,
+		detail.PMGroupNo,
+		info.PMDisplayNo,
+		info.PMCnt,
+		info.PMPrice,
+		info.SaleStartTime,
+		info.SaleEndTime,
+		info.StartDate,
+		info.EndDate,
+		info.StartTime,
+		info.EndTime,
+		info.DayOfWeekSettingFlag,
+		info.DayOfWeekMonFlag,
+		info.DayOfWeekTueFlag,
+		info.DayOfWeekWedFlag,
+		info.DayOfWeekThuFlag,
+		info.DayOfWeekFriFlag,
+		info.DayOfWeekSatFlag,
+		info.DayOfWeekSunFlag
+	FROM
+		RESMaster.dbo.MST_PRICE_PM_DETAIL detail
+		WITH (INDEX(IX_MST_PRICE_PM_DETAIL_1))
+        INNER LOOP JOIN RESMaster.dbo.MST_PRICE_PM_INFO info 
+	ON  detail.CompanyId = info.CompanyId
+	AND detail.PMNo = info.PMNo
+	AND @businessDate BETWEEN CONVERT(varchar(100), info.StartDate, 112) + info.StartTime  AND CONVERT(varchar(100), info.EndDate, 112)+info.EndTime
+	AND info.DropFlag = 0.0
+	AND info.DeleteFlag = 0.0
+	AND (
+		CASE
+		WHEN info.TargetStoreType = 1 THEN
+			(SELECT
+				count(store.CompanyId)
+			FROM
+				RESMaster.dbo.MST_PRICE_PM_STORE store
+			WHERE
+				store.CompanyId = @companyId
+			AND store.StoreId = @storeId
+			AND store.DeleteFlag = 0.0
+			AND info.PMNo = store.PMNo )
+		WHEN info.TargetStoreType = 3 THEN
+			(SELECT
+				count(store.CompanyId)
+			FROM
+				RESMaster.dbo.MST_PRICE_PM_STORE store
+			WHERE
+				store.CompanyId = @companyId
+			AND store.StoreId = @storeId
+			AND store.DeleteFlag = 0.0
+			AND info.PMNo = store.PMNo 
+			AND info.BizCatId = @BizCatId)
+		ELSE
+			1
+		END
+	) >= 1
+	WHERE
+	detail.CompanyId = @companyId
+	AND detail.Sku = @mdInternal
+	AND detail.DeleteFlag = 0.0
+	AND detail.DropFlag = 0.0
+	order by info.PMPrice
+</entry>
+
 <entry key="get-price-mm-info-list">
 DECLARE @companyId VARCHAR(12),
         @storeId VARCHAR(10) ,

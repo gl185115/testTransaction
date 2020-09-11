@@ -91,7 +91,7 @@ public class AddItemFromEnterpriseTest {
 		String itemEntryTxJson = "{\"EntryFlag\":\"true\",\"Sale\":{\"ItemEntryID\":1,\"ItemID\":\""
 				+ "4957669206754"
 				+ "\",\"ItemIDType\":\"EAN13\",\"Department\":\"\",\"Quantity\":1}}";
-		testpromotionResource.itemEntry("0247", "0004", "1000", itemEntryTxJson, "01", null, "2016-07-21");
+		testpromotionResource.itemEntry("0247", "0004", "1000", itemEntryTxJson, "01", false, null, "2016-07-21");
 		PowerMockito.verifyStatic();
 	}
 }

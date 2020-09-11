@@ -17,6 +17,7 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.promotion.model.PMInfo;
 
 /**
  * Item Model Object.
@@ -255,6 +256,9 @@ public class Item extends ResultBase {
     @XmlElement(name = "StoreId")
     private String storeId;
     
+    @XmlElement(name = "PmInfoList")
+    private List<? extends PMInfo> pmInfoList;
+    
     @ApiModelProperty(value="ìXï‹ÉRÅ[Éh", notes="ìXï‹ÉRÅ[Éh")
     public String getStoreId() {
         return storeId;
@@ -263,6 +267,12 @@ public class Item extends ResultBase {
     public void setStoreId(String storeId) {
         this.storeId = storeId;
     }
+
+    @XmlElement(name = "PricePromList")
+    private List<PricePromInfo> pricePromList;
+    
+    @XmlElement(name = "PriceUrgentInfo")
+    private PriceUrgentInfo priceUrgentInfo;
 
     @XmlElement(name = "DptDiscountType")
     private String dptDiscountType;
@@ -811,6 +821,24 @@ public class Item extends ResultBase {
     public void setDiscountAmt(int discountAmt) {
         this.discountAmt = discountAmt;
     }
+
+    @ApiModelProperty(value="ì¡îÑ", notes="ì¡îÑ")
+    public List<PricePromInfo> getPricePromList() {
+		return pricePromList;
+	}
+
+	public void setPricePromList(List<PricePromInfo> pricePromList) {
+		this.pricePromList = pricePromList;
+	}
+	
+	@ApiModelProperty(value="ãŸã}îÑïœ", notes="ãŸã}îÑïœ")
+    public PriceUrgentInfo getPriceUrgentInfo() {
+		return priceUrgentInfo;
+	}
+
+	public void setPriceUrgentInfo(PriceUrgentInfo priceUrgentInfo) {
+		this.priceUrgentInfo = priceUrgentInfo;
+	}
 
     @ApiModelProperty(value="äÑà¯ãÊï™", notes="äÑà¯ãÊï™")
     public int getDiscountClass() {
@@ -2091,5 +2119,13 @@ public class Item extends ResultBase {
          .append("Class: ").append(itemClass);
       return str.toString();
     }
+
+	public List<? extends PMInfo> getPmInfoList() {
+		return pmInfoList;
+	}
+
+	public void setPmInfoList(List<? extends PMInfo> pmInfoList) {
+		this.pmInfoList = pmInfoList;
+	}
 
 }

@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -58,6 +60,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.ChangeableTaxRate;
 import ncr.res.mobilepos.pricing.model.CouponInfo;
@@ -80,8 +83,11 @@ import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.helper.TerminalItemsHandler;
+import ncr.res.mobilepos.promotion.model.ItemForPm;
 import ncr.res.mobilepos.promotion.model.ItemList;
 import ncr.res.mobilepos.promotion.model.MixMatchDetailInfo;
+import ncr.res.mobilepos.promotion.model.PmDiscountInfo;
+import ncr.res.mobilepos.promotion.model.PmItemInfo;
 import ncr.res.mobilepos.promotion.model.Promotion;
 import ncr.res.mobilepos.promotion.model.PromotionMsgInfo;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
@@ -154,6 +160,11 @@ public class PromotionResource {
 	public static final String PRIORITY_TWO = "2";
 	public static final String PRIORITY_THREE = "3";
 	public static final String PRIORITY_FOUR = "4";
+	
+    /**
+     * the handler for the PM
+     */
+    private PMItemsHandler pMItemsHandler;
 
 	/**
 	 * Default Constructor for PromotionResource.
@@ -167,6 +178,7 @@ public class PromotionResource {
 		qrCodeInfoList = QrCodeInfoFactory.getInstance();
 		promotionMsgInfoList = PromotionMsgInfoFactory.getInstance();
 		taxRateInfoList = TaxRateInfoFactory.getInstance();
+		pMItemsHandler = new PMItemsHandler();
 	}
 
 	/**
@@ -357,6 +369,7 @@ public class PromotionResource {
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transaction,
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "usePromotion", value = "is return promotion flag") @FormParam("usePromotion") final boolean usePromotion,
 			@ApiParam(name = "priceCheck", value = "価格照会フラグ") @FormParam("priceCheck") final String priceCheck,
 			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate) {
 		String functionName = "itemEntry";
@@ -738,7 +751,7 @@ public class PromotionResource {
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 					if(runFlag){
 						terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
-						if (setBmDetailMapItem(transactionIn,saleItem)) {
+						if (setBmDetailMapItem(transactionIn,saleItem,terminalItem)) {
 							terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
 							Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode()+"_"+saleItem.getTaxId(), "");
 							// promotion.setMap(map);
@@ -752,6 +765,21 @@ public class PromotionResource {
 								promotion.setMap(map);
 							}
 						}
+					}
+				}
+				Map<String, String> map = new HashMap<>(4);
+				map.put("companyId", companyId);
+				map.put("retailStoreId", retailStoreId);
+				map.put("itemId", saleItem.getItemId());
+				map.put("businessDate", businessDate);
+				List<PmItemInfo> pmList =  pMItemsHandler.getPmByItemId(terminalItem, saleItem, map, daoFactory);
+				// make PM
+				if (setBmDetailMapItem(transactionIn,saleItem, terminalItem)) {
+					boolean itemIsPm = pMItemsHandler.cachePmInfo(pmList,terminalItem, saleItem, false, true, 0);
+					if(usePromotion && (itemIsBm(terminalItem, saleItem) || itemIsPm)) {
+						pMItemsHandler.makePmInfo(terminalItem, promotion);
+						//
+						deleteViewPm(terminalItem, promotion,saleItem);
 					}
 				}
 
@@ -777,6 +805,100 @@ public class PromotionResource {
 			tp.methodExit(response);
 		}
 		return response;
+	}
+	
+	private boolean itemIsBm(TerminalItem terminalItem, Sale sale) {
+		if(terminalItem.getBmMapByEntryid() == null) {
+			return false;
+		}else {
+			if(terminalItem.getBmMapByEntryid().containsKey(sale.getItemEntryId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void deleteViewPm(TerminalItem terminalItem, Promotion promotion, Sale sale) {
+		deleteViewPm(terminalItem, promotion, sale, true);
+		
+	}
+	/**
+	 *  delete  the view Pm 
+	 * @param terminalItem
+	 * @param promotion
+	 */
+	private void deleteViewPm(TerminalItem terminalItem, Promotion promotion, Sale sale, boolean deleteCoupon) {
+		Map<String, Object> preMap = terminalItem.getPreMap();
+		if((null != promotion.getPmMap() && promotion.getPmMap().size() > 0) || !deleteCoupon) {
+			if(preMap.containsKey("PM")) {
+				@SuppressWarnings("unchecked")
+				Map<String, PmDiscountInfo> prePmMap = (Map<String, PmDiscountInfo>)preMap.get("PM");
+				Set<String> set = new HashSet<>();
+				for(Map.Entry<String, PmDiscountInfo> mmEntry : prePmMap.entrySet()) {
+					if(!promotion.getPmMap().containsKey(mmEntry.getKey())) {
+						set.add(mmEntry.getKey());
+						preMap.remove("PM");
+					}
+				}
+				promotion.setPmDeleteList(set);
+			}
+			preMap.put("PM", promotion.getPmMap());
+
+		}else {
+			boolean checkPm = false;
+			if(sale != null) {
+				Map<String, ItemForPm> pmMap = terminalItem.getItemOfManyPm();
+				if((terminalItem.getBmMapByEntryid() != null && terminalItem.getBmMapByEntryid().containsKey(sale.getItemEntryId())) || 
+						pmMap.containsKey(sale.getItemEntryId())) {
+					checkPm = true;
+				}
+			}
+			if(preMap.size() > 0  && checkPm) {
+				@SuppressWarnings("unchecked")
+				Map<String, List<PmItemInfo>> prePmMap = (Map<String, List<PmItemInfo>>)preMap.get("PM");
+				if(null != prePmMap && prePmMap.size() > 0) {
+					promotion.setPmDeleteList(prePmMap.keySet());
+				}
+			}
+			if(preMap.containsKey("PM")) {
+				preMap.remove("PM");
+			}
+		}
+		if(deleteCoupon) {
+			deleteCouponBm(promotion);
+		}
+	}
+	
+	private void deleteCouponBm(Promotion promotion) {
+		Map<String, Map<String, Object>> bmMap = promotion.getMap();
+		List<String> list = new ArrayList<>();
+		if(null != bmMap && bmMap.size() > 0) {
+			for(Map.Entry<String, Map<String, Object>> v : bmMap.entrySet()) {
+				Map<String, Object> vMap = v.getValue();
+				if(vMap.containsKey("SubNum1")) {
+					int subNum1 = (Integer)vMap.get("SubNum1");
+					if(PromotionConstants.CUSTOMER_SALE_INT == subNum1) {
+						list.add(v.getKey());
+					}
+				}
+			}
+			for(String str : list) {
+				bmMap.remove(str);
+			}
+			list.clear();
+		}
+		Map<String, PmDiscountInfo> pMap = promotion.getPmMap();
+		if(null != pMap && pMap.size() > 0) {
+			for(Map.Entry<String, PmDiscountInfo> pm : pMap.entrySet()) {
+				PmDiscountInfo info = pm.getValue();
+				if(info.getSubNum1() == PromotionConstants.CUSTOMER_SALE_INT) {
+					list.add(pm.getKey());
+				}
+			}
+			for(String str : list) {
+				pMap.remove(str);
+			}
+		}
 	}
 
 	/**
@@ -1149,12 +1271,39 @@ public class PromotionResource {
 		}
 		return list;
 	}
-	private boolean setBmDetailMapItem(Transaction transaction,Sale item) {
+	private boolean setBmDetailMapItem(Transaction transaction,Sale item, TerminalItem terminalItem) {
 		if ("false".equals(transaction.getEntryFlag())) {
 			return false;
 		}
 		if (0.0 == item.getRegularSalesUnitPrice()) {
 			return false;
+		}
+		List<PricePromInfo> pricePromInfos = item.getPricePromList();
+		boolean canMakeBm = true;
+		if(null != pricePromInfos && pricePromInfos.size() > 0) {
+			for(PricePromInfo info : pricePromInfos) {
+				if(info.getSubCode2() == PromotionConstants.NORMAL_SALE_INT && info.getSubNum1() == PromotionConstants.NORMAL_SALE_INT) {
+		        	if(PromotionConstants.DISCOUNT_CLASS_1.equals(info.getDiscountClass()) || PromotionConstants.DISCOUNT_CLASS_2.equals(info.getDiscountClass())) {
+		        		canMakeBm = false;
+		        	}
+				}
+				if (info.getSubCode2() == PromotionConstants.DISCOUNT_FLAG_1 && info.getSubNum1() == PromotionConstants.CUSTOMER_SALE_INT) {
+					Map<String, Set<String>> promotionItemCouponMap = terminalItem.getPromotionItemCouponMap();
+					Set<String> tmSet = null;
+					if(promotionItemCouponMap.containsKey(info.getPromotionNo())) {
+						tmSet = promotionItemCouponMap.get(info.getPromotionNo());
+						tmSet.add(item.getItemEntryId());
+					}else {
+						tmSet= new HashSet<>();
+						tmSet.add(item.getItemEntryId());
+						promotionItemCouponMap.put(info.getPromotionNo(), tmSet);
+					}
+				}
+			}	
+		}
+		
+		if(!canMakeBm) {
+			return canMakeBm;
 		}
 		if (NOT_DISCOUNTABLE.equals(item.getDiscountType())) {
 			return false;

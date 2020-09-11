@@ -3,8 +3,10 @@ package ncr.res.mobilepos.promotion.helper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -19,12 +21,15 @@ import ncr.res.mobilepos.promotion.model.DetailInfo;
 import ncr.res.mobilepos.promotion.model.GroupMixMatchData;
 import ncr.res.mobilepos.promotion.model.GroupMixMatchItem;
 import ncr.res.mobilepos.promotion.model.GroupMixMatchSubItem;
+import ncr.res.mobilepos.promotion.model.ItemForPm;
 import ncr.res.mobilepos.promotion.model.MixMatchData;
 import ncr.res.mobilepos.promotion.model.MixMatchDetailInfo;
 import ncr.res.mobilepos.promotion.model.MixMatchItem;
 import ncr.res.mobilepos.promotion.model.MixMatchItemFactory;
 import ncr.res.mobilepos.promotion.model.MixMatchRule;
+import ncr.res.mobilepos.promotion.model.PmItemInfo;
 import ncr.res.mobilepos.promotion.model.Sale;
+import ncr.res.mobilepos.promotion.resource.PromotionConstants;
 
 /**
  * TerminalItem class encapsulates the Mix and Match promotion
@@ -57,6 +62,8 @@ public class TerminalItem {
     
     private Map<String, List<MixMatchDetailInfo>> bmDetailMap;
     
+    private Map<String, MixMatchDetailInfo> bmMapByEntryid;
+    
     private Map<String, List<MixMatchDetailInfo>> bmMapBySku;
     
     private Map<String,Map<String, Object>> detailInfoMap;
@@ -64,6 +71,33 @@ public class TerminalItem {
     private List<QrCodeInfo> qrCodeInfoList;
     
     private Map<String,CouponInfo> couponInfoMap;
+    
+    private Map<String, Sale> itemCacheMap;
+    
+    private Map<String, Set<String>> promotionItemCouponMap;
+    
+    private Map<String, Set<String>> couponMap;
+    
+    /**
+     * the cache for the PM
+     */
+    private Map<String, Map<String, List<PmItemInfo>>> pmMap;
+    
+    /**
+     * current item 
+     */
+    private Map<String, ItemForPm> itemOfManyPm;
+    
+    /**
+     * the item  is  pm and Bm   and makeBM
+     */
+    private Map<String, ItemForPm> pmItemInBm;
+    
+    private Map<String, Object> preMap;
+    
+    public Map<String, ItemForPm> getItemOfManyPm() {
+		return itemOfManyPm;
+	}
     
     /** The ItemEntry map. */
     private Map<String, String> itemIdToMixMatchMap;
@@ -98,7 +132,23 @@ public class TerminalItem {
         qrCodeInfoList = new ArrayList<QrCodeInfo>();
         couponInfoMap = new HashMap<String,CouponInfo>();
         itemIdToMixMatchMap = new HashMap<String, String>();
+        pmMap = new HashMap<>();
+        itemOfManyPm = new HashMap<>();
+        pmItemInBm = new HashMap<>();
+        preMap = new HashMap<>();
+        itemCacheMap = new HashMap<>();
+        promotionItemCouponMap = new HashMap<>();
+        couponMap = new HashMap<>();
     }
+    public Map<String, Sale> getItemCacheMap() {
+		return itemCacheMap;
+	}
+	public Map<String, Object> getPreMap() {
+		return preMap;
+	}
+	public Map<String, ItemForPm> getPmItemInBm() {
+		return pmItemInBm;
+	}
     /**
      * @return the id
      */
@@ -693,6 +743,41 @@ public class TerminalItem {
         return detailMap;
     }
     
+    /**
+     *  get all Items in the discount
+     * @param discountName the discount name for example BM  PM  TM
+     * @return the items in discount
+     */
+    public Set<String> itemsInDiscount(String discountName){
+    	Set<String> tmItemSet = new HashSet<>();
+    	if(couponMap.containsKey(discountName)) {
+    		Set<String> tmCodeSet = couponMap.get(discountName);
+    		for(String tmCode: tmCodeSet) {
+    			if(promotionItemCouponMap.containsKey(tmCode)) {
+    				tmItemSet.addAll(promotionItemCouponMap.get(tmCode));
+    			}
+    		}
+    	}
+    	if(promotionItemCouponMap.containsKey("mixItem")) {
+    		tmItemSet.addAll(promotionItemCouponMap.get("mixItem"));
+    	}
+    	return tmItemSet;
+    }
+    
+    public boolean isSelectedCode(String couponFlag, String codeNo, String discountName) {
+    	boolean isSelectedCode = true;
+    	if(PromotionConstants.CUSTOMER_SALE_STRING.equals(couponFlag)) {
+    		if(couponMap.containsKey(discountName)) {
+        		Set<String> set = couponMap.get(discountName);
+        		if(set.size() > 0 && !set.contains(codeNo)) {
+        			isSelectedCode = false;
+        		}
+    		}else {
+    			isSelectedCode = false;
+        	}
+    	}
+    	return isSelectedCode;
+    }
 
     public Map<String, Map<String, Object>> getTheNewMap(Map<String, Map<String, Object>> map){
         for(Map.Entry<String, Map<String, Object>> entryMap : map.entrySet()){
@@ -884,4 +969,20 @@ public class TerminalItem {
        mixMatchItem.setSubItems(tempSubItems);
        return mixMatchItem;
     }
+    
+    public Map<String,Set<String>> getPromotionItemCouponMap() {
+		return promotionItemCouponMap;
+	}
+    
+	public Map<String, Set<String>> getCouponMap() {
+		return couponMap;
+	}
+    
+	public Map<String, Map<String, List<PmItemInfo>> > getPmMap() {
+		return pmMap;
+	}
+	
+    public Map<String, MixMatchDetailInfo> getBmMapByEntryid() {
+		return bmMapByEntryid;
+	}
 }

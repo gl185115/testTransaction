@@ -88,9 +88,11 @@ import ncr.res.mobilepos.poslogstatus.dao.SQLServerPoslogStatusDAO;
 import ncr.res.mobilepos.posmailinfo.dao.IPOSMailInfoDAO;
 import ncr.res.mobilepos.posmailinfo.dao.SQLServerPOSMailInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
+import ncr.res.mobilepos.pricing.dao.SQLServerPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerPricePromInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
@@ -440,5 +442,10 @@ public class SQLServerDAOFactory extends DAOFactory {
 	@Override
 	public ISelfModeDAO getISelfModeDAO() throws DaoException {
 		return new SQLServerSelfModeDAO();
+	}
+
+	@Override
+	public IPMInfoDAO getPMInfoDAO() throws DaoException {
+		return new SQLServerPMInfoDAO();
 	}
 }

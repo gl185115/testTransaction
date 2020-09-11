@@ -49,6 +49,15 @@ public class PricePromInfo {
 	@XmlElement(name = "brandId")
     private String brandId;
 
+	@XmlElement(name = "SubNum1")
+	private int SubNum1;
+	
+	@XmlElement(name = "SubCode2")
+	private int subCode2;
+	
+	@XmlElement(name = "salesPrice")
+    private long salesPrice;
+
 	@ApiModelProperty(value="企画No", notes="企画No")
     public String getPromotionNo() {
         return promotionNo;
@@ -146,6 +155,15 @@ public class PricePromInfo {
         this.discountAmt = discountAmt;
     }
 
+    @ApiModelProperty(value="売単価", notes="売単価")
+	public long getSalesPrice() {
+		return salesPrice;
+	}
+
+	public void setSalesPrice(long salesPrice) {
+		this.salesPrice = salesPrice;
+	}
+
 	@ApiModelProperty(value="ブランドコード", notes="ブランドコード")
     public String getBrandId() {
         return brandId;
@@ -154,5 +172,21 @@ public class PricePromInfo {
     public void setBrandId(String brandId) {
         this.brandId = brandId;
     }
+
+	public int getSubNum1() {
+		return SubNum1;
+	}
+
+	public void setSubNum1(int subNum1) {
+		SubNum1 = subNum1;
+	}
+
+	public int getSubCode2() {
+		return subCode2;
+	}
+
+	public void setSubCode2(int subCode2) {
+		this.subCode2 = subCode2;
+	}
 }
 

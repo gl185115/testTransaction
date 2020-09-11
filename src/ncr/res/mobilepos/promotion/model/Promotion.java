@@ -2,6 +2,7 @@ package ncr.res.mobilepos.promotion.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -39,6 +40,9 @@ public class Promotion extends ResultBase {
 
     @XmlElement(name = "Map")
     private Map<String,Map<String,Object>> map;
+    
+    @XmlElement(name = "PmMap")
+    private  Map<String, PmDiscountInfo> pmMap;
 
     @XmlElement(name = "QrCodeInfoList")
     private List<QrCodeInfo> qrCodeInfoList;
@@ -48,6 +52,16 @@ public class Promotion extends ResultBase {
 
     @XmlElement(name = "PromotionMessageList")
     private List<PromotionMsgInfo> promotionMsgInfoList;
+    
+    @XmlElement(name = "PmDeleteList")
+    private Set<String> pmDeleteList;
+
+    public Set<String> getPmDeleteList() {
+		return pmDeleteList;
+	}
+	public void setPmDeleteList(Set<String> pmDeleteList) {
+		this.pmDeleteList = pmDeleteList;
+	}
 
     @ApiModelProperty(value="コード情報リスト", notes="コード情報リスト")
     public List<QrCodeInfo> getQrCodeInfoMap() {
@@ -117,4 +131,11 @@ public class Promotion extends ResultBase {
         }
         return ret;
     }
+
+    public Map<String, PmDiscountInfo> getPmMap() {
+		return pmMap;
+	}
+	public void setPmMap(Map<String, PmDiscountInfo> pmMap) {
+		this.pmMap = pmMap;
+	}
 }

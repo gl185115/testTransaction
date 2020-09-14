@@ -25,14 +25,6 @@
            <url>https://ncr.jfrog.io/artifactory/resmex-maven-releases</url>
         </repository>
         <repository>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <id>central-mirror</id>
-          <name>central-mirror</name>
-          <url>https://ncr.jfrog.io/ncr/third-party-maven-central-proxy</url>
-        </repository>
-        <repository>
           <snapshots />
           <id>snapshots</id>
           <name>resmex-maven-snapshots</name>
@@ -62,7 +54,13 @@
           <name>central-mirror</name>
           <url>https://ncr.jfrog.io/ncr/third-party-maven-central-proxy</url>
         </pluginRepository>
-       </pluginRepositories>
+        <pluginRepository>
+          <snapshots />
+          <id>central-mirror</id>
+          <name>central-mirror</name>
+          <url>https://ncr.jfrog.io/ncr/third-party-maven-central-proxy</url>
+        </pluginRepository>        
+      </pluginRepositories>
       <id>artifactory</id>
     </profile>
   </profiles>

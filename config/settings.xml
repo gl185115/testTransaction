@@ -47,7 +47,6 @@
           <name>third-party-maven-all-group</name>
           <url>https://ncr.jfrog.io/artifactory/third-party-maven-all-group</url>
         </pluginRepository>
-      </pluginRepositories>
         <pluginRepository>
           <snapshots>
             <enabled>false</enabled>

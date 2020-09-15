@@ -13,6 +13,11 @@
       <password>AP2iaHzbo7hLGMJkWjDE1YocJkDdHX4Bxt6AKPnJSrcRE4aUc</password>
       <id>snapshots</id>
     </server>
+    <server>
+      <username>ca230513@corp.ncr.com</username>
+      <password>AP2iaHzbo7hLGMJkWjDE1YocJkDdHX4Bxt6AKPnJSrcRE4aUc</password>
+      <id>central-mirror</id>
+    </server>    
   </servers>
   <profiles>
     <profile>
@@ -31,6 +36,14 @@
           <name>resmex-maven-snapshots</name>
            <url>https://ncr.jfrog.io/artifactory/resmex-maven-snapshots</url>
         </repository>
+        <repository>
+          <snapshots>
+          <enabled>false</enabled>
+          </snapshots>
+          <id>central-mirror</id>
+          <name>central-mirror</name>
+          <url>https://ncr.jfrog.io/ncr/third-party-maven-central-proxy</url>
+        </repository>        
       </repositories>
       <pluginRepositories>
         <pluginRepository>

@@ -8,10 +8,10 @@
     <groupId>${myGroupId}</groupId>
     <version>${myVersion}</version>
     <scm>
-        <connection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</connection>
-        <developerConnection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</developerConnection>
+        <connection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES MeX/Base/resTransaction/trunk/</connection>
+        <developerConnection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES MeX/Base/resTransaction/trunk/</developerConnection>
         <tag>HEAD</tag>
-        <url>http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</url>
+        <url>http://subversion.sweng.ncr.com/svn/repos/pa/res/RES MeX/Base/resTransaction/trunk/</url>
     </scm>
 
     <properties>
@@ -153,7 +153,6 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>

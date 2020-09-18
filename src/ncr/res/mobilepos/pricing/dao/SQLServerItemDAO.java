@@ -375,6 +375,10 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setRecallFlag(result.getString(result.findColumn("RecallFlag")));
                 }
                 // FDMM add end RESD-3589 2020-09-8
+                // FDMM add start RESD-3595 2020-09-18
+                searchedItem.setDrugActType(result.getString(result.findColumn("DrugActionArea")));
+                searchedItem.setDrugType(result.getString(result.findColumn("DrugType")));
+                // FDMM add end RESD-3595 2020-09-18
                 if (storeFixation) {
                     searchedItem.setLine(result.getString(result.findColumn("Line")));
                     searchedItem.setItemClass(result.getString(result.findColumn("Class")));

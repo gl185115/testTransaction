@@ -2308,6 +2308,10 @@ public class PromotionResource {
         item.setRecallFlag(StringUtility.convNullStringToNull(json.getString("recallFlag")));
         item.setCallInReason(StringUtility.convNullStringToNull(json.getString("callInReason")));
         // FDMM add end RESD-3589 2020-09-8
+        // FDMM add start RESD-3595 2020-09-18
+        item.setDrugActType(StringUtility.convNullStringToNull(json.getString("drugActType")));
+        item.setDrugType(StringUtility.convNullStringToNull(json.getString("drugType")));
+        // FDMM add end RESD-3595 2020-09-18
         if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));

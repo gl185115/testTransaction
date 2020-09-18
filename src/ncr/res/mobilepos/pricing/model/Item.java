@@ -1424,7 +1424,31 @@ public class Item extends ResultBase {
 		this.SelfMedicationMark = SelfMedicationMark;
 	}
 	// FDMM add end RESD-3584 2020-08-19
-    
+	
+	// FDMM add start RESD-3595 2020-09-18
+	@XmlElement(name = "DrugActType")
+	private String DrugActType;
+	@XmlElement(name = "DrugType")
+	private String DrugType;
+
+	@ApiModelProperty(value="医薬品動作区分", notes="医薬品動作区分")
+	public String getDrugActType() {
+		return DrugActType;
+	}
+
+	public void setDrugActType(String DrugActType) {
+		this.DrugActType = DrugActType;
+	}
+	@ApiModelProperty(value="医薬品分類", notes="医薬品分類")
+	public String getDrugType() {
+		return DrugType;
+	}
+
+	public void setDrugType(String DrugType) {
+		this.DrugType = DrugType;
+	}
+	// FDMM add end RESD-3595 2020-09-18
+	 
 	// constructors
     public Item() {
     }
@@ -1508,6 +1532,10 @@ public class Item extends ResultBase {
         this.RecallFlag = item.getRecallFlag();
         this.CallInReason = item.getCallInReason();
         // FDMM add end RESD-3589 2020-09-8
+        // FDMM add start RESD-3595 2020-09-18
+        this.DrugActType = item.getDrugActType();
+        this.DrugType = item.getDrugType();
+        // FDMM add end RESD-3595 2020-09-18
     }
 
     public Item(final String itemId, final Description description,

@@ -280,6 +280,10 @@ public final class SaleItemsHandler {
         saleRes.setRecallFlag(item.getRecallFlag());
         saleRes.setCallInReason(item.getCallInReason());
         // FDMM add end RESD-3589 2020-09-8
+        // FDMM add start RESD-3595 2020-09-18
+        saleRes.setDrugActType(item.getDrugActType());
+        saleRes.setDrugType(item.getDrugType());
+        // FDMM add end RESD-3595 2020-09-18
         return saleRes;
     }
 

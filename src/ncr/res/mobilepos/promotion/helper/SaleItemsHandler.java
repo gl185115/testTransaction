@@ -284,6 +284,10 @@ public final class SaleItemsHandler {
         saleRes.setDrugActType(item.getDrugActType());
         saleRes.setDrugType(item.getDrugType());
         // FDMM add end RESD-3595 2020-09-18
+        // FDMM add start RESD-3594 2020-09-22
+        saleRes.setCountLimitFlag(item.getCountLimitFlag());
+        saleRes.setCountLimit(item.getCountLimit());
+        // FDMM add end RESD-3594 2020-09-22
         return saleRes;
     }
 

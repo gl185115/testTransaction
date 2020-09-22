@@ -2312,6 +2312,10 @@ public class PromotionResource {
         item.setDrugActType(StringUtility.convNullStringToNull(json.getString("drugActType")));
         item.setDrugType(StringUtility.convNullStringToNull(json.getString("drugType")));
         // FDMM add end RESD-3595 2020-09-18
+        // FDMM add start RESD-3594 2020-09-22
+        item.setCountLimitFlag(StringUtility.convNullStringToNull(json.getString("countLimitFlag")));
+        item.setCountLimit(StringUtility.convNullStringToNull(json.getString("countLimit")));
+        // FDMM add end RESD-3594 2020-09-22
         if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));

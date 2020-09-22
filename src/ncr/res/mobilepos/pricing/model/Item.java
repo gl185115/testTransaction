@@ -1448,6 +1448,31 @@ public class Item extends ResultBase {
 		this.DrugType = DrugType;
 	}
 	// FDMM add end RESD-3595 2020-09-18
+	// FDMM add start RESD-3594 2020-09-22
+	@XmlElement(name = "CountLimitFlag")
+	private String CountLimitFlag;
+
+	@XmlElement(name = "CountLimit")
+	private String CountLimit;
+
+	@ApiModelProperty(value="販売上限数制限フラグ", notes="販売上限数制限フラグ")
+	public String getCountLimitFlag() {
+		return CountLimitFlag;
+	}
+
+	public void setCountLimitFlag(String CountLimitFlag) {
+		this.CountLimitFlag = CountLimitFlag;
+	}
+	
+	@ApiModelProperty(value="販売上限数", notes="販売上限数")
+	public String getCountLimit() {
+		return CountLimit;
+	}
+
+	public void setCountLimit(String CountLimit) {
+		this.CountLimit = CountLimit;
+	}
+	// FDMM add end RESD-3594 2020-09-22
 	 
 	// constructors
     public Item() {
@@ -1536,6 +1561,10 @@ public class Item extends ResultBase {
         this.DrugActType = item.getDrugActType();
         this.DrugType = item.getDrugType();
         // FDMM add end RESD-3595 2020-09-18
+        // FDMM add start RESD-3594 2020-09-22
+        this.CountLimit = item.getCountLimit();
+        this.CountLimitFlag = item.getCountLimitFlag();
+        // FDMM add end RESD-3594 2020-09-22
     }
 
     public Item(final String itemId, final Description description,

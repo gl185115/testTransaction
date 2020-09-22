@@ -344,6 +344,8 @@ SELECT TOP 1
        plu.SubCode9 PharmaceuticalFlag,
        plu.SubCode11 RecallFlag,
        plu.SubCode6 DrugType,
+       plu.SubCode12 CountLimitFlag,
+       plu.SubNum2 AS CountLimit,
        %s,
        %s,
        classInfo.ClassNameLocal,

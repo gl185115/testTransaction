@@ -1473,6 +1473,31 @@ public class Item extends ResultBase {
 		this.CountLimit = CountLimit;
 	}
 	// FDMM add end RESD-3594 2020-09-22
+	// FDMM add start RESD-3601 2020-09-28
+	@XmlElement(name = "TransferWriteType")
+	private String TransferWriteType;
+
+	@XmlElement(name = "TransferActType")
+	private String TransferActType;
+
+	@ApiModelProperty(value="÷“n‘‹L“ü‹æ•ª", notes="÷“n‘‹L“ü‹æ•ª")
+	public String getTransferWriteType() {
+		return TransferWriteType;
+	}
+
+	public void setTransferWriteType(String TransferWriteType) {
+		this.TransferWriteType = TransferWriteType;
+	}
+	
+	@ApiModelProperty(value="÷“n‘‹L“ü“®ì‹æ•ª", notes="÷“n‘‹L“ü“®ì‹æ•ª")
+	public String getTransferActType() {
+		return TransferActType;
+	}
+
+	public void setTransferActType(String TransferActType) {
+		this.TransferActType = TransferActType;
+	}
+	// FDMM add end RESD-3601 2020-09-28
 	 
 	// constructors
     public Item() {
@@ -1565,6 +1590,10 @@ public class Item extends ResultBase {
         this.CountLimit = item.getCountLimit();
         this.CountLimitFlag = item.getCountLimitFlag();
         // FDMM add end RESD-3594 2020-09-22
+        // FDMM add start RESD-3601 2020-09-28
+        this.TransferWriteType = item.getTransferWriteType();
+        this.TransferActType = item.getTransferActType();
+        // FDMM add end RESD-3601 2020-09-28
     }
 
     public Item(final String itemId, final Description description,

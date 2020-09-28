@@ -9,7 +9,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
         @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10),
         @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10), @selfmedicationStoreId VARCHAR(10),
-        @designateddrugStoreId VARCHAR(10),
+        @designateddrugStoreId VARCHAR(10), @trasferletterStoreId VARCHAR(10),
         @callinStoreId VARCHAR(10)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
@@ -30,6 +30,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @selfmedicationStoreId = @storeId
     SET @designateddrugStoreId = @storeId
     SET @callinStoreId = @storeId
+    SET @trasferletterStoreId = @storeId
 
     IF NOT EXISTS (
        SELECT *
@@ -273,6 +274,22 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     )
     SET @designateddrugStoreId = '0'
 
+    IF NOT EXISTS (
+        SELECT *
+        FROM
+          RESMaster.dbo.MST_STORE_TRASFERLETTER trasferletter
+        INNER JOIN
+          RESMaster.dbo.MST_PLU plu
+          ON trasferletter.CompanyId  = plu.CompanyId
+         AND trasferletter.StoreId = @trasferletterStoreId
+         AND plu.SubCode7 = trasferletter.TransferArea
+         AND trasferletter.DeleteFlag = 0.0
+       WHERE
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
+    )
+     SET @trasferletterStoreId = '0'
+
 SELECT TOP 1
        plu.CompanyId,
        plu.StoreId,
@@ -346,6 +363,7 @@ SELECT TOP 1
        plu.SubCode6 DrugType,
        plu.SubCode12 CountLimitFlag,
        plu.SubNum2 AS CountLimit,
+       plu.SubCode7 TransferWriteType,
        %s,
        %s,
        classInfo.ClassNameLocal,
@@ -391,8 +409,11 @@ SELECT TOP 1
        callinitem.DisplayEndDate,
        <!-- FDMM add end RESD-3589 2020-09-08 -->
        <!-- FDMM add start RESD-3595 2020-09-18 -->
-       drug.DrugActionArea
+       drug.DrugActionArea,
        <!-- FDMM add end RESD-3595 2020-09-18 -->
+       <!-- FDMM add start RESD-3601 2020-09-18 -->
+       transfer.TransferActionArea
+       <!-- FDMM add end RESD-3601 2020-09-18 -->
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
@@ -493,6 +514,11 @@ ON plu.CompanyId = drug.CompanyId
 AND plu.SubCode6 = drug.DrugArea
 AND drug.StoreId = @designateddrugStoreId
 AND drug.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_STORE_TRASFERLETTER transfer
+ON plu.CompanyId = transfer.CompanyId
+AND plu.SubCode7 = transfer.TransferArea
+AND transfer.StoreId = @trasferletterStoreId
+AND transfer.DeleteFlag = 0.0
 
 WHERE plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2

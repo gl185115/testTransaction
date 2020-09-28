@@ -288,6 +288,10 @@ public final class SaleItemsHandler {
         saleRes.setCountLimitFlag(item.getCountLimitFlag());
         saleRes.setCountLimit(item.getCountLimit());
         // FDMM add end RESD-3594 2020-09-22
+        // FDMM add start RESD-3601 2020-09-28
+        saleRes.setTransferWriteType(item.getTransferWriteType());
+        saleRes.setTransferActType(item.getTransferActType());
+        // FDMM add end RESD-3601 2020-09-28
         return saleRes;
     }
 

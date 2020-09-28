@@ -2316,6 +2316,10 @@ public class PromotionResource {
         item.setCountLimitFlag(StringUtility.convNullStringToNull(json.getString("countLimitFlag")));
         item.setCountLimit(StringUtility.convNullStringToNull(json.getString("countLimit")));
         // FDMM add end RESD-3594 2020-09-22
+        // FDMM add start RESD-3601 2020-09-28
+        item.setTransferWriteType(StringUtility.convNullStringToNull(json.getString("transferWriteType")));
+        item.setTransferActType(StringUtility.convNullStringToNull(json.getString("transferActType")));
+        // FDMM add end RESD-3601 2020-09-28
         if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));

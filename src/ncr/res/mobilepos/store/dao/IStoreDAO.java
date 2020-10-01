@@ -103,6 +103,28 @@ public interface IStoreDAO {
      */
     int updateSummaryReceiptNo(int SubNum1,String companyId,String storeId,String workStactionId, String traning) throws DaoException;
     
+    /**
+     * get the CertificateNo
+     * @param companyId The Id of company
+     * @param storeId The Id of Store
+     * @param workStactionId  The Id of workStaction
+     * @param traning  The flag of traningMode
+     * @return Subnum2
+     * @throws DaoException The Exception of Sql
+     */
+    String getCertificateNo(String companyId,String storeId,String workStactionId, String traning) throws DaoException;
+    
+    /**
+     * update the CertificateNo
+     * @param SubNum2 The CertificateNo
+     * @param companyId The Id of company
+     * @param storeId The Id of Store
+     * @param workStactionId  The Id of workStaction
+     * @param traning  The flag of traningMode
+     * @return The updated instance of CertificateNo.
+     * @throws DaoException The Exception of Sql
+     */
+    int updateCertificateNo(int SubNum2,String companyId,String storeId,String workStactionId, String traning) throws DaoException;
 	
     /**
      * get the sunNum2

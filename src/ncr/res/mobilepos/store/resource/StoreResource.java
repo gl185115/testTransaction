@@ -359,6 +359,88 @@ public class StoreResource {
         return json;
     }
 
+    /**
+     * Web Method called to list all stores within a company.
+     * 
+     * @param key
+     *            The key of the Store(s) to be search.
+     * @return The Stores JSON Object containing the list of stores.
+     */
+    @Path("/getcertificateno")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="証明書No取得", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final JSONData getCertificateNo(
+            @ApiParam(name="companyid", value="会社コード")@QueryParam("companyId") final String companyId,
+            @ApiParam(name="storeid", value="店舗番号")@QueryParam("storeId") final String storeId, 
+            @ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalId") final String terminalId,
+            @ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        JSONData json = new JSONData();
+        tp.methodEnter("getCertificateNo")
+            .println("companyid", companyId)
+            .println("storeid", storeId)
+            .println("terminalid", terminalId)
+            .println("traning", traning);
+        try {
+            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();
+            json.setJsonObject(cmPresetDao.getCertificateNo(companyId,storeId,terminalId,traning));
+        } catch (Exception ex) {
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to search Certificate No: " + ex.getMessage());
+            json.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        } finally {
+            tp.methodExit(json);
+        }
+        return json;
+    }
+    /**
+     * Web Method called to list all stores within a company.
+     * 
+     * @param key
+     *            The key of the Store(s) to be search.
+     * @return The Stores JSON Object containing the list of stores.
+     */
+    @Path("/updatecertificateno")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="証明書No更新", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_QUEUEFULL, message="各商店の列がいっぱいになっている"),
+        })
+    public final JSONData updateCertificateNo(
+            @ApiParam(name="SubNum2", value="予約")@QueryParam("SubNum2") final int SubNum2,
+            @ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
+            @ApiParam(name="storeId", value="店舗コード")@QueryParam("storeId") final String storeId, 
+            @ApiParam(name="terminalId", value="POSコード")@QueryParam("terminalId") final String terminalId,
+            @ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        JSONData json = new JSONData();
+        tp.methodEnter("updateCertificateNo")
+            .println("SubNum2", SubNum2)
+            .println("companyid", companyId)
+            .println("storeid", storeId)
+            .println("terminalid", terminalId)
+            .println("traning", traning);
+        try {
+            IStoreDAO updateCertificateNoDao = daoFactory.getStoreDAO();
+            json.setJsonObject(String.valueOf(updateCertificateNoDao.updateCertificateNo(SubNum2, companyId, storeId, terminalId, traning)));
+        } catch (Exception ex) {
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to update Certificate No: " + ex.getMessage());
+            json.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        } finally {
+            tp.methodExit(json);
+        }
+        return json;
+    }
+
 	/**
 	 * The number of total settlement
 	 *

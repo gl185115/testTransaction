@@ -2320,6 +2320,9 @@ public class PromotionResource {
         item.setTransferWriteType(StringUtility.convNullStringToNull(json.getString("transferWriteType")));
         item.setTransferActType(StringUtility.convNullStringToNull(json.getString("transferActType")));
         // FDMM add end RESD-3601 2020-09-28
+        // FDMM add start RESD-3582 2020-09-30
+        item.setCertificatePrintFlag(StringUtility.convNullStringToNull(json.getString("certificatePrintFlag")));
+        // FDMM add end RESD-3582 2020-09-30
         if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));

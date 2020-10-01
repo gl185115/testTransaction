@@ -364,6 +364,7 @@ SELECT TOP 1
        plu.SubCode12 CountLimitFlag,
        plu.SubNum2 AS CountLimit,
        plu.SubCode7 TransferWriteType,
+       plu.SubCode13 CertificatePrintFlag,
        %s,
        %s,
        classInfo.ClassNameLocal,
@@ -9140,6 +9141,34 @@ SET @partialFlag = LTRIM(RTRIM(?))
     RESMaster.dbo.MST_DEVICEINFO
     SET
       SubNum1 = ?
+    WHERE
+      StoreId = ? AND
+      TerminalId = ? AND
+      CompanyId = ? AND
+      Training = ? AND
+      Status = 'Active' AND
+      DeleteFlag = 0.0
+</entry>
+
+<entry key="get-subNum2">
+    SELECT
+    SubNum2
+    FROM
+      RESMaster.dbo.MST_DEVICEINFO
+    WHERE
+      StoreId = ? AND
+      TerminalId = ? AND
+      CompanyId = ? AND
+      Training = ? AND
+      Status = 'Active' AND
+      DeleteFlag = 0.0
+</entry>
+
+<entry key="update-subNum2">
+    UPDATE
+    RESMaster.dbo.MST_DEVICEINFO
+    SET
+      SubNum2 = ?
     WHERE
       StoreId = ? AND
       TerminalId = ? AND

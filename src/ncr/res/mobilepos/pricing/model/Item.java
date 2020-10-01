@@ -1498,6 +1498,19 @@ public class Item extends ResultBase {
 		this.TransferActType = TransferActType;
 	}
 	// FDMM add end RESD-3601 2020-09-28
+	// FDMM add start RESD-3582 2020-09-30
+	@XmlElement(name = "CertificatePrintFlag")
+	private String CertificatePrintFlag;
+
+	@ApiModelProperty(value="お買い上げ証明書フラグ", notes="お買い上げ証明書フラグ")
+	public String getCertificatePrintFlag() {
+		return CertificatePrintFlag;
+	}
+
+	public void setCertificatePrintFlag(String CertificatePrintFlag) {
+		this.CertificatePrintFlag = CertificatePrintFlag;
+	}
+	// FDMM add end RESD-3582 2020-09-30
 	 
 	// constructors
     public Item() {
@@ -1594,6 +1607,9 @@ public class Item extends ResultBase {
         this.TransferWriteType = item.getTransferWriteType();
         this.TransferActType = item.getTransferActType();
         // FDMM add end RESD-3601 2020-09-28
+        // FDMM add start RESD-3582 2020-09-30
+        this.CertificatePrintFlag = item.getCertificatePrintFlag();
+        // FDMM add end RESD-3582 2020-09-30
     }
 
     public Item(final String itemId, final Description description,

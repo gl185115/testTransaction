@@ -292,6 +292,9 @@ public final class SaleItemsHandler {
         saleRes.setTransferWriteType(item.getTransferWriteType());
         saleRes.setTransferActType(item.getTransferActType());
         // FDMM add end RESD-3601 2020-09-28
+        // FDMM add start RESD-3582 2020-09-30
+        saleRes.setCertificatePrintFlag(item.getCertificatePrintFlag());
+        // FDMM add end RESD-3582 2020-09-30
         return saleRes;
     }
 

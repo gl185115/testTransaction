@@ -545,6 +545,77 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     }
 
     @Override
+    public String getCertificateNo(String companyId, String storeId, String workStactionId, String traning)
+            throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter("getCertificateNo").println("companyId", companyId).println("storeId", storeId)
+                .println("workStactionId", workStactionId).println("traning", traning);
+
+        Connection conn = null;
+        PreparedStatement selectStmt = null;
+        ResultSet resultSet = null;
+        String subNum2 = "";
+
+        try {
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            conn = dbManager.getConnection();
+            selectStmt = conn.prepareStatement(sqlStatement.getProperty("get-subNum2"));
+
+            selectStmt.setString(SQLStatement.PARAM1, storeId);
+            selectStmt.setString(SQLStatement.PARAM2, workStactionId);
+            selectStmt.setString(SQLStatement.PARAM3, companyId);
+            selectStmt.setString(SQLStatement.PARAM4, traning);
+            resultSet = selectStmt.executeQuery();
+            if (resultSet.next()) {
+                subNum2= resultSet.getString(resultSet.findColumn("SubNum2"));
+            }
+        } catch (Exception ex) {
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to get subnum2" + " : " + ex.getMessage());
+            throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
+        } finally {
+            closeConnectionObjects(conn, selectStmt, resultSet);
+            tp.methodExit(subNum2);
+        }
+        return subNum2;
+    }
+    
+    @Override
+    public int updateCertificateNo(int SubNum2, String companyId, String storeId, String workStactionId,
+            String traning) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter("updateCertificateNo").println("SubNum2",SubNum2).println("companyId", companyId).println("storeId", storeId)
+                .println("workStactionId", workStactionId).println("traning", traning);
+
+        Connection conn = null;
+        PreparedStatement selectStmt = null;
+        ResultSet resultSet = null;
+        int result = 1;
+        try {
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            conn = dbManager.getConnection();
+            selectStmt = conn.prepareStatement(sqlStatement.getProperty("update-subNum2"));
+            selectStmt.setInt(SQLStatement.PARAM1, SubNum2);
+            selectStmt.setString(SQLStatement.PARAM2, storeId);
+            selectStmt.setString(SQLStatement.PARAM3, workStactionId);
+            selectStmt.setString(SQLStatement.PARAM4, companyId);
+            selectStmt.setString(SQLStatement.PARAM5, traning);
+            if (selectStmt.executeUpdate() != 1) {
+                result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;
+            }
+            conn.commit();
+        } catch (Exception ex) {
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to update subnum2" + " : " + ex.getMessage());
+            throw new DaoException("Exception: @" + functionName + " - Error update subnum2 ", ex);
+        } finally {
+            closeConnectionObjects(conn, selectStmt, resultSet);
+            tp.methodExit(result);
+        }
+        return result;
+    }
+
+    @Override
     public ViewStore getStoreDetaiInfo(String retailStoreID, String companyId) throws DaoException {
         String functionName = "SQLServerStoreDAO.getStoreDetaiInfo";
 

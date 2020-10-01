@@ -387,6 +387,9 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setTransferActType(result.getString(result.findColumn("TransferActionArea")));
                 searchedItem.setTransferWriteType(result.getString(result.findColumn("TransferWriteType")));
                 // FDMM add end RESD-3601 2020-09-28
+                // FDMM add start RESD-3582 2020-09-30
+                searchedItem.setCertificatePrintFlag(result.getString(result.findColumn("CertificatePrintFlag")));
+                // FDMM add end RESD-3582 2020-09-30
                 if (storeFixation) {
                     searchedItem.setLine(result.getString(result.findColumn("Line")));
                     searchedItem.setItemClass(result.getString(result.findColumn("Class")));

@@ -413,8 +413,11 @@ SELECT TOP 1
        drug.DrugActionArea,
        <!-- FDMM add end RESD-3595 2020-09-18 -->
        <!-- FDMM add start RESD-3601 2020-09-18 -->
-       transfer.TransferActionArea
+       transfer.TransferActionArea,
        <!-- FDMM add end RESD-3601 2020-09-18 -->
+       <!-- FDMM add start RESD-5323 2020-10-06 -->
+       plu.Md11 AS PluTaxFreeFlag
+       <!-- FDMM add end RESD-5323 2020-10-06 -->
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore

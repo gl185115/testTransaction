@@ -346,7 +346,13 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setSizePatternId(result.getString(result.findColumn("SizePatternId")));
                 searchedItem.setPointAddFlag(result.getString(result.findColumn("PointAddFlag")));
                 searchedItem.setPointUseFlag(result.getString(result.findColumn("PointUseFlag")));
-                searchedItem.setTaxExemptFlag(result.getString(result.findColumn("TaxFreeFlag")));
+                // FDMM add start RESD-5323 2020-10-06
+                if (result.getObject(result.findColumn("PluTaxFreeFlag")) != null) {
+                    searchedItem.setTaxExemptFlag(result.getString(result.findColumn("PluTaxFreeFlag")));
+                } else {
+                    searchedItem.setTaxExemptFlag(result.getString(result.findColumn("TaxFreeFlag")));
+                }
+                // FDMM add end RESD-5323 2020-10-06
                 // FDMM add start RESD-3824 2020-08-18
                 searchedItem.setAgeRestrictedFlag(result.getString(result.findColumn("AgeRestrictedFlag")));
                 searchedItem.setClsAgeRestrictedFlag(result.getString(result.findColumn("ClsAgeRestrictedFlag")));

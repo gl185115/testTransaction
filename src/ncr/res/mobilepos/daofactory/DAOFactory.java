@@ -45,6 +45,7 @@ import ncr.res.mobilepos.futurePay.dao.IFuturePayDAO;
 import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
+import ncr.res.mobilepos.mastersync.dao.IMasterSyncDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
@@ -494,6 +495,8 @@ public abstract class DAOFactory {
 	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
 
 	public abstract IEmployeeDao getEmployeeDao() throws DaoException;
-	
+
+	public abstract IMasterSyncDAO getMasterSyncDAO() throws DaoException;
+
 	public abstract ISelfModeDAO getISelfModeDAO()throws DaoException;
 }

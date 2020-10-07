@@ -32,6 +32,7 @@
         ncr.res.mobilepos.journalization.resource,
         ncr.res.mobilepos.line.resource,
         ncr.res.mobilepos.mastermaintenance.resource,
+        ncr.res.mobilepos.mastersync.resource,
         ncr.res.mobilepos.nationalityinfo.resource,
         ncr.res.mobilepos.networkreceipt.resource,
         ncr.res.mobilepos.offlinecredit.resource,

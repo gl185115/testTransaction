@@ -75,6 +75,8 @@ import ncr.res.mobilepos.journalization.dao.SQLServerCommonDAO;
 import ncr.res.mobilepos.journalization.dao.SQLServerPosLogDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.SQLServerMasterMaintenanceDAO;
+import ncr.res.mobilepos.mastersync.dao.IMasterSyncDAO;
+import ncr.res.mobilepos.mastersync.dao.SQLServerMasterSyncDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.SQLServerNationalityInfoDAO;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
@@ -439,6 +441,11 @@ public class SQLServerDAOFactory extends DAOFactory {
         return new SQLServerFuturePayDAO();
     }
     
+	@Override
+	public IMasterSyncDAO getMasterSyncDAO() throws DaoException {
+		return new SQLServerMasterSyncDAO();
+	}
+
 	@Override
 	public ISelfModeDAO getISelfModeDAO() throws DaoException {
 		return new SQLServerSelfModeDAO();

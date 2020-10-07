@@ -11005,4 +11005,174 @@ ELSE
     ((@workstationId IS NULL OR LEN(@workstationId) = 0) OR (WorkstationId = @workstationId ))
 </entry>
 
+<!-- ********** SQL statements for MasterSync begin **********  -->
+<entry key="mastersync-get-data-file">
+    DECLARE @STORE_ID_ALL           varchar(10) = '0000'
+    DECLARE @DATA_FILE_TYPE_ALL     tinyint     = 10
+    DECLARE @DATA_FILE_TYPE_STORE   tinyint     = 11
+
+    DECLARE @CompanyId  varchar(12) = LTRIM(RTRIM(?))
+    DECLARE @StoreId    varchar(10) = LTRIM(RTRIM(?))
+
+    SELECT
+        DataFileType,
+        DataFileVersion,
+        Maintenanceid
+    FROM
+        RESMaster.dbo.REC_SYS_POSPARAM_VERSION
+    WHERE
+        CompanyId    = @CompanyId
+    AND StoreId      = @STORE_ID_ALL
+    AND DataFileType = @DATA_FILE_TYPE_ALL
+    UNION ALL
+    SELECT
+        DataFileType,
+        DataFileVersion,
+        Maintenanceid
+    FROM
+        RESMaster.dbo.REC_SYS_POSPARAM_VERSION
+    WHERE
+        CompanyId    = @CompanyId
+    AND StoreId      = @StoreId
+    AND DataFileType = @DATA_FILE_TYPE_STORE
+</entry>
+
+<entry key="mastersync-get-maintenance-log">
+    DECLARE @MaintenanceId   bigint      = ?
+    DECLARE @SyncRecordCount int         = ?
+    DECLARE @SystemDate      date        = LTRIM(RTRIM(?))
+    DECLARE @CompanyId       varchar(12) = LTRIM(RTRIM(?))
+    DECLARE @StoreId         varchar(10) = LTRIM(RTRIM(?))
+    DECLARE @BizCatId        varchar(20) = LTRIM(RTRIM(?))
+
+    SELECT TOP(@SyncRecordCount)
+        MaintenanceId,
+        MaintenanceLogId,
+        MaintenanceType,
+        SyncGroupId,
+        ReferenceCondition,
+        MasterUpdDate,
+        MasterUpdAppId,
+        MasterUpdOpeCode,
+        TargetStoreType,
+        StartDate,
+        EndDate,
+        StartTime,
+        EndTime,
+        CompanyId,
+        StoreId,
+        BizCatId
+    FROM (
+        -- 全店設定(未設定)
+        SELECT
+            m.{MaintenanceIdColumn} AS MaintenanceId,
+            m.MaintenanceLogId,
+            m.MaintenanceType,
+            m.SyncGroupId,
+            m.ReferenceCondition,
+            m.MasterUpdDate,
+            m.MasterUpdAppId,
+            m.MasterUpdOpeCode,
+            m.TargetStoreType,
+            m.StartDate,
+            m.EndDate,
+            m.StartTime,
+            m.EndTime,
+            s.CompanyId,
+            s.StoreId,
+            s.BizCatId
+        FROM
+            RESMaster.dbo.{MaintenanceLogTable} m
+            INNER JOIN
+                RESMaster.dbo.{MaintenanceLogStoreTable} s
+                ON
+                m.MaintenanceLogId = s.MaintenanceLogId
+        WHERE
+            m.TargetStoreType IN ('0', '2')
+        AND s.CompanyId       =  @CompanyId
+        AND s.StoreId         =  '0'
+        UNION ALL
+        -- 各店設定
+        SELECT
+            m.{MaintenanceIdColumn} AS MaintenanceId,
+            m.MaintenanceLogId,
+            m.MaintenanceType,
+            m.SyncGroupId,
+            m.ReferenceCondition,
+            m.MasterUpdDate,
+            m.MasterUpdAppId,
+            m.MasterUpdOpeCode,
+            m.TargetStoreType,
+            m.StartDate,
+            m.EndDate,
+            m.StartTime,
+            m.EndTime,
+            s.CompanyId,
+            s.StoreId,
+            s.BizCatId
+        FROM
+            RESMaster.dbo.{MaintenanceLogTable} m
+            INNER JOIN
+                RESMaster.dbo.{MaintenanceLogStoreTable} s
+                ON
+                m.MaintenanceLogId = s.MaintenanceLogId
+        WHERE
+            m.TargetStoreType = '1'
+        AND s.CompanyId       = @CompanyId
+        AND s.StoreId         = @StoreId
+        UNION ALL
+        -- 業態設定
+        SELECT
+            m.{MaintenanceIdColumn} AS MaintenanceId,
+            m.MaintenanceLogId,
+            m.MaintenanceType,
+            m.SyncGroupId,
+            m.ReferenceCondition,
+            m.MasterUpdDate,
+            m.MasterUpdAppId,
+            m.MasterUpdOpeCode,
+            m.TargetStoreType,
+            m.StartDate,
+            m.EndDate,
+            m.StartTime,
+            m.EndTime,
+            s.CompanyId,
+            s.StoreId,
+            s.BizCatId
+        FROM
+            RESMaster.dbo.{MaintenanceLogTable} m
+            INNER JOIN
+                RESMaster.dbo.{MaintenanceLogStoreTable} s
+                ON
+                m.MaintenanceLogId = s.MaintenanceLogId
+        WHERE
+            m.TargetStoreType = '3'
+        AND s.CompanyId       = @CompanyId
+        AND s.StoreId         = '0'
+        AND s.BizCatId        = @BizCatId
+    ) t
+    WHERE
+        MaintenanceId > @MaintenanceId
+    AND (StartDate IS NULL OR StartDate = CASE WHEN MaintenanceType = 1 THEN @SystemDate ELSE StartDate END)
+    AND (EndDate   IS NULL OR EndDate   = CASE WHEN MaintenanceType = 1 THEN @SystemDate ELSE EndDate   END)
+    ORDER BY
+        MaintenanceId
+</entry>
+
+<entry key="mastersync-get-parameter">
+    DECLARE @SyncGroupId    int = ?
+
+    SELECT
+        DatabaseName,
+        SchemaName,
+        TableName,
+        FunctionName
+    FROM
+        RESMaster.dbo.PRM_MASTER_SYNC
+    WHERE
+        SyncGroupId = @SyncGroupId
+    ORDER BY
+        SyncTableId
+</entry>
+<!-- ********** SQL statements for MasterSync end **********  -->
 </properties>

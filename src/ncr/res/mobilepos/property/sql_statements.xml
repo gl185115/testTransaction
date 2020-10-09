@@ -341,6 +341,7 @@ SELECT TOP 1
        plu.SubCode1,
        plu.SubCode2,
        plu.SubCode3,
+       plu.SubCode4,
        plu.SubNum1,
        plu.SubNum2,
        plu.DeleteFlag,

@@ -1511,6 +1511,19 @@ public class Item extends ResultBase {
 		this.CertificatePrintFlag = CertificatePrintFlag;
 	}
 	// FDMM add end RESD-3582 2020-09-30
+	// FDMM add start RESD-4596 2020-10-08
+	@XmlElement(name = "SelfSaleRestrictedFlag")
+	private String SelfSaleRestrictedFlag;
+
+	@ApiModelProperty(value="セルフ販売不可商品Flag", notes="セルフ販売不可商品Flag")
+	public String getSelfSaleRestrictedFlag() {
+		return SelfSaleRestrictedFlag;
+	}
+
+	public void setSelfSaleRestrictedFlag(String selfSaleRestrictedFlag) {
+		SelfSaleRestrictedFlag = selfSaleRestrictedFlag;
+	}
+	// FDMM add end RESD-4596 2020-10-08
 	 
 	// constructors
     public Item() {

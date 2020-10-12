@@ -298,6 +298,9 @@ public final class SaleItemsHandler {
         // FDMM add start RESD-4596 2020-10-08
         saleRes.setSelfSaleRestrictedFlag(item.getSelfSaleRestrictedFlag());
         // FDMM add end RESD-4596 2020-10-08
+        // FDMM add start RESD-3831 2020-10-12
+        saleRes.setSaleRestrictedFlag(item.getSaleRestrictedFlag());
+        // FDMM add end RESD-3831 2020-10-12
         return saleRes;
     }
 

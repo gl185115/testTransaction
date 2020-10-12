@@ -1524,6 +1524,19 @@ public class Item extends ResultBase {
 		SelfSaleRestrictedFlag = selfSaleRestrictedFlag;
 	}
 	// FDMM add end RESD-4596 2020-10-08
+	// FDMM add start RESD-3831 2020-10-12
+	@XmlElement(name = "SaleRestrictedFlag")
+	private String SaleRestrictedFlag;
+
+	@ApiModelProperty(value="販売不可商品Flag", notes="販売不可商品Flag")
+	public String getSaleRestrictedFlag() {
+		return SaleRestrictedFlag;
+	}
+
+	public void setSaleRestrictedFlag(String saleRestrictedFlag) {
+		SaleRestrictedFlag = saleRestrictedFlag;
+	}
+	// FDMM add end RESD-3831 2020-10-12
 	 
 	// constructors
     public Item() {

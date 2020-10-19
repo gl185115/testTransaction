@@ -335,10 +335,12 @@ public class SystemSettingResource {
             QrCodeInfoFactory.initialize(companyId, storeId);
             logName = "PointRateFactory";
         	PointRateFactory.initialize(companyId, storeId);
-        	logName = "PricePromInfoFactory";
-        	PricePromInfoFactory.initialize(companyId, storeId);
-        	logName = "PriceMMInfoFactory";
-        	PriceMMInfoFactory.initialize(companyId, storeId);
+        	// lilx 20191127 delete start
+        	// logName = "PricePromInfoFactory";
+        	// PricePromInfoFactory.initialize(companyId, storeId);
+        	// logName = "PriceMMInfoFactory";
+        	// PriceMMInfoFactory.initialize(companyId, storeId);
+        	// lilx 20191127 delete start
         	logName = "PromotionMsgInfoFactory";
         	PromotionMsgInfoFactory.initialize(companyId, storeId);
         	logName = "TaxRateInfoFactory";
@@ -433,6 +435,92 @@ public class SystemSettingResource {
 					writer.close();
 				} catch (IOException e) {
 				}
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Update BizDate
+     *
+     * @param companyid
+     *          会社コード
+     * @param storeid
+     *          店番号
+     * @param workstationid
+     *          レジ番号
+     * @param bootdatetime
+     *          起動時間
+     */
+    @Path("/DateSettings/setBootTime")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="業務日付更新", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final ResultBase setBootTime(
+            @ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+            @ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+            @ApiParam(name="workstationid", value="レジ番号") @QueryParam("workstationid") final String workstationid,
+            @ApiParam(name="bootdatetime", value="起動時間") @QueryParam("bootdatetime") final String bootdatetime,
+            @ApiParam(name="verTablet", value="RESTabletUIバージョン") @QueryParam("verTablet") final String verTablet,
+            @ApiParam(name="verTransaction", value="RESTransactionバージョン") @QueryParam("verTransaction") final String verTransaction,
+            @ApiParam(name="verBatch", value="RESUiConfigバージョン") @QueryParam("verBatch") final String verBatch,
+            @ApiParam(name="misc1", value="取込共通マスタ作成日時") @QueryParam("misc1") final String misc1,
+            @ApiParam(name="misc2", value="取込店別マスタ作成日時") @QueryParam("misc2") final String misc2,
+            @ApiParam(name="misc3", value="取込共通サイネージ作成日時") @QueryParam("misc3") final String misc3,
+            @ApiParam(name="misc4", value="取込店別サイネージ作成日時") @QueryParam("misc4") final String misc4,
+            @ApiParam(name="misc5", value="予約5") @QueryParam("misc5") final String misc5) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("CompanyId", companyId)
+            .println("StoreId", storeId)
+            .println("WorkstationId", workstationid)
+            .println("BootDateTime", bootdatetime);
+        String strCheck = "";
+        FileWriter writer = null;
+        ResultBase result = new ResultBase();
+        if(StringUtility.isNullOrEmpty(companyId)){
+            strCheck += "," + "companyId";
+        }
+        if(StringUtility.isNullOrEmpty(storeId)){
+            strCheck += "," + "storeId";
+        }
+        if(StringUtility.isNullOrEmpty(workstationid)){
+            strCheck += "," + "workstationid";
+        }
+        try {
+            if(!StringUtility.isNullOrEmpty(strCheck)){
+                strCheck = strCheck.substring(1);
+                LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_PARSE,
+                        "リクエストパラメータエラー。 \n"
+                        + "Queryパラメータが不正です。(" + strCheck +")");
+                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            }else{
+                DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+                ISystemSettingDAO systemSettingDAO = sqlServer.getSystemSettingDAO();
+                if (!StringUtility.isNullOrEmpty(bootdatetime)){
+	                systemSettingDAO.setBootTime(companyId, storeId, workstationid, bootdatetime);
+                }
+                systemSettingDAO.setSoftwareVersionTime(companyId, storeId, workstationid, verTablet, verTransaction,
+                        verBatch, misc1, misc2, misc3, misc4, misc5);
+                result.setNCRWSSResultCode(ResultBase.RES_OK);
+                result.setMessage("Success");
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "error has happend.\nFailed to set BootTime. \n"
+                    + e.getMessage());
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage("error has happend. " + e.getMessage());
+        }  finally {
+            tp.methodExit();
+            if(writer != null){
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                }
             }
         }
         return result;

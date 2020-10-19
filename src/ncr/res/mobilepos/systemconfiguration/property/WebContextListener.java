@@ -191,9 +191,9 @@ public class WebContextListener implements ServletContextListener {
             // Only HOST loads PointRate  Information
         	PointRateFactory.initialize(companyId, storeId);
             // Only HOST loads PricePromInfo Information
-        	PricePromInfoFactory.initialize(companyId, storeId);
+        	// PricePromInfoFactory.initialize(companyId, storeId);
         	// Only HOST loads PriceMMInfo Information
-        	PriceMMInfoFactory.initialize(companyId, storeId);
+        	// PriceMMInfoFactory.initialize(companyId, storeId);
         	// Only HOST loads PromotionMsg Information
         	PromotionMsgInfoFactory.initialize(companyId, storeId);
         	// Only HOST loads TaxRate Information

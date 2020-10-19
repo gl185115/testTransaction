@@ -1,5 +1,7 @@
 package ncr.res.mobilepos.department.model;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,6 +17,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.pricing.model.ChangeableTaxRate;
 import ncr.res.mobilepos.pricing.model.DefaultTaxRate;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 
 /**
  * Represents the Department information.
@@ -144,6 +147,18 @@ public class Department {
 
     @XmlElement(name = "DefaultTaxRate")
     private DefaultTaxRate defaultTaxRate;
+    
+    @XmlElement(name = "PricePromList")
+    private List<PricePromInfo> pricePromList; 
+    
+    @ApiModelProperty(value="“Á”„", notes="“Á”„")
+    public List<PricePromInfo> getPricePromList() {
+		return pricePromList;
+	}
+
+	public void setPricePromList(List<PricePromInfo> pricePromList) {
+		this.pricePromList = pricePromList;
+	}
 
     /**
      *Gets the retail store number.

@@ -80,7 +80,7 @@ public class PriceMMSteps extends Steps {
 			status = 0;
 			priceMMList = priceMMInfoFactory.initialize(
 					StringUtility.convNullOrEmptryString(companyId),
-					StringUtility.convNullOrEmptryString(storeId));
+					StringUtility.convNullOrEmptryString(storeId), null);
 		} catch (DaoException e) {
 			status = ERROR_DAOEXCEPTION;
 		}

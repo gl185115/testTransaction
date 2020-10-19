@@ -1,0 +1,43 @@
+/* all */
+* {  
+    margin:0;  
+    padding:0;  
+    font-family: 'Meiryo UI';
+    font-size: 18px;
+}
+
+/* body */
+.loginbox{
+	background: #DDDDDD url(images/loginbox.png) no-repeat;width:475px; height: 353px;  left:28%; position:absolute; top:25%;
+}
+.middle{
+	position:center;
+	margin-top:15%;
+	margin-left:25%;
+	margin-right:25%;
+}
+.form{
+	margin-bottom:10%;
+	width:100%;
+}
+#lbl-usr{
+	padding-right:16px;
+}
+#lbl-pass{
+	padding-right:10px;
+}
+#frm-usr{
+
+}
+#frm-pass{
+
+}
+.bottom{
+	background: url(images/loginbuttonA.png) no-repeat;
+}
+
+#btn-login{	
+	margin-left:67%;
+	margin-right:5%;
+	border-style: none;
+}

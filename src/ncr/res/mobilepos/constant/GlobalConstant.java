@@ -242,6 +242,10 @@ public final class GlobalConstant {
     public static final String CATE_TAX_ID = "TaxId";
 
     public static final String CATE_BUSSINESS_REGISTRATION_NO = "BusinessRegistrationNo";
+    
+    public static final String CATE_COMSTD_NAME = "ComstdName";
+    
+    public static final String KEY_COLUMN_PLU = "ColumnOfPlu";
     /**
      * Default value for server ping timeout in milliseconds.
      */

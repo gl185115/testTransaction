@@ -18,6 +18,7 @@ import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickListItemType;
 import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
+import ncr.res.mobilepos.pricing.model.PriceUrgentInfo;
 import ncr.res.mobilepos.promotion.model.Sale;
 /**
  * IItemDAO is a DAO interface for Item.
@@ -34,12 +35,13 @@ public interface IItemDAO {
      * @param   companyId The companyId Id 
      * @param   bussinessDate The bussinessDate
      * @param   mapTaxId The mapTaxId
+     * @param   comstdName The comstdName
      * @return  The details of the particular item
      * @throws  DaoException    Exception thrown when
      *                  getting the item information failed.
      */
 
-    Item getItemByPLU(String storeid, String pluCode, String companyId,int priceIncludeTax,String bussinessDate,Map<String, String> mapTaxId) throws DaoException;
+    Item getItemByPLU(String storeid, String pluCode, String companyId,int priceIncludeTax,String bussinessDate,Map<String, String> mapTaxId, String comstdName) throws DaoException;
 
     /**
      * get the mixmatchInfo by sku
@@ -121,6 +123,14 @@ public interface IItemDAO {
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
 	boolean isHasPromDetailInfoList(PricePromInfo pricePromInfo, Item item, double salePrice) throws DaoException;
+	
+    /**
+     * 特売管理マスタ 情報取得
+     * @param the pricePromInfo
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	boolean isHasPromDetailList(List<PricePromInfo> pricePromInfo, Item item) throws DaoException;
 
     /**
      * バンドルミックス 情報取得
@@ -129,6 +139,22 @@ public interface IItemDAO {
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
 	boolean isHasPriceMMInfoList(PriceMMInfo priceMMInfo, Item item) throws DaoException;
+	
+    /**
+     * バンドルミックス 情報取得
+     * @param priceMMInfo 
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	boolean isHasPriceMMDetailList(final List<PriceMMInfo> priceMMInfo, final Item searchedItem) throws DaoException;
+	
+    /**
+     * 緊急売変 情報取得
+     * @param priceUrgentInfo 
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	boolean isHasPriceUrgentInfo(PriceUrgentInfo priceUrgentInfo, Item item) throws DaoException;
 
     /**
      * クラブ買替えサポート管理マスタ 情報取得

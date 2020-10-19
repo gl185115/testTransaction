@@ -251,6 +251,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
                 tenderInfo.put("tenderType", resultSet.getString("TenderType"));
                 tenderInfo.put("tenderId", resultSet.getString("TenderId"));
                 tenderInfo.put("code", resultSet.getString("TenderId"));
+                tenderInfo.put("customerTenderId", resultSet.getString("SubCode3"));
                 labelValue = new JSONObject();
                 labelValue.put("ja", resultSet.getString("TenderName"));
                 labelValue.put("en", resultSet.getString("TenderKanaName"));

@@ -14,8 +14,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -36,7 +39,9 @@ import ncr.res.mobilepos.pricing.model.PickListItemType;
 import ncr.res.mobilepos.pricing.model.PremiumInfo;
 import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
+import ncr.res.mobilepos.pricing.model.PriceUrgentInfo;
 import ncr.res.mobilepos.promotion.model.Sale;
+import ncr.res.mobilepos.promotion.resource.PromotionConstants;
 import ncr.res.mobilepos.property.SQLStatement;
 
 /**
@@ -68,11 +73,15 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 	private static final String COLUMN_OF_CLASS = "ColumnOfClass";
 	private static final String COLUMN_OF_PLU = "ColumnOfPlu";
 
-	private String dptTaxId = "";
-	private String clsTaxId = "";
-	private String lineTaxId = "";
-	private String pluTaxId = "";
+	//default 税率カラム値設定
+	private String dptTaxId = "dpt.SubNum5 dptSubNum5";
+	private String clsTaxId = "classInfo.SubNum1 clsSubNum1";
+	private String lineTaxId = "lineInfo.SubNum1 lineSubNum1";
+	private String pluTaxId = "plu.SubNum1 pluSubNum1";
 
+	//default 型番カラム値設定
+	private String defaultComstdName = "plu.MdNameLocal1 ComstdName";
+	
     /**
      * Default Constructor for SQLServerItemDAO
      *
@@ -139,9 +148,9 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      *             Exception thrown when getting the item information failed.
      */
     @Override
-    public Item getItemByPLU(String storeid, String pluCode, String companyId, int priceIncludeTax, String bussinessDate, Map<String, String> mapTaxId)
+    public Item getItemByPLU(String storeid, String pluCode, String companyId, int priceIncludeTax, String bussinessDate, Map<String, String> mapTaxId, String comstdName)
             throws DaoException {
-        return this.getItemByPLUWithStoreFixation(storeid, pluCode, true, companyId, priceIncludeTax,bussinessDate,mapTaxId);
+        return this.getItemByPLUWithStoreFixation(storeid, pluCode, true, companyId, priceIncludeTax,bussinessDate,mapTaxId,comstdName);
     }
 
 
@@ -167,10 +176,12 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     *             Exception thrown when getting the item information failed.
     */
     private Item getItemByPLUWithStoreFixation(final String storeid, final String pluCode, final boolean storeFixation,
-            final String companyId, final int priceIncludeTax, final String bussinessDate, final Map<String, String> mapTaxId) throws DaoException {
+            final String companyId, final int priceIncludeTax, final String bussinessDate, final Map<String, String> mapTaxId,
+            String comstdName) throws DaoException {
 
         tp.methodEnter("getItemByPLUWithStoreFixation").println("StoreID", storeid).println("PLU", pluCode)
-                .println("IsStoreFixation", storeFixation).println("CompanyId", companyId);
+                .println("IsStoreFixation", storeFixation).println("PriceIncludeTax", priceIncludeTax).println("BussinessDate", bussinessDate)
+                .println("MapTaxId", mapTaxId).println("ComstdName", comstdName);
 
         Connection connection = null;
         PreparedStatement select = null;
@@ -190,13 +201,17 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 			mdInternal = pluCode;
 		}
 
+        //型番設定
+        if (!StringUtility.isNullOrEmpty(comstdName)) {
+        	defaultComstdName = "plu." + comstdName + " ComstdName";
+        }
         // 税率区分の情報を取得する
         getSaleTaxIdInfo(mapTaxId);
 
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            String query = String.format(sqlStatement.getProperty("get-item"), pluTaxId, clsTaxId ,dptTaxId ,lineTaxId);
+            String query = String.format(sqlStatement.getProperty("get-item"), defaultComstdName, pluTaxId, clsTaxId ,dptTaxId ,lineTaxId);
             select = connection.prepareStatement(query);
             select.setString(SQLStatement.PARAM1, actualStoreid);
             select.setString(SQLStatement.PARAM2, companyId);
@@ -346,28 +361,13 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setSizePatternId(result.getString(result.findColumn("SizePatternId")));
                 searchedItem.setPointAddFlag(result.getString(result.findColumn("PointAddFlag")));
                 searchedItem.setPointUseFlag(result.getString(result.findColumn("PointUseFlag")));
-                // FDMM add start RESD-5323 2020-10-06
+                //DRUG add start by wl 20191113
                 if (result.getObject(result.findColumn("PluTaxFreeFlag")) != null) {
-                    searchedItem.setTaxExemptFlag(result.getString(result.findColumn("PluTaxFreeFlag")));
+                	searchedItem.setTaxExemptFlag(result.getString(result.findColumn("PluTaxFreeFlag")));
                 } else {
-                    searchedItem.setTaxExemptFlag(result.getString(result.findColumn("TaxFreeFlag")));
+                	searchedItem.setTaxExemptFlag(result.getString(result.findColumn("TaxFreeFlag")));
                 }
-                // FDMM add end RESD-5323 2020-10-06
-                // FDMM add start RESD-3824 2020-08-18
                 searchedItem.setAgeRestrictedFlag(result.getString(result.findColumn("AgeRestrictedFlag")));
-                searchedItem.setClsAgeRestrictedFlag(result.getString(result.findColumn("ClsAgeRestrictedFlag")));
-                searchedItem.setLineAgeRestrictedFlag(result.getString(result.findColumn("LineAgeRestrictedFlag")));
-                searchedItem.setDptAgeRestrictedFlag(result.getString(result.findColumn("DptAgeRestrictedFlag")));
-                // FDMM add end RESD-3824 2020-08-18
-                // FDMM add start by mt185204 2020-07-15
-                searchedItem.setPharmaceuticalFlag(result.getString(result.findColumn("PharmaceuticalFlag")));
-                // FDMM add end by mt185204 2020-07-15
-                // FDMM add start RESD-3584 2020-08-19
-                searchedItem.setSelfFlag(result.getString(result.findColumn("SelfFlag")));
-                searchedItem.setSelfMedicationMark(result.getString(result.findColumn("SelfMedicationMark")));
-                // FDMM add end RESD-3584 2020-08-19
-                // FDMM add start RESD-3589 2020-09-8
-                searchedItem.setCallInReason(result.getString(result.findColumn("CallInReason")));
                 if (result.getObject(result.findColumn("DisplayEndDate")) != null) {
                     Date today = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -380,28 +380,31 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 } else {
                     searchedItem.setRecallFlag(result.getString(result.findColumn("RecallFlag")));
                 }
-                // FDMM add end RESD-3589 2020-09-8
-                // FDMM add start RESD-3595 2020-09-18
-                searchedItem.setDrugActType(result.getString(result.findColumn("DrugActionArea")));
-                searchedItem.setDrugType(result.getString(result.findColumn("DrugType")));
-                // FDMM add end RESD-3595 2020-09-18
-                // FDMM add start RESD-3594 2020-09-22
+                searchedItem.setPharmaceuticalFlag(result.getString(result.findColumn("PharmaceuticalFlag")));
                 searchedItem.setCountLimitFlag(result.getString(result.findColumn("CountLimitFlag")));
                 searchedItem.setCountLimit(result.getString(result.findColumn("CountLimit")));
-                // FDMM add end RESD-3594 2020-09-22
-                // FDMM add start RESD-3601 2020-09-28
-                searchedItem.setTransferActType(result.getString(result.findColumn("TransferActionArea")));
-                searchedItem.setTransferWriteType(result.getString(result.findColumn("TransferWriteType")));
-                // FDMM add end RESD-3601 2020-09-28
-                // FDMM add start RESD-3582 2020-09-30
                 searchedItem.setCertificatePrintFlag(result.getString(result.findColumn("CertificatePrintFlag")));
-                // FDMM add end RESD-3582 2020-09-30
-                // FDMM add start RESD-4596 2020-10-08
-                searchedItem.setSelfSaleRestrictedFlag(result.getString(result.findColumn("SubCode4")));
-                // FDMM add end RESD-4596 2020-10-08
-                // FDMM add start RESD-3831 2020-10-12
+                searchedItem.setSelfFlag(result.getString(result.findColumn("SelfFlag")));
+                searchedItem.setDrugType(result.getString(result.findColumn("DrugType")));
+                searchedItem.setTransferWriteType(result.getString(result.findColumn("TransferWriteType")));
+                searchedItem.setDrugActType(result.getString(result.findColumn("DrugActionArea")));
+                searchedItem.setTransferActType(result.getString(result.findColumn("TransferActionArea")));
+                searchedItem.setCertificateNo(result.getString(result.findColumn("CertificateNo")));
+                searchedItem.setClsAgeRestrictedFlag(result.getString(result.findColumn("ClsAgeRestrictedFlag")));
+                searchedItem.setLineAgeRestrictedFlag(result.getString(result.findColumn("LineAgeRestrictedFlag")));
+                searchedItem.setDptAgeRestrictedFlag(result.getString(result.findColumn("DptAgeRestrictedFlag")));
+                searchedItem.setCallInReason(result.getString(result.findColumn("CallInReason")));
+                searchedItem.setSelfMedicationMark(result.getString(result.findColumn("SelfMedicationMark")));
+                searchedItem.setComstdName(result.getString(result.findColumn("ComstdName")));
+                //DRUG add end by wl 20191113
+                //MUJI add by wgq start
+                searchedItem.setFoodFlag(result.getString(result.findColumn("SubCode1")));
                 searchedItem.setSaleRestrictedFlag(result.getString(result.findColumn("SubCode3")));
-                // FDMM add end RESD-3831 2020-10-12
+                searchedItem.setSelfSaleRestrictedFlag(result.getString(result.findColumn("SubCode4")));
+                searchedItem.setOrderSaleFlag(result.getString(result.findColumn("SubCode2")));
+                searchedItem.setBestBeforePeriod(result.getString(result.findColumn("BestBeforePeriod")));
+                searchedItem.setSalePeriod(result.getString(result.findColumn("SalesPeriod")));
+                //MUJI add by wgq end
                 if (storeFixation) {
                     searchedItem.setLine(result.getString(result.findColumn("Line")));
                     searchedItem.setItemClass(result.getString(result.findColumn("Class")));
@@ -509,6 +512,201 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
 
     /**
+     * 特売管理マスタ 情報取得
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+    public boolean isHasPromDetailList(final List<PricePromInfo> pricePromInfo, final Item searchedItem) throws DaoException {
+    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+        .println("PricePromInfo", pricePromInfo)
+        .println("searchedItem", searchedItem);
+    	
+    	boolean isHaveValue = false;
+    	List<PricePromInfo> cleanList = cleanPricePromList(pricePromInfo,searchedItem, isHaveValue);
+    	
+    	if (null != cleanList && cleanList.size() > 0) {
+	        searchedItem.setPricePromList(cleanList);
+    	}
+    	return isHaveValue;
+    }
+    
+		//　　　　                  値引区分　会員フラグ  　　レジ制御                      商品抽出時(item_entry)　　　　　　　　優先順位
+		//1.通常の特売　　　　  0       0                                                  一件のみ(安め優先)　　　　　　　　　　       １(安め優先)　
+		//2.会員対象の特売  　0       1　　　　　　　　　　　                        一件のみ(安め優先)　　　　　　　　　　        １(会員登録あり＆安め優先)　
+		//3.単品クーポン　　　    1       1                                                 複数件あり(クーポン選択画面で判断)　　    ２
+		//4.一括割引               1       0  1～4 基本ポップアップあり  　　 一件のみ(理由コードで判断)　　　　　　        ３
+    private List<PricePromInfo> cleanPricePromList(List<PricePromInfo> priceMMInfoList, Item searchedItem, boolean isHaveValue){
+    	List<PricePromInfo> list = new ArrayList<>();
+    	Map<String, PricePromInfo> map = new HashMap<String, PricePromInfo>();
+    	for(PricePromInfo info : priceMMInfoList) {
+    		//del by wl start
+//    		if(PromotionConstants.DISCOUNT_CLASS_3.equals(info.getDiscountClass())) {
+//    			list.add(info);
+//    			continue;
+//    		}
+    		//del by wl end
+    		if(info.getSubCode2() == PromotionConstants.NORMAL_SALE_INT && info.getSubNum1() == PromotionConstants.NORMAL_SALE_INT) {
+    			choicePrimeInfo(map, info, searchedItem, "TM");
+    		} else if(info.getSubCode2() == PromotionConstants.NORMAL_SALE_INT && info.getSubNum1() == PromotionConstants.CUSTOMER_SALE_INT) {
+    			choicePrimeInfo(map, info, searchedItem, "HY");
+    		}else if(info.getSubCode2() == PromotionConstants.DISCOUNT_FLAG_1 && info.getSubNum1() == PromotionConstants.CUSTOMER_SALE_INT) {
+    			list.add(info);
+    		} else {
+    			String line = searchedItem.getLine();
+    			String sbc3 = info.getSubCode3();
+				boolean isYk = false;
+    			if(StringUtility.isNullOrEmpty(sbc3, line)) {
+    				isYk = true;
+    			}else {
+    				String[] sbcArrary = sbc3.split(",");
+    				for(String str : sbcArrary) {
+    					if(str.equals(line)) {
+    						isYk = true;
+    						break;
+    					}
+    				}
+    			}
+    			if(isYk) {
+    				choicePrimeInfo(map, info, searchedItem, "YK");
+    			}
+    		}
+    	}
+    	if(map.size() > 0) {
+    		boolean hasTM = false;
+    		if(map.containsKey("TM") && map.containsKey("HY")) {
+    			hasTM = true;
+    			if(discountPrice(map.get("TM"), searchedItem) >= discountPrice(map.get("HY"), searchedItem)) {
+    				isHaveValue = true;
+    				list.add(map.get("TM"));
+    			}else {
+    				isHaveValue = true;
+    				list.add(map.get("TM"));
+    				list.add(map.get("HY"));
+    			}
+    		} 
+    		if(map.containsKey("TM") && map.containsKey("TM1")) {
+    			isHaveValue = true;
+    			list.add(map.get("TM"));
+    			list.add(map.get("TM1"));
+    		}
+    		if(map.containsKey("TM") && !map.containsKey("TM1") && !map.containsKey("HY")) {
+    			isHaveValue = true;
+    			hasTM = true;
+    			list.add(map.get("TM"));
+    		}
+    		if(!map.containsKey("TM") && map.containsKey("HY")) {
+    			isHaveValue = true;
+    			list.add(map.get("HY"));
+    		}
+    		
+    		if(map.containsKey("YK") && !hasTM) {
+    			list.add(map.get("YK"));
+    		}
+    	}
+    	return list;
+    }
+    
+    private void choicePrimeInfo(Map<String, PricePromInfo> map, PricePromInfo info, Item searchedItem, String key) {
+		if(map.containsKey(key)) {
+			PricePromInfo mapInfo = map.get(key);
+			if("YK".equals(key)) {
+				if(mapInfo.getSubCode5() != 0 && info.getSubCode5() < mapInfo.getSubCode5()) {
+					map.put(key, info);
+				}
+			} else {
+				String[] discount = {PromotionConstants.DISCOUNT_CLASS_1, PromotionConstants.DISCOUNT_CLASS_2};
+				String mapInfoDiscountClass = mapInfo.getDiscountClass();
+				String infoDiscountClass = info.getDiscountClass();
+				if (!mapInfoDiscountClass.equals(infoDiscountClass)) {
+					if (map.size() == 1) {
+						if (Arrays.asList(discount).indexOf(mapInfoDiscountClass) < 0 && Arrays.asList(discount).indexOf(infoDiscountClass) >= 0) {
+							map.put(key + "1", info);
+						} else if(Arrays.asList(discount).indexOf(mapInfoDiscountClass) >= 0 && Arrays.asList(discount).indexOf(infoDiscountClass) < 0) { 
+							map.put(key, info);
+							map.put(key + "1", mapInfo);
+						} else {
+							if(discountPrice(mapInfo, searchedItem) < discountPrice(info, searchedItem)) {
+								map.put(key, info);
+							}
+						}
+					} else {
+						if (Arrays.asList(discount).indexOf(infoDiscountClass) >= 0) {
+							PricePromInfo mapInfoWithDiscount = map.get(key + "1");
+							PricePromInfo mapInfoWithSepcialPrice = map.get(key);
+							double actualPrice = searchedItem.getActualSalesUnitPrice();
+							double specialPriceMapInfo = discountPrice(mapInfoWithSepcialPrice, searchedItem);
+							double salePrice = actualPrice - specialPriceMapInfo; 
+							double discountedMapInfoPrice = discountPriceByAmount(mapInfoWithDiscount, salePrice);
+							double discountedInfoPrice = discountPriceByAmount(info,  salePrice);
+							if (discountedMapInfoPrice > discountedInfoPrice) {
+								map.put(key + "1", info);
+							}
+						} else {
+							if (discountPrice(mapInfo, searchedItem) < discountPrice(info, searchedItem)) {
+								map.put(key, info);
+							}
+						}
+					}
+				} else {
+					if(discountPrice(mapInfo,searchedItem) < discountPrice(info,searchedItem)) {
+						map.put(key, info);
+					}	
+				}
+			}
+		}else {
+			map.put(key, info);
+		}
+    }
+    
+    private double discountPrice(PricePromInfo info, Item searchedItem) {
+    	double price = 0;
+    	if(PromotionConstants.DISCOUNT_CLASS_1.equals(info.getDiscountClass())) {
+    		price = searchedItem.getActualSalesUnitPrice() * (info.getDiscountRate() / 100);
+    	}
+    	if(PromotionConstants.DISCOUNT_CLASS_2.equals(info.getDiscountClass())) {
+    		price = info.getDiscountAmt();
+    	}
+    	//add by wl start
+    	if(PromotionConstants.DISCOUNT_CLASS_3.equals(info.getDiscountClass())) {
+    		price = searchedItem.getActualSalesUnitPrice() - info.getSalesPrice();
+    	}
+    	//add by wl end
+    	
+    	return price;
+    }
+    
+    private double discountPriceByAmount(PricePromInfo info, double itemPrice) {
+    	double price = 0;
+    	if (PromotionConstants.DISCOUNT_CLASS_1.equals(info.getDiscountClass())) {
+    		price = itemPrice - (itemPrice * (info.getDiscountRate() / 100));
+    	}
+    	if (PromotionConstants.DISCOUNT_CLASS_2.equals(info.getDiscountClass())) {
+    		price = itemPrice - info.getDiscountAmt();
+    	}
+    	return price;
+    }
+    
+    /**
+     * 緊急売変 情報取得
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	@Override
+	public boolean isHasPriceUrgentInfo(final PriceUrgentInfo priceUrgentInfo, final Item searchedItem) throws DaoException {
+    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+        .println("PricePromInfo", priceUrgentInfo)
+        .println("searchedItem", searchedItem);
+    	
+    	boolean isHaveValue = false;
+    	
+    	if (null != priceUrgentInfo) {
+	        isHaveValue = true;
+	        searchedItem.setPriceUrgentInfo(priceUrgentInfo);
+    	}
+    	return isHaveValue;
+	}
+    
+    /**
      * バンドルミックス 情報取得
      * @param priceMMInfo
      * @param searchedItem the Item
@@ -545,6 +743,27 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     	return isHaveValue;
     }
 
+    /**
+     * MM 情報取得
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+    public boolean isHasPriceMMDetailList(final List<PriceMMInfo> priceMMInfo, final Item searchedItem) throws DaoException {
+    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+        .println("PricePromInfo", priceMMInfo)
+        .println("searchedItem", searchedItem);
+    	
+    	boolean isHaveValue = false;
+    	
+    	if (null != priceMMInfo && priceMMInfo.size() > 0) {
+	        isHaveValue = true;
+	        searchedItem.setPriceMMInfoList(priceMMInfo);
+    	}
+    	return isHaveValue;
+    }
+    
+    // lilx 20191206 add end 
+    
     /**
      * クラブ買替えサポート管理マスタ 情報取得
      * @param storeid The ID of the Store where the items are located

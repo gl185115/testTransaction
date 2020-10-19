@@ -9,8 +9,11 @@
  */
 package ncr.res.mobilepos.forwarditemlist.dao;
 
+import java.util.List;
+
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
+import ncr.res.mobilepos.forwarditemlist.model.ForwardvoidListInfo;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 
 /**
@@ -75,4 +78,25 @@ public interface IForwardItemListDAO {
 	String selectForwardItemCount(String companyId, String storeId,
             String businessDayDate, String workstationId, String queue, String trainingFlag) throws DaoException;
 
+	 /**
+	    * 呼出取消データ情報一覧取得
+	    * @param companyId
+	    * @param retailStoreId
+	    * @param workStationId
+	    * @param trainingFlag
+	    * @return一覧リスト
+	    * @throws DaoException
+	    */
+	List<ForwardvoidListInfo> getForwardResumeVoidList (String companyId, String retailStoreId, String workStationId, String trainingFlag) throws DaoException;
+
+	/**
+	    * 前捌保留件数取得（精算機ごと）
+	    * @param companyId
+	    * @param retailStoreId
+	    * @param cashierId
+	    * @param trainingFlag
+	    * @return Forward Count With Cashier
+	    * @throws DaoException
+	    */
+	String getForwardCountWithCashier(String companyId, String retailStoreId, String cashierId, String trainingFlag) throws DaoException;
 }

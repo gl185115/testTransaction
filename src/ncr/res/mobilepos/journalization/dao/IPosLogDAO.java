@@ -22,6 +22,7 @@ import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.journalization.model.PointPosted;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
+import ncr.res.mobilepos.journalization.model.SearchForwardWithTerminalidPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionSearch;
@@ -226,4 +227,41 @@ public interface IPosLogDAO {
      */
     public SearchForwardPosLog getForwardItemsPosLogWithTag(String companyId, String retailStoreId,
     		String queue, String businessDayDate, String tag, String trainingFlag) throws DaoException;
+
+    /**
+     * ターミナル番号で前捌商品明細 PosLog 保存
+     * @param posLog
+     * @param posLogXml
+     * @param queue
+     * @param cashierId
+     * @param total
+     * @return
+     * @throws DaoException
+     */
+    public int saveForwardPosLogIncludeTerminalid(PosLog posLog, String posLogXml, String queue, String cashierId, String total) throws DaoException;
+
+	/**
+     * ターミナル番号で前捌商品明細 PosLog 検索
+     * @param companyId
+     * @param retailStoreId
+     * @param queue
+     * @param businessDayDate
+     * @param cashierId
+     * @return 前捌登録 PosLog
+     * @throws DaoException
+     */
+    public SearchForwardWithTerminalidPosLog getForwardItemsPosLogWithTerminalid(String companyId, String retailStoreId,
+    		String queue, String businessDayDate, String cashierId, String trainingFlag) throws DaoException;
+    
+	/**
+     * 保留データの最大数取得
+     * @param companyId
+     * @param retailStoreId
+     * @param queue
+     * @param cashierId
+     * @return 保留データの最大数
+     * @throws DaoException
+     */
+    public int getForwardItemsPendingCount(PosLog posLog, String companyId, String retailStoreId,
+    		String queue, String cashierId, String trainingFlag) throws DaoException;
 }

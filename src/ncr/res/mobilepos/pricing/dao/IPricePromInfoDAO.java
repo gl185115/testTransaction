@@ -12,12 +12,19 @@ public interface IPricePromInfoDAO {
 	 *
 	 * @param companyId ,
 	 *         storeId ,
-	 *         dayDate
+	 *         dayDate ,
+	 *         itemId ,
+	 *         dpt ,
+	 *         line ,
+	 *         classId
 	 * @return List<PricePromInfo>.
 	 * @throws DaoException
 	 *             The exception thrown when searching failed.
 	 */
-    List<PricePromInfo> getPricePromInfoList(String companyId, String storeId, String dayDate)
+    List<PricePromInfo> getPricePromInfoList(String companyId, String storeId, String dayDate, String itemId, String dpt, String line, String classId)
 			throws DaoException;
+    List<PricePromInfo> getPricePromInfoDpt(String companyId, String storeId, String businessDate)
+			throws DaoException;
+    
 }
 

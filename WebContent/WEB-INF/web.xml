@@ -29,6 +29,7 @@
         ncr.res.mobilepos.exception.provider,
         ncr.res.mobilepos.forwarditemlist.resource,
         ncr.res.mobilepos.futurePay.resource,
+        ncr.res.mobilepos.mujiPassport.resource,
         ncr.res.mobilepos.journalization.resource,
         ncr.res.mobilepos.line.resource,
         ncr.res.mobilepos.mastermaintenance.resource,
@@ -103,6 +104,7 @@
       <url-pattern>/rest/creditauthorization/*</url-pattern>
       <url-pattern>/rest/customerSearch/*</url-pattern>
       <url-pattern>/rest/futurePay/*</url-pattern>
+      <url-pattern>/rest/mujiPassport/*</url-pattern>
       <url-pattern>/rest/customeraccount/*</url-pattern>
       <url-pattern>/rest/departmentinfo/detail</url-pattern>
       <url-pattern>/rest/deviceinfo/add</url-pattern>
@@ -125,6 +127,7 @@
       <url-pattern>/rest/line/*</url-pattern>
       <url-pattern>/rest/pricing/getpicklistitems</url-pattern>
       <url-pattern>/rest/pricing/getItemPrice</url-pattern>
+      <url-pattern>/rest/pricing/getUrgentChangeItemInfo</url-pattern>
       <url-pattern>/rest/pricing/*/*</url-pattern>
       <url-pattern>/rest/promotion/*</url-pattern>
       <url-pattern>/rest/report/*</url-pattern>
@@ -164,6 +167,13 @@
     <auth-method>BASIC</auth-method>
     <realm-name>Web API Credential</realm-name>
   </login-config>
+  <resource-ref>
+    <description>Primary database</description>
+    <res-ref-name>jdbc/ENTSVR</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <mapped-name>jdbc/ENTSVR</mapped-name>
+  </resource-ref>
   <listener>
     <listener-class>ncr.res.mobilepos.systemconfiguration.property.WebContextListener</listener-class>
   </listener>

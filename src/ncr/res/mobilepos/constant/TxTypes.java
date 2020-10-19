@@ -46,6 +46,7 @@ public final class TxTypes {
      */
     public static final String NOTAVAILABLE = "NA";
 
+    public static final String DISPENSINGCREDIT = "DispensingCredit";
     public static final String EODCASHOUT = "EodCashOut";
     public static final String OTHER = "Other";
     public static final String SALES = "Sales";
@@ -55,7 +56,10 @@ public final class TxTypes {
     public static final String ECSALES = "ECSales";
     public static final String RETURN = "Return";
     public static final String ECRETURN = "ECReturn";
+    public static final String DISPENSINGCREDITRETURN = "DispensingCreditReturn";
     public static final String VOID = "Void";
+    //調剤クレジット取消
+    public static final String DISPENSINGCREDITVOID = "DispensingCreditVoid";
     public static final String CANCEL = "Cancel";
     public static final String SOD = "SOD";
     public static final String EOD = "EOD";

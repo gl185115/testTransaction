@@ -13,7 +13,11 @@ package ncr.res.mobilepos.pricing.resource;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -48,13 +52,20 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
+import ncr.res.mobilepos.pricing.dao.IUrgentChangePriceInfoDAO;
 import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
+import ncr.res.mobilepos.pricing.factory.PriceUrgentInfoFactory;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickList;
 import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
+import ncr.res.mobilepos.pricing.model.PricePromInfoList;
+import ncr.res.mobilepos.pricing.model.PriceUrgentInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
+import ncr.res.mobilepos.pricing.model.UrgentChangeItemInfo;
+import ncr.res.mobilepos.promotion.model.Promotion;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
@@ -115,12 +126,17 @@ public class ItemResource {
     private static BarcodeAssignment barcodeAssignment;
 
 	private final List<PricePromInfo> pricePromInfoList;
-
+	
 	private final List<PriceMMInfo> priceMMInfoList;
+	private final List<PriceUrgentInfo> priceUrgentInfoList;
 
 	public static final String PROMOTIONTYPE_DPT = "1";
 	public static final String PROMOTIONTYPE_LINE = "2";
 	public static final String PROMOTIONTYPE_ITEMCODE = "3";
+	public static final String PROMOTIONTYPE_CLASS = "4"; 
+	public static final String DISCOUNTCLASS_RATE = "1";
+	public static final String DISCOUNTCLASS_AMT = "2";	
+	public static final String DISCOUNTCLASS_PRICE = "3";
 
     /**
      * Default Constructor. Instantiate ioWriter and sqlServerDAO member
@@ -133,6 +149,7 @@ public class ItemResource {
         barcodeAssignment = BarcodeAssignmentFactory.getInstance();
         pricePromInfoList = PricePromInfoFactory.getInstance();
         priceMMInfoList = PriceMMInfoFactory.getInstance();
+        priceUrgentInfoList = PriceUrgentInfoFactory.getInstance();
     }
 
     /**
@@ -209,10 +226,12 @@ public class ItemResource {
 			DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 			SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
 			Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
+			//型番取得する
+			String comstdName = systemDao.getParameterString(GlobalConstant.KEY_COLUMN_PLU, GlobalConstant.CATE_COMSTD_NAME);
 
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
-            returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate,mapTaxId);
+            returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate,mapTaxId,comstdName);
 
         } catch (DaoException daoEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_DAO,
@@ -376,6 +395,132 @@ public class ItemResource {
 	}
 
     /**
+     * Method called by the Web Service for the urgent change Pirce Client's Request. <br>
+     * <br>
+     *
+     * Interface Name: getUrgentChangeItemInfo<br>
+     * Request Type: POST<br>
+     * URL: {Base URI}/pricing/getUrgentChangeItemInfo<br>
+     * Produces: {@link UrgentChangeItemInfo} JSON Object<br>
+     *
+     * @param storecd
+     *            The Store ID of the store which the item is located
+     * @param mdinternal
+     *            The Item's Price Look Up
+     * @param companyId
+     *            The Company ID of the store which the item is located
+     * @param bizdate
+     * @param bizdatetime
+     * @return The UrgentChangeItemInfo
+     */
+	@Path("/getUrgentChangeItemInfo")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="緊急売価商品情報取得", response=UrgentChangeItemInfo.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
+        })
+    public final UrgentChangeItemInfo getUrgentChangeItemInfo(
+    		@ApiParam(name="storecd", value="店番") @FormParam("storecd") final String storeID,
+    		@ApiParam(name="bizdate", value="時刻") @FormParam("bizdate") final String bizDate,
+    		@ApiParam(name="bizdatetime", value="日付") @FormParam("bizdatetime") final String bizDatetime,
+    		@ApiParam(name="mdinternal", value="商品コード") @FormParam("mdinternal") final String pluCode) {
+
+        String functionName = "ItemResource.getUrgentChangeItemInfo";
+        tp.methodEnter(DebugLogger.getCurrentMethodName())
+                .println("storecd", storeID)
+                .println("mdinternal", pluCode)
+                .println("bizdate", bizDate)
+                .println("bizdatetime", bizDatetime);
+                
+        
+        UrgentChangeItemInfo urgentChangeItemInfo = new UrgentChangeItemInfo();
+        
+        try {       	
+        	// Check parameters
+			if (StringUtility.isNullOrEmpty(storeID, pluCode, bizDate, bizDatetime)) {
+				urgentChangeItemInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+				tp.println("Parameter[s] is empty or null.");
+				return urgentChangeItemInfo;
+			}
+        	
+        	// get UrgentMst by pluCode
+			IUrgentChangePriceInfoDAO urgentChangePriceInfoDao = sqlServerDAO.getUrgentChangePriceInfoDAO();
+			urgentChangeItemInfo = urgentChangePriceInfoDao.getUrgentChangePriceInfo("01", storeID, pluCode, bizDate, bizDatetime);
+
+        } catch (DaoException daoEx) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_DAO,
+                    "Failed to get the item details.\n" + daoEx.getMessage());
+            if (daoEx.getCause() instanceof SQLException) {
+            	urgentChangeItemInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            } else {
+            	urgentChangeItemInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
+            }
+            urgentChangeItemInfo.setMessage(daoEx.getMessage());
+        } catch (Exception e) {
+            tp.println(context.toString());
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+                    e.getMessage());
+            urgentChangeItemInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            urgentChangeItemInfo.setMessage(e.getMessage());
+        } finally {
+            if (null == urgentChangeItemInfo) {
+            	urgentChangeItemInfo = new UrgentChangeItemInfo();
+                urgentChangeItemInfo.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+            }
+            tp.methodExit(urgentChangeItemInfo);
+        }
+
+        return urgentChangeItemInfo;
+    }
+	@POST
+	@Produces("application/json;charset=UTF-8")
+	@Path("/getPricePromInfoDptList")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@ApiOperation(value = "一括割引情報を取得", response = Promotion.class)
+	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+	public final PricePromInfoList getPricePromInfoDptList(
+			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "businessdate", value = "業務日付") @FormParam("businessdate") final String businessDate) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
+				.println("businessDate", businessDate);
+		PricePromInfoList response = new PricePromInfoList();
+		try {
+			if (StringUtility.isNullOrEmpty(retailStoreId, companyId, businessDate)) {
+				response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+				tp.println("Parameter[s] is empty or null.");
+				return response;
+			}
+			// get valid data
+			IPricePromInfoDAO pricePromInfoDAODao = sqlServerDAO.getPricePromInfoDAO();
+			List<PricePromInfo> pricePromInfoList = pricePromInfoDAODao.getPricePromInfoDpt(companyId, retailStoreId,
+					businessDate);
+			if (pricePromInfoList == null || pricePromInfoList.size() < 1) {
+				tp.println("Not found valid data.");
+				response.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				return response;
+			}
+
+			response.setPricePromInfoList(pricePromInfoList);
+
+		} catch (Exception e) {
+			LOGGER.logAlert(progname, Logger.RES_EXCEP_GENERAL,
+					functionName + ": Failed to send getPricePromInfoDptList.", e);
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+		} finally {
+			tp.methodExit(response);
+		}
+		return response;
+	}
+    /**
      * Checks if storeid is an enterprise store(0).
      *
      * @param storeID
@@ -450,7 +595,150 @@ public class ItemResource {
 		}
 		return null;
 	}
+    
+	 /**
+     * Get The Price Prom Info.
+     * @param sku The ID of The Sku
+     * @param dpt  The ID of The Department
+     * @param line The ID of The Line
+     * @param clas The ID of Class
+     * @return PricePromInfo The Price Prom Info Object
+     */
+    public final List<PricePromInfo> getPricePromList(
+			final String sku, final String dpt, final String line, final String clas) {
+    	List<PricePromInfo> retLst = new ArrayList<PricePromInfo>();
+//    	List<PricePromInfo> rateLst = new ArrayList<PricePromInfo>(); 	// lilx 20191125
+//    	List<PricePromInfo> amtLst = new ArrayList<PricePromInfo>(); 	// lilx 20191125
+//    	List<PricePromInfo> priceLst = new ArrayList<PricePromInfo>(); 	// lilx 20191125
+    	
+		if (pricePromInfoList == null){
+			return null;
+		}
+		for (PricePromInfo pricePromInfo : pricePromInfoList) {
+			switch (pricePromInfo.getPromotionType()) {
+			case PROMOTIONTYPE_CLASS:
+				if (clas != null && line != null && dpt != null && clas.equals(pricePromInfo.getClas()) 
+				&& line.equals(pricePromInfo.getLine()) && dpt.equals(pricePromInfo.getDpt())){
+//					if (isPricePromValid(pricePromInfo) && (isDrug = isDrug(pricePromInfo, retLst))) {
+//						selectPromInfo(rateLst, amtLst, priceLst, pricePromInfo);
+//					}
+					if (isPricePromValid(pricePromInfo)) {
+						retLst.add(pricePromInfo);
+					}
+				}
+				break;
+			case PROMOTIONTYPE_ITEMCODE:
+				String pricePromSku = pricePromInfo.getSku();
+				String itemSku = sku;
+				if (!StringUtility.isNullOrEmpty(pricePromSku)) {
+					if (pricePromSku.equals(itemSku)) {
+//						if (isPricePromValid(pricePromInfo) && (isDrug = isDrug(pricePromInfo, retLst))) {
+//							selectPromInfo(rateLst, amtLst, priceLst, pricePromInfo);
+//						}
+						if (isPricePromValid(pricePromInfo)) {
+							retLst.add(pricePromInfo);
+						}
+					}
+				}
+				break;
+			case PROMOTIONTYPE_LINE:
+				if (line != null && dpt != null && line.equals(pricePromInfo.getLine()) && dpt.equals(pricePromInfo.getDpt())){
+//					if (isPricePromValid(pricePromInfo) && (isDrug = isDrug(pricePromInfo, retLst))) {
+//						selectPromInfo(rateLst, amtLst, priceLst, pricePromInfo);
+//					}
+					if (isPricePromValid(pricePromInfo)) {
+						retLst.add(pricePromInfo);
+					}
+				}
+				break;
+			case PROMOTIONTYPE_DPT:
+				if (dpt != null && dpt.equals(pricePromInfo.getDpt())){
+					if (isPricePromValid(pricePromInfo)) {
+//						selectPromInfo(rateLst, amtLst, priceLst, pricePromInfo);
+						retLst.add(pricePromInfo);
+					}
+					break;
+				}
+			}
+		}
+//		if(isDrug) {
+//			if (rateLst != null && rateLst.size() > 0) retLst.add(rateLst.get(0));
+//			if (amtLst != null && amtLst.size() > 0) retLst.add(amtLst.get(0));
+//			if (priceLst != null && priceLst.size() > 0) retLst.add(priceLst.get(0));
+//		}
 
+		return retLst;
+	}
+    
+    public final void selectPromInfo(List<PricePromInfo> rateLst,List<PricePromInfo> amtLst,
+    		List<PricePromInfo> priceLst,PricePromInfo pricePromInfo) {
+    	if (DISCOUNTCLASS_RATE.equals(pricePromInfo.getDiscountClass())) {
+    		if (rateLst.size() == 0)
+    			rateLst.add(pricePromInfo);
+    		else if( pricePromInfo.getDiscountRate() > rateLst.get(0).getDiscountRate()) {
+    			rateLst.set(0, pricePromInfo);
+    		}
+		} else if (DISCOUNTCLASS_AMT.equals(pricePromInfo.getDiscountClass())) {
+			if (amtLst.size() == 0)
+				amtLst.add(pricePromInfo);
+    		else if( pricePromInfo.getDiscountAmt() > amtLst.get(0).getDiscountAmt()) {
+    			amtLst.set(0, pricePromInfo);
+    		}
+		} else if (DISCOUNTCLASS_PRICE.equals(pricePromInfo.getDiscountClass())) {
+			if (priceLst.size() == 0)
+				priceLst.add(pricePromInfo);
+    		else if( pricePromInfo.getSalesPrice() < priceLst.get(0).getSalesPrice()) {
+    			priceLst.set(0, pricePromInfo);
+    		}
+		} 
+    }
+    
+	 /**
+     * Get The Price Urgent Info.     
+     * @param dpt  The ID of The Department
+     * @param line The ID of The Line
+     * @param sku The ID of The clas
+     * @return PriceUrgentInfo The Price Urgent Info Object
+     */
+    public final PriceUrgentInfo getPriceUrgentInfo(final String dpt, final String line, final String clas) {
+
+		if (priceUrgentInfoList == null){
+			return null;
+		}
+		for (PriceUrgentInfo priceUrgentInfo : priceUrgentInfoList) {
+			if (clas != null && line != null && dpt != null && clas.equals(priceUrgentInfo.getClas()) 
+					&& line.equals(priceUrgentInfo.getLine()) && dpt.equals(priceUrgentInfo.getDpt())){
+				return priceUrgentInfo;
+			}
+		}
+		return null;
+	}
+    
+    public final boolean isPricePromValid(PricePromInfo pricePromInfo) {
+    	boolean ret = false;
+		// タイムセール開始時刻とタイムセール終了時刻の判断
+		if (!StringUtility.isNullOrEmpty(pricePromInfo.getSaleStartTime()) && !StringUtility.isNullOrEmpty(pricePromInfo.getSaleEndTime())) {
+			DateFormat df1 = new SimpleDateFormat("yyyyMMdd");
+			String saleStartTime = df1.format(new Date()) + pricePromInfo.getSaleStartTime() + "00";
+			String saleEndTime = df1.format(new Date()) + pricePromInfo.getSaleEndTime() + "59";
+			
+			SimpleDateFormat df2 = new SimpleDateFormat("yyyyMMddHHmmss");			
+    		Date sysTime = new Date();
+    		try {
+				if (sysTime.before(df2.parse(saleEndTime)) && sysTime.after(df2.parse(saleStartTime))) {
+					ret = true;
+				}
+			} catch (ParseException e) {
+				tp.println(context.toString());
+	            LOGGER.logAlert(progname, "isPricePromValid", Logger.RES_EXCEP_GENERAL,
+	                    e.getMessage());
+			}
+		} else {
+			ret = true;
+		}
+    	return ret;
+    }
+    
     /**
      * Get The Price MM Info.
      * @param sku The ID of The Sku
@@ -489,4 +777,55 @@ public class ItemResource {
 		}
 		return priceMMInfoListTemp.get(0);
 	}
+    
+    /**
+     * Get The Price MM Info List.
+     * @param sku The ID of The Sku
+     * @return List<PriceMMInfo> The Price MM Info List
+     */
+    public final List<PriceMMInfo> getPriceMMList(final String sku) {
+
+		if (priceMMInfoList == null || StringUtility.isNullOrEmpty(sku)){
+			return null;
+		}
+		
+		List<PriceMMInfo> retPriceMMInfoList = new ArrayList<PriceMMInfo>();
+		for (PriceMMInfo priceMMInfo : priceMMInfoList) {
+			String priceMMSku = priceMMInfo.getSku();
+			if (!StringUtility.isNullOrEmpty(priceMMSku)) {
+				if (sku.equals(priceMMSku) && isPriceMMValid(priceMMInfo)) {
+					retPriceMMInfoList.add(priceMMInfo);
+				}
+			}
+		}
+		
+		if (retPriceMMInfoList.isEmpty()) return null;
+			
+		return retPriceMMInfoList;
+	}
+    
+    public final boolean isPriceMMValid(PriceMMInfo priceMMInfo) {
+    	boolean ret = false;
+		// タイムセール開始時刻とタイムセール終了時刻の判断
+		if (!StringUtility.isNullOrEmpty(priceMMInfo.getSaleStartTime()) && !StringUtility.isNullOrEmpty(priceMMInfo.getSaleEndTime())) {
+			DateFormat df1 = new SimpleDateFormat("yyyyMMdd");
+			String saleStartTime = df1.format(new Date()) + priceMMInfo.getSaleStartTime() + "00";
+			String saleEndTime = df1.format(new Date()) + priceMMInfo.getSaleEndTime() + "59";
+			
+			SimpleDateFormat df2 = new SimpleDateFormat("yyyyMMddHHmmss");			
+    		Date sysTime = new Date();
+    		try {
+				if (sysTime.before(df2.parse(saleEndTime)) && sysTime.after(df2.parse(saleStartTime))) {
+					ret = true;
+				}
+			} catch (Exception e) {
+				tp.println(context.toString());
+	            LOGGER.logAlert(progname, "isPriceMMValid", Logger.RES_EXCEP_GENERAL,
+	                    e.getMessage());
+			}
+		} else {
+			ret = true;
+		}
+    	return ret;
+    }
 }

@@ -12,11 +12,12 @@ public interface IPriceMMInfoDAO {
 	 *
 	 * @param companyId ,
 	 *        storeId ,
-	 *        dayDate
+	 *        dayDate ,
+	 *        mdInternal
 	 * @return List<PriceMMInfo>.
 	 * @throws DaoException
 	 *             The exception thrown when searching failed.
 	 */
-    List<PriceMMInfo> getPriceMMInfoList(String companyId, String storeId, String dayDate)
+    List<PriceMMInfo> getPriceMMInfoList(String companyId, String storeId, String dayDate, String mdInternal)
 			throws DaoException;
 }

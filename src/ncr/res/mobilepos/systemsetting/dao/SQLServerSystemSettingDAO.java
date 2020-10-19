@@ -147,4 +147,97 @@ extends AbstractDao implements ISystemSettingDAO {
         }
         return resultCode;
 	}
+    @Override
+    public int setBootTime(String companyid, String storeid, String workstationid, String bootdatetime) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        Connection connection = null;
+        int resultCode = 0;
+        PreparedStatement update = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            update = connection.prepareStatement(sqlStatement
+                    .getProperty("set-boot-date-time"));
+            update.setString(SQLStatement.PARAM1, companyid);
+            update.setString(SQLStatement.PARAM2, storeid);
+            update.setString(SQLStatement.PARAM3, workstationid);
+            update.setString(SQLStatement.PARAM4, bootdatetime);
+            resultCode = update.executeUpdate();
+            // commit codes here!
+            connection.commit();
+        } catch (SQLException ex) {
+            LOGGER.logAlert(
+                    PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_SQLSTATEMENT,
+                    "Failed to Update DateSetting: "
+                            + ex.getMessage());
+            throw new DaoException("SQLException: SQLServerSystemSettingDAO"
+                    + ".updateDateSetting - Error Update DateSetting process", ex);
+        } catch (Exception ex) {
+            LOGGER.logAlert(
+                    PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_SQLSTATEMENT,
+                    "Failed to Update DateSetting: "
+                            + ex.getMessage());
+            throw new DaoException("Exception: SQLServerSystemSettingDAO"
+                    + ".updateDateSetting - Error Update DateSetting process", ex);
+        } finally {
+            closeConnectionObjects(connection, update, null);
+            tp.methodExit(resultCode);
+        }
+        return resultCode;
+    }
+    @Override
+    public int setSoftwareVersionTime(String companyId, String storeId, String workstationid, String verTablet, String verTransaction, String verBatch, String misc1, String misc2, String misc3, String misc4, String misc5) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        Connection connection = null;
+        int resultCode = 0;
+        PreparedStatement update = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            update = connection.prepareStatement(sqlStatement
+                    .getProperty("update-software-version-time"));
+            update.setString(SQLStatement.PARAM1, companyId);
+            update.setString(SQLStatement.PARAM2, storeId);
+            update.setString(SQLStatement.PARAM3, workstationid);
+            update.setString(SQLStatement.PARAM4, verTablet);
+            update.setString(SQLStatement.PARAM5, verTransaction);
+            update.setString(SQLStatement.PARAM6, verBatch);
+            update.setString(SQLStatement.PARAM7, misc1);
+            update.setString(SQLStatement.PARAM8, misc2);
+            update.setString(SQLStatement.PARAM9, misc3);
+            update.setString(SQLStatement.PARAM10, misc4);
+            update.setString(SQLStatement.PARAM11, misc5);
+            resultCode = update.executeUpdate();
+            // commit codes here!
+            connection.commit();
+        } catch (SQLException ex) {
+            LOGGER.logAlert(
+                    PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_SQLSTATEMENT,
+                    "Failed to Update DateSetting: "
+                            + ex.getMessage());
+            throw new DaoException("SQLException: SQLServerSystemSettingDAO"
+                    + ".updateDateSetting - Error Update DateSetting process", ex);
+        } catch (Exception ex) {
+            LOGGER.logAlert(
+                    PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_SQLSTATEMENT,
+                    "Failed to Update DateSetting: "
+                            + ex.getMessage());
+            throw new DaoException("Exception: SQLServerSystemSettingDAO"
+                    + ".updateDateSetting - Error Update DateSetting process", ex);
+        } finally {
+            closeConnectionObjects(connection, update, null);
+            tp.methodExit(resultCode);
+        }
+        return resultCode;
+    }
 }

@@ -102,6 +102,24 @@ public class Item extends ResultBase {
     
     @XmlElement(name = "SubNum1")
     private int subNum1 = 0;
+    
+    @XmlElement(name = "FoodFlag")
+    private String FoodFlag;
+    
+    @XmlElement(name = "SaleRestrictedFlag")
+    private String SaleRestrictedFlag;
+    
+    @XmlElement(name = "SelfSaleRestrictedFlag")
+    private String SelfSaleRestrictedFlag;
+    
+    @XmlElement(name = "OrderSaleFlag")
+    private String OrderSaleFlag;
+    
+    @XmlElement(name = "BestBeforePeriod")
+    private String BestBeforePeriod;
+    
+    @XmlElement(name = "SalePeriod")
+    private String SalePeriod;
 
     @ApiModelProperty(value="部門割引タイプ", notes="部門割引タイプ")
     public String getDptDiscountType() {
@@ -256,9 +274,6 @@ public class Item extends ResultBase {
     @XmlElement(name = "StoreId")
     private String storeId;
     
-    @XmlElement(name = "PmInfoList")
-    private List<? extends PMInfo> pmInfoList;
-    
     @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public String getStoreId() {
         return storeId;
@@ -274,7 +289,13 @@ public class Item extends ResultBase {
     @XmlElement(name = "PriceUrgentInfo")
     private PriceUrgentInfo priceUrgentInfo;
 
-    @XmlElement(name = "DptDiscountType")
+    @XmlElement(name = "PriceMMInfoList")
+    private List<PriceMMInfo> priceMMInfoList; // lilx 20191206
+    
+    @XmlElement(name = "PmInfoList")
+    private List<? extends PMInfo> pmInfoList;
+    
+	@XmlElement(name = "DptDiscountType")
     private String dptDiscountType;
     
     @XmlElement(name = "DiacountRate")
@@ -839,7 +860,16 @@ public class Item extends ResultBase {
 	public void setPriceUrgentInfo(PriceUrgentInfo priceUrgentInfo) {
 		this.priceUrgentInfo = priceUrgentInfo;
 	}
+	
+	@ApiModelProperty(value="MM", notes="MM")
+	public List<PriceMMInfo> getPriceMMInfoList() {
+		return priceMMInfoList;
+	}
 
+	public void setPriceMMInfoList(List<PriceMMInfo> priceMMInfoList) {
+		this.priceMMInfoList = priceMMInfoList;
+	}
+	
     @ApiModelProperty(value="割引区分", notes="割引区分")
     public int getDiscountClass() {
         return discountClass;
@@ -1259,6 +1289,9 @@ public class Item extends ResultBase {
     @XmlElement(name = "Class")
     private String itemClass;
 
+    @XmlElement(name = "AgeRestrictedFlag")
+    private String ageRestrictedFlag;
+
     @XmlElement(name = "CouponFlag")
     private String couponFlag;
 
@@ -1300,50 +1333,40 @@ public class Item extends ResultBase {
     private String updAppId;
 
     private String updOpeCode;
-
-    // FDMM add start by mt185204 2020-07-15
-    @XmlElement(name = "PharmaceuticalFlag")
-    private String PharmaceuticalFlag;
-
-    @ApiModelProperty(value="コデイン含有医薬品", notes="コデイン含有医薬品")
-    public String getPharmaceuticalFlag() {
-        return PharmaceuticalFlag;
-    }
-
-    public void setPharmaceuticalFlag(String PharmaceuticalFlag) {
-        this.PharmaceuticalFlag = PharmaceuticalFlag;
-    }
-    // FDMM add end by mt185204 2020-07-15
-
-    // FDMM add start RESD-3589 2020-09-8
+    
+    //DRUG add start by wl 20191113
     @XmlElement(name = "RecallFlag")
     private String RecallFlag;
-
-    @ApiModelProperty(value="回収指示", notes="回収指示")
-    public String getRecallFlag() {
-        return RecallFlag;
-    }
     
-    public void setRecallFlag(String RecallFlag) {
-        this.RecallFlag = RecallFlag;
-    }
+    @XmlElement(name = "PharmaceuticalFlag")
+    private String PharmaceuticalFlag;
     
-    @XmlElement(name = "CallInReason")
-    private String CallInReason;
-
-    @ApiModelProperty(value="回収理由", notes="回収理由")
-    public String getCallInReason() {
-        return CallInReason;
-    }
-
-    public void setCallInReason(String CallInReason) {
-        this.CallInReason = CallInReason;
-    }
-    // FDMM add end RESD-3589 2020-09-8
-
-    // FDMM add start RESD-3824 2020-08-18
-    @XmlElement(name = "AgeRestrictedFlag")
-    private String ageRestrictedFlag;
+    @XmlElement(name = "CountLimitFlag")
+    private String CountLimitFlag;
+    
+    @XmlElement(name = "CountLimit")
+    private String CountLimit;
+    
+    @XmlElement(name = "CertificatePrintFlag")
+    private String CertificatePrintFlag;
+    
+    @XmlElement(name = "SelfFlag")
+    private String SelfFlag;
+    
+    @XmlElement(name = "DrugType")
+    private String DrugType;
+   
+	@XmlElement(name = "TransferWriteType")
+    private String TransferWriteType;
+    
+    @XmlElement(name = "DrugActType")
+    private String DrugActType;
+    
+    @XmlElement(name = "TransferActType")
+    private String TransferActType;
+    
+    @XmlElement(name = "CertificateNo")
+    private String CertificateNo;
     
     @XmlElement(name = "ClsAgeRestrictedFlag")
     private String ClsAgeRestrictedFlag;
@@ -1354,19 +1377,117 @@ public class Item extends ResultBase {
     @XmlElement(name = "DptAgeRestrictedFlag")
     private String DptAgeRestrictedFlag;
     
+    @XmlElement(name = "CallInReason")
+    private String CallInReason;
+
+    @XmlElement(name = "SelfMedicationMark")
+    private String SelfMedicationMark;
+    
     @XmlElement(name = "AgeSource")
     private String AgeSource;
     
-    @ApiModelProperty(value="年齢制限フラグ", notes="年齢制限フラグ")
-    public final String getAgeRestrictedFlag() {
-        return this.ageRestrictedFlag;
-    }
-
-    public final void setAgeRestrictedFlag(final String ageRestrictedFlag) {
-        this.ageRestrictedFlag = ageRestrictedFlag;
-    }
+    @XmlElement(name = "ComstdName")
+    private String ComstdName;
     
-    @ApiModelProperty(value="class免税区分", notes="class免税区分")
+    @ApiModelProperty(value="回収指示", notes="回収指示")
+	public String getRecallFlag() {
+		return RecallFlag;
+	}
+
+	public void setRecallFlag(String RecallFlag) {
+		this.RecallFlag = RecallFlag;
+	}
+
+	@ApiModelProperty(value="コデイン含有医薬品", notes="コデイン含有医薬品")
+	public String getPharmaceuticalFlag() {
+		return PharmaceuticalFlag;
+	}
+
+	public void setPharmaceuticalFlag(String PharmaceuticalFlag) {
+		this.PharmaceuticalFlag = PharmaceuticalFlag;
+	}
+
+	@ApiModelProperty(value="販売上限数制限フラグ", notes="販売上限数制限フラグ")
+	public String getCountLimitFlag() {
+		return CountLimitFlag;
+	}
+
+	public void setCountLimitFlag(String CountLimitFlag) {
+		this.CountLimitFlag = CountLimitFlag;
+	}
+	
+	@ApiModelProperty(value="販売上限数", notes="販売上限数")
+	public String getCountLimit() {
+		return CountLimit;
+	}
+
+	public void setCountLimit(String CountLimit) {
+		this.CountLimit = CountLimit;
+	}
+
+	@ApiModelProperty(value="お買い上げ証明書フラグ", notes="お買い上げ証明書フラグ")
+	public String getCertificatePrintFlag() {
+		return CertificatePrintFlag;
+	}
+
+	public void setCertificatePrintFlag(String CertificatePrintFlag) {
+		this.CertificatePrintFlag = CertificatePrintFlag;
+	}
+
+	@ApiModelProperty(value="セルフメディケーション税制フラグ", notes="セルフメディケーション税制フラグ")
+	public String getSelfFlag() {
+		return SelfFlag;
+	}
+
+	public void setSelfFlag(String SelfFlag) {
+		this.SelfFlag = SelfFlag;
+	}
+
+	@ApiModelProperty(value="医薬品分類", notes="医薬品分類")
+	public String getDrugType() {
+		return DrugType;
+	}
+
+	public void setDrugType(String DrugType) {
+		this.DrugType = DrugType;
+	}
+
+	@ApiModelProperty(value="譲渡書記入区分", notes="譲渡書記入区分")
+	public String getTransferWriteType() {
+		return TransferWriteType;
+	}
+
+	public void setTransferWriteType(String TransferWriteType) {
+		this.TransferWriteType = TransferWriteType;
+	}
+	
+	@ApiModelProperty(value="医薬品動作区分", notes="医薬品動作区分")
+    public String getDrugActType() {
+		return DrugActType;
+	}
+
+	public void setDrugActType(String DrugActType) {
+		this.DrugActType = DrugActType;
+	}
+
+	@ApiModelProperty(value="譲渡書記入動作区分", notes="譲渡書記入動作区分")
+	public String getTransferActType() {
+		return TransferActType;
+	}
+
+	public void setTransferActType(String TransferActType) {
+		this.TransferActType = TransferActType;
+	}
+	
+	@ApiModelProperty(value="証明書NO", notes="証明書NO")
+	public String getCertificateNo() {
+		return CertificateNo;
+	}
+
+	public void setCertificateNo(String CertificateNo) {
+		this.CertificateNo = CertificateNo;
+	}
+	@ApiModelProperty(value="class免税区分", notes="class免税区分")
 	public String getClsAgeRestrictedFlag() {
 		return ClsAgeRestrictedFlag;
 	}
@@ -1390,30 +1511,13 @@ public class Item extends ResultBase {
 	public void setDptAgeRestrictedFlag(String DptAgeRestrictedFlag) {
 		this.DptAgeRestrictedFlag = DptAgeRestrictedFlag;
 	}
-	
-	@ApiModelProperty(value="年齢制限フラグを取得したマスターテーブルの識別子", notes="年齢制限フラグを取得したマスターテーブルの識別子")
-	public String getAgeSource() {
-		return AgeSource;
+	@ApiModelProperty(value="回収理由", notes="回収理由")
+	public String getCallInReason() {
+		return CallInReason;
 	}
 
-	public void setAgeSource(String AgeSource) {
-		this.AgeSource = AgeSource;
-	}
-    // FDMM add end RESD-3824 2020-08-18
-    
-	// FDMM add start RESD-3584 2020-08-19
-	@XmlElement(name = "SelfFlag")
-    private String SelfFlag;
-	@XmlElement(name = "SelfMedicationMark")
-    private String SelfMedicationMark;
-	
-	@ApiModelProperty(value="セルフメディケーション税制フラグ", notes="セルフメディケーション税制フラグ")
-	public String getSelfFlag() {
-		return SelfFlag;
-	}
-
-	public void setSelfFlag(String SelfFlag) {
-		this.SelfFlag = SelfFlag;
+	public void setCallInReason(String CallInReason) {
+		this.CallInReason = CallInReason;
 	}
 	@ApiModelProperty(value="セルフメディケーションマーク", notes="セルフメディケーションマーク")
 	public String getSelfMedicationMark() {
@@ -1423,122 +1527,24 @@ public class Item extends ResultBase {
 	public void setSelfMedicationMark(String SelfMedicationMark) {
 		this.SelfMedicationMark = SelfMedicationMark;
 	}
-	// FDMM add end RESD-3584 2020-08-19
-	
-	// FDMM add start RESD-3595 2020-09-18
-	@XmlElement(name = "DrugActType")
-	private String DrugActType;
-	@XmlElement(name = "DrugType")
-	private String DrugType;
-
-	@ApiModelProperty(value="医薬品動作区分", notes="医薬品動作区分")
-	public String getDrugActType() {
-		return DrugActType;
+	@ApiModelProperty(value="年齢制限フラグを取得したマスターテーブルの識別子", notes="年齢制限フラグを取得したマスターテーブルの識別子")
+	public String getAgeSource() {
+		return AgeSource;
 	}
 
-	public void setDrugActType(String DrugActType) {
-		this.DrugActType = DrugActType;
+	public void setAgeSource(String AgeSource) {
+		this.AgeSource = AgeSource;
 	}
-	@ApiModelProperty(value="医薬品分類", notes="医薬品分類")
-	public String getDrugType() {
-		return DrugType;
-	}
-
-	public void setDrugType(String DrugType) {
-		this.DrugType = DrugType;
-	}
-	// FDMM add end RESD-3595 2020-09-18
-	// FDMM add start RESD-3594 2020-09-22
-	@XmlElement(name = "CountLimitFlag")
-	private String CountLimitFlag;
-
-	@XmlElement(name = "CountLimit")
-	private String CountLimit;
-
-	@ApiModelProperty(value="販売上限数制限フラグ", notes="販売上限数制限フラグ")
-	public String getCountLimitFlag() {
-		return CountLimitFlag;
+	@ApiModelProperty(value="型番", notes="型番")
+	public String getComstdName() {
+		return ComstdName;
 	}
 
-	public void setCountLimitFlag(String CountLimitFlag) {
-		this.CountLimitFlag = CountLimitFlag;
+	public void setComstdName(String ComstdName) {
+		this.ComstdName = ComstdName;
 	}
-	
-	@ApiModelProperty(value="販売上限数", notes="販売上限数")
-	public String getCountLimit() {
-		return CountLimit;
-	}
-
-	public void setCountLimit(String CountLimit) {
-		this.CountLimit = CountLimit;
-	}
-	// FDMM add end RESD-3594 2020-09-22
-	// FDMM add start RESD-3601 2020-09-28
-	@XmlElement(name = "TransferWriteType")
-	private String TransferWriteType;
-
-	@XmlElement(name = "TransferActType")
-	private String TransferActType;
-
-	@ApiModelProperty(value="譲渡書記入区分", notes="譲渡書記入区分")
-	public String getTransferWriteType() {
-		return TransferWriteType;
-	}
-
-	public void setTransferWriteType(String TransferWriteType) {
-		this.TransferWriteType = TransferWriteType;
-	}
-	
-	@ApiModelProperty(value="譲渡書記入動作区分", notes="譲渡書記入動作区分")
-	public String getTransferActType() {
-		return TransferActType;
-	}
-
-	public void setTransferActType(String TransferActType) {
-		this.TransferActType = TransferActType;
-	}
-	// FDMM add end RESD-3601 2020-09-28
-	// FDMM add start RESD-3582 2020-09-30
-	@XmlElement(name = "CertificatePrintFlag")
-	private String CertificatePrintFlag;
-
-	@ApiModelProperty(value="お買い上げ証明書フラグ", notes="お買い上げ証明書フラグ")
-	public String getCertificatePrintFlag() {
-		return CertificatePrintFlag;
-	}
-
-	public void setCertificatePrintFlag(String CertificatePrintFlag) {
-		this.CertificatePrintFlag = CertificatePrintFlag;
-	}
-	// FDMM add end RESD-3582 2020-09-30
-	// FDMM add start RESD-4596 2020-10-08
-	@XmlElement(name = "SelfSaleRestrictedFlag")
-	private String SelfSaleRestrictedFlag;
-
-	@ApiModelProperty(value="セルフ販売不可商品Flag", notes="セルフ販売不可商品Flag")
-	public String getSelfSaleRestrictedFlag() {
-		return SelfSaleRestrictedFlag;
-	}
-
-	public void setSelfSaleRestrictedFlag(String selfSaleRestrictedFlag) {
-		SelfSaleRestrictedFlag = selfSaleRestrictedFlag;
-	}
-	// FDMM add end RESD-4596 2020-10-08
-	// FDMM add start RESD-3831 2020-10-12
-	@XmlElement(name = "SaleRestrictedFlag")
-	private String SaleRestrictedFlag;
-
-	@ApiModelProperty(value="販売不可商品Flag", notes="販売不可商品Flag")
-	public String getSaleRestrictedFlag() {
-		return SaleRestrictedFlag;
-	}
-
-	public void setSaleRestrictedFlag(String saleRestrictedFlag) {
-		SaleRestrictedFlag = saleRestrictedFlag;
-	}
-	// FDMM add end RESD-3831 2020-10-12
-	 
-	// constructors
+	//DRUG add end by wl 20191113
+    // constructors
     public Item() {
     }
 
@@ -1563,6 +1569,7 @@ public class Item extends ResultBase {
         this.subInt10 = item.getSubInt10();
         this.line = item.getLine();
         this.itemClass = item.getItemClass();
+        this.ageRestrictedFlag = item.getAgeRestrictedFlag();
         this.couponFlag = item.getCouponFlag();
         this.discountFlag = item.getDiscountFlag();
         this.mustBuyFlag = item.getMustBuyFlag();
@@ -1603,39 +1610,23 @@ public class Item extends ResultBase {
         this.subCode2 = item.getSubCode2();
         this.subCode3 = item.getSubCode3();
         this.subNum2 = item.getSubNum2();
-        //end
-        // FDMM add start by mt185204 2020-07-15
+        this.RecallFlag = item.getRecallFlag();
         this.PharmaceuticalFlag = item.getPharmaceuticalFlag();
-        // FDMM add end by mt185204 2020-07-15
-        // FDMM add start RESD-3824 2020-08-18
-        this.ageRestrictedFlag = item.getAgeRestrictedFlag();
+        this.CountLimit = item.getCountLimit();
+        this.CertificatePrintFlag = item.getCertificatePrintFlag();
+        this.SelfFlag = item.getSelfFlag();
+        this.DrugType = item.getDrugType();
+        this.TransferWriteType = item.getTransferWriteType();
+        this.DrugActType = item.getDrugActType();
+        this.TransferActType = item.getTransferActType();
+        this.CountLimitFlag = item.getCountLimitFlag();
+        this.CertificateNo = item.getCertificateNo();
         this.ClsAgeRestrictedFlag = item.getClsAgeRestrictedFlag();
         this.LineAgeRestrictedFlag = item.getLineAgeRestrictedFlag();
         this.DptAgeRestrictedFlag = item.getDptAgeRestrictedFlag();
-        // FDMM add end RESD-3824 2020-08-18
-        // FDMM add start RESD-3584 2020-08-19
-        this.SelfFlag = item.getSelfFlag();
-        this.SelfMedicationMark = item.getSelfMedicationMark();
-        // FDMM add end RESD-3584 2020-08-19
-        // FDMM add start RESD-3589 2020-09-8
-        this.RecallFlag = item.getRecallFlag();
         this.CallInReason = item.getCallInReason();
-        // FDMM add end RESD-3589 2020-09-8
-        // FDMM add start RESD-3595 2020-09-18
-        this.DrugActType = item.getDrugActType();
-        this.DrugType = item.getDrugType();
-        // FDMM add end RESD-3595 2020-09-18
-        // FDMM add start RESD-3594 2020-09-22
-        this.CountLimit = item.getCountLimit();
-        this.CountLimitFlag = item.getCountLimitFlag();
-        // FDMM add end RESD-3594 2020-09-22
-        // FDMM add start RESD-3601 2020-09-28
-        this.TransferWriteType = item.getTransferWriteType();
-        this.TransferActType = item.getTransferActType();
-        // FDMM add end RESD-3601 2020-09-28
-        // FDMM add start RESD-3582 2020-09-30
-        this.CertificatePrintFlag = item.getCertificatePrintFlag();
-        // FDMM add end RESD-3582 2020-09-30
+        this.SelfMedicationMark = item.getSelfMedicationMark();
+        this.pmInfoList = item.getPmInfoList();
     }
 
     public Item(final String itemId, final Description description,
@@ -1888,7 +1879,16 @@ public class Item extends ResultBase {
     public final void setItemClass(final String itemClass) {
         this.itemClass = itemClass;
     }
-    
+
+    @ApiModelProperty(value="年齢制限フラグ", notes="年齢制限フラグ")
+    public final String getAgeRestrictedFlag() {
+        return this.ageRestrictedFlag;
+    }
+
+    public final void setAgeRestrictedFlag(final String ageRestrictedFlag) {
+        this.ageRestrictedFlag = ageRestrictedFlag;
+    }
+
     @ApiModelProperty(value="クーポン券フラグ", notes="クーポン券フラグ")
     public final String getCouponFlag() {
         return couponFlag;
@@ -2222,6 +2222,62 @@ public class Item extends ResultBase {
     public void setClassInfoSubNum1(String classInfoSubNum1) {
         this.classInfoSubNum1 = classInfoSubNum1;
     }
+    
+    //MUJI add by wgq start
+    @ApiModelProperty(value="賞味期間", notes="賞味期間")
+    public String getBestBeforePeriod() {
+		return BestBeforePeriod;
+	}
+
+	public void setBestBeforePeriod(String bestBeforePeriod) {
+		BestBeforePeriod = bestBeforePeriod;
+	}
+
+	@ApiModelProperty(value="販売期間", notes="販売期間")
+	public String getSalePeriod() {
+		return SalePeriod;
+	}
+
+	public void setSalePeriod(String salePeriod) {
+		SalePeriod = salePeriod;
+	}
+
+	@ApiModelProperty(value="食品Flag", notes="食品Flag")
+	public String getFoodFlag() {
+		return FoodFlag;
+	}
+
+	public void setFoodFlag(String foodFlag) {
+		FoodFlag = foodFlag;
+	}
+
+	@ApiModelProperty(value="販売不可商品Flag", notes="販売不可商品Flag")
+	public String getSaleRestrictedFlag() {
+		return SaleRestrictedFlag;
+	}
+
+	public void setSaleRestrictedFlag(String saleRestrictedFlag) {
+		SaleRestrictedFlag = saleRestrictedFlag;
+	}
+
+	@ApiModelProperty(value="セルフ販売不可商品Flag", notes="セルフ販売不可商品Flag")
+	public String getSelfSaleRestrictedFlag() {
+		return SelfSaleRestrictedFlag;
+	}
+
+	public void setSelfSaleRestrictedFlag(String selfSaleRestrictedFlag) {
+		SelfSaleRestrictedFlag = selfSaleRestrictedFlag;
+	}
+
+	@ApiModelProperty(value="オーダー商品承り票Flag", notes="オーダー商品承り票Flag")
+	public String getOrderSaleFlag() {
+		return OrderSaleFlag;
+	}
+
+	public void setOrderSaleFlag(String orderSaleFlag) {
+		OrderSaleFlag = orderSaleFlag;
+	}
+	//MUJI add by wgq end
 
 	@Override
     public final String toString() {

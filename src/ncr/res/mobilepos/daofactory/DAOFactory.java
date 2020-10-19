@@ -46,6 +46,7 @@ import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastersync.dao.IMasterSyncDAO;
+import ncr.res.mobilepos.mujiPassport.dao.IMujiPassportDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
@@ -56,6 +57,8 @@ import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.IPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
+import ncr.res.mobilepos.pricing.dao.IPriceUrgentInfoDAO;
+import ncr.res.mobilepos.pricing.dao.IUrgentChangePriceInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
 import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
@@ -72,7 +75,6 @@ import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
 import ncr.res.mobilepos.terminalInfo.dao.ITerminalInfoDAO;
 import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
-import ncr.res.mobilepos.selfmode.dao.ISelfModeDAO;
 
 /**
  * DAO Factory is an abstract class which represents as the factory for all DAO
@@ -365,15 +367,6 @@ public abstract class DAOFactory {
     public abstract ICodeConvertDAO getCodeConvertDAO() throws DaoException;
 
     /**
-     * Gets the DAO Object for PairMatch Info.
-     *
-     * @return IPMInfoDAO
-     * @throws DaoException
-     *             exception
-     */
-    public abstract IPMInfoDAO getPMInfoDAO() throws DaoException;
-
-    /**
      * Gets the DAO Object for QrCodeInfo.
      *
      * @return QrCodeInfoDAO
@@ -490,6 +483,8 @@ public abstract class DAOFactory {
 
 	public abstract IPriceMMInfoDAO getPriceMMInfoDAO() throws DaoException;
 
+	public abstract IPriceUrgentInfoDAO getPriceUrgentInfoDAO() throws DaoException;
+
 	public abstract IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException;
 
 	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
@@ -499,4 +494,14 @@ public abstract class DAOFactory {
 	public abstract IMasterSyncDAO getMasterSyncDAO() throws DaoException;
 
 	public abstract ISelfModeDAO getISelfModeDAO()throws DaoException;
+	
+	public abstract IUrgentChangePriceInfoDAO getUrgentChangePriceInfoDAO() throws DaoException;
+	/**
+	 * get PM DAO
+	 * @return DAO implements
+	 * @throws DaoException
+	 */
+	public abstract IPMInfoDAO getPMInfoDAO() throws DaoException;
+
+    public abstract IMujiPassportDAO getMujiPassportDAO() throws DaoException;
 }

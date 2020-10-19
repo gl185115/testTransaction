@@ -23,7 +23,13 @@ public class ItemSale {
     @XmlElement(name = "type")
     private String type;
     
-    @XmlElement(name = "emergency")
+    @XmlElement(name = "maxCount")
+    private int maxCount;
+    
+    @XmlElement(name = "symbol")
+    private String symbol;
+    
+	@XmlElement(name = "emergency")
     private boolean emergency = true;
 
     @XmlElement(name = "format")
@@ -55,7 +61,15 @@ public class ItemSale {
     public void setType(String type) {
         this.type = type;
     }
+	
+    public int getMaxCount() {
+		return maxCount;
+	}
 
+	public void setMaxCount(int maxCount) {
+		this.maxCount = maxCount;
+	}
+    
     public boolean getEmergency() {
         return emergency;
     }
@@ -64,7 +78,21 @@ public class ItemSale {
         this.emergency = emergency;
     }
 
-    public List<String> getNextFormat() {
+    /**
+	 * @return the symbol
+	 */
+	public String getSymbol() {
+		return symbol;
+	}
+
+	/**
+	 * @param symbol the symbol to set
+	 */
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public List<String> getNextFormat() {
         return nextFormat;
     }
 
@@ -79,5 +107,12 @@ public class ItemSale {
     public void setFormat(List<String> format) {
         this.format = format;
     }
+
+	@Override
+	public String toString() {
+		return "ItemSale [description=" + description + ", id=" + id + ", type=" + type + ", maxCount=" + maxCount
+				+ ", symbol=" + symbol + ", emergency=" + emergency + ", format=" + format + ", nextFormat="
+				+ nextFormat + "]";
+	}
 
 }

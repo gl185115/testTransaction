@@ -1,5 +1,8 @@
 package ncr.res.mobilepos.promotion.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
@@ -12,9 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -95,9 +95,10 @@ public class RemoteItemResource {
         	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         	SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
         	Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
+        	String comstdName = systemDao.getParameterString(GlobalConstant.KEY_COLUMN_PLU, GlobalConstant.CATE_COMSTD_NAME);
 
             SQLServerItemDAO sqlDao = new SQLServerItemDAO();
-            item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate, mapTaxId);
+            item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate, mapTaxId, comstdName);
             Sale saleIn = new Sale();
             Transaction transactionOut = new Transaction();
             promotionResponse = new PromotionResponse();

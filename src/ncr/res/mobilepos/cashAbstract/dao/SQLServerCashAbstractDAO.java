@@ -4,13 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import atg.taglib.json.util.JSONArray;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.cashAbstract.model.DispensingCode;
+import ncr.res.mobilepos.cashAbstract.model.DispensingCodeList;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
@@ -42,7 +46,7 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
 
     /**
      * Initializes DBManager.
-     *
+     * 
      * @throws DaoException
      *             if error exists.
      */
@@ -53,7 +57,7 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
 
     /**
      * Retrieves DBManager.
-     *
+     * 
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -143,4 +147,59 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
         }
         return tender;
     }
+
+    /**
+     * @param companyId,retailStoreId
+     *
+     * @return DispensingCodeList
+     *
+     * @throws DaoException
+     */
+    @Override
+	public DispensingCodeList getDispensingCreditCode(String companyId, String retailStoreId) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId);
+
+        PreparedStatement selectStmnt = null;
+        ResultSet resultSet = null;
+        Connection connection = null;
+
+		DispensingCodeList dcList = new DispensingCodeList();
+		List<DispensingCode> dispensingCodeList = new ArrayList<DispensingCode>();
+        try {
+            connection = dbManager.getConnection();
+
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-dispensing-credit-code"));
+            selectStmnt.setString(SQLStatement.PARAM1, companyId);
+            selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
+            resultSet = selectStmnt.executeQuery();
+            while (resultSet.next()) {
+            	DispensingCode dispensingCode =new DispensingCode();
+            	dispensingCode.setCashFlowType(resultSet.getString("CashFlowType"));
+            	dispensingCode.setRemarksCol(resultSet.getString("RemarksCol"));
+            	dispensingCodeList.add(dispensingCode);
+            }
+            if (dispensingCodeList.isEmpty()) {
+            	dcList.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				tp.println("dispensingCode not found.");
+				dcList.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			} else {
+				dcList.setDispensingCodeLists(dispensingCodeList);
+			}
+        } catch (SQLException sqlEx) {
+        	sqlEx.printStackTrace();
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get dispensingCreditCode infomation.",
+                    sqlEx);
+            throw new DaoException("SQLException:" + " @SQLServerCashAbstractDAO.getDispensingCreditCode", sqlEx);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+                    functionName + ": Failed to get dispensingCreditCode infomation.", ex);
+            throw new DaoException("Exception:" + " @SQLServerCashAbstractDAO.getDispensingCreditCode", ex);
+        } finally {
+            closeConnectionObjects(connection, selectStmnt, resultSet);
+            tp.methodExit(dcList);
+        }
+		return dcList;
+	}
 }

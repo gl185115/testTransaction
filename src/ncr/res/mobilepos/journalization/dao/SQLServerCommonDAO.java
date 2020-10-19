@@ -14,7 +14,10 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.journalization.model.ForwardCashierListInfo;
+import ncr.res.mobilepos.journalization.model.ForwardCheckerListInfo;
 import ncr.res.mobilepos.journalization.model.ForwardListInfo;
+import ncr.res.mobilepos.journalization.model.ForwardUnprocessedListInfo;
 import ncr.res.mobilepos.journalization.model.SearchGuestOrder;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
@@ -50,7 +53,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
     public final DBManager getDbManager() {
         return dbManager;
     }
-
+    
     // 1.05 2014.11.20 取引番号により前受金番号取得  ADD START
     /**
      * @param storeId
@@ -125,7 +128,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
         return searchGuestOrder;
     }
     // 1.05 2014.11.20 取引番号により前受金番号取得 ADD END
-
+    
     /**
      * 前捌 リストの取得
      */
@@ -244,5 +247,161 @@ public class SQLServerCommonDAO extends AbstractDao implements
             tp.methodExit(result);
         }
         return result;
+    }
+
+    /**
+     * 前捌 リストの取得
+     */
+    @Override
+    public List<ForwardCashierListInfo> getForwardCashierList(String companyId, String retailStoreId, String trainingFlag, String terminalId) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
+                .println("trainingFlag", trainingFlag)
+                .println("terminalId", terminalId);
+
+        ArrayList<ForwardCashierListInfo> forwardCashierList = new ArrayList<ForwardCashierListInfo>();
+        ResultSet result = null;
+        Connection connection = null;
+        PreparedStatement selectStmnt = null;
+
+        try {
+            connection = dbManager.getConnection();
+
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-forward-cashierList"));
+            selectStmnt.setString(SQLStatement.PARAM1, companyId);
+            selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
+            selectStmnt.setInt(SQLStatement.PARAM3, Integer.valueOf(trainingFlag));
+            selectStmnt.setString(SQLStatement.PARAM4, terminalId);
+            result = selectStmnt.executeQuery();
+            while (result.next()) {
+                ForwardCashierListInfo forwardCashierListInfo = new ForwardCashierListInfo();
+                forwardCashierListInfo.setDeviceName(result.getString("DeviceName"));
+                forwardCashierListInfo.setTerminalId(result.getString("TerminalId"));
+                forwardCashierListInfo.setIPAddress(result.getString("IPAddress"));
+                forwardCashierListInfo.setTerminalType(result.getString("TerminalType"));
+                forwardCashierList.add(forwardCashierListInfo);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get forward list.", sqlEx);
+            throw new DaoException("Database error");
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward list.", ex);
+            throw new DaoException("Exception:" + functionName, ex);
+        } finally {
+            closeConnectionObjects(connection, selectStmnt, result);
+            tp.methodExit(forwardCashierList);
+        }
+        return forwardCashierList;
+    }
+
+    /**
+     * 前捌 リストの取得
+     */
+    @Override
+    public List<ForwardCheckerListInfo> getForwardCheckerList(String companyId, String retailStoreId, String trainingFlag, String workstationId) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
+                .println("trainingFlag", trainingFlag)
+                .println("ipAdress", workstationId);
+
+        ArrayList<ForwardCheckerListInfo> forwardCheckerList = new ArrayList<ForwardCheckerListInfo>();
+        ResultSet result = null;
+        Connection connection = null;
+        PreparedStatement selectStmnt = null;
+
+        try {
+            connection = dbManager.getConnection();
+
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-forward-checkerList"));
+            selectStmnt.setString(SQLStatement.PARAM1, companyId);
+            selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
+            selectStmnt.setInt(SQLStatement.PARAM3, Integer.valueOf(trainingFlag));
+            selectStmnt.setString(SQLStatement.PARAM4, workstationId);
+            result = selectStmnt.executeQuery();
+            while (result.next()) {
+                ForwardCheckerListInfo forwardCheckerListInfo = new ForwardCheckerListInfo();
+                forwardCheckerListInfo.setTerminalId(result.getString("TerminalId"));
+                forwardCheckerListInfo.setIPAddress(result.getString("IPAddress"));
+                forwardCheckerList.add(forwardCheckerListInfo);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get forward list.", sqlEx);
+            throw new DaoException("SQLException:" + functionName, sqlEx);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward list.", ex);
+            throw new DaoException("Exception:" + functionName, ex);
+        } finally {
+            closeConnectionObjects(connection, selectStmnt, result);
+            tp.methodExit(forwardCheckerList);
+        }
+        return forwardCheckerList;
+    }
+
+    /**
+     * 前捌 リストの取得
+     */
+    @Override
+    public List<ForwardUnprocessedListInfo> getForwardUnprocessedList(String CompanyId, String RetailStoreId, String Terminalid,
+            String TrainingFlag, String LayawayFlag, String Queue, String TxType, String BussinessDayDate) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId).println("Terminalid", Terminalid)
+                .println("TrainingFlag", TrainingFlag)
+                .println("LayawayFlag", LayawayFlag)
+                .println("Queue", Queue)
+                .println("TxType", TxType)
+                .println("BussinessDayDate", BussinessDayDate);
+
+        ArrayList<ForwardUnprocessedListInfo> forwardUnprocessedList = new ArrayList<ForwardUnprocessedListInfo>();
+        ResultSet result = null;
+        Connection connection = null;
+        PreparedStatement select = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement.getProperty("get-forward-unprocessedList"));
+            select.setString(SQLStatement.PARAM1, CompanyId);
+            select.setString(SQLStatement.PARAM2, RetailStoreId);
+            select.setString(SQLStatement.PARAM3, Terminalid);
+            select.setString(SQLStatement.PARAM4, TrainingFlag);
+            select.setString(SQLStatement.PARAM5, LayawayFlag);
+            select.setString(SQLStatement.PARAM6, Queue);
+            select.setString(SQLStatement.PARAM7, TxType);
+            select.setString(SQLStatement.PARAM8, BussinessDayDate);
+            result = select.executeQuery();
+            while (result.next()) {
+                ForwardUnprocessedListInfo forwardUnprocessedListInfo = new ForwardUnprocessedListInfo();
+                forwardUnprocessedListInfo.setCompanyId(result.getString("CompanyId"));
+                forwardUnprocessedListInfo.setRetailStoreId(result.getString("RetailStoreId"));
+                forwardUnprocessedListInfo.setWorkstationId(result.getString("WorkstationId"));
+                forwardUnprocessedListInfo.setQueue(result.getString("Queue"));
+                forwardUnprocessedListInfo.setSequenceNumber(String.format("%04d", result.getInt("SequenceNumber")));
+                forwardUnprocessedListInfo.setTrainingFlag(result.getString("TrainingFlag"));
+                forwardUnprocessedListInfo.setBusinessDayDate(result.getString("BusinessDayDate"));
+                forwardUnprocessedListInfo.setBusinessDateTime(result.getString("BusinessDateTime"));
+                forwardUnprocessedListInfo.setOperatorId(result.getString("OperatorId"));
+                forwardUnprocessedListInfo.setOperatorName(result.getString("OperatorName"));
+                forwardUnprocessedListInfo.setStatus(result.getString("Status"));
+                forwardUnprocessedListInfo.setSalesTotalAmt(result.getString("SalesTotalAmt"));
+                forwardUnprocessedListInfo.setSalesTotalQty(result.getString("SalesTotalQty"));
+                forwardUnprocessedListInfo.setTag(result.getString("Ext1"));
+                forwardUnprocessedList.add(forwardUnprocessedListInfo);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get forward unprocessedList.", sqlEx);
+            throw new DaoException("SQLException:" + functionName, sqlEx);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward unprocessedList.", ex);
+            throw new DaoException("Exception:" + functionName, ex);
+        } finally {
+            closeConnectionObjects(connection, select, result);
+            tp.methodExit(forwardUnprocessedList);
+        }
+        return forwardUnprocessedList;
     }
 }

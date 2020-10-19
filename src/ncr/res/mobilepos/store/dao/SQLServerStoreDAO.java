@@ -543,7 +543,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
         }
         return result;
     }
-
+    
     @Override
     public String getCertificateNo(String companyId, String storeId, String workStactionId, String traning)
             throws DaoException {
@@ -614,6 +614,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
         }
         return result;
     }
+
 
     @Override
     public ViewStore getStoreDetaiInfo(String retailStoreID, String companyId) throws DaoException {

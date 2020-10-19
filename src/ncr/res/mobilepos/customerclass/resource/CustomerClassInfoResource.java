@@ -15,6 +15,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.customerclass.dao.ICustomerClassInfoDAO;
 import ncr.res.mobilepos.customerclass.model.CustomerClassInfoList;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -41,7 +42,7 @@ public class CustomerClassInfoResource {
 
 	/**
 	 * Get customer class info list
-	 *
+	 * 
 	 * @param company
 	 *            id
 	 * @param store

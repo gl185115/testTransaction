@@ -15,6 +15,89 @@ public class MixMatchRule {
 	private Double decisionPrice3;
 	private double averagePrice3;
 	private String note;
+	
+	private Double conditionRate1;
+	private Double decisionRate1;
+	private Double conditionRate2;
+	private Double decisionRate2;
+	private Double conditionRate3;
+	private Double decisionRate3;
+	private String  discountClass;
+	private String mmDisplayNo;
+	
+	public String getMmDisplayNo() {
+		return mmDisplayNo;
+	}
+
+	public void setMmDisplayNo(String mmDisplayNo) {
+		this.mmDisplayNo = mmDisplayNo;
+	}
+
+	private int subNum1;
+	
+	public int getSubNum1() {
+		return subNum1;
+	}
+
+	public void setSubNum1(int subNum1) {
+		this.subNum1 = subNum1;
+	}
+
+	public String getDiscountClass() {
+		return discountClass;
+	}
+
+	public void setDiscountClass(String discountClass) {
+		this.discountClass = discountClass;
+	}
+
+	public Double getConditionRate1() {
+		return conditionRate1;
+	}
+
+	public void setConditionRate1(Double conditionRate1) {
+		this.conditionRate1 = conditionRate1;
+	}
+
+	public Double getDecisionRate1() {
+		return decisionRate1;
+	}
+
+	public void setDecisionRate1(Double decisionRate1) {
+		this.decisionRate1 = decisionRate1;
+	}
+
+	public Double getConditionRate2() {
+		return conditionRate2;
+	}
+
+	public void setConditionRate2(Double conditionRate2) {
+		this.conditionRate2 = conditionRate2;
+	}
+
+	public Double getDecisionRate2() {
+		return decisionRate2;
+	}
+
+	public void setDecisionRate2(Double decisionRate2) {
+		this.decisionRate2 = decisionRate2;
+	}
+
+	public Double getConditionRate3() {
+		return conditionRate3;
+	}
+
+	public void setConditionRate3(Double conditionRate3) {
+		this.conditionRate3 = conditionRate3;
+	}
+
+	public Double getDecisionRate3() {
+		return decisionRate3;
+	}
+
+	public void setDecisionRate3(Double decisionRate3) {
+		this.decisionRate3 = decisionRate3;
+	}
 
 	public String getNote() {
         return note;

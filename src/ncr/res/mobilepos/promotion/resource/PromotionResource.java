@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.codehaus.jackson.JsonParseException;
 
 import com.wordnik.swagger.annotations.Api;
@@ -60,6 +62,9 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
+import ncr.res.mobilepos.pricing.factory.PriceUrgentInfoFactory;
 import ncr.res.mobilepos.pricing.dao.IPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.ChangeableTaxRate;
@@ -70,6 +75,7 @@ import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PremiumInfo;
 import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
+import ncr.res.mobilepos.pricing.model.PriceUrgentInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.model.TaxRateInfo;
@@ -83,6 +89,7 @@ import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.helper.TerminalItemsHandler;
+import ncr.res.mobilepos.promotion.model.DetailInfo;
 import ncr.res.mobilepos.promotion.model.ItemForPm;
 import ncr.res.mobilepos.promotion.model.ItemList;
 import ncr.res.mobilepos.promotion.model.MixMatchDetailInfo;
@@ -160,7 +167,14 @@ public class PromotionResource {
 	public static final String PRIORITY_TWO = "2";
 	public static final String PRIORITY_THREE = "3";
 	public static final String PRIORITY_FOUR = "4";
+	public static final String BarcodePrefix = "20";
+	public static final String[] BarcodePrefixArr = {"02","21","24","25"};
 	
+    /**
+     * The resource DAO factory.
+     */
+    private DAOFactory daoFactory;
+
     /**
      * the handler for the PM
      */
@@ -174,6 +188,7 @@ public class PromotionResource {
 	 */
 	public PromotionResource() {
 		tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+		daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 		barcodeAssignment = BarcodeAssignmentFactory.getInstance();
 		qrCodeInfoList = QrCodeInfoFactory.getInstance();
 		promotionMsgInfoList = PromotionMsgInfoFactory.getInstance();
@@ -375,7 +390,8 @@ public class PromotionResource {
 		String functionName = "itemEntry";
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("WorkstationId", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transaction)
-				.println("businessDate", businessDate).println("companyId", companyId).println("priceCheck", priceCheck);
+				.println("businessDate", businessDate).println("companyId", companyId).println("priceCheck", priceCheck)
+				.println("usePromotion",String.valueOf(usePromotion));
 		Transaction transactionOut = new Transaction();
 		PromotionResponse response = new PromotionResponse();
 		String discounttype = "0";
@@ -385,8 +401,6 @@ public class PromotionResource {
 		String dptCode = null;
 		String barcode_fst = null;
 		String cCode = null;
-		double salePrice = 0.0;
-
 		try {
 			if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transaction, companyId,
 					businessDate)) {
@@ -408,6 +422,8 @@ public class PromotionResource {
 					response.setNCRWSSResultCode(ResultBase.PROMOTION.NO_MATCHING_TRANSACTION);
 					return response;
 				}
+				
+				Map<String, Sale> itemCacheMap = terminalItem.getItemCacheMap();
 
 				MixMatchDetailInfo info = new MixMatchDetailInfo();
 
@@ -425,7 +441,6 @@ public class PromotionResource {
 
 				String itemId = saleIn.getItemId();
 
-				DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 				ICodeConvertDAO codeCvtDAO = daoFactory.getCodeConvertDAO();
 				IDepartmentDAO idepartmentDAO = daoFactory.getDepartmentDAO();
 				IItemDAO dao = daoFactory.getItemDAO();
@@ -469,108 +484,31 @@ public class PromotionResource {
 					itemIdTemp = itemId;
 				}
 
-				SearchedProduct searchedProd = itemResource.getItemByPLUcode(retailStoreId, itemIdTemp, companyId,
-						businessDate); // 各種割引情報を含めた商品情報
 				Item item = null;
-				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK) {
-					tp.println("Item was not found!");
-					try {
-						item = getdetailInfoData(retailStoreId, itemIdTemp, companyId, businessDate);
-						if (item != null && item.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST) {
-							response.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-							response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-							response.setMessage("BASIC Authentication failed");
-							return response;
-						}
-					} catch (Exception e) {
-						if (e.getCause() instanceof JSONException) {
-							response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
-							response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
-							response.setMessage("an error has happened from Enterprise(Item)");
-							return response;
-						}
+				Sale saleItem = null;
+				if(itemCacheMap.containsKey(itemId)) {
+					item = new Item(); 
+					Item oldItem = itemCacheMap.get(itemId);
+					BeanUtils.copyProperties(item, oldItem);
+					saleItem =  new Sale();
+					Sale sale = itemCacheMap.get(itemId);
+					BeanUtils.copyProperties(saleItem, sale);
+					saleItem.setItemEntryId(saleIn.getItemEntryId());
+					saleItem.setQuantity(saleIn.getQuantity());
+					if(!usePromotion && saleIn.getActualSalesUnitPrice() > 0) {
+						item.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
+						saleItem.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
 					}
-				} else {
-					item = searchedProd.getItem();
-				}
-
-				if (BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)) {
-					if(item == null){
-						tp.println("Item is not found");
-						LOGGER.logAlert(PROG_NAME, functionName, Logger.LOG_MSGID,
-								"Item is not found.\n");
-						response.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-						return response;
-					}
-					if("3".equals(item.getSalesNameSource())){
-						item.setMdName("");
-					}
-				} else {
-					// 部門コードを取得する
-					codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);
-
-					// 商品マスタから取得失敗の場合
-					if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
-						// 各種特売情報を取得する
-						item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
-						if (item != null) {
-							item.setItemId(itemIdTemp);
-							Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-
-							if(ResultBase.RES_ITEM_PRICE_ZERO == response.getNCRWSSResultCode()){
-								// 税率区分の値を取得したマスターテーブルの番号
-								saleItem = chooseTaxSource(saleItem);
-
-								// 非課税の場合、商品の税率情報を取得する
-								if(("2").equals(saleItem.getTaxType())){
-									DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
-									defaultTaxRate.setRate(0);
-									saleItem.setDefaultTaxRate(defaultTaxRate);
-								}else{
-									saleItem.setCompanyId(companyId);
-									saleItem.setStoreId(retailStoreId);
-
-									// 税率の情報を取得する
-									getSaleTaxRateInfo(saleItem ,response);
-								}
-
-								if(ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode() || ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode()){
-									return response;
-								}else {
-									response.setNCRWSSResultCode(ResultBase.RES_OK);
-									response.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
-								}
-							}
-
-							if (!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode()) && !"1".equals(priceCheck)) {
-								terminalItem.addBmRuleMap(saleItem.getMixMatchCode(), saleItem, saleIn.getItemEntryId());
-							}
-							if(!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode())){
-								saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
-							}
-							saleItem.setHostFlag(1);
-							transactionOut.setSale(saleItem);
-							response.setTransaction(transactionOut);
-						}
-						return response;
-					}
-
-					if (codeTempConn.contains(" ")) {
-						codeTemp = codeTempConn.split(" ")[0];
-						cCode = codeTempConn.split(" ")[1];
-					} else {
-						codeTemp = codeTempConn;
-					}
-
-					String mdName = null;
-					Sale saleMdName = null;
-					if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item != null) {
+				}else {
+					// 商品マスタから関連情報を取得する
+					SearchedProduct searchedProd = itemResource.getItemByPLUcode(retailStoreId, itemIdTemp, companyId, businessDate);
+					
+					if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK) {
+						tp.println("Item was not found!");
 						try {
-							// サーバーから部門情報を取得する
-							departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
-							saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
-							if ((departmentInfo != null && departmentInfo.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)
-									|| (saleMdName != null && saleMdName.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)) {
+							// サーバーの商品情報を取得する
+							item = getdetailInfoData(retailStoreId, itemIdTemp, companyId, businessDate);
+							if (item != null && item.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST) {
 								response.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
 								response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
 								response.setMessage("BASIC Authentication failed");
@@ -580,22 +518,115 @@ public class PromotionResource {
 							if (e.getCause() instanceof JSONException) {
 								response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
 								response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
-								response.setMessage("an error has happened from Enterprise(departmentInfo or mdName)");
+								response.setMessage("an error has happened from Enterprise(Item)");
 								return response;
 							}
 						}
 					} else {
-						// ローカルから部門情報を取得する
-						SQLServerSystemConfigDAO systemDao = daoFactory.getSystemConfigDAO();
-						Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
+						item = searchedProd.getItem();
+					}
 
-						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId, mapTaxId);
-						saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
-						if (departmentInfo.getNCRWSSResultCode() != ResultBase.RES_OK && item == null) {
-							tp.println("departmentInfo was not found!");
+					String dpt = null;
+					String line = null;
+					String classId = null;
+					if (item != null) {
+						dpt = item.getDepartment();
+						line = item.getLine();
+						classId = item.getItemClass();
+						//ﾌﾟﾗｲｽﾞｵﾝﾗﾍﾞﾙﾊﾞｰｺｰﾄﾞ価格を使用
+						if(Arrays.asList(BarcodePrefixArr).contains(itemId.substring(0, 2) )) {
+							item.setRegularSalesUnitPrice(Integer.parseInt(itemId.substring(7,12)));
+							item.setActualSalesUnitPrice(Integer.parseInt(itemId.substring(7,12)));
+						} else if (itemId.substring(0, 2).equals(BarcodePrefix)){
+							item.setRegularSalesUnitPrice(Integer.parseInt(itemId.substring(8,12)));
+							item.setActualSalesUnitPrice(Integer.parseInt(itemId.substring(8,12)));
+						}
+					}
+					// 緊急売変情報を取得
+					PriceUrgentInfoFactory.initialize(companyId, retailStoreId, itemIdTemp);
+					
+					PricePromInfoFactory.initialize(companyId, retailStoreId, itemIdTemp, dpt, line, classId);
+					PriceMMInfoFactory.initialize(companyId, retailStoreId, itemIdTemp);
+					
+					if (BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)) {
+						if(item == null){
+							tp.println("Item is not found");
+							LOGGER.logAlert(PROG_NAME, functionName, Logger.LOG_MSGID,
+									"Item is not found.\n");
+							response.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+							return response;
+						}
+						if("3".equals(item.getSalesNameSource())){
+							item.setMdName("");
+						}
+					} else {
+						// 部門変換した、部門コードとＣコードを取得する
+						codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);
+		
+						// 商品マスタから取得失敗の場合
+						if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
+							// 各種特売情報を取得する
+							item = getRelatedInformation(itemIdTemp, item, retailStoreId, companyId, businessDate, dao);
+							if (item != null) {
+								item.setItemId(itemIdTemp);
+								saleItem = SaleItemsHandler.createSale(item, saleIn);
+
+								// 商品価格０円の場合
+								if(ResultBase.RES_ITEM_PRICE_ZERO == response.getNCRWSSResultCode()){
+									// 税率区分の値を取得したマスターテーブルの番号
+									saleItem = chooseTaxSource(saleItem);
+									//update 20191224 by wl start
+									// 値引・割引除外区分を取得する
+									saleItem = chooseDiscountType(saleItem);
+									//update 20191224 by wl end
+									// 非課税の場合、商品の税率情報を取得する
+									if(("2").equals(saleItem.getTaxType())){
+										DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
+										defaultTaxRate.setRate(0);
+										saleItem.setDefaultTaxRate(defaultTaxRate);
+									}else{
+										saleItem.setCompanyId(companyId);
+										saleItem.setStoreId(retailStoreId);
+										
+										// 税率の情報を取得する
+										getSaleTaxRateInfo(saleItem ,response);
+									}
+									// 税率の情報を取得失敗する場合
+									if(ResultBase.RES_TABLE_DATA_ERR == response.getNCRWSSResultCode() || ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode()){
+										return response;
+									}
+									response.setNCRWSSResultCode(ResultBase.RES_OK);
+									response.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
+								}
+								
+								if (!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode()) && !"1".equals(priceCheck)) {
+									terminalItem.addBmRuleMap(saleItem.getMixMatchCode(), saleItem, saleIn.getItemEntryId());
+								}
+								if(!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode())){
+									saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
+								}
+								saleItem.setHostFlag(1);
+								transactionOut.setSale(saleItem);
+								response.setTransaction(transactionOut);
+							}
+							return response;
+						}
+						
+						// 部門コードとＣコードを取得する
+						if (codeTempConn.contains(" ")) {
+							codeTemp = codeTempConn.split(" ")[0];
+							cCode = codeTempConn.split(" ")[1];
+						} else {
+							codeTemp = codeTempConn;
+						}
+						
+						String mdName = null;
+						Sale saleMdName = null;
+						if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item != null) {
 							try {
-								// サーバーから部門情報を取得する
+								// 商品情報をサーバー側取得する場合、サーバーから部門情報を取得する
 								departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+								// サーバーから商品名を取得する
 								saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
 								if ((departmentInfo != null && departmentInfo.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)
 										|| (saleMdName != null && saleMdName.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)) {
@@ -612,123 +643,153 @@ public class PromotionResource {
 									return response;
 								}
 							}
-						}
-					}
-					if (saleMdName != null) {
-						mdName = saleMdName.getMdNameLocal();
-					}
-
-					// 部門コードを部門マスタテーブルに存在チェック
-					if (departmentInfo == null) {
-						dptCode = null;
-					} else {
-						dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
-					}
-
-					if (StringUtility.isNullOrEmpty(dptCode)) {
-						response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-						response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-						response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
-						tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
-						return response;
-					} else if (item == null) {
-						// 部門情報を戻る
-						getDptPromotion(companyId,retailStoreId,itemId,varietiesName,response,
-								item,departmentInfo,businessDate,dao,itemIdTemp,mdName,priceCheck,saleIn,terminalItem,transactionOut,dptCode,cCode);
-						return response;
-					}
-				}
-				salePrice = item.getRegularSalesUnitPrice();
-				// 各種特売情報を取得する
-				item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
-
-				info.setTruePrice(item.getRegularSalesUnitPrice());
-
-				Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-
-				// 税率区分の値を取得したマスターテーブルの番号
-				saleItem = chooseTaxSource(saleItem);
-				
-				// 年齢制限フラグを取得したマスターテーブルの識別子
-				saleItem = chooseAgeSource(saleItem);
-
-				// 非課税の場合、商品の税率情報を取得する
-				if(("2").equals(saleItem.getTaxType())){
-					DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
-					defaultTaxRate.setRate(0);
-					saleItem.setDefaultTaxRate(defaultTaxRate);
-				}else{
-					saleItem.setCompanyId(companyId);
-					saleItem.setStoreId(retailStoreId);
-
-					// 税率の情報を取得する
-					getSaleTaxRateInfo(saleItem ,response);
-				}
-
-				if(response.getNCRWSSResultCode() != ResultBase.RES_OK){
-					return response;
-				}
-
-				if (saleItem.isPriceOverride()) {
-					saleItem.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
-					double price = saleIn.getActualSalesUnitPrice() * saleIn.getQuantity();
-					saleItem.setExtendedAmount(price);
-					saleItem.setDiscount(0);
-					saleItem.setDiscountAmount(0);
-				}
-
-				if (!BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)) {
-					if (saleItem.getDiscountClass() == 0 && !StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
-						saleItem.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
-					}
-					if (saleItem.getDiscountAmt() == 0 && departmentInfo.getDiscountAmt() != null) {
-						saleItem.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
-					}
-					if (saleItem.getDiacountRate() == 0 && departmentInfo.getDiscountRate() != null) {
-						saleItem.setDiacountRate(departmentInfo.getDiscountRate());
-					}
-					if (StringUtility.isNullOrEmpty(saleItem.getPromotionNo())) {
-						saleItem.setPromotionNo(departmentInfo.getPromotionNo());
-					}
-					if (StringUtility.isNullOrEmpty(saleItem.getPromotionType())) {
-						saleItem.setPromotionType(departmentInfo.getPromotionType());
-					}
-					if (StringUtility.isNullOrEmpty(saleItem.getDiscountType())) {
-						discounttype = departmentInfo.getDepartment().getDiscountType();
-						saleItem.setDptDiscountType(discounttype);
-					}
-
-					Double barCodePrice = null;
-					barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-					if (barCodePrice != null) {
-						saleItem.setLabelPrice(barCodePrice);
-					}
-
-					// バーコード価格を使用
-					if (saleItem.getRegularSalesUnitPrice() == 0.0) {
-						String taxType = departmentInfo.getDepartment().getTaxType();
-						saleItem.setDptTaxType(taxType);
-						if (barCodePrice != null) {
-							if ("1".equals(taxType)) {
-								double taxRate = ((double)saleItem.getDefaultTaxRate().getRate()/100 + 1);
-								barCodePrice = (double) Math.floor(barCodePrice * taxRate);
-							}
-							saleItem.setRegularSalesUnitPrice(barCodePrice);
-							saleItem.setActualSalesUnitPrice(barCodePrice);
-						}
-					}
-
-					if (!StringUtility.isNullOrEmpty(cCode)) {
-						if (cCode.length() == 4) {
-							saleItem.setCategoryCode(cCode);
 						} else {
-							saleItem.setMagazineCode(cCode);
+							// 商品情報をローカル側取得する場合、ローカルから部門情報を取得する
+							SQLServerSystemConfigDAO systemDao = daoFactory.getSystemConfigDAO();
+							Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
+
+							departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId, mapTaxId);
+							// ローカルから商品名を取得する
+							saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
+							if (departmentInfo.getNCRWSSResultCode() != ResultBase.RES_OK && item == null) {
+								tp.println("departmentInfo was not found!");
+								try {
+									// ローカルから部門情報を取得失敗する場合、サーバーから部門情報を取得する
+									departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+									// サーバーから商品名を取得する
+									saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+									if ((departmentInfo != null && departmentInfo.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)
+											|| (saleMdName != null && saleMdName.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)) {
+										response.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+										response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+										response.setMessage("BASIC Authentication failed");
+										return response;
+									}
+								} catch (Exception e) {
+									if (e.getCause() instanceof JSONException) {
+										response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+										response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+										response.setMessage("an error has happened from Enterprise(departmentInfo or mdName)");
+										return response;
+									}
+								}
+							}
+						}
+						if (saleMdName != null) {
+							mdName = saleMdName.getMdNameLocal();
+						}
+						
+						// 部門コードを部門マスタテーブルに存在チェック
+						if (departmentInfo == null) {
+							dptCode = null;
+						} else {
+							dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+						}
+
+						if (StringUtility.isNullOrEmpty(dptCode)) {
+							response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+							response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+							response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
+							tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
+							return response;
+						}
+						
+						// 商品情報を取得失敗した、部門情報を戻る
+						if (item == null) {
+							getDptPromotion(companyId,retailStoreId,itemId,varietiesName,response,item,departmentInfo,
+									businessDate,dao,itemIdTemp,mdName,priceCheck,saleIn,terminalItem,transactionOut,cCode);
+							return response;
 						}
 					}
+					//salePrice = item.getRegularSalesUnitPrice();
+					// 各種特売情報を取得する
+					item = getRelatedInformation(itemIdTemp, item, retailStoreId, companyId, businessDate, dao);
+					saleItem = SaleItemsHandler.createSale(item, saleIn);
+					
+					// 税率区分の値を取得したマスターテーブルの番号
+					saleItem = chooseTaxSource(saleItem);
+					// 年齢制限フラグを取得したマスターテーブルの識別子
+					saleItem = chooseAgeSource(saleItem);
+					// 非課税の場合、商品の税率情報を取得する
+					if(("2").equals(saleItem.getTaxType())){
+						DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
+						defaultTaxRate.setRate(0);
+						saleItem.setDefaultTaxRate(defaultTaxRate);
+					}else{
+						saleItem.setCompanyId(companyId);
+						saleItem.setStoreId(retailStoreId);
+
+						// 税率の情報を取得する
+						getSaleTaxRateInfo(saleItem ,response);
+					}
+
+					// 税率の情報を取得失敗する場合
+					if(ResultBase.RES_TABLE_DATA_ERR == response.getNCRWSSResultCode() || ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode()){
+						return response;
+					}
+					
+					if (saleItem.isPriceOverride()) {
+						saleItem.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
+						double price = saleIn.getActualSalesUnitPrice() * saleIn.getQuantity();
+						saleItem.setExtendedAmount(price);
+						saleItem.setDiscount(0);
+						saleItem.setDiscountAmount(0);
+					}
+					
+					if (!BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)) {
+						if (saleItem.getDiscountClass() == 0 && !StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+							saleItem.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+						}
+						if (saleItem.getDiscountAmt() == 0 && departmentInfo.getDiscountAmt() != null) {
+							saleItem.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+						}
+						if (saleItem.getDiacountRate() == 0 && departmentInfo.getDiscountRate() != null) {
+							saleItem.setDiacountRate(departmentInfo.getDiscountRate());
+						}
+						if (StringUtility.isNullOrEmpty(saleItem.getPromotionNo())) {
+							saleItem.setPromotionNo(departmentInfo.getPromotionNo());
+						}
+						if (StringUtility.isNullOrEmpty(saleItem.getPromotionType())) {
+							saleItem.setPromotionType(departmentInfo.getPromotionType());
+						}
+						if (StringUtility.isNullOrEmpty(saleItem.getDiscountType())) {
+							discounttype = departmentInfo.getDepartment().getDiscountType();
+							saleItem.setDptDiscountType(discounttype);
+						}
+						
+						Double barCodePrice = null;
+						barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+						if (barCodePrice != null) {
+							saleItem.setLabelPrice(barCodePrice);
+						}
+						
+						// バーコード価格を使用
+						if (saleItem.getRegularSalesUnitPrice() == 0.0) {
+							String taxType = departmentInfo.getDepartment().getTaxType();
+							saleItem.setDptTaxType(taxType);
+							if (barCodePrice != null) {
+								if ("1".equals(taxType)) {
+									double taxRate = ((double)saleItem.getDefaultTaxRate().getRate()/100 + 1);
+									barCodePrice = (double) Math.floor(barCodePrice * taxRate);
+								}
+								saleItem.setRegularSalesUnitPrice(barCodePrice);
+								saleItem.setActualSalesUnitPrice(barCodePrice);
+							}
+						}
+						
+						if (!StringUtility.isNullOrEmpty(cCode)) {
+							if (cCode.length() == 4) {
+								saleItem.setCategoryCode(cCode);
+							} else {
+								saleItem.setMagazineCode(cCode);
+							}
+						}
+					}
+
+					//値引・割引除外区分を取得する
+					saleItem = chooseDiscountType(saleItem);
 				}
 
-				//値引・割引除外区分を取得する
-				saleItem = chooseDiscountType(saleItem);
 
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
@@ -743,26 +804,46 @@ public class PromotionResource {
 					}
 				}
 
-				if(!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode())){
-					saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
-				}
 				info.setTaxId(saleItem.getTaxId());
 				info.setOriginalTaxId(saleItem.getTaxId());
-				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
+				info.setSku(itemIdTemp);
+				if (item.getPriceUrgentInfo() != null) {
+					info.setTruePrice(item.getPriceUrgentInfo().getUrgentPrice());
+				} else {
+					List<PricePromInfo> pricePromList = item.getPricePromList();
+					boolean isHaveValue = false;
+					if (pricePromList != null && !pricePromList.isEmpty()) {
+				        for(PricePromInfo ppInfo: pricePromList) {
+				        	if("3".equals(ppInfo.getDiscountClass())){
+				        		isHaveValue = true;
+				        		info.setTruePrice(ppInfo.getSalesPrice());
+				        		break;
+				        	}
+				        }
+					}
+			        if (!isHaveValue) {
+			        	info.setTruePrice(item.getRegularSalesUnitPrice());
+			        }
+				}
+				if (item.getPriceMMInfoList() != null && !"1".equals(priceCheck)) {
+					Map<String, Object> preMap = terminalItem.getPreMap();
 					if(runFlag){
-						terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
-						if (setBmDetailMapItem(transactionIn,saleItem,terminalItem)) {
-							terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
-							Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode()+"_"+saleItem.getTaxId(), "");
-							// promotion.setMap(map);
-							if(terminalItem.isDeleteBm(map)){
-								Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
-								Map<String, Object> childMap = new HashMap<String, Object>();
-								childMap.put("hasMixMatch", "false");
-								newMap.put(item.getMixMatchCode()+"_"+saleItem.getTaxId(), childMap);
-								promotion.setMap(newMap);
-							} else {
-								promotion.setMap(map);
+						terminalItem.addBmRuleMap(item);
+						if (setBmDetailMapItem(transactionIn,saleItem, terminalItem)) {
+							terminalItem.setBmDetailMapList(item.getPriceMMInfoList(), info);
+							if(usePromotion) {
+								Map<String, Map<String, Object>> map = terminalItem.getEnabledMixMatchMap();
+								// promotion.setMap(map);
+								if(map.isEmpty() || terminalItem.isDeleteBm(map)){
+									Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+									promotion.setMap(newMap);
+								    if(preMap.containsKey("BM")) {
+								    	preMap.remove("BM");
+								    }
+								} else {
+									preMap.put("BM", map);
+									promotion.setMap(map);
+								}
 							}
 						}
 					}
@@ -784,6 +865,15 @@ public class PromotionResource {
 				}
 
 				response.setPromotion(promotion);
+				if(!itemCacheMap.containsKey(itemId)) {
+					itemCacheMap.put(itemId, saleItem);
+				}
+				//ﾌﾟﾗｲｽﾞｵﾝﾗﾍﾞﾙﾊﾞｰｺｰﾄ
+				if (item != null) {
+	                if(Arrays.asList(BarcodePrefixArr).contains(itemIdTemp.substring(0, 2) ) || itemIdTemp.substring(0, 2).equals(BarcodePrefix)) {
+	                	saleItem.setItemId(itemId);
+	            	} 
+				}
 				transactionOut.setSale(saleItem);
 				response.setTransaction(transactionOut);
 			}
@@ -945,7 +1035,7 @@ public class PromotionResource {
 		return saleItem;
 	}
 
-	// FDMM add start RESD-3824 2020-08-18
+	
 	/**
 	 * 年齢制限フラグを取得したマスターテーブルの識別子
 	 *
@@ -977,8 +1067,7 @@ public class PromotionResource {
 		}
 		return saleItem;
 	}
-	// FDMM add end RESD-3824 2020-08-18
-	
+
 	/**
 	 * 税率の情報を取得する
 	 *
@@ -1104,12 +1193,12 @@ public class PromotionResource {
 	private void getDptPromotion(String companyId,String retailStoreId,String itemId,String varietiesName,
 			PromotionResponse response,Item item,ViewDepartment departmentInfo,String businessDate,IItemDAO dao,
 			String itemIdTemp,String mdName,String priceCheck,Sale saleIn,TerminalItem terminalItem,
-			Transaction transactionOut,String dptCode,String cCode) throws DaoException {
+			Transaction transactionOut,String cCode) throws DaoException {
 		String functionName = "getDptPromotion";
 		tp.methodEnter(functionName).println("companyId", companyId).println("retailStoreId", retailStoreId).println("itemId", itemId).println("varietiesName", varietiesName)
 			.println("response", response).println("item", item).println("departmentInfo", departmentInfo).println("businessDate", businessDate).println("dao", dao)
 			.println("itemIdTemp", itemIdTemp).println("mdName", mdName).println("priceCheck", priceCheck).println("saleIn", saleIn)
-			.println("terminalItem", terminalItem).println("transactionOut", transactionOut).println("dptCode", dptCode).println("cCode", cCode);
+			.println("terminalItem", terminalItem).println("transactionOut", transactionOut).println("cCode", cCode);
 
 		Sale saleOut = new Sale();
 		boolean twoStep = false;
@@ -1165,11 +1254,11 @@ public class PromotionResource {
 				saleOut.setActualSalesUnitPrice(barCodePrice);
 			}
 		}
-
-		double salePrice = saleOut.getRegularSalesUnitPrice();
+		
+		//double salePrice = saleOut.getRegularSalesUnitPrice();
 		// 各種特売情報を取得する
-		item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
-
+		item = getRelatedInformation(itemIdTemp, item, retailStoreId, companyId, businessDate, dao);
+		
 		if (item != null) {
 			if (item.getDiscountClass() != 0) {
 				saleOut.setDiscountClass(item.getDiscountClass());
@@ -1248,7 +1337,7 @@ public class PromotionResource {
 		saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
 		saleOut.setDiscountTypeSource(PRIORITY_FOUR);
 		saleOut.setItemId(itemIdTemp);
-		saleOut.setDepartment(dptCode);
+		saleOut.setDepartment(departmentInfo.getDepartment().getDepartmentID());
 		saleOut.setChangeableTaxRate(departmentInfo.getDepartment().getChangeableTaxRate());
 		saleOut.setDefaultTaxRate(departmentInfo.getDepartment().getDefaultTaxRate());
 
@@ -1308,9 +1397,6 @@ public class PromotionResource {
 		if (NOT_DISCOUNTABLE.equals(item.getDiscountType())) {
 			return false;
 		}
-		// if (null != item.getPromotionNo()) {
-		// 	return false;
-		// }
 		return true;
 	}
 
@@ -1324,44 +1410,43 @@ public class PromotionResource {
 	 * @param dao
 	 * @throws DaoException
 	 */
-	private Item getRelatedInformation(String itemId, Item item, double salePrice, String retailStoreId, String companyId, String businessDate, IItemDAO dao) throws DaoException {
+	private Item getRelatedInformation(String itemId, Item item, String retailStoreId, String companyId, String businessDate, IItemDAO dao) throws DaoException {
 		String functionName = "getRelatedInformation";
-		tp.methodEnter(functionName).println("itemId", itemId).println("item", item).println("salePrice", salePrice).println("retailStoreId", retailStoreId)
+		tp.methodEnter(functionName).println("itemId", itemId).println("item", item).println("retailStoreId", retailStoreId)
 			.println("companyId", companyId).println("businessDate", businessDate).println("dao", dao);
 
 		ItemResource itemResource = new ItemResource();
-		PricePromInfo pricePromInfo;
-		PriceMMInfo priceMMInfo;
+		List<PricePromInfo> pricePromList;
+		List<PriceMMInfo> priceMMList;
+		PriceUrgentInfo priceUrgentInfo = null;
 		if (item == null) {
-			pricePromInfo = itemResource.getPricePromInfo(itemId, null, null);
-			priceMMInfo = itemResource.getPriceMMInfo(itemId);
-			if (pricePromInfo != null) {
+			pricePromList = itemResource.getPricePromList(itemId, null, null, null);
+			priceMMList = itemResource.getPriceMMList(itemId);
+			if (pricePromList != null && pricePromList.size() > 0) {
 				item = new Item();
 			}
 		} else {
-			priceMMInfo = itemResource.getPriceMMInfo(item.getSku());
-			pricePromInfo = itemResource.getPricePromInfo(item.getSku(), item.getDepartment(), item.getLine());
+			priceMMList = itemResource.getPriceMMList(itemId);
+			pricePromList = itemResource.getPricePromList(itemId, item.getDepartment(), item.getLine(), item.getItemClass()); // lilx 20191126
+			priceUrgentInfo = itemResource.getPriceUrgentInfo(item.getDepartment(), item.getLine(), item.getItemClass()); // 緊急売変
 		}
-
+		
+		// 緊急売変
+		dao.isHasPriceUrgentInfo(priceUrgentInfo, item);
+		
 		// 特売管理(PROM_INFO 自動割引)
-		dao.isHasPromDetailInfoList(pricePromInfo, item, salePrice);
-		// if (!dao.isHasPromDetailInfoList(pricePromInfo, item)) {
-			if (item == null && priceMMInfo != null) {
+		if(!dao.isHasPromDetailList(pricePromList, item)) {
+			// if (!dao.isHasPromDetailInfoList(pricePromInfo, item)) {
+			if (item == null && priceMMList != null) {
 				item = new Item();
 			}
 			// バンドルミックス(PRICE_MM_INFO mixmatch)
-			if (!dao.isHasPriceMMInfoList(priceMMInfo, item)) {
-				if (item != null) {
-					// 買替サポート（REPLACESUPPORT_INFO）
-					dao.isHasReplaceSupportDetailInfo(retailStoreId, item, companyId, businessDate);
-				}
+			if (!dao.isHasPriceMMDetailList(priceMMList, item)) {
+//				if (item != null) {
+//					// 買替サポート（REPLACESUPPORT_INFO）
+//					dao.isHasReplaceSupportDetailInfo(retailStoreId, item, companyId, businessDate);
+//				}
 			}
-		// }
-		if (item != null) {
-			// 割引券発行管理（COUPON_INFO）
-			dao.getCouponInfo(retailStoreId, item, companyId, businessDate);
-			// プレミアム商品（PREMIUMITEM_INFO）
-			dao.getPremiumitemInfo(retailStoreId, item, companyId, businessDate);
 		}
 
 		return item;
@@ -1758,39 +1843,71 @@ public class PromotionResource {
 					return response;
 				}
 
-				JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
-				Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
-				List<Sale> sales = transactionIn.getSales();
-				for (Sale saleIn : sales) {
-					MixMatchDetailInfo info = new MixMatchDetailInfo();
-					if (null != saleIn) {
-						if (saleIn.getQuantity() < 0 && StringUtility.isNullOrEmpty(saleIn.getItemEntryId())) {
-							tp.println(" The quantity or The ItemEntryId is invalid!");
-							response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-							return response;
+				if(!StringUtility.isNullOrEmpty(transaction)) {
+					JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
+					Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+					List<Sale> sales = transactionIn.getSales();
+					if (sales != null && !sales.isEmpty()) {
+						for (Sale saleIn : sales) {
+							MixMatchDetailInfo info = new MixMatchDetailInfo();
+							if (null != saleIn) {
+								if (saleIn.getQuantity() < 0 && StringUtility.isNullOrEmpty(saleIn.getItemEntryId())) {
+									tp.println(" The quantity or The ItemEntryId is invalid!");
+									response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+									return response;
+								}
+							} else {
+								tp.println("Transaction has no sale data!");
+								response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+								return response;
+							}
+							PriceMMInfoFactory.initialize(companyId, retailStoreId, saleIn.getSku());
+							info.setQuantity(saleIn.getQuantity());
+							info.setEntryId(saleIn.getItemEntryId());
+							info.setTruePrice(saleIn.getActualSalesUnitPrice());
+							info.setTaxId(saleIn.getTaxId());
+							info.setOriginalTaxId(saleIn.getOriginalTaxId());
+							info.setSku(saleIn.getSku()); 
+							if(null != terminalItem.getBmMapByEntryid() && terminalItem.getBmMapByEntryid().containsKey(saleIn.getItemEntryId())) {
+								MixMatchDetailInfo mmdi = terminalItem.getBmMapByEntryid().get(saleIn.getItemEntryId());
+								terminalItem.setBmDetailMapList(mmdi.getPriceMMInfoList(), info);  
+							} else {
+								ItemResource itemResource = new ItemResource();
+								List<PriceMMInfo> priceMMList = itemResource.getPriceMMList(saleIn.getSku());
+								Item item = new Item();
+								item.setPriceMMInfoList(priceMMList);
+								terminalItem.addBmRuleMap(item); 
+								terminalItem.setBmDetailMapList(priceMMList, info); 
+							}
+								Map<String, String> map = new HashMap<>(4);
+								map.put("companyId", companyId);
+								map.put("retailStoreId", retailStoreId);
+								map.put("itemId", saleIn.getItemId());
+								map.put("businessDate", businessDate);
+								List<PmItemInfo> pmList =  pMItemsHandler.getPmByItemId(terminalItem, saleIn, map, daoFactory);
+								pMItemsHandler.cachePmInfo(pmList,terminalItem, saleIn, false, true, 0);
 						}
-					} else {
-						tp.println("Transaction has no sale data!");
-						response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-						return response;
-					}
-					info.setQuantity(saleIn.getQuantity());
-					info.setEntryId(saleIn.getItemEntryId());
-					info.setTruePrice(saleIn.getActualSalesUnitPrice());
-					info.setTaxId(saleIn.getTaxId());
-					info.setOriginalTaxId(saleIn.getOriginalTaxId());
-
-					IItemDAO dao = new SQLServerItemDAO();
-					Item item = dao.getMixMatchInfo(retailStoreId, saleIn.getSku(), companyId, businessDate);
-					if (null != item && !StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
-						info.setMmNo(item.getMixMatchCode());
-						terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
-						terminalItem.setBmDetailMap(item.getMixMatchCode(), info, true);
 					}
 				}
-				Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap();
+				
+				Map<String, Object> preMap = terminalItem.getPreMap();
 				Promotion promotion = new Promotion();
-				promotion.setMap(terminalItem.getTheNewMap(map));
+				Map<String, Map<String, Object>> map = terminalItem.getEnabledMixMatchMap();
+				if(map == null || map.isEmpty() || terminalItem.isDeleteBm(map)){
+				    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+				    promotion.setMap(newMap);
+				    if(preMap.containsKey("BM")) {
+				    	preMap.remove("BM");
+				    }
+				} else {
+					preMap.put("BM", map);
+				    promotion.setMap(map);
+				}
+				pMItemsHandler.makePmInfo(terminalItem, promotion);
+				if(promotion.getPmMap() != null && promotion.getPmMap().size() > 0) {
+					preMap.put("PM", promotion.getPmMap());
+				}
+				deleteCouponBm(promotion);
 				// promotion.setMap(map);
 				response.setPromotion(promotion);
 			}
@@ -2223,6 +2340,7 @@ public class PromotionResource {
 		item.setPremiumList(premiumList);
 
 		item.setItemClass(StringUtility.convNullStringToNull(json.getString("itemClass")));
+		item.setAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("ageRestrictedFlag")));
 		item.setCouponFlag(StringUtility.convNullStringToNull(json.getString("couponFlag")));
 		item.setRetailStoreId(StringUtility.convNullStringToNull(json.getString("retailStoreId")));
 		item.setEventId(StringUtility.convNullStringToNull(json.getString("eventId")));
@@ -2291,45 +2409,30 @@ public class PromotionResource {
         item.setLineTaxType(StringUtility.convNullStringToNull(json.getString("lineTaxType")));
         item.setLineDiscountType(StringUtility.convNullStringToNull(json.getString("lineDiscountType")));
         item.setPluTaxType(StringUtility.convNullStringToNull(json.getString("taxType")));
-        // FDMM add start by mt185204 2020-07-15
+        item.setRecallFlag(StringUtility.convNullStringToNull(json.getString("recallFlag")));
         item.setPharmaceuticalFlag(StringUtility.convNullStringToNull(json.getString("pharmaceuticalFlag")));
-        // FDMM add end by mt185204 2020-07-15
-        // FDMM add start RESD-3824 2020-08-18
-        item.setAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("ageRestrictedFlag")));
+        item.setCountLimitFlag(StringUtility.convNullStringToNull(json.getString("countLimitFlag")));
+        item.setCountLimit(StringUtility.convNullStringToNull(json.getString("countLimit")));
+        item.setCertificatePrintFlag(StringUtility.convNullStringToNull(json.getString("certificatePrintFlag")));
+        item.setSelfFlag(StringUtility.convNullStringToNull(json.getString("selfFlag")));
+        item.setDrugType(StringUtility.convNullStringToNull(json.getString("drugType")));
+        item.setTransferWriteType(StringUtility.convNullStringToNull(json.getString("transferWriteType")));
+        item.setDrugActType(StringUtility.convNullStringToNull(json.getString("drugActType")));
+        item.setTransferActType(StringUtility.convNullStringToNull(json.getString("transferActType")));
+        item.setCertificateNo(StringUtility.convNullStringToNull(json.getString("certificateNo")));
         item.setClsAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("clsAgeRestrictedFlag")));
         item.setLineAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("lineAgeRestrictedFlag")));
         item.setDptAgeRestrictedFlag(StringUtility.convNullStringToNull(json.getString("dptAgeRestrictedFlag")));
-        // FDMM add end RESD-3824 2020-08-18
-        // FDMM add start RESD-3584 2020-08-19
-        item.setSelfFlag(StringUtility.convNullStringToNull(json.getString("selfFlag")));
-        item.setSelfMedicationMark(StringUtility.convNullStringToNull(json.getString("selfMedicationMark")));
-        // FDMM add end RESD-3584 2020-08-19
-        // FDMM add start RESD-3589 2020-09-8
-        item.setRecallFlag(StringUtility.convNullStringToNull(json.getString("recallFlag")));
         item.setCallInReason(StringUtility.convNullStringToNull(json.getString("callInReason")));
-        // FDMM add end RESD-3589 2020-09-8
-        // FDMM add start RESD-3595 2020-09-18
-        item.setDrugActType(StringUtility.convNullStringToNull(json.getString("drugActType")));
-        item.setDrugType(StringUtility.convNullStringToNull(json.getString("drugType")));
-        // FDMM add end RESD-3595 2020-09-18
-        // FDMM add start RESD-3594 2020-09-22
-        item.setCountLimitFlag(StringUtility.convNullStringToNull(json.getString("countLimitFlag")));
-        item.setCountLimit(StringUtility.convNullStringToNull(json.getString("countLimit")));
-        // FDMM add end RESD-3594 2020-09-22
-        // FDMM add start RESD-3601 2020-09-28
-        item.setTransferWriteType(StringUtility.convNullStringToNull(json.getString("transferWriteType")));
-        item.setTransferActType(StringUtility.convNullStringToNull(json.getString("transferActType")));
-        // FDMM add end RESD-3601 2020-09-28
-        // FDMM add start RESD-3582 2020-09-30
-        item.setCertificatePrintFlag(StringUtility.convNullStringToNull(json.getString("certificatePrintFlag")));
-        // FDMM add end RESD-3582 2020-09-30
-        // FDMM add start RESD-4596 2020-10-08
-        item.setSelfSaleRestrictedFlag(StringUtility.convNullStringToNull(json.getString("selfSaleRestrictedFlag")));
-        // FDMM add end RESD-4596 2020-10-08
-        // FDMM add start RESD-3831 2020-10-12
+        item.setSelfMedicationMark(StringUtility.convNullStringToNull(json.getString("selfMedicationMark")));
+        item.setComstdName(StringUtility.convNullStringToNull(json.getString("comstdName")));
+        item.setFoodFlag(StringUtility.convNullStringToNull(json.getString("foodFlag")));
         item.setSaleRestrictedFlag(StringUtility.convNullStringToNull(json.getString("saleRestrictedFlag")));
-        // FDMM add end RESD-3831 2020-10-12
-        if (!"null".equals(json.getString("qrPromotionId"))) {
+        item.setSelfSaleRestrictedFlag(StringUtility.convNullStringToNull(json.getString("selfSaleRestrictedFlag")));
+        item.setOrderSaleFlag(StringUtility.convNullStringToNull(json.getString("orderSaleFlag")));
+        item.setBestBeforePeriod(StringUtility.convNullStringToNull(json.getString("bestBeforePeriod")));
+        item.setSalePeriod(StringUtility.convNullStringToNull(json.getString("salePeriod")));
+		if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
 			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));
 			item.setQrBmpFileName(StringUtility.convNullStringToNull(json.getString("qrBmpFileName")));
@@ -2433,34 +2536,46 @@ public class PromotionResource {
 					promotionResponse.setNCRWSSResultCode(ResultBase.PROMOTION.NO_MATCHING_TRANSACTION);
 					return promotionResponse;
 				}
-
-				String mixMatchCode = terminalItem.getItemMixMatchCode(saleIn.getItemEntryId());
-				if (StringUtility.isNullOrEmpty(mixMatchCode)) {
-					mixMatchCode = terminalItem.getItemMixMatchCodeByItemId(saleIn.getItemId());
-				}
-				MixMatchDetailInfo info = new MixMatchDetailInfo();
-				info.setEntryId(saleIn.getItemEntryId());
-				info.setQuantity(saleIn.getQuantity());
-				info.setTruePrice(saleIn.getActualSalesUnitPrice());
-				info.setTaxId(saleIn.getTaxId());
-				info.setOriginalTaxId(saleIn.getOriginalTaxId());
-
 				Promotion promotion = new Promotion();
-				if (!StringUtility.isNullOrEmpty(mixMatchCode)) {
-					terminalItem.setBmDetailMap(mixMatchCode, info, true);
-					Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(mixMatchCode+"_"+saleIn.getTaxId(), "true");
-					if(terminalItem.isDeleteBm(map)){
-					    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
-					    Map<String, Object> childMap = new HashMap<String, Object>();
-					    childMap.put("hasMixMatch", "false");
-					    newMap.put(mixMatchCode+"_"+saleIn.getTaxId(), childMap);
-					    promotion.setMap(newMap);
-					} else {
-					    promotion.setMap(map);
+				//TODO;
+				boolean needMakePm = true;
+				if(needMakePm) {
+					String mixMatchCode = terminalItem.getItemMixMatchCode(saleIn.getItemEntryId());
+					if (StringUtility.isNullOrEmpty(mixMatchCode)) {
+						mixMatchCode = terminalItem.getItemMixMatchCodeByItemId(saleIn.getItemId());
 					}
-				} else {
-					promotion.setMap(new HashMap<String, Map<String, Object>>());
+					MixMatchDetailInfo info = new MixMatchDetailInfo();
+					info.setEntryId(saleIn.getItemEntryId());
+					info.setQuantity(saleIn.getQuantity());
+					info.setTruePrice(saleIn.getActualSalesUnitPrice());
+					info.setTaxId(saleIn.getTaxId());
+					info.setOriginalTaxId(saleIn.getOriginalTaxId());
+					info.setSku(saleIn.getSku()); 
+
+						Map<String, Object> preMap = terminalItem.getPreMap();
+						if(null != terminalItem.getBmMapByEntryid() && terminalItem.getBmMapByEntryid().containsKey(saleIn.getItemEntryId())) {
+							MixMatchDetailInfo mmdi = terminalItem.getBmMapByEntryid().get(saleIn.getItemEntryId());
+							terminalItem.setBmDetailMapList(mmdi.getPriceMMInfoList(), info);  
+						}  
+						Map<String, Map<String, Object>> map = terminalItem.getEnabledMixMatchMap();
+						if(map == null || map.isEmpty() || terminalItem.isDeleteBm(map)){
+						    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+						    promotion.setMap(newMap);
+						    if(preMap.containsKey("BM")) {
+						    	preMap.remove("BM");
+						    }
+						} else {
+							preMap.put("BM", map);
+						    promotion.setMap(map);
+						}
+					if((null != terminalItem.getItemOfManyPm() && terminalItem.getItemOfManyPm().containsKey(saleIn.getItemEntryId())) || itemIsBm(terminalItem, saleIn)) {
+						pMItemsHandler.updateCache(terminalItem, saleIn);
+					}
+				}else {
+					pMItemsHandler.updateCache(terminalItem, saleIn);
 				}
+				pMItemsHandler.makePmInfo(terminalItem, promotion);
+				deleteViewPm(terminalItem, promotion,saleIn);
 				promotionResponse.setPromotion(promotion);
 			}
 
@@ -3102,4 +3217,290 @@ public class PromotionResource {
 
 		return promMsgInfDAO.getPromotionMsgDptList(companyId, recordId);
 	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@POST
+	@Produces("application/json;charset=UTF-8")
+	@Path("/coupon_add")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@ApiOperation(value = "CouponInfo", response = PromotionResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+	public final PromotionResponse couponAdd(
+			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "couponlist", value = "couponlist") @FormParam("couponlist") final String couponlist) {
+		PromotionResponse rb = new PromotionResponse();
+		String functionName = "couponAdd";
+		if(StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber)) {
+			rb.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			tp.println("Parameter[s] is empty or null.");
+			return rb;
+		}
+		synchronized ((Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap()) {
+			Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) GlobalConstant
+					.getTerminalItemsMap();
+			TerminalItem terminalItem = TerminalItemsHandler.get(retailStoreId, workStationId, sequenceNumber,
+					terminalItemsHashMap);
+			if (terminalItem == null) {
+				tp.println("Item entry has no matching transaction!");
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.LOG_MSGID,
+						"Item entry has no matching transaction.\n");
+				rb.setNCRWSSResultCode(ResultBase.PROMOTION.NO_MATCHING_TRANSACTION);
+				return rb;
+			}else {
+				try {
+					Map<String, Set<String>> couponMap = terminalItem.getCouponMap();
+					Map<String, Object> preMap = terminalItem.getPreMap();
+					couponMap.clear();
+					if(!StringUtility.isNullOrEmpty(couponlist)) {
+						setNormalItemInMix(terminalItem);
+						JsonMarshaller<ArrayList> jsonMarshall = new JsonMarshaller<ArrayList>();
+						List<String> list = jsonMarshall.unMarshall(couponlist, ArrayList.class);
+						for(String str : list) {
+							if(str.length() > 0) {
+								String code = str.substring(1);
+								if(str.startsWith(PromotionConstants.DISCOUNT_T)) {
+									setDiscountCode(couponMap, code, "TM");
+								} else if(str.startsWith(PromotionConstants.DISCOUNT_M)) {
+									setDiscountCode(couponMap, code, "BM");
+								} else {
+									setDiscountCode(couponMap, code, "PM");
+								}
+							}
+
+						}
+					}
+					Promotion promotion = new Promotion();
+					Map<String, Map<String, Object>> map = terminalItem.getEnabledMixMatchMap();
+					if(map == null || map.isEmpty() || terminalItem.isDeleteBm(map)){
+						Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+						promotion.setMap(newMap);
+					} else {
+						promotion.setMap(map);
+					}
+					pMItemsHandler.makePmInfo(terminalItem, promotion, true);
+					if(StringUtility.isNullOrEmpty(couponlist)) {
+						deleteCouponBm(promotion);
+						Map<String, PmDiscountInfo> prePmMap = (Map<String, PmDiscountInfo>)preMap.get("PM");
+						Set<String> set = new HashSet<>();
+						if(null != prePmMap && prePmMap.size() > 0) {
+							for(Map.Entry<String, PmDiscountInfo> pm : prePmMap.entrySet()) {
+								PmDiscountInfo info = pm.getValue();
+								if(info.getSubNum1() == PromotionConstants.CUSTOMER_SALE_INT) {
+									set.add(pm.getKey());
+								}
+							}
+							promotion.setPmDeleteList(set);
+						}
+					}else {
+						if(null != promotion.getPmMap() && promotion.getPmMap().size() > 0) {
+							preMap.put("PM", promotion.getPmMap());
+						}
+					}
+					rb.setPromotion(promotion);
+				} catch (JsonParseException e) {
+					LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to coupon add.", e);
+					rb = new PromotionResponse(ResultBase.RES_ERROR_PARSE, ResultBase.RES_ERROR_PARSE, e);
+				} catch (Exception e) {
+					LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to coupon add.", e);
+					rb= new PromotionResponse(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, e);
+				} finally {
+					tp.methodExit(rb);
+				}
+			}
+		}
+		return rb;
+	}
+	
+	@Path("/items_update_by_customer")
+	@POST
+	@Produces("application/json;charset=UTF-8")
+	@ApiOperation(value = "取引商品更新", response = PromotionResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_PARSE, message = "解析エラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "マッチング取引ができない"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+	public final PromotionResponse updateByCustomer(
+			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
+
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("RetailStoreID", retailStoreId).println("WorkStationID", workStationId)
+		.println("SequenceNumber", sequenceNumber).println("Transaction", transactionJson);
+		PromotionResponse promotionResponse = new PromotionResponse();
+		try {
+			if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transactionJson)) {
+				promotionResponse.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+				tp.println("Parameter[s] is null or empty.");
+				return promotionResponse;
+			}
+			synchronized ((Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap()) {
+				Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) GlobalConstant
+						.getTerminalItemsMap();
+				TerminalItem terminalItem = TerminalItemsHandler.get(retailStoreId, workStationId, sequenceNumber,
+						terminalItemsHashMap);
+
+				if (terminalItem == null) {
+					tp.println("No matching transaction!");
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.LOG_MSGID, "No matching transaction!\n");
+					promotionResponse.setNCRWSSResultCode(ResultBase.PROMOTION.NO_MATCHING_TRANSACTION);
+					return promotionResponse;
+				}
+				if(!StringUtility.isNullOrEmpty(transactionJson)) {
+					JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
+					Transaction transaction = jsonMarshall.unMarshall(transactionJson, Transaction.class);
+					List<Sale> sales = transaction.getSales();
+					if (sales != null && !sales.isEmpty()) {
+						for (Sale saleIn : sales) {
+							MixMatchDetailInfo info = new MixMatchDetailInfo();
+							if (null != saleIn) {
+								if (saleIn.getQuantity() < 0 && StringUtility.isNullOrEmpty(saleIn.getItemEntryId())) {
+									tp.println(" The quantity or The ItemEntryId is invalid!");
+									promotionResponse.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+									return promotionResponse;
+								}
+							} else {
+								tp.println("Transaction has no sale data!");
+								promotionResponse.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+								return promotionResponse;
+							}
+							info.setQuantity(saleIn.getQuantity());
+							info.setEntryId(saleIn.getItemEntryId());
+							info.setTruePrice(saleIn.getActualSalesUnitPrice());
+							info.setTaxId(saleIn.getTaxId());
+							info.setOriginalTaxId(saleIn.getOriginalTaxId());
+							info.setSku(saleIn.getSku()); 
+							if(null != terminalItem.getBmMapByEntryid() && terminalItem.getBmMapByEntryid().containsKey(saleIn.getItemEntryId())) {
+								MixMatchDetailInfo mmdi = terminalItem.getBmMapByEntryid().get(saleIn.getItemEntryId());
+								terminalItem.setBmDetailMapList(mmdi.getPriceMMInfoList(), info);  
+							}  
+							if((null != terminalItem.getItemOfManyPm() && terminalItem.getItemOfManyPm().containsKey(saleIn.getItemEntryId())) || itemIsBm(terminalItem, saleIn)) {
+								pMItemsHandler.updateCache(terminalItem, saleIn);
+							}
+						}
+					}
+				}
+				Promotion promotion = new Promotion();
+				Map<String, Map<String, Object>> map = terminalItem.getEnabledMixMatchMap();
+				Map<String, Object> preMap = terminalItem.getPreMap();
+				if(map == null || map.isEmpty() || terminalItem.isDeleteBm(map)){
+					Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+					promotion.setMap(newMap);
+					if(preMap.containsKey("BM")) {
+						preMap.remove("BM");
+					}
+				} else {
+					preMap.put("BM", map);
+					promotion.setMap(map);
+				}
+
+				pMItemsHandler.makePmInfo(terminalItem, promotion);
+				deleteViewPm(terminalItem, promotion,null);
+				promotionResponse.setPromotion(promotion);
+			}
+
+		} catch (JsonParseException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to update quantity.", e);
+			promotionResponse = new PromotionResponse(ResultBase.RES_ERROR_PARSE, ResultBase.RES_ERROR_PARSE, e);
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to update quantity.", e);
+			promotionResponse = new PromotionResponse(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, e);
+		} finally {
+			tp.methodExit(promotionResponse);
+		}
+		return promotionResponse;
+	}
+
+	private void setDiscountCode(Map<String, Set<String>> couponMap, String code, String discountName) {
+		Set<String> discountCodeSet;
+		if(couponMap.containsKey(discountName)) {
+			discountCodeSet = couponMap.get(discountName);
+			discountCodeSet.add(code);
+		}else {
+			discountCodeSet = new HashSet<>();
+			discountCodeSet.add(code);
+			couponMap.put(discountName, discountCodeSet);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void setNormalItemInMix(TerminalItem terminalItem) {
+		Map<String, Object> preMap = terminalItem.getPreMap();
+		Map<String,Set<String>> map = terminalItem.getPromotionItemCouponMap();
+		Set<String> set = null;
+		if(map.containsKey("mixItem")) {
+			set = map.get("mixItem");
+			set.clear();
+		}else {
+			set = new HashSet<>();
+		}
+		if(null !=preMap &&  preMap.containsKey("PM")) {
+			Map<String, PmDiscountInfo> prePmMap = (Map<String, PmDiscountInfo>)preMap.get("PM");
+			for(Map.Entry<String, PmDiscountInfo> mmEntry : prePmMap.entrySet()) {
+				PmDiscountInfo info = mmEntry.getValue();
+				List<PmItemInfo> list = info.getPmList();
+				if(info.getSubNum1() == PromotionConstants.NORMAL_SALE_INT) {
+					for(PmItemInfo info2 : list) {
+						set.add(info2.getItemEntryId());
+					}
+				}
+			}
+		}
+		if(null != preMap && preMap.containsKey("BM")) {
+			Map<String, Map<String, Object>> bmMap =  (Map<String, Map<String, Object>>) preMap.get("BM");
+			itemsInBm(bmMap,set);
+		}
+		if(!map.containsKey("mixItem")) {
+			map.put("mixItem", set);
+		}
+	}
+	
+	
+	private void itemsInBm(Map<String, Map<String, Object>> bmMap, Set<String> set) {
+		if(bmMap != null && bmMap.size() > 0) {
+			for(Map.Entry<String, Map<String, Object>> v : bmMap.entrySet()) {
+				Map<String, Object> vMap = v.getValue();
+				if(vMap.size() > 0 && vMap.containsKey("hasMixMatch") && "false".equals(vMap.get("hasMixMatch"))) {
+					continue;
+				}
+				if(vMap.size() == 0) {
+					continue;
+				}
+				if(vMap.size() > 0 && vMap.containsKey("SubNum1") && PromotionConstants.CUSTOMER_SALE_INT == (Integer)vMap.get("SubNum1")) {
+					continue;
+				}
+				if(vMap.containsKey("rule1")) {
+					DetailInfo detailinfo = (DetailInfo)vMap.get("rule1");
+					setBmItems(detailinfo,set);
+				}
+				if(vMap.containsKey("rule2")) {
+					DetailInfo detailinfo = (DetailInfo)vMap.get("rule2");
+					setBmItems(detailinfo,set);
+				}
+				if(vMap.containsKey("rule3")) {
+					DetailInfo detailinfo = (DetailInfo)vMap.get("rule3");
+					setBmItems(detailinfo,set);
+				}
+				if(vMap.containsKey("remainder")) {
+					DetailInfo detailinfo = (DetailInfo)vMap.get("remainder");
+					setBmItems(detailinfo,set);
+				}
+			}
+		}
+	}
+	
+	private void setBmItems(DetailInfo detailinfo, Set<String> set) {
+		List<MixMatchDetailInfo> list = detailinfo.getEntryList();
+		for(MixMatchDetailInfo info : list) {
+			set.add(info.getEntryId());
+		}
+	}
+	
 }

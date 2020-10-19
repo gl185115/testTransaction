@@ -125,7 +125,8 @@ public interface IStoreDAO {
      * @throws DaoException The Exception of Sql
      */
     int updateCertificateNo(int SubNum2,String companyId,String storeId,String workStactionId, String traning) throws DaoException;
-	
+    
+    
     /**
      * get the sunNum2
      * @param companyId

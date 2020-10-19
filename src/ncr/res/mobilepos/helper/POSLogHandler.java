@@ -6,6 +6,7 @@ package ncr.res.mobilepos.helper;
  */
 import java.lang.reflect.Field;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;

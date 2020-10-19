@@ -1,0 +1,75 @@
+.login_background {
+	background: url("images/loginbox.png") no-repeat white; left: 33%; top: 25%; width: 475px; height: 338px; position: absolute;
+}
+.login_cell {
+	padding: 10px 10px 0px 0px; width: 130px; height: 35px; text-align: right; font-weight: bold; vertical-align: top;
+}
+.login_label {
+	color: rgb(255, 255, 255); font-size: 11pt;
+}
+.login_text {
+	background: url("images/logintab.png") no-repeat; width: 262px; height: 37px;
+}
+.login_dynamic_text {
+	padding: 10px 70px 0px 0px; text-align: right; vertical-align: top;
+}
+.login_dynamic_label {
+	font: bold 18px/normal Verdana; color: rgb(255, 255, 255); font-size-adjust: none; font-stretch: normal;
+}
+.login_button_active {
+	background: url("images/loginbuttonB.png") no-repeat center; font: bold 16px/normal Verdana; padding: 0px; width: 106px; height: 34px; text-align: center; color: white; vertical-align: middle; font-size-adjust: none; font-stretch: normal;
+}
+.login_button_hover {
+	background: url("images/loginbuttonA.png") no-repeat center; font: bold 16px/normal Verdana; padding: 0px; width: 106px; height: 34px; text-align: center; color: white; vertical-align: middle; cursor: pointer; font-size-adjust: none; font-stretch: normal;
+}
+.login_button_clicked {
+	background: url("images/loginbuttonC.png") no-repeat center; font: bold 16px/normal Verdana; padding: 0px; width: 106px; height: 34px; text-align: center; color: white; vertical-align: middle; cursor: default; font-size-adjust: none; font-stretch: normal;
+}
+.login_footer_display {
+	font: bold 16px/normal Verdana; top: -6px; color: white; position: relative; font-size-adjust: none; font-stretch: normal; _top: 10px;
+}
+.login_footer_p {
+	width: 350px;
+}
+.login_license {
+	top: 220px; right: 47px; color: rgb(255, 255, 255); position: absolute;
+}
+.login_expiry {
+	left: 7px; top: 220px; color: rgb(255, 255, 255); position: absolute;
+}
+.login_message {
+	left: 7px; top: 220px; color: red; position: absolute;
+}
+.login_displaynone {
+	display: none;
+}
+.license_background {
+	background: url("images/licensebgnd.png") no-repeat white; padding: 70px 0px 0px 10px; left: 35%; top: 20%; width: 407px; height: 338px; position: absolute;
+}
+.license_background td {
+	color: rgb(255, 255, 255); white-space: nowrap;
+}
+.license_textbox {
+	background: url("images/licenseinputbox.png") no-repeat; padding: 5px 0px 0px 3px; height: 28px;
+}
+.license_textbox input {
+	width: 240px; font-size: 8pt; font-weight: bold; margin-top: 2px; background-color: transparent;
+}
+.license_notes {
+	background: url("images/licensetextarea.png") no-repeat; padding: 5px 0px 0px 5px; width: 375px; height: 62px;
+}
+.license_notes span {
+	color: rgb(255, 255, 255);
+}
+.license_close {
+	top: 7px; right: 15px; color: rgb(255, 255, 255); position: absolute;
+}
+.license_btnAuthorize {
+	top: 7px; right: 15px; color: rgb(255, 255, 255); position: absolute;
+}
+.license_button_active {
+	background: url("images/licensebuttonA.png") no-repeat center; font: bold 10px/normal Verdana; padding: 0px; width: 94px; height: 34px; text-align: center; color: rgb(255, 255, 255); vertical-align: middle; cursor: pointer; font-size-adjust: none; font-stretch: normal;
+}
+.license_button_inactive {
+	background: url("images/licensebuttonB.png") no-repeat center; font: 10px/normal Verdana; padding: 0px; width: 94px; height: 34px; text-align: center; color: gray; vertical-align: middle; cursor: default; font-size-adjust: none; font-stretch: normal;
+}

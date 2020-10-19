@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Response>
+    <resultCode>0</resultCode>
+    <mppId>123456789012</mppId>
+    <couponAmount>121</couponAmount>
+    <totalMile>600000</totalMile>
+    <nextMileAmount>2000000000</nextMileAmount>
+    <mileLimit>20200229235959</mileLimit>
+    <couponLimitDate>20200131000000</couponLimitDate>
+    <couponLimitAmount>10000000</couponLimitAmount>
+    <selectableCouponList>T1010,K2111:22,M2033</selectableCouponList>
+    <errorMessage></errorMessage>
+</Response>

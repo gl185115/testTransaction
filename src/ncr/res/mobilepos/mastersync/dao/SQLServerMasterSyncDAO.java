@@ -213,7 +213,7 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
             statement.setString(SQLStatement.PARAM1, companyId);
             statement.setString(SQLStatement.PARAM2, storeId);
             statement.setString(SQLStatement.PARAM3, maintenanceLog.getReferenceCondition());
-tp.methodEnter(sql).println("compantyId", companyId).println("storeId", storeId).println("maintenanceLog", maintenanceLog.getReferenceCondition());
+
             result = statement.executeQuery();
             ResultSetMetaData meta = statement.getMetaData();
 

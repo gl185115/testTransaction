@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 /**
  * @author xxj
@@ -16,14 +16,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.cashAbstract.dao.ICashAbstractDAO;
+import ncr.res.mobilepos.cashAbstract.model.DispensingCodeList;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -31,6 +26,12 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.webserviceif.model.JSONData;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 @Path("/cashAbstract")
 @Api(value="/cashAbstract", description="入出金摘要情報API")
@@ -46,7 +47,7 @@ public class CashAbstractResource {
     }
 
     /**
-     *
+     * 
      * @param companyId,
      *            storeId, cashFlowDirection
      * @return Tender
@@ -104,5 +105,49 @@ public class CashAbstractResource {
             tp.methodExit(tender);
         }
         return tender;
+    }
+    
+    /**
+     * 
+     * @param companyId,
+     *            retailStoreId
+     * @return Tender
+     */
+	@Path("/getDispensingCreditCode")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value = "調剤クレジット科目取得", response = DispensingCodeList.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効なパラメータ") })
+	public final DispensingCodeList getDispensingCreditCode(
+			@ApiParam(name = "CompanyId", value = "会社コード") @QueryParam("CompanyId") final String companyId,
+			@ApiParam(name = "RetailStoreId", value = "店番号") @QueryParam("RetailStoreId") final String retailStoreId) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId);
+
+		DispensingCodeList dcList = new DispensingCodeList();
+		try {
+			DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+			ICashAbstractDAO iCashAbstarctDAO = sqlServer.getCashAbstractDAO();
+
+			dcList = iCashAbstarctDAO.getDispensingCreditCode(companyId, retailStoreId);
+		} catch (DaoException ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
+					functionName + ": Failed to get dispensingCreditCode infomation.", ex);
+			dcList.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			dcList.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+			dcList.setMessage(ex.getMessage());
+		} catch (Exception ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+					functionName + ": Failed to get dispensingCreditCode infomation.", ex);
+			dcList.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			dcList.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			dcList.setMessage(ex.getMessage());
+		} finally {
+			tp.methodExit(dcList);
+		}
+		return dcList;
     }
 }

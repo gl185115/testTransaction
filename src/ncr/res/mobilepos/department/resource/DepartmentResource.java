@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.department.resource;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -29,6 +30,8 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 /**
  * ‰ü’è—š—ð
@@ -129,6 +132,7 @@ public class DepartmentResource {
           .println("DepartmentID", departmentID);
 
         ViewDepartment dptModel = new ViewDepartment();
+        List<PricePromInfo> pricePromList;
         if (StringUtility.isNullOrEmpty(companyID, retailStoreID, departmentID)) {
             dptModel.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(dptModel.toString());
@@ -136,6 +140,7 @@ public class DepartmentResource {
         }
 
         try {
+        	pricePromList = PricePromInfoFactory.initialize(companyID, retailStoreID, null, departmentID, null, null);
         	// get common url
         	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         	SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
@@ -144,7 +149,7 @@ public class DepartmentResource {
             IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();
             dptModel = iDptDao
                     .selectDepartmentDetail(companyID, retailStoreID, departmentID, retailStoreID, mapTaxId);
-
+            dptModel.setPricePromList(pricePromList);
         } catch (DaoException daoEx) {
             LOGGER.logAlert(
                     "DepartmentRes",
@@ -210,6 +215,7 @@ public class DepartmentResource {
 
         DepartmentList dptList = new DepartmentList();
         try {
+    		PricePromInfoFactory.initialize(companyId, storeId, null, null, null, null);
         	// get common url
         	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         	SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();

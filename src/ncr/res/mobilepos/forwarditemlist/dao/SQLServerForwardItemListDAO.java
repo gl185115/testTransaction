@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
@@ -21,6 +23,7 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
+import ncr.res.mobilepos.forwarditemlist.model.ForwardvoidListInfo;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
@@ -404,5 +407,125 @@ extends AbstractDao implements IForwardItemListDAO {
             tp.methodExit();
         }
         return resultCnt;
+    }
+
+    /**
+     * 前捌保留件数取得（精算機ごと）
+     *
+     * @param companyId
+     * @param retailStoreId
+     * @param cashierId
+     * @param trainingFlag
+     *
+     * @return Forward Count With Cashier
+     * @exception DaoException The exception thrown when error occur.
+     */
+    @Override
+    public final String getForwardCountWithCashier(final String companyId, final String retailStoreId, final String cashierId,
+    		                                  final String trainingFlag) throws DaoException  {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
+                .println("cashierId", cashierId)
+                .println("trainingFlag", trainingFlag);
+
+        String resultCnt = null;
+        Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet resultset = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement
+                    .getProperty("get-forward-countwithcashier"));
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, retailStoreId);
+            select.setString(SQLStatement.PARAM3, cashierId);
+            select.setInt(SQLStatement.PARAM4, Integer.valueOf(trainingFlag));
+            resultset = select.executeQuery();
+
+            if (resultset.next()) {
+                resultCnt = resultset.getString("Count");
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+                    + ": Failed to Select Forward Count With Cashier.", sqlEx);
+            throw new DaoException("Database error");
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+                    + ": Failed to Select Forward Count With Cashier.", e);
+            throw new DaoException("Exception: @" + functionName, e);
+        } finally {
+            closeConnectionObjects(connection, select, resultset);
+            tp.methodExit();
+        }
+        return resultCnt;
+    }
+
+    /**
+     * 呼出取消データ情報一覧取得
+     *
+     * @param companyId
+     * @param retailStoreId
+     * @param workStationId
+     * @param trainingFlag
+     *
+     * @return Forward Resume Void List
+     * @exception DaoException The exception thrown when error occur.
+     */
+    @Override
+    public final List<ForwardvoidListInfo> getForwardResumeVoidList(final String companyId, final String retailStoreId,
+    	    final String workStationId, final String trainingFlag) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
+                .println("workStationId", workStationId)
+                .println("trainingFlag", trainingFlag);
+
+        ArrayList<ForwardvoidListInfo> forwardResumeVoidList = new ArrayList<ForwardvoidListInfo>();
+        ResultSet result = null;
+        Connection connection = null;
+        PreparedStatement selectStmnt = null;
+
+        try {
+            connection = dbManager.getConnection();
+
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-forward-resumeVoidList"));
+            selectStmnt.setString(SQLStatement.PARAM1, companyId);
+            selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
+            selectStmnt.setString(SQLStatement.PARAM3, workStationId);
+            selectStmnt.setInt(SQLStatement.PARAM4, Integer.valueOf(trainingFlag));
+            result = selectStmnt.executeQuery();
+            while (result.next()) {
+                ForwardvoidListInfo forwardvoidListInfo = new ForwardvoidListInfo();
+                forwardvoidListInfo.setCompanyId(result.getString("CompanyId"));
+                forwardvoidListInfo.setRetailStoreId(result.getString("RetailStoreId"));
+                forwardvoidListInfo.setWorkstationId(result.getString("WorkstationId"));
+                forwardvoidListInfo.setQueue(result.getString("Queue"));
+                forwardvoidListInfo.setTrainingFlag(result.getString("TrainingFlag"));
+                forwardvoidListInfo.setBusinessDayDate(result.getString("BusinessDayDate"));
+                forwardvoidListInfo.setStatus(result.getString("Status"));
+                forwardvoidListInfo.setSequenceNumber(String.format("%04d", result.getInt("SequenceNumber")));
+                forwardvoidListInfo.setBusinessDateTime(result.getString("BusinessDateTime"));
+                forwardvoidListInfo.setOperatorId(result.getString("OperatorId"));
+                forwardvoidListInfo.setSalesTotalAmt(result.getString("SalesTotalAmt"));
+                forwardvoidListInfo.setSalesTotalQty(result.getString("SalesTotalQty"));
+                forwardvoidListInfo.setExt2(result.getString("Ext2"));
+                forwardvoidListInfo.setDeviceName(result.getString("DeviceName"));
+                forwardResumeVoidList.add(forwardvoidListInfo);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get forwardresumevoid list.", sqlEx);
+            throw new DaoException("Database error");
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forwardresumevoid list.", ex);
+            throw new DaoException("Exception:" + functionName, ex);
+        } finally {
+            closeConnectionObjects(connection, selectStmnt, result);
+            tp.methodExit(forwardResumeVoidList);
+        }
+        return forwardResumeVoidList;
     }
 }

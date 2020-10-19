@@ -8,9 +8,8 @@
 DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),@sizeId VARCHAR(10),
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
         @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10),
-        @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10), @selfmedicationStoreId VARCHAR(10),
-        @designateddrugStoreId VARCHAR(10), @trasferletterStoreId VARCHAR(10),
-        @callinStoreId VARCHAR(10)
+        @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10), @callinStoreId VARCHAR(10),
+        @selfmedicationStoreId VARCHAR(10), @nameDesignatedStoreId VARCHAR(10), @nameTrasferStoreId VARCHAR(10), @designateddrugStoreId VARCHAR(10), @trasferletterStoreId VARCHAR(10)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
     SET @MdInternal = LTRIM(RTRIM(?))
@@ -27,10 +26,22 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @pluNameStoreId = @storeId
     SET @sizePtnStoreId = @storeId
     SET @lineStoreId = @storeId
-    SET @selfmedicationStoreId = @storeId
-    SET @designateddrugStoreId = @storeId
     SET @callinStoreId = @storeId
+    SET @selfmedicationStoreId = @storeId
+    SET @nameDesignatedStoreId = @storeId
+    SET @nameTrasferStoreId = @storeId
+    SET @designateddrugStoreId = @storeId
     SET @trasferletterStoreId = @storeId
+
+    SELECT @MdInternal = plu.MdInternal FROM RESMaster.dbo.MST_PLU plu
+     WHERE plu.CompanyId = @companyId
+       AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
+       AND plu.MdInternal = CASE WHEN LEFT(@MdInternal, 2) IN ('20') THEN LEFT(@MdInternal,8) + '00000'
+                                    WHEN LEFT(@MdInternal, 2) IN ('02', '21', '24', '25') THEN LEFT(@MdInternal,7) + '000000'
+                                    ELSE @MdInternal END
+       OR  plu.MdInternal LIKE CASE WHEN LEFT(@MdInternal, 2) IN ('20') THEN LEFT(@MdInternal,8) + '0000%%'
+                                    WHEN LEFT(@MdInternal, 2) IN ('02', '21', '24', '25') THEN LEFT(@MdInternal,7) + '00000%%'
+                                    ELSE @MdInternal END
 
     IF NOT EXISTS (
        SELECT *
@@ -359,13 +370,18 @@ SELECT TOP 1
        plu.MdName,
        pluNameInfo.MdName pluMdName,
        plu.SubCode5 BrandSaleName,
-       plu.SubCode9 PharmaceuticalFlag,
-       plu.SubCode11 RecallFlag,
-       plu.SubCode6 DrugType,
-       plu.SubCode12 CountLimitFlag,
-       plu.SubNum2 AS CountLimit,
-       plu.SubCode7 TransferWriteType,
-       plu.SubCode13 CertificatePrintFlag,
+       plu.AgeRestrictedFlag,
+	   plu.SubCode11 RecallFlag,
+	   plu.SubCode9 PharmaceuticalFlag,
+	   plu.SubCode12 CountLimitFlag,
+	   plu.SubCode13 CertificatePrintFlag,
+	   plu.SubCode14 CertificateNo,
+	   plu.SubCode8 SelfFlag,
+	   plu.Md11 AS PluTaxFreeFlag,
+	   plu.SubCode6 DrugType,
+	   plu.SubCode7 TransferWriteType,
+	   plu.SubNum2 AS CountLimit,
+	   %s,
        %s,
        %s,
        classInfo.ClassNameLocal,
@@ -374,9 +390,10 @@ SELECT TOP 1
        classInfo.SubNum4 TaxFreeFlag,
        classInfo.DiscountType clsDiscountType,
        classInfo.TaxType clsTaxType,
+       classInfo.AgeRestrictedFlag ClsAgeRestrictedFlag,
        dpt.DiscountType dptDiscountType,
        dpt.DptNameLocal,
-     dpt.DptName,
+       dpt.DptName,
        dpt.TaxType dptTaxType,
        dpt.SubCode1 dptSubCode1,
        dpt.SubNum1 dptSubNum1,
@@ -385,6 +402,7 @@ SELECT TOP 1
        dpt.SubNum4 dptSubNum4,
        %s,
        dpt.ExceptionFlag ExceptionFlag,
+       dpt.AgeRestrictedFlag DptAgeRestrictedFlag,
        groupInfo.GroupName,
        groupInfo.GroupId,
        system.NameText,
@@ -396,29 +414,14 @@ SELECT TOP 1
        lineInfo.TaxType lineTaxType,
        lineInfo.discountType lineDiscountType,
        %s,
-       <!-- FDMM add start RESD-3824 2020-08-18 -->
-       plu.AgeRestrictedFlag,
-       classInfo.AgeRestrictedFlag ClsAgeRestrictedFlag,
-       dpt.AgeRestrictedFlag DptAgeRestrictedFlag,
        lineInfo.AgeRestrictedFlag LineAgeRestrictedFlag,
-       <!-- FDMM add end RESD-3824 2020-08-18 -->
-       <!-- FDMM add start RESD-3584 2020-08-19 -->
-       plu.SubCode8 SelfFlag,
-       selfmedication.SelfMedicationMark,
-       <!-- FDMM add start RESD-3584 2020-08-19 -->
-       <!-- FDMM add start RESD-3589 2020-09-08 -->
        callinitem.CallInReason,
        callinitem.DisplayEndDate,
-       <!-- FDMM add end RESD-3589 2020-09-08 -->
-       <!-- FDMM add start RESD-3595 2020-09-18 -->
+       selfmedication.SelfMedicationMark,
        drug.DrugActionArea,
-       <!-- FDMM add end RESD-3595 2020-09-18 -->
-       <!-- FDMM add start RESD-3601 2020-09-18 -->
        transfer.TransferActionArea,
-       <!-- FDMM add end RESD-3601 2020-09-18 -->
-       <!-- FDMM add start RESD-5323 2020-10-06 -->
-       plu.Md11 AS PluTaxFreeFlag
-       <!-- FDMM add end RESD-5323 2020-10-06 -->
+       expirationDate.BestBeforePeriod,
+       expirationDate.SalesPeriod
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
@@ -468,7 +471,8 @@ ON plu.CompanyId = pluNameInfo.CompanyId
 AND pluNameInfo.StoreId = @pluNameStoreId
 AND plu.MdInternal = pluNameInfo.MdInternal
 AND pluNameInfo.DeleteFlag = 0.0
-
+LEFT JOIN RESMaster.dbo.MST_EXPIRATION_DATE expirationDate
+ON plu.MdInternal  = expirationDate.MdInternal
 LEFT JOIN  (
     SELECT
         info.CompanyId,
@@ -524,7 +528,6 @@ ON plu.CompanyId = transfer.CompanyId
 AND plu.SubCode7 = transfer.TransferArea
 AND transfer.StoreId = @trasferletterStoreId
 AND transfer.DeleteFlag = 0.0
-
 WHERE plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
 ORDER BY urgent.SequenceNo DESC
@@ -720,21 +723,289 @@ WHERE info.DeleteFlag = 0.0
 
 </entry>
 
-
-
-<entry key="get-price-prom-info-list">
-
-DECLARE @companyId VARCHAR(12),
-        @storeId VARCHAR(10) ,
-        @businessDate VARCHAR(32)
+<entry key="get-price-urgentPrice-promPrice">
+DECLARE	@companyId VARCHAR(12),
+		@storeId VARCHAR(10),
+		@MdInternal VARCHAR(32),
+		@bizDate VARCHAR(4),
+		@bizDateTime VARCHAR(10),
+		@useCommStoreId VARCHAR(1) = 0
 
 SET @companyId = LTRIM(RTRIM(?))
 SET @storeId = LTRIM(RTRIM(?))
+SET @MdInternal = LTRIM(RTRIM(?))
+SET @bizDate = LTRIM(RTRIM(?))
+SET @bizDateTime = LTRIM(RTRIM(?))
+
+IF NOT EXISTS (
+    SELECT	MdInternal
+    FROM	RESMaster.dbo.MST_PLU PLU
+    WHERE	PLU.CompanyId = @companyId
+	AND		PLU.MdInternal = @MdInternal
+	AND		PLU.StoreId = @storeId
+	AND		PLU.DeleteFlag = 0.0
+    AND		CONVERT(DATE, @bizDateTime) BETWEEN PLU.SalesPriceChgDate1 AND PLU.SalesPriceChgDate2
+)
+	SET @useCommStoreId = '1'
+
+SELECT		TOP 1
+			T_PLU.CompanyId,
+			T_PLU.StoreId,
+			T_PLU.MdInternal,
+			T_PLU.Dpt AS DptMst,
+			T_PLU.Line AS LineMst,
+			T_PLU.Class AS ClassMst,
+			T_PLU.MdNameLocal,
+			T_PLU.SalesPrice1,
+			T_PLU_URGENT.UrgentPrice,
+			T_FROM_INFO.PromotionNo,
+			T_FROM_INFO.PromotionDetailNo,
+			T_FROM_INFO.PromotionName,
+			T_FROM_INFO.PromotionType,
+			T_FROM_INFO.Dpt,
+			T_FROM_INFO.Line,
+			T_FROM_INFO.Class,
+			T_FROM_INFO.Sku,
+			T_FROM_INFO.SalesPrice PriceFromSalesPrice,
+			T_FROM_INFO.UpdDate PriceFromUpdDate
+FROM		RESMaster.dbo.MST_PLU T_PLU
+LEFT JOIN	RESMaster.dbo.MST_PLU_URGENT T_PLU_URGENT
+ON			T_PLU.CompanyId = T_PLU_URGENT.CompanyId
+AND			T_PLU_URGENT.StoreId = @storeId
+AND			T_PLU.MdInternal = T_PLU_URGENT.MdInternal
+AND			T_PLU_URGENT.DeleteFlag = 0.0
+LEFT JOIN	(
+				SELECT			INFO.CompanyId,
+								INFO.PromotionNo,
+								DETAIL.PromotionDetailNo,
+								INFO.PromotionName,
+								DETAIL.PromotionType,
+								DETAIL.Dpt,
+								DETAIL.Line,
+								DETAIL.Class,
+								DETAIL.Sku,
+								DETAIL.DiscountClass,
+								DETAIL.SalesPrice,
+								DETAIL.UpdDate
+				FROM			RESMaster.dbo.MST_PRICE_PROM_INFO INFO
+				INNER JOIN		RESMaster.dbo.MST_PRICE_PROM_DETAIL DETAIL
+				ON				INFO.CompanyId = DETAIL.CompanyId
+				AND				INFO.PromotionNo = DETAIL.PromotionNo
+				AND				DETAIL.DiscountClass = '3'
+				AND				DETAIL.DropFlag = 0.0
+				AND				DETAIL.DeleteFlag = 0.0
+				WHERE			INFO.CompanyId = @companyId
+				AND				INFO.TargetStoreType = '2'
+				AND				INFO.DropFlag = 0.0
+				AND				INFO.DeleteFlag = 0.0
+				AND				CONVERT(DATE, @bizDateTime) BETWEEN INFO.StartDate AND INFO.EndDate
+				AND				@bizDate BETWEEN INFO.StartTime AND INFO.EndTime
+				AND				@bizDate &gt;= CASE WHEN INFO.SaleStartTime IS NOT NULL AND LTRIM(RTRIM(INFO.SaleStartTime)) &lt;&gt; '' THEN INFO.SaleStartTime ELSE @bizDate END
+				AND				@bizDate &lt;= CASE WHEN INFO.SaleEndTime IS NOT NULL AND LTRIM(RTRIM(INFO.SaleEndTime)) &lt;&gt; '' THEN INFO.SaleEndTime ELSE @bizDate END
+				AND				(
+									(CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekSunFlag = 1.0 THEN 1 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekMonFlag = 1.0 THEN 2 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekTueFlag = 1.0 THEN 3 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekWedFlag = 1.0 THEN 4 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekThuFlag = 1.0 THEN 5 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekFriFlag = 1.0 THEN 6 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekSatFlag = 1.0 THEN 7 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								)
+
+				UNION
+
+				SELECT			INFO.CompanyId,
+								INFO.PromotionNo,
+								DETAIL.PromotionDetailNo,
+								INFO.PromotionName,
+								DETAIL.PromotionType,
+								DETAIL.Dpt,
+								DETAIL.Line,
+								DETAIL.Class,
+								DETAIL.Sku,
+								DETAIL.DiscountClass,
+								DETAIL.SalesPrice,
+								DETAIL.UpdDate
+				FROM			RESMaster.dbo.MST_PRICE_PROM_INFO INFO
+				INNER JOIN		RESMaster.dbo.MST_PRICE_PROM_DETAIL DETAIL
+				ON				INFO.CompanyId = DETAIL.CompanyId
+				AND				INFO.PromotionNo = DETAIL.PromotionNo
+				AND				DETAIL.DiscountClass = '3'
+				AND				DETAIL.DropFlag = 0.0
+				AND				DETAIL.DeleteFlag = 0.0
+				INNER JOIN		RESMaster.dbo.MST_PRICE_PROM_STORE STORE
+				ON				INFO.CompanyId = STORE.CompanyId
+				AND				INFO.PromotionNo = STORE.PromotionNo
+				AND				STORE.StoreId = @storeId
+				AND				STORE.DeleteFlag = 0.0
+				WHERE			INFO.CompanyId = @companyId
+				AND				INFO.TargetStoreType = '1'
+				AND				INFO.DropFlag = 0.0
+				AND				INFO.DeleteFlag = 0.0
+				AND				CONVERT(DATE, @bizDateTime) BETWEEN INFO.StartDate AND INFO.EndDate
+				AND				@bizDate BETWEEN INFO.StartTime AND INFO.EndTime
+				AND				@bizDate &gt;= CASE WHEN INFO.SaleStartTime IS NOT NULL AND LTRIM(RTRIM(INFO.SaleStartTime)) &lt;&gt; '' THEN INFO.SaleStartTime ELSE @bizDate END
+				AND				@bizDate &lt;= CASE WHEN INFO.SaleEndTime IS NOT NULL AND LTRIM(RTRIM(INFO.SaleEndTime)) &lt;&gt; '' THEN INFO.SaleEndTime ELSE @bizDate END
+				AND				(
+									(CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekSunFlag = 1.0 THEN 1 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekMonFlag = 1.0 THEN 2 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekTueFlag = 1.0 THEN 3 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekWedFlag = 1.0 THEN 4 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekThuFlag = 1.0 THEN 5 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekFriFlag = 1.0 THEN 6 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								 OR (CASE WHEN INFO.DayOfWeekSettingFlag = 1.0 AND INFO.DayOfWeekSatFlag = 1.0 THEN 7 - DATEPART(WEEKDAY, GETDATE()) END) = 0
+								)
+			) T_FROM_INFO
+ON			T_PLU.CompanyId = T_FROM_INFO.CompanyId
+AND			T_PLU.Dpt = CASE WHEN T_FROM_INFO.PromotionType = '1' THEN ISNULL(T_FROM_INFO.Dpt, '') ELSE T_PLU.Dpt END
+AND			T_PLU.Line = CASE WHEN T_FROM_INFO.PromotionType = '2' THEN ISNULL(T_FROM_INFO.Line, '') ELSE T_PLU.Line END
+AND			T_PLU.MdInternal LIKE CASE WHEN T_FROM_INFO.PromotionType = '3' THEN REPLACE(ISNULL(T_FROM_INFO.Sku, ''), '*', '%') ELSE T_PLU.MdInternal END
+AND			T_PLU.Class = CASE WHEN T_FROM_INFO.PromotionType = '4' THEN ISNULL(T_FROM_INFO.Class, '') ELSE T_PLU.Class END
+WHERE		T_PLU.CompanyId = @companyId
+AND			T_PLU.StoreId = CASE WHEN @useCommStoreId = '1' THEN '0' ELSE @storeId END
+AND			T_PLU.MdInternal = @MdInternal
+AND			T_PLU.DeleteFlag = 0.0
+AND			CONVERT(DATE, @bizDateTime) BETWEEN T_PLU.SalesPriceChgDate1 AND T_PLU.SalesPriceChgDate2
+ORDER BY	PriceFromSalesPrice ASC,
+			PriceFromUpdDate DESC
+</entry>
+
+
+<entry key="get-price-prom-info-list-dpt">
+DECLARE @companyId VARCHAR(12),
+@storeId VARCHAR(10),
+@bizDate VARCHAR(10),
+@bizCatId VARCHAR(10),
+@weekDay NUMERIC
+SET
+@companyId = LTRIM(RTRIM(?))
+SET
+@storeId = LTRIM(RTRIM(?))
+SET
+@bizDate = LTRIM(RTRIM(?))
+SET
+@weekDay = DATEPART(WEEKDAY, CONVERT(DATE, @bizDate))
+
+SELECT
+  @bizCatId = BizCatId
+FROM
+  RESMaster.dbo.MST_STOREINFO
+WHERE
+	CompanyId = @companyId
+  AND StoreId = @storeId
+SELECT
+  TEMPINFO.PromotionNo,
+  TEMPINFO.PromotionName,
+  TEMPINFO.PromotionDisplayNo,
+  TEMPINFO.MemberFlag,
+  TEMPINFO.ReasonCode,
+  DETAIL.Dpt,
+  DPTINFO.DptNameLocal,
+  DETAIL.PromotionDetailNo,
+  DETAIL.DiscountClass,
+  DETAIL.DiacountRate,
+  DETAIL.DiscountAmt
+FROM
+  (
+	SELECT
+    TOP 1
+    INFO.CompanyId,
+    INFO.PromotionNo,
+    INFO.PromotionName,
+    INFO.PromotionDisplayNo,
+    INFO.SubNum1 AS MemberFlag,
+    INFO.SubCode5 AS ReasonCode
+  FROM
+    RESMaster.dbo.MST_PRICE_PROM_INFO INFO
+    LEFT JOIN RESMaster.dbo.MST_PRICE_PROM_STORE STORE ON
+		INFO.TargetStoreType = '1'
+      AND INFO.CompanyId = STORE.CompanyId
+      AND INFO.PromotionNo = STORE.PromotionNo
+      AND STORE.StoreId = @storeId
+      AND STORE.DeleteFlag = 0.0
+  WHERE
+		INFO.SubCode2 = '1'
+    AND (INFO.SubNum1 = 0
+    OR INFO.SubNum1 IS NULL)
+    AND INFO.CompanyId = @companyId
+    AND ( (TargetStoreType = '1'
+    AND STORE.StoreId = @storeId)
+    OR (TargetStoreType = '2')
+    OR (TargetStoreType = '3'
+    AND BizCatId = @bizCatId) )
+    AND CONVERT(DATE,
+		@bizDate) BETWEEN INFO.StartDate AND INFO.EndDate
+    AND ( INFO.DayOfWeekSettingFlag = 0.0
+    OR (
+		CASE WHEN INFO.DayOfWeekSettingFlag = 1.0
+      AND INFO.DayOfWeekSunFlag = 1.0 THEN 1 - @weekDay END ) = 0
+    OR (
+		CASE WHEN INFO.DayOfWeekSettingFlag = 1.0
+      AND INFO.DayOfWeekMonFlag = 1.0 THEN 2 - @weekDay END ) = 0
+    OR (
+		CASE WHEN INFO.DayOfWeekSettingFlag = 1.0
+      AND INFO.DayOfWeekTueFlag = 1. THEN 3 - @weekDay END ) = 0
+    OR (
+		CASE WHEN INFO.DayOfWeekSettingFlag = 1.0
+      AND INFO.DayOfWeekWedFlag = 1.0 THEN 4 - @weekDay END ) = 0
+    OR (
+		CASE WHEN INFO.DayOfWeekSettingFlag = 1.0
+      AND INFO.DayOfWeekThuFlag = 1.0 THEN 5 - @weekDay END ) = 0
+    OR (
+		CASE WHEN INFO.DayOfWeekSettingFlag = 1.0
+      AND INFO.DayOfWeekFriFlag = 1.0 THEN 6 - @weekDay END ) = 0
+    OR (
+		CASE WHEN INFO.DayOfWeekSettingFlag = 1.0
+      AND INFO.DayOfWeekSatFlag = 1.0 THEN 7 - @weekDay END ) = 0 )
+    AND INFO.DeleteFlag = 0.0
+    AND INFO.DropFlag = 0.0
+  ORDER BY
+		INFO.SubCode5 ,
+		INFO.StartDate DESC ) AS TEMPINFO
+  INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL DETAIL ON
+    DETAIL.CompanyId = TEMPINFO.CompanyId
+    AND DETAIL.PromotionNo = TEMPINFO.PromotionNo
+    AND DETAIL.PromotionType = '1'
+    AND DETAIL.DeleteFlag = 0.0
+  LEFT JOIN RESMaster.dbo.MST_DPTINFO DPTINFO ON
+    DETAIL.Dpt = DPTINFO.DPT
+    AND DETAIL.CompanyId = DPTINFO.CompanyId
+
+</entry>
+<entry key="get-price-prom-info-list">
+DECLARE @companyId VARCHAR(12),
+        @storeId VARCHAR(10) ,
+        @businessDate VARCHAR(32),
+        @Sku VARCHAR(32),
+        @Dpt VARCHAR(10),
+        @Line VARCHAR(10),
+        @Class VARCHAR(10),
+        @BizCatId VARCHAR(20)
+SET @companyId = LTRIM(RTRIM(?))
+SET @storeId = LTRIM(RTRIM(?))
 SET @businessDate = LTRIM(RTRIM(?))
+SET @Sku = LTRIM(RTRIM(?))
+SET @Dpt = LTRIM(RTRIM(?))
+SET @Line = LTRIM(RTRIM(?))
+SET @Class = LTRIM(RTRIM(?))
+
+SELECT
+    @BizCatId = BizCatId
+FROM RESMaster.dbo.MST_STOREINFO
+WHERE CompanyId = @companyId
+    AND StoreId = @storeId
 
 SELECT
      info.PromotionNo
     ,info.PromotionName
+    ,info.PromotionDisplayNo
+    ,info.StartDate
+    ,info.EndDate
+    ,info.SubNum1
+    ,info.StartTime
+    ,info.EndTime
+    ,info.SaleStartTime
+    ,info.SaleEndTime
     ,info.DayOfWeekSettingFlag
     ,info.DayOfWeekMonFlag
     ,info.DayOfWeekTueFlag
@@ -752,23 +1023,43 @@ SELECT
     ,detail.DiscountClass
     ,detail.DiacountRate
     ,detail.DiscountAmt
+    ,detail.SalesPrice
     ,detail.BrandId
     ,info.UpdDate
-FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
-INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
-    ON info.CompanyId = detail.CompanyId AND info.PromotionNo = detail.PromotionNo
+    ,info.SubCode1
+    ,info.SubCode2
+    ,info.SubCode3
+    ,info.SubCode4
+    ,info.SubCode5
+    ,info.SubNum2
+
+FROM  RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+WITH (INDEX(IX_MST_PRICE_PROM_DETAIL_1))
+INNER LOOP JOIN RESMaster.dbo.MST_PRICE_PROM_INFO info
+    ON  detail.CompanyId = info.CompanyId
+	AND detail.PromotionNo = info.PromotionNo
+    AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+    AND info.DeleteFlag = 0.0
+	AND info.DropFlag = 0.0
+    AND info.TargetStoreType = '2'
+WHERE detail.CompanyId = @companyId
     AND detail.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
-WHERE info.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-    AND info.CompanyId = @companyId
-  AND info.TargetStoreType in ('0','2')
+    AND detail.DropFlag = 0.0
+	AND detail.Sku = @Sku
 
 UNION
 
 SELECT
      info.PromotionNo
     ,info.PromotionName
+    ,info.PromotionDisplayNo
+    ,info.StartDate
+    ,info.EndDate
+    ,info.SubNum1
+    ,info.StartTime
+    ,info.EndTime
+    ,info.SaleStartTime
+    ,info.SaleEndTime
     ,info.DayOfWeekSettingFlag
     ,info.DayOfWeekMonFlag
     ,info.DayOfWeekTueFlag
@@ -786,22 +1077,270 @@ SELECT
     ,detail.DiscountClass
     ,detail.DiacountRate
     ,detail.DiscountAmt
+    ,detail.SalesPrice
     ,detail.BrandId
     ,info.UpdDate
-FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
-INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
-    ON info.CompanyId = detail.CompanyId AND info.PromotionNo = detail.PromotionNo
-    AND detail.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
+    ,info.SubCode1
+    ,info.SubCode2
+    ,info.SubCode3
+    ,info.SubCode4
+    ,info.SubCode5
+    ,info.SubNum2
+FROM  RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+WITH (INDEX(IX_MST_PRICE_PROM_DETAIL_1))
+INNER LOOP JOIN RESMaster.dbo.MST_PRICE_PROM_INFO info
+    ON  detail.CompanyId = info.CompanyId
+	AND detail.PromotionNo = info.PromotionNo
+    AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+    AND info.DeleteFlag = 0.0
+	AND info.DropFlag = 0.0
+    AND info.CompanyId = @companyId
+    AND info.TargetStoreType = '1'
 INNER JOIN RESMaster.dbo.MST_PRICE_PROM_STORE store
-   ON info.CompanyId = store.CompanyId
-   AND info.PromotionNo = store.PromotionNo
+   ON  detail.CompanyId = store.CompanyId
+   AND detail.PromotionNo = store.PromotionNo
    AND store.StoreId = @storeId
    AND store.DeleteFlag = 0.0
-WHERE info.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+WHERE
+    detail.CompanyId = @companyId
+    AND detail.DeleteFlag = 0.0
+    AND detail.DropFlag = 0.0
+	AND detail.Sku = @Sku
+
+UNION
+
+SELECT
+     info.PromotionNo
+    ,info.PromotionName
+    ,info.PromotionDisplayNo
+    ,info.StartDate
+    ,info.EndDate
+	,info.SubNum1
+    ,info.StartTime
+    ,info.EndTime
+    ,info.SaleStartTime
+    ,info.SaleEndTime
+    ,info.DayOfWeekSettingFlag
+    ,info.DayOfWeekMonFlag
+    ,info.DayOfWeekTueFlag
+    ,info.DayOfWeekWedFlag
+    ,info.DayOfWeekThuFlag
+    ,info.DayOfWeekFriFlag
+    ,info.DayOfWeekSatFlag
+    ,info.DayOfWeekSunFlag
+    ,detail.PromotionType
+    ,detail.BrandFlag
+    ,detail.Dpt
+    ,detail.Line
+    ,detail.Class
+    ,detail.Sku
+    ,detail.DiscountClass
+    ,detail.DiacountRate
+    ,detail.DiscountAmt
+    ,detail.SalesPrice
+    ,detail.BrandId
+    ,info.UpdDate
+	,info.SubCode1
+    ,info.SubCode2
+    ,info.SubCode3
+    ,info.SubCode4
+    ,info.SubCode5
+    ,info.SubNum2
+FROM  RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+WITH (INDEX(IX_MST_PRICE_PROM_DETAIL_1))
+INNER LOOP JOIN RESMaster.dbo.MST_PRICE_PROM_INFO info
+    ON  detail.CompanyId = info.CompanyId
+    AND detail.PromotionNo = info.PromotionNo
+    AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+    AND info.DeleteFlag = 0.0
+    AND info.DropFlag = 0.0
     AND info.CompanyId = @companyId
-  AND info.TargetStoreType = '1'
+    AND info.TargetStoreType = '3'
+    AND info.BizCatId = @BizCatId
+WHERE
+    detail.CompanyId = @companyId
+    AND detail.DeleteFlag = 0.0
+    AND detail.DropFlag = 0.0
+    AND detail.Sku = @Sku
+
+UNION
+
+SELECT
+     info.PromotionNo
+    ,info.PromotionName
+    ,info.PromotionDisplayNo
+    ,info.StartDate
+    ,info.EndDate
+    ,info.SubNum1
+    ,info.StartTime
+    ,info.EndTime
+    ,info.SaleStartTime
+    ,info.SaleEndTime
+    ,info.DayOfWeekSettingFlag
+    ,info.DayOfWeekMonFlag
+    ,info.DayOfWeekTueFlag
+    ,info.DayOfWeekWedFlag
+    ,info.DayOfWeekThuFlag
+    ,info.DayOfWeekFriFlag
+    ,info.DayOfWeekSatFlag
+    ,info.DayOfWeekSunFlag
+    ,detail.PromotionType
+    ,detail.BrandFlag
+    ,detail.Dpt
+    ,detail.Line
+    ,detail.Class
+    ,detail.Sku
+    ,detail.DiscountClass
+    ,detail.DiacountRate
+    ,detail.DiscountAmt
+    ,detail.SalesPrice
+    ,detail.BrandId
+    ,info.UpdDate
+    ,info.SubCode1
+    ,info.SubCode2
+    ,info.SubCode3
+    ,info.SubCode4
+    ,info.SubCode5
+    ,info.SubNum2
+FROM  RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+WITH (INDEX(IX_MST_PRICE_PROM_DETAIL_2))
+INNER LOOP JOIN RESMaster.dbo.MST_PRICE_PROM_INFO info
+    ON  detail.CompanyId = info.CompanyId
+	AND detail.PromotionNo = info.PromotionNo
+    AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+    AND info.DeleteFlag = 0.0
+	AND info.DropFlag = 0.0
+    AND info.TargetStoreType = '2'
+WHERE detail.CompanyId = @companyId
+    AND detail.DeleteFlag = 0.0
+    AND detail.DropFlag = 0.0
+	AND (
+		(detail.Dpt = @Dpt AND (detail.Line IS NULL OR detail.Line = '') AND (detail.Class IS NULL OR detail.Class = ''))
+		OR (detail.Dpt = @Dpt AND detail.Line = @Line AND (detail.Class IS NULL OR detail.Class = ''))
+		OR (detail.Dpt = @Dpt AND detail.Line = @Line AND detail.Class = @Class)
+	)
+
+UNION
+
+SELECT
+     info.PromotionNo
+    ,info.PromotionName
+    ,info.PromotionDisplayNo
+    ,info.StartDate
+    ,info.EndDate
+    ,info.SubNum1
+    ,info.StartTime
+    ,info.EndTime
+    ,info.SaleStartTime
+    ,info.SaleEndTime
+    ,info.DayOfWeekSettingFlag
+    ,info.DayOfWeekMonFlag
+    ,info.DayOfWeekTueFlag
+    ,info.DayOfWeekWedFlag
+    ,info.DayOfWeekThuFlag
+    ,info.DayOfWeekFriFlag
+    ,info.DayOfWeekSatFlag
+    ,info.DayOfWeekSunFlag
+    ,detail.PromotionType
+    ,detail.BrandFlag
+    ,detail.Dpt
+    ,detail.Line
+    ,detail.Class
+    ,detail.Sku
+    ,detail.DiscountClass
+    ,detail.DiacountRate
+    ,detail.DiscountAmt
+    ,detail.SalesPrice
+    ,detail.BrandId
+    ,info.UpdDate
+    ,info.SubCode1
+    ,info.SubCode2
+    ,info.SubCode3
+    ,info.SubCode4
+    ,info.SubCode5
+    ,info.SubNum2
+FROM  RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+WITH (INDEX(IX_MST_PRICE_PROM_DETAIL_2))
+INNER LOOP JOIN RESMaster.dbo.MST_PRICE_PROM_INFO info
+    ON  detail.CompanyId = info.CompanyId
+	AND detail.PromotionNo = info.PromotionNo
+    AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+    AND info.DeleteFlag = 0.0
+	AND info.DropFlag = 0.0
+    AND info.CompanyId = @companyId
+    AND info.TargetStoreType = '1'
+INNER JOIN RESMaster.dbo.MST_PRICE_PROM_STORE store
+   ON  detail.CompanyId = store.CompanyId
+   AND detail.PromotionNo = store.PromotionNo
+   AND store.StoreId = @storeId
+   AND store.DeleteFlag = 0.0
+WHERE
+    detail.CompanyId = @companyId
+    AND detail.DeleteFlag = 0.0
+    AND detail.DropFlag = 0.0
+	AND (
+		(detail.Dpt = @Dpt AND (detail.Line IS NULL OR detail.Line = '') AND (detail.Class IS NULL OR detail.Class = ''))
+		OR (detail.Dpt = @Dpt AND detail.Line = @Line AND (detail.Class IS NULL OR detail.Class = ''))
+		OR (detail.Dpt = @Dpt AND detail.Line = @Line AND detail.Class = @Class)
+	)
+
+UNION
+
+SELECT
+     info.PromotionNo
+    ,info.PromotionName
+    ,info.PromotionDisplayNo
+    ,info.StartDate
+    ,info.EndDate
+	,info.SubNum1
+    ,info.StartTime
+    ,info.EndTime
+    ,info.SaleStartTime
+    ,info.SaleEndTime
+    ,info.DayOfWeekSettingFlag
+    ,info.DayOfWeekMonFlag
+    ,info.DayOfWeekTueFlag
+    ,info.DayOfWeekWedFlag
+    ,info.DayOfWeekThuFlag
+    ,info.DayOfWeekFriFlag
+    ,info.DayOfWeekSatFlag
+    ,info.DayOfWeekSunFlag
+    ,detail.PromotionType
+    ,detail.BrandFlag
+    ,detail.Dpt
+    ,detail.Line
+    ,detail.Class
+    ,detail.Sku
+    ,detail.DiscountClass
+    ,detail.DiacountRate
+    ,detail.DiscountAmt
+    ,detail.SalesPrice
+    ,detail.BrandId
+    ,info.UpdDate
+	,info.SubCode1
+    ,info.SubCode2
+    ,info.SubCode3
+    ,info.SubCode4
+    ,info.SubCode5
+    ,info.SubNum2
+FROM  RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+WITH (INDEX(IX_MST_PRICE_PROM_DETAIL_2))
+INNER LOOP JOIN RESMaster.dbo.MST_PRICE_PROM_INFO info
+    ON  detail.CompanyId = info.CompanyId
+    AND detail.PromotionNo = info.PromotionNo
+    AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+    AND info.DeleteFlag = 0.0
+    AND info.DropFlag = 0.0
+    AND info.TargetStoreType = '3'
+    AND info.BizCatId = @BizCatId
+WHERE detail.CompanyId = @companyId
+    AND detail.DeleteFlag = 0.0
+    AND detail.DropFlag = 0.0
+    AND (
+        (detail.Dpt = @Dpt AND (detail.Line IS NULL OR detail.Line = '') AND (detail.Class IS NULL OR detail.Class = ''))
+        OR (detail.Dpt = @Dpt AND detail.Line = @Line AND (detail.Class IS NULL OR detail.Class = ''))
+        OR (detail.Dpt = @Dpt AND detail.Line = @Line AND detail.Class = @Class)
+    )
 
 ORDER BY detail.PromotionType DESC,info.UpdDate DESC
 
@@ -898,6 +1437,69 @@ ELSE
         ORDER BY info.MMNo ASC
 </entry>
 
+<!--
+<entry key="get-price-pm-info">
+	DECLARE
+		@storeId VARCHAR (10) ,@companyId VARCHAR (12),
+		@mdInternal VARCHAR (32),
+		@businessDate VARCHAR (32)
+
+	SET @storeId = LTRIM(RTRIM(?))
+	SET @companyId = LTRIM(RTRIM(?))
+	SET @mdInternal = LTRIM(RTRIM(?))
+	SET @businessDate = LTRIM(RTRIM(?))
+	SELECT
+		info.PMNo,
+		info.PMName,
+		detail.PMGroupNo,
+		info.PMDisplayNo,
+		info.PMCnt,
+		info.PMPrice,
+		info.SaleStartTime,
+		info.SaleEndTime,
+		info.StartDate,
+		info.EndDate,
+		info.StartTime,
+		info.EndTime,
+		info.DayOfWeekSettingFlag,
+		info.DayOfWeekMonFlag,
+		info.DayOfWeekTueFlag,
+		info.DayOfWeekWedFlag,
+		info.DayOfWeekThuFlag,
+		info.DayOfWeekFriFlag,
+		info.DayOfWeekSatFlag,
+		info.DayOfWeekSunFlag
+	FROM
+		RESMaster.dbo.MST_PRICE_PM_INFO info
+	INNER JOIN RESMaster.dbo.MST_PRICE_PM_DETAIL detail ON info.CompanyId = detail.CompanyId
+	AND info.PMNo = detail.PMNo
+	AND detail.DropFlag = 0.0
+	AND detail.DeleteFlag = 0.0
+	WHERE
+		info.DeleteFlag = 0.0
+	AND info.DropFlag = 0.0
+	AND @businessDate BETWEEN CONVERT(varchar(100), info.StartDate, 112) + info.StartTime  AND CONVERT(varchar(100), info.EndDate, 112)+info.EndTime
+	AND info.CompanyId = @companyId
+	AND detail.Sku = @mdInternal
+	AND (
+		CASE
+		WHEN info.TargetStoreType = 1 THEN
+			(SELECT
+				count(store.CompanyId)
+			FROM
+				RESMaster.dbo.MST_PRICE_PM_STORE store
+			WHERE
+				store.CompanyId = @companyId
+			AND store.StoreId = @storeId
+			AND store.DeleteFlag = 0.0
+			AND info.PMNo = store.PMNo )
+		ELSE
+			1
+		END
+	) >= 1
+	order by info.PMPrice
+</entry>
+ -->
  <entry key="get-price-pm-info">
 	DECLARE
 		@storeId VARCHAR (10) ,@companyId VARCHAR (12),
@@ -985,6 +1587,7 @@ ELSE
 	order by info.PMPrice
 </entry>
 
+<!--
 <entry key="get-price-mm-info-list">
 DECLARE @companyId VARCHAR(12),
         @storeId VARCHAR(10) ,
@@ -1061,6 +1664,332 @@ SELECT
         AND info.TargetStoreType = '1'
         ORDER BY info.MMNo ASC
 </entry>
+-->
+<!--
+<entry key="get-price-mm-info-list">
+DECLARE @companyId VARCHAR(12),
+        @storeId VARCHAR(10) ,
+        @businessDate VARCHAR(32),
+        @mdInternal VARCHAR(32)
+
+SET @companyId = LTRIM(RTRIM(?))
+SET @storeId = LTRIM(RTRIM(?))
+SET @businessDate = LTRIM(RTRIM(?))
+SET @mdInternal = LTRIM(RTRIM(?))
+
+
+SELECT
+    info.CompanyId,
+    info.Note,
+    info.ConditionCount1,
+    info.ConditionPrice1,
+    info.DecisionPrice1 ,
+    info.AveragePrice1  ,
+    info.ConditionCount2,
+    info.ConditionPrice2,
+    info.DecisionPrice2 ,
+    info.AveragePrice2  ,
+    info.ConditionCount3,
+    info.ConditionPrice3,
+    info.DecisionPrice3,
+    info.AveragePrice3,
+    info.MMNo,
+    info.MMDisplayNo,
+    info.StartDate,
+    info.EndDate,
+    info.StartTime,
+    info.EndTime,
+    info.SaleStartTime,
+    info.SaleEndTime,
+    info.DayOfWeekSettingFlag,
+    info.DayOfWeekMonFlag,
+    info.DayOfWeekTueFlag,
+    info.DayOfWeekWedFlag,
+    info.DayOfWeekThuFlag,
+    info.DayOfWeekFriFlag,
+    info.DayOfWeekSatFlag,
+    info.DayOfWeekSunFlag,
+    info.TargetStoreType,
+    detail.Sku
+FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+        ON info.CompanyId = detail.CompanyId
+        AND info.MMNo = detail.MMNo
+        AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+        AND detail.DeleteFlag = 0.0
+        AND detail.DropFlag = 0.0
+    WHERE
+        info.DeleteFlag = 0.0
+        AND info.DropFlag = 0.0
+        AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+        AND info.CompanyId =  @companyId
+        AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
+        AND detail.Sku = @mdInternal
+
+UNION
+
+SELECT
+    info.CompanyId,
+    info.Note,
+    info.ConditionCount1,
+    info.ConditionPrice1,
+    info.DecisionPrice1 ,
+    info.AveragePrice1  ,
+    info.ConditionCount2,
+    info.ConditionPrice2,
+    info.DecisionPrice2 ,
+    info.AveragePrice2  ,
+    info.ConditionCount3,
+    info.ConditionPrice3,
+    info.DecisionPrice3,
+    info.AveragePrice3,
+    info.MMNo,
+    info.MMDisplayNo,
+    info.StartDate,
+    info.EndDate,
+    info.StartTime,
+    info.EndTime,
+    info.SaleStartTime,
+    info.SaleEndTime,
+    info.DayOfWeekSettingFlag,
+    info.DayOfWeekMonFlag,
+    info.DayOfWeekTueFlag,
+    info.DayOfWeekWedFlag,
+    info.DayOfWeekThuFlag,
+    info.DayOfWeekFriFlag,
+    info.DayOfWeekSatFlag,
+    info.DayOfWeekSunFlag,
+    info.TargetStoreType,
+    detail.Sku
+    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+        ON info.CompanyId = detail.CompanyId
+        AND info.MMNo = detail.MMNo
+        AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+        AND detail.DeleteFlag = 0.0
+        AND detail.DropFlag = 0.0
+    INNER JOIN RESMaster.dbo.MST_PRICE_MM_STORE store
+        ON info.CompanyId = store.CompanyId
+        AND info.MMNo = store.MMNo
+        AND store.StoreId = @storeId
+        AND store.DeleteFlag = 0.0
+    WHERE
+        info.DeleteFlag = 0.0
+        AND info.DropFlag = 0.0
+        AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+        AND info.CompanyId =  @companyId
+        AND info.TargetStoreType = '1'
+        AND detail.Sku = @mdInternal
+        ORDER BY info.MMNo ASC
+</entry>
+-->
+
+<entry key="get-price-mm-info-list">
+DECLARE @companyId VARCHAR(12),
+        @storeId VARCHAR(10) ,
+        @businessDate VARCHAR(32),
+        @mdInternal VARCHAR(32),
+        @BizCatId VARCHAR(20)
+
+SET @companyId = LTRIM(RTRIM(?))
+SET @storeId = LTRIM(RTRIM(?))
+SET @businessDate = LTRIM(RTRIM(?))
+SET @mdInternal = LTRIM(RTRIM(?))
+
+
+SELECT
+    @BizCatId = BizCatId
+FROM RESMaster.dbo.MST_STOREINFO
+WHERE CompanyId = @companyId
+    AND StoreId = @storeId
+
+
+SELECT
+    info.CompanyId,
+    info.Note,
+    info.DiscountClass,
+    info.ConditionCount1,
+    info.ConditionPrice1,
+    info.DecisionPrice1 ,
+    info.AveragePrice1  ,
+    info.ConditionRate1,
+    info.DecisionRate1,
+    info.ConditionCount2,
+    info.ConditionPrice2,
+    info.DecisionPrice2 ,
+    info.AveragePrice2  ,
+    info.ConditionRate2,
+    info.DecisionRate2,
+    info.ConditionCount3,
+    info.ConditionPrice3,
+    info.DecisionPrice3,
+    info.AveragePrice3,
+    info.ConditionRate3,
+    info.DecisionRate3,
+    info.MMNo,
+    info.SubNum1,
+    info.MMDisplayNo,
+    info.StartDate,
+    info.EndDate,
+    info.StartTime,
+    info.EndTime,
+    info.SaleStartTime,
+    info.SaleEndTime,
+    info.DayOfWeekSettingFlag,
+    info.DayOfWeekMonFlag,
+    info.DayOfWeekTueFlag,
+    info.DayOfWeekWedFlag,
+    info.DayOfWeekThuFlag,
+    info.DayOfWeekFriFlag,
+    info.DayOfWeekSatFlag,
+    info.DayOfWeekSunFlag,
+    info.TargetStoreType,
+    detail.Sku
+    FROM  RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+	with (index(IX_MST_PRICE_MM_DETAIL_1))
+    INNER LOOP JOIN RESMaster.dbo.MST_PRICE_MM_INFO info
+        ON  detail.CompanyId = info.CompanyId
+        AND detail.MMNo = info.MMNo
+        AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+        AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
+        AND info.DeleteFlag = 0.0
+        AND info.DropFlag = 0.0
+    WHERE
+        detail.CompanyId =  @companyId
+        AND detail.Sku = @mdInternal
+        AND detail.DeleteFlag = 0.0
+        AND detail.DropFlag = 0.0
+
+UNION
+
+SELECT
+    info.CompanyId,
+    info.Note,
+    info.DiscountClass,
+    info.ConditionCount1,
+    info.ConditionPrice1,
+    info.DecisionPrice1 ,
+    info.AveragePrice1  ,
+    info.ConditionRate1,
+    info.DecisionRate1,
+    info.ConditionCount2,
+    info.ConditionPrice2,
+    info.DecisionPrice2 ,
+    info.AveragePrice2  ,
+    info.ConditionRate2,
+    info.DecisionRate2,
+    info.ConditionCount3,
+    info.ConditionPrice3,
+    info.DecisionPrice3,
+    info.AveragePrice3,
+    info.ConditionRate3,
+    info.DecisionRate3,
+    info.MMNo,
+    info.SubNum1,
+    info.MMDisplayNo,
+    info.StartDate,
+    info.EndDate,
+    info.StartTime,
+    info.EndTime,
+    info.SaleStartTime,
+    info.SaleEndTime,
+    info.DayOfWeekSettingFlag,
+    info.DayOfWeekMonFlag,
+    info.DayOfWeekTueFlag,
+    info.DayOfWeekWedFlag,
+    info.DayOfWeekThuFlag,
+    info.DayOfWeekFriFlag,
+    info.DayOfWeekSatFlag,
+    info.DayOfWeekSunFlag,
+    info.TargetStoreType,
+    detail.Sku
+    FROM  RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+	with (index(IX_MST_PRICE_MM_DETAIL_1))
+    INNER LOOP JOIN RESMaster.dbo.MST_PRICE_MM_INFO info
+        ON  detail.CompanyId = info.CompanyId
+        AND detail.MMNo = info.MMNo
+        AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+        AND info.TargetStoreType = '1'
+        AND info.DeleteFlag = 0.0
+        AND info.DropFlag = 0.0
+    INNER JOIN RESMaster.dbo.MST_PRICE_MM_STORE store
+        ON  detail.CompanyId = store.CompanyId
+        AND detail.MMNo = store.MMNo
+        AND store.StoreId = @storeId
+        AND store.DeleteFlag = 0.0
+    WHERE
+        detail.CompanyId =  @companyId
+        AND detail.Sku = @mdInternal
+        AND detail.DeleteFlag = 0.0
+        AND detail.DropFlag = 0.0
+
+UNION
+
+SELECT
+    info.CompanyId,
+    info.Note,
+    info.DiscountClass,
+    info.ConditionCount1,
+    info.ConditionPrice1,
+    info.DecisionPrice1 ,
+    info.AveragePrice1  ,
+    info.ConditionRate1,
+    info.DecisionRate1,
+    info.ConditionCount2,
+    info.ConditionPrice2,
+    info.DecisionPrice2 ,
+    info.AveragePrice2  ,
+    info.ConditionRate2,
+    info.DecisionRate2,
+    info.ConditionCount3,
+    info.ConditionPrice3,
+    info.DecisionPrice3,
+    info.AveragePrice3,
+    info.ConditionRate3,
+    info.DecisionRate3,
+    info.MMNo,
+    info.SubNum1,
+    info.MMDisplayNo,
+    info.StartDate,
+    info.EndDate,
+    info.StartTime,
+    info.EndTime,
+    info.SaleStartTime,
+    info.SaleEndTime,
+    info.DayOfWeekSettingFlag,
+    info.DayOfWeekMonFlag,
+    info.DayOfWeekTueFlag,
+    info.DayOfWeekWedFlag,
+    info.DayOfWeekThuFlag,
+    info.DayOfWeekFriFlag,
+    info.DayOfWeekSatFlag,
+    info.DayOfWeekSunFlag,
+    info.TargetStoreType,
+    detail.Sku
+    FROM  RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+	with (index(IX_MST_PRICE_MM_DETAIL_1))
+    INNER LOOP JOIN RESMaster.dbo.MST_PRICE_MM_INFO info
+        ON  detail.CompanyId = info.CompanyId
+        AND detail.MMNo = info.MMNo
+        AND (@businessDate) BETWEEN REPLACE(CAST(info.StartDate AS VARCHAR(10)),'-','') + info.StartTime + '00' AND REPLACE(CAST(info.EndDate AS VARCHAR(10)),'-','') + info.EndTime + '59'
+        AND info.TargetStoreType = '3'
+		AND info.BizCatId = @BizCatId
+        AND info.DeleteFlag = 0.0
+        AND info.DropFlag = 0.0
+    INNER JOIN RESMaster.dbo.MST_PRICE_MM_STORE store
+        ON  detail.CompanyId = store.CompanyId
+        AND detail.MMNo = store.MMNo
+        AND store.StoreId = @storeId
+        AND store.DeleteFlag = 0.0
+    WHERE
+        detail.CompanyId =  @companyId
+        AND detail.Sku = @mdInternal
+        AND detail.DeleteFlag = 0.0
+        AND detail.DropFlag = 0.0
+        ORDER BY info.MMNo ASC
+</entry>
+
+<!-- lilx 20191205 update end -->
 
 <entry key="get-coupon-info">
 DECLARE    @storeId VARCHAR(10) ,
@@ -1672,10 +2601,17 @@ ORDER BY Dpt
 <entry key="get-tenderinfo-alltype">
         DECLARE
         @companyId VARCHAR (12),
-        @storeId VARCHAR (10)
+        @storeId VARCHAR (10),
+        @SubCode2 VARCHAR(20)
 
         SET @storeId = LTRIM(RTRIM(?))
         SET @companyId = LTRIM(RTRIM(?))
+
+        SELECT
+    	@SubCode2 = BizCatId
+		FROM RESMaster.dbo.MST_STOREINFO
+		WHERE CompanyId = @companyId
+    	AND StoreId = @storeId
 
         IF NOT EXISTS (
             SELECT TOP 1
@@ -1703,6 +2639,7 @@ ORDER BY Dpt
             UnitPrice,
             SubCode1,
             SubCode2,
+            SubCode3,
             SubNum1,
             SubNum2,
             SubNum3,
@@ -1712,7 +2649,9 @@ ORDER BY Dpt
         WHERE
             DeleteFlag = 0.0 AND
             StoreId = @storeId AND
-            CompanyId = @companyId
+            CompanyId = @companyId AND
+			SubCode1 != '3' OR SubCode1 IS NULL OR
+			(SubCode1 = '3' AND SubCode2 = @SubCode2 )
         ORDER BY
             DisplayOrder,
             cast(TenderType as int)
@@ -2002,7 +2941,107 @@ ORDER BY
        ,@resUiConfig
       );
 </entry>
+<entry key="update-software-version-time">
+    DECLARE
+      @companyId varchar(12)
+     ,@storeId varchar(6)
+     ,@terminalId varchar(6)
+     ,@verTablet varchar(50)
+     ,@verTransaction varchar(50)
+     ,@verBatch varchar(50)
+     ,@misc1 varchar(50)
+     ,@misc2 varchar(50)
+     ,@misc3 varchar(50)
+     ,@misc4 varchar(50)
+     ,@misc5 varchar(50)
 
+  set @companyId=?
+    set @storeId=?
+    set @terminalId=?
+    set @verTablet=?
+    set @verTransaction=?
+    set @verBatch=?
+    set @misc1=?
+    set @misc2=?
+    set @misc3=?
+    set @misc4=?
+    set @misc5=?
+
+    IF EXISTS (select Container from RESTransaction.dbo.TXU_SOFTWARE_VERSION
+               where StoreId=@storeId and TerminalId=@terminalId and CompanyId=@companyId)
+      UPDATE RESTransaction.dbo.TXU_SOFTWARE_VERSION
+       SET
+       CompanyId = @companyId
+       ,StoreId = @storeId
+       ,TerminalId = @terminalId
+       ,RESTabletUI = (CASE
+            WHEN (@verTablet IS NOT NULL AND @verTablet &lt;&gt; '')
+            THEN @verTablet
+            ELSE RESTabletUI
+        END)
+       ,RESTransaction = (CASE
+            WHEN (@verTransaction IS NOT NULL AND @verTransaction &lt;&gt; '')
+            THEN @verTransaction
+            ELSE RESTransaction
+        END)
+       ,RESUiConfig = (CASE
+            WHEN (@verBatch IS NOT NULL AND @verBatch &lt;&gt; '')
+            THEN @verBatch
+            ELSE RESUiConfig
+        END)
+       ,Misc1 = (CASE
+            WHEN (@misc1 IS NOT NULL AND @misc1 &lt;&gt; '')
+            THEN @misc1
+            ELSE Misc1
+        END)
+       ,Misc2 = (CASE
+            WHEN (@misc2 IS NOT NULL AND @misc2 &lt;&gt; '')
+            THEN @misc2
+            ELSE Misc2
+        END)
+       ,Misc3 = (CASE
+            WHEN (@misc3 IS NOT NULL AND @misc3 &lt;&gt; '')
+            THEN @misc3
+            ELSE Misc3
+        END)
+       ,Misc4 = (CASE
+            WHEN (@misc4 IS NOT NULL AND @misc4 &lt;&gt; '')
+            THEN @misc4
+            ELSE Misc4
+        END)
+       ,Misc5 = (CASE
+            WHEN (@misc5 IS NOT NULL AND @misc5 &lt;&gt; '')
+            THEN @misc5
+            ELSE Misc5
+        END)
+      WHERE StoreId=@storeId and TerminalId=@terminalId and CompanyId=@companyId
+    ELSE
+      INSERT INTO RESTransaction.dbo.TXU_SOFTWARE_VERSION(
+        CompanyId
+       ,StoreId
+       ,TerminalId
+       ,RESTabletUI
+       ,RESTransaction
+       ,RESUiConfig
+       ,Misc1
+       ,Misc2
+       ,Misc3
+       ,Misc4
+       ,Misc5
+      ) VALUES (
+        @companyId
+       ,@storeId
+       ,@terminalId
+       ,@verTablet
+       ,@verTransaction
+       ,@verBatch
+       ,@misc1
+       ,@misc2
+       ,@misc3
+       ,@misc4
+       ,@misc5
+      );
+</entry>
 <entry key="get-poslog-xml-txtype">
         SELECT
           TxType
@@ -9547,11 +10586,19 @@ insert into RESTransaction.dbo.TXL_offline_credit
   DECLARE
   @companyId varchar(12),
   @storeId varchar(10),
-  @businessDate date
+  @businessDate date,
+  @SubCode1 VARCHAR(20)
 
   SET @companyId = ?
   SET @storeId = ?
   SET @businessDate = ?
+
+   SELECT
+    @SubCode1 = BizCatId
+	FROM RESMaster.dbo.MST_STOREINFO
+	WHERE CompanyId = @companyId
+    AND StoreId = @storeId
+
 
   SELECT
     base.PointType,
@@ -9656,7 +10703,8 @@ insert into RESTransaction.dbo.TXL_offline_credit
     base.DeleteFlag = 0.0
     AND
     ((base.TargetStoreType = '1' AND store.StoreId = @storeId)
-    OR base.TargetStoreType = '0' OR base.TargetStoreType = '2')
+    OR base.TargetStoreType = '0' OR base.TargetStoreType = '2'
+	OR (base.TargetStoreType = '3' AND base.SubCode1 = @SubCode1) )
 </entry>
 
 <entry key="get-point-tran-rate">
@@ -10177,25 +11225,23 @@ SELECT Dpt
 
 <entry key="count-unsend-poslog">
 DECLARE
-    @companyId varchar(12), @businessDayDate DATE, @retailStoreId varchar(6), @status char(1)
+    @companyId varchar(12), @businessDayDate DATE, @retailStoreId varchar(6)
 
 SET @companyId = ?
 SET @retailStoreId = ?
 SET @businessDayDate = ?
-SET @status = CAST('0' AS char(1))
 SELECT
     COUNT(*) as UnsendCount
 FROM
     RESTransaction.dbo.TXL_SALES_JOURNAL
 WHERE
-  BusinessDayDate = @businessDayDate
-  AND
   CompanyId = @companyId
   AND
   RetailStoreId = @retailStoreId
   AND
-  %s =  @status;
-
+  BusinessDayDate = @businessDayDate
+  AND
+	%s = 0;
 </entry>
 <entry key="count-failed-poslog">
 DECLARE
@@ -10213,7 +11259,7 @@ WHERE
   AND
   RetailStoreId = @retailStoreId
   AND
-  (DATEDIFF(day,BusinessDayDate,@businessDayDate) &lt;= 1)
+  BusinessDayDate = @businessDayDate
   AND
   %s = 2;
 </entry>
@@ -10256,7 +11302,7 @@ WHERE
   AND
   RetailStoreId = @retailStoreId
   AND
-  (DATEDIFF(day,BusinessDayDate,@businessDayDate) &lt;= 1)
+  BusinessDayDate = @businessDayDate
   AND
   %s = 2;
 </entry>
@@ -10498,6 +11544,29 @@ ORDER BY  DisplayOrder, cast(tender.TenderType AS int)
    AND empinfo.SecLevel2 = 1
 ORDER BY empinfo.EmpCode;
 </entry>
+<entry key="set-boot-date-time">
+  DECLARE
+  @companyId varchar(12),
+  @storeId varchar(10),
+  @workstationid varchar(6),
+  @bootdatetime datetime
+
+  set @companyId = ?
+  set @storeId = ?
+  set @workstationid = ?
+  set @bootdatetime = ?
+  INSERT INTO RESTransaction.dbo.TXL_TERMINAL_BOOT_HISTORY(
+      CompanyId,
+      RetailStoreId,
+      WorkstationId,
+      BootDateTime
+  ) VALUES(
+      @companyId,
+      @storeId,
+      @workstationid,
+      @bootdatetime
+  );
+</entry>
 
 <entry key="update-bussiness-date">
     DECLARE
@@ -10674,6 +11743,368 @@ ORDER BY empinfo.EmpCode;
       ,@Tag)
 </entry>
 
+<entry key="save-forward-poslog-include-Terminalid">
+    DECLARE
+      @CompanyId varchar(12),
+      @RetailStoreId varchar(MAX),
+      @WorkstationId varchar(MAX),
+      @SequenceNumber varchar(MAX),
+      @Queue varchar(MAX),
+      @BusinessDayDate varchar(MAX),
+      @TrainingFlag NUMERIC(1,0),
+      @BusinessDateTime varchar(MAX),
+      @OperatorId varchar(MAX),
+      @SalesTotalAmt NUMERIC(15,0),
+      @SalesTotalQty NUMERIC(15,0),
+      @PosTermId varchar(MAX),
+      @Status varchar(MAX),
+      @Tx varchar(MAX),
+      @LayawayFlag NUMERIC(1,0),
+      @TxType varchar(50),
+      @CashierId varchar(50)
+
+    SET @CompanyId = ?
+    SET @RetailStoreId = ?
+    SET @WorkstationId = ?
+    SET @SequenceNumber = ?
+    SET @Queue = ?
+    SET @BusinessDayDate = ?
+    SET @TrainingFlag = ?
+    SET @BusinessDateTime = ?
+    SET @OperatorId = ?
+    SET @SalesTotalAmt = ?
+    SET @PosTermId = ?
+    SET @Status = ?
+    SET @Tx = ?
+    SET @LayawayFlag = ?
+    SET @TxType = ?
+    SET @SalesTotalQty = ?
+    SET @CashierId = ?
+      INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
+      (CompanyId
+      ,RetailStoreId
+      ,WorkstationId
+      ,SequenceNumber
+      ,Queue
+      ,BusinessDayDate
+      ,TrainingFlag
+      ,BusinessDateTime
+      ,OperatorId
+      ,SalesTotalAmt
+      ,SalesTotalQty
+      ,PosTermId
+      ,Status
+      ,Tx
+      ,LayawayFlag
+      ,TxType
+      ,Ext2)
+      VALUES
+      (@CompanyId
+      ,@RetailStoreId
+      ,@WorkstationId
+      ,@SequenceNumber
+      ,@Queue
+      ,@BusinessDayDate
+      ,@TrainingFlag
+      ,@BusinessDateTime
+      ,@OperatorId
+      ,@SalesTotalAmt
+      ,@SalesTotalQty
+      ,@PosTermId
+      ,@Status
+      ,@Tx
+      ,@LayawayFlag
+      ,@TxType
+      ,@CashierId)
+</entry>
+
+<entry key="get-forward-cashierList">
+     DECLARE
+        @CompanyId varchar(MAX),
+        @RetailStoreId varchar(MAX),
+        @TrainingFlag NUMERIC(1,0),
+        @TerminalId varchar(max)
+
+      SET @CompanyId = ?
+      SET @RetailStoreId = ?
+      SET @TrainingFlag = ?
+      SET @TerminalId = ?
+
+      SELECT
+        device.DeviceName,
+        device.TerminalId,
+        device.SubCode1 As IPAddress,
+		term.TerminalType
+      FROM
+        RESMaster.dbo.MST_DEVICEINFO device
+		INNER JOIN
+        RESMaster.dbo.MST_TERMINALINFO term
+      ON
+        term.CompanyId = @CompanyId AND
+        term.StoreId = @RetailStoreId AND
+        term.TerminalId = device.TerminalId AND
+        (term.TerminalType = 4 OR
+        term.TerminalType = 5) AND
+        term.DeleteFlag = 0.0
+      WHERE
+        device.CompanyId = @CompanyId AND
+        device.StoreId = @RetailStoreId AND
+        (device.SubCode2 = (SELECT
+		    				device.SubCode1
+						FROM
+							RESMaster.dbo.MST_DEVICEINFO device
+						WHERE
+							  device.CompanyId = @CompanyId AND
+							  device.StoreId = @RetailStoreId AND
+							  device.TerminalId = @TerminalId AND
+							  device.Training = @TrainingFlag AND
+							  device.DeleteFlag = 0.0) OR
+        device.SubCode3 = (SELECT
+		    				device.SubCode1
+						FROM
+							RESMaster.dbo.MST_DEVICEINFO device
+						WHERE
+							  device.CompanyId = @CompanyId AND
+							  device.StoreId = @RetailStoreId AND
+							  device.TerminalId = @TerminalId AND
+							  device.Training = @TrainingFlag AND
+							  device.DeleteFlag = 0.0)) AND
+        device.Training = @TrainingFlag AND
+        device.DeleteFlag = 0.0
+      ORDER BY device.DeviceName ASC;
+</entry>
+
+<entry key="get-forward-checkerList">
+	DECLARE
+	    @CompanyId varchar(MAX),
+	    @RetailStoreId varchar(MAX),
+	    @TrainingFlag NUMERIC(1,0),
+	    @TerminalId varchar(max)
+
+	    SET @CompanyId = ?
+	    SET @RetailStoreId = ?
+	    SET @TrainingFlag = ?
+	    SET @TerminalId = ?
+
+	 SELECT
+		 device.SubCode1 as IPAddress,
+		 term.TerminalType,
+		 device.DeviceName,
+	     device.TerminalId
+	 FROM
+	    RESMaster.dbo.MST_DEVICEINFO device
+	 LEFT JOIN RESMaster.dbo.MST_TERMINALINFO term
+	 ON term.CompanyId = device.CompanyId AND
+	    term.StoreId = device.StoreId AND
+		term.TerminalId = device.TerminalId AND
+		term.DeleteFlag = 0
+	 WHERE
+		 device.CompanyId = @CompanyId AND
+		 device.StoreId = @RetailStoreId AND
+		 device.Training = @TrainingFlag AND
+		 device.DeleteFlag = 0 AND
+		 term.TerminalType = 3 AND
+		 (device.SubCode1 = (SELECT
+		    				device.SubCode2
+						FROM
+							RESMaster.dbo.MST_DEVICEINFO device
+						WHERE
+							  device.CompanyId = @CompanyId AND
+							  device.StoreId = @RetailStoreId AND
+							  device.TerminalId = @TerminalId AND
+							  device.Training = @TrainingFlag AND
+							  device.DeleteFlag = 0.0) OR
+		  device.SubCode1 = (SELECT
+		    					device.SubCode3
+							FROM
+								RESMaster.dbo.MST_DEVICEINFO device
+							WHERE
+								  device.CompanyId = @CompanyId AND
+								  device.StoreId = @RetailStoreId AND
+								  device.TerminalId = @TerminalId AND
+								  device.Training = @TrainingFlag AND
+								  device.DeleteFlag = 0.0))
+</entry>
+
+<entry key="get-forward-unprocessedList">
+    DECLARE
+        @CompanyId VARCHAR (12),
+        @RetailStoreId VARCHAR (MAX),
+		@Terminalid VARCHAR (MAX),
+        @TrainingFlag VARCHAR (MAX),
+        @LayawayFlag VARCHAR (MAX),
+        @Queue VARCHAR (MAX),
+        @TxType VARCHAR (50),
+        @BusinessDayDate VARCHAR (MAX)
+
+    SET @CompanyId = ?
+    SET @RetailStoreId = ?
+	SET @Terminalid = ?
+    SET @TrainingFlag = ?
+    SET @LayawayFlag = ?
+    SET @Queue = ?
+    SET @TxType = ?
+    SET @BusinessDayDate = ?
+
+    SELECT
+        A.CompanyId,
+        A.RetailStoreId,
+        A.WorkstationId,
+        A.SequenceNumber,
+        A.Queue,
+        A.BusinessDayDate,
+        A.TrainingFlag,
+        A.BusinessDateTime,
+        A.OperatorId,
+        ISNULL(B.OpeName, B.OpeKanaName) AS OperatorName,
+        A.SalesTotalAmt,
+        A.SalesTotalQty,
+        A.Status,
+        A.Ext1
+    FROM
+        RESTransaction.dbo.TXL_FORWARD_ITEM A
+    LEFT JOIN RESMaster.dbo.MST_EMPINFO B ON A.CompanyId = B.CompanyId
+    AND A.OperatorId = B.EmpCode
+    WHERE
+        A.CompanyId = @CompanyId
+    AND A.RetailStoreId = @RetailStoreId
+    AND A.Queue = @Queue
+    AND A.TrainingFlag = @TrainingFlag
+    AND (A.Status = 0
+	OR A.Status = 4)
+    AND A.LayawayFlag = @LayawayFlag
+    AND A.TxType = ISNULL(@Txtype,A.TxType)
+    AND A.BusinessDayDate = @BusinessDayDate
+	AND A.Ext2 = @Terminalid
+    ORDER BY A.BusinessDayDate ASC, A.SequenceNumber ASC
+</entry>
+
+<entry key="get-forward-resumeVoidList">
+      DECLARE
+        @CompanyId varchar(12),
+        @RetailStoreId varchar(10),
+        @WorkstationId varchar(6),
+        @TrainingFlag NUMERIC(1,0)
+
+      SET @CompanyId = ?
+      SET @RetailStoreId = ?
+      SET @WorkstationId = ?
+      SET @TrainingFlag = ?
+
+      SELECT
+        forward.CompanyId,
+        forward.RetailStoreId,
+        forward.WorkstationId,
+        forward.Queue,
+        forward.TrainingFlag,
+        forward.BusinessDayDate,
+        forward.Status,
+        forward.SequenceNumber,
+        forward.BusinessDateTime,
+        forward.OperatorId,
+        forward.SalesTotalAmt,
+        forward.SalesTotalQty,
+        forward.Ext2,
+        device.DeviceName
+      FROM
+        RESTransaction.dbo.TXL_FORWARD_ITEM forward
+      LEFT JOIN RESMaster.dbo.MST_DEVICEINFO device
+      ON device.CompanyId = @CompanyId AND
+        device.StoreId = @RetailStoreId AND
+        device.TerminalId = forward.Ext2 AND
+        device.Training = @TrainingFlag AND
+        device.DeleteFlag = 0
+      WHERE
+        forward.CompanyId = @CompanyId
+        AND forward.RetailStoreId = @RetailStoreId
+        AND forward.WorkstationId = @WorkstationId
+        AND forward.TrainingFlag = @TrainingFlag
+        AND forward.Status = 4
+      ORDER BY forward.BusinessDateTime ASC;
+</entry>
+
+<entry key="get-forward-countwithcashier">
+      DECLARE
+        @CompanyId varchar(12),
+        @RetailStoreId varchar(10),
+        @CashierId varchar(MAX),
+        @TrainingFlag NUMERIC(1,0)
+
+      SET @CompanyId = ?
+      SET @RetailStoreId = ?
+      SET @CashierId = ?
+      SET @TrainingFlag = ?
+
+      SELECT
+        COUNT(*) AS Count
+      FROM
+        RESTransaction.dbo.TXL_FORWARD_ITEM
+      WHERE
+        CompanyId = @CompanyId
+        AND RetailStoreId = @RetailStoreId
+        AND Ext2 = @CashierId
+        AND TrainingFlag = @TrainingFlag
+        AND Status = 0
+</entry>
+
+<entry key="get-forward-items-posLog-with-Terminalid">
+    DECLARE
+      @CompanyId varchar(12),
+      @RetailStoreId varchar(MAX),
+      @Queue VARCHAR(MAX),
+      @BusinessDayDate VARCHAR(MAX),
+      @cashierId VARCHAR(MAX),
+      @trainingFlag NUMERIC(1,0)
+
+    SET @CompanyId = ?
+    SET @RetailStoreId = ?
+    SET @Queue = ?
+    SET @BusinessDayDate = ?
+    SET @cashierId = ?
+    SET @trainingFlag = ?
+
+    SELECT TOP 1
+      Status,
+      Tx
+    FROM RESTransaction.dbo.TXL_FORWARD_ITEM
+    WHERE CompanyId = @CompanyId
+      AND RetailStoreId = @RetailStoreId
+      AND Queue = @Queue
+      AND BusinessDayDate = @BusinessDayDate
+      AND Ext2 = @cashierId
+      AND Status = 0
+      AND TrainingFlag = @trainingFlag
+    ORDER BY TXL_FORWARD_ITEM.BusinessDateTime ASC;
+</entry>
+
+<entry key="get-forward-items-max-count">
+    DECLARE
+      @CompanyId varchar(12),
+      @RetailStoreId varchar(MAX),
+      @Queue VARCHAR(MAX),
+      @BusinessDayDate VARCHAR(MAX),
+      @cashierId VARCHAR(MAX),
+      @trainingFlag NUMERIC(1,0)
+
+    SET @CompanyId = ?
+    SET @RetailStoreId = ?
+    SET @Queue = ?
+    SET @BusinessDayDate = ?
+    SET @cashierId = ?
+    SET @trainingFlag = ?
+
+    SELECT
+      COUNT(*) AS MaxCount
+    FROM RESTransaction.dbo.TXL_FORWARD_ITEM
+    WHERE CompanyId = @CompanyId
+      AND RetailStoreId = @RetailStoreId
+      AND Queue = @Queue
+      AND BusinessDayDate = @BusinessDayDate
+      AND Ext2 = @cashierId
+      AND (Status = 0 or Status = 1)
+      AND TrainingFlag = @trainingFlag
+</entry>
+
 <entry key="get-columnname">
     SELECT value
     FROM [RESMaster].[dbo].[PRM_SYSTEM_CONFIG]
@@ -10731,9 +12162,235 @@ ORDER BY empinfo.EmpCode;
          ,SubNum2
   FROM [RESMaster].[dbo].[MST_TAXRATE]
   WHERE CONVERT(DATE, @businessDate) BETWEEN StartDate AND EndDate
+	</entry>
+
+<entry key="get-self-mode-status">
+  DECLARE @companyId VARCHAR(12)
+  DECLARE @retailStoreId VARCHAR(10)
+  DECLARE @workstationId VARCHAR(6)
+  SET @companyId = LTRIM(RTRIM(?))
+  SET @retailStoreId = LTRIM(RTRIM(?))
+  SET @workstationId = LTRIM(RTRIM(?))
+  SELECT
+    CompanyId,
+    RetailStoreId,
+    WorkstationId,
+    Status,
+    Message,
+    Alert,
+    UpdateDateTime,
+    Total,
+    ItemCount
+  FROM [RESTransaction].[dbo].[TXL_SELFMODE_STATE]
+  WHERE
+    ((@companyId IS NULL OR LEN(@companyId) = 0) OR (CompanyId = @companyId )) AND
+    ((@retailStoreId IS NULL OR LEN(@retailStoreId) = 0) OR (RetailStoreId = @retailStoreId )) AND
+    ((@workstationId IS NULL OR LEN(@workstationId) = 0) OR (WorkstationId = @workstationId ))
+  group by CompanyId, RetailStoreId, WorkstationId
+  </entry>
+
+<entry key="update-self-mode-status">
+DECLARE @companyId varchar(12),
+    @retailStoreId varchar(10),
+    @workstationId varchar(6),
+    @training int,
+    @status int,
+    @detail int,
+    @printer int,
+    @cashChanger int,
+    @cashChangerCount varchar(max),
+    @cashChangerCountStatus varchar(max),
+    @message varchar(max),
+    @alert int,
+    @updateDateTime DateTime,
+    @total varchar(15),
+    @itemCount varchar(12)
+SET @companyId = LTRIM(RTRIM(?))
+SET @retailStoreId = LTRIM(RTRIM(?))
+SET @workstationId = LTRIM(RTRIM(?))
+SET @training = LTRIM(RTRIM(?))
+SET @status = LTRIM(RTRIM(?))
+SET @detail = LTRIM(RTRIM(?))
+SET @printer = LTRIM(RTRIM(?))
+SET @cashChanger = LTRIM(RTRIM(?))
+SET @cashChangerCount = LTRIM(RTRIM(?))
+SET @cashChangerCountStatus = LTRIM(RTRIM(?))
+SET @message = LTRIM(RTRIM(?))
+SET @alert = LTRIM(RTRIM(?))
+SET @updateDateTime = LTRIM(RTRIM(?))
+SET @total = LTRIM(RTRIM(?))
+SET @itemCount = LTRIM(RTRIM(?))
+
+IF NOT EXISTS (
+  SELECT
+    CompanyId
+  FROM RESTransaction.dbo.TXL_SELFMODE_STATE
+--  WHERE
+--    CompanyId= @companyId
+--    AND
+--    RetailStoreId = @retailStoreId
+--    AND
+--    WorkstationId = @workstationId
+)
+  INSERT INTO RESTransaction.dbo.TXL_SELFMODE_STATE(
+    CompanyId,
+    RetailStoreId,
+    WorkstationId,
+    Training,
+    Status,
+    Detail,
+    Printer,
+    CashChanger,
+    CashChangerCount,
+    CashChangerCountStatus,
+    Message,
+    Alert,
+    UpdateDateTime,
+    Total,
+    ItemCount)
+  VALUES(
+    @companyId,
+    @retailStoreId,
+    @workstationId,
+    @training,
+    @status,
+    @detail,
+    @printer,
+    @cashChanger,
+    @cashChangerCount,
+    @cashChangerCountStatus,
+    @message,
+    @alert,
+    @updateDateTime,
+    @total,
+    @itemCount
+  );
+ELSE
+  UPDATE RESTransaction.dbo.TXL_SELFMODE_STATE
+  SET
+    CompanyId = @companyId,
+    RetailStoreId = @retailStoreId,
+    WorkstationId = @workstationId,
+    Training = @training,
+    Status = @status,
+    Detail = @detail,
+    Printer = @printer,
+    CashChanger = @cashChanger,
+    CashChangerCount = @cashChangerCount,
+    CashChangerCountStatus = @cashChangerCountStatus,
+    Message = @message,
+    Alert = @alert,
+    UpdateDateTime = @updateDateTime,
+    Total = @total,
+    ItemCount = @itemCount
+--  WHERE
+--    CompanyId= @companyId
+--    AND
+--    RetailStoreId = @retailStoreId
+--    AND
+--    WorkstationId = @workstationId
+</entry>
+<entry key="update-self-mode-status-history">
+DECLARE @companyId varchar(12),
+    @retailStoreId varchar(10),
+    @workstationId varchar(6),
+    @training int,
+    @status int,
+    @detail int,
+    @printer int,
+    @cashChanger int,
+    @cashChangerCount varchar(max),
+    @cashChangerCountStatus varchar(max),
+    @message varchar(max),
+    @alert int,
+    @updateDateTime DateTime,
+    @total varchar(15),
+    @itemCount varchar(12)
+SET @companyId = LTRIM(RTRIM(?))
+SET @retailStoreId = LTRIM(RTRIM(?))
+SET @workstationId = LTRIM(RTRIM(?))
+SET @training = LTRIM(RTRIM(?))
+SET @status = LTRIM(RTRIM(?))
+SET @detail = LTRIM(RTRIM(?))
+SET @printer = LTRIM(RTRIM(?))
+SET @cashChanger = LTRIM(RTRIM(?))
+SET @cashChangerCount = LTRIM(RTRIM(?))
+SET @cashChangerCountStatus = LTRIM(RTRIM(?))
+SET @message = LTRIM(RTRIM(?))
+SET @alert = LTRIM(RTRIM(?))
+SET @updateDateTime = LTRIM(RTRIM(?))
+SET @total = LTRIM(RTRIM(?))
+SET @itemCount = LTRIM(RTRIM(?))
+
+INSERT INTO RESTransaction.dbo.TXL_SELFMODE_STATE_HISTORY
+(
+  CompanyId,
+  RetailStoreId,
+  WorkstationId,
+  Training,
+  Status,
+  Detail,
+  Printer,
+  CashChanger,
+  CashChangerCount,
+  CashChangerCountStatus,
+  Message,
+  Alert,
+  UpdateDateTime,
+  Total,
+  ItemCount
+)
+VALUES
+(
+  @companyId,
+  @retailStoreId,
+  @workstationId,
+  @training,
+  @status,
+  @detail,
+  @printer,
+  @cashChanger,
+  @cashChangerCount,
+  @cashChangerCountStatus,
+  @message,
+  @alert,
+  @updateDateTime,
+  @total,
+  @itemCount
+);
+</entry>
+<entry key="get-self-mode-status">
+  DECLARE @companyId VARCHAR(12),
+     @retailStoreId VARCHAR(10),
+     @workstationId VARCHAR(6)
+  SET @companyId = LTRIM(RTRIM(?))
+  SET @retailStoreId = LTRIM(RTRIM(?))
+  SET @workstationId = LTRIM(RTRIM(?))
+  SELECT
+    CompanyId,
+    RetailStoreId,
+    WorkstationId,
+    Training,
+    Status,
+    Detail,
+    Printer,
+    CashChanger,
+    CashChangerCount,
+    CashChangerCountStatus,
+    Message,
+    Alert,
+    UpdateDateTime,
+    Total,
+    ItemCount
+  FROM RESTransaction.dbo.TXL_SELFMODE_STATE
+  WHERE
+    ((@companyId IS NULL OR LEN(@companyId) = 0) OR (CompanyId = @companyId )) AND
+    ((@retailStoreId IS NULL OR LEN(@retailStoreId) = 0) OR (RetailStoreId = @retailStoreId )) AND
+    ((@workstationId IS NULL OR LEN(@workstationId) = 0) OR (WorkstationId = @workstationId ))
 </entry>
 
-<entry key="get-dptinfo-subnum5">
+
+    <entry key="get-dptinfo-subnum5">
     DECLARE @storeId VARCHAR(10),@companyId VARCHAR(12),@dpt VARCHAR(20)
     SET @companyId = LTRIM(RTRIM(?))
     SET @storeId = LTRIM(RTRIM(?))
@@ -11004,6 +12661,73 @@ ELSE
     ((@companyId IS NULL OR LEN(@companyId) = 0) OR (CompanyId = @companyId )) AND
     ((@retailStoreId IS NULL OR LEN(@retailStoreId) = 0) OR (RetailStoreId = @retailStoreId )) AND
     ((@workstationId IS NULL OR LEN(@workstationId) = 0) OR (WorkstationId = @workstationId ))
+</entry>
+
+<entry key="get-dispensing-credit-code">
+	DECLARE @companyId varchar(12),
+			@retailStoreId varchar(10)
+	SET @companyId=LTRIM(RTRIM(?))
+	SET @retailStoreId=LTRIM(RTRIM(?))
+
+	IF NOT EXISTS (
+	  SELECT
+		*
+	  FROM
+		[RESMaster].[dbo].[MST_CASHFLOW_REMARKS]
+	  WHERE
+        CompanyId=@companyId
+		AND StoreId=@retailStoreId
+		AND DeleteFlag = 0.0
+	)
+	SET @retailStoreId = '0'
+
+	SELECT CashFlowType,RemarksCol
+	FROM
+		[RESMaster].[dbo].[MST_CASHFLOW_REMARKS]
+	WHERE
+		CompanyId=@companyId
+		AND StoreId=@retailStoreId
+		AND DeleteFlag = 0.0
+</entry>
+
+<!-- lilx 20191128 緊急売変マスタ -->
+<entry key="get-price-urgent-info">
+	DECLARE
+      @CompanyId varchar(MAX),
+      @StoreId varchar(MAX),
+	  @MdInternal VARCHAR(32)
+
+    SET @CompanyId       = LTRIM(RTRIM(?))
+	SET @StoreId         = LTRIM(RTRIM(?))
+	SET @MdInternal   	 = LTRIM(RTRIM(?))
+
+	  SELECT
+        _PLU.CompanyId,
+        _PLU.StoreId,
+        _PLU.MdInternal,
+        _PLU.Dpt,
+        _PLU.Line,
+        _PLU.Class,
+        _PLU.Sku,
+        _PLU.UrgentPrice,
+        _PLU.DeleteFlag,
+        _PLU.DelDate,
+        _PLU.DelAppId,
+        _PLU.DelOpeCode,
+        _PLU.InsDate,
+        _PLU.InsAppId,
+        _PLU.InsOpeCode,
+        _PLU.UpdDate,
+        _PLU.UpdAppId,
+        _PLU.UpdOpeCode
+    FROM
+        RESMaster.dbo.MST_PLU_URGENT _PLU
+    WHERE
+    	_PLU.CompanyId  = @CompanyId
+    AND _PLU.StoreId 	= @StoreId
+	AND _PLU.MdInternal = @MdInternal
+	AND _PLU.DeleteFlag = 0.0
+	ORDER BY _PLU.UpdDate DESC
 </entry>
 
 <!-- ********** SQL statements for MasterSync begin **********  -->

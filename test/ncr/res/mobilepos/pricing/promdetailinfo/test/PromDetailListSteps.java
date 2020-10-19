@@ -73,7 +73,7 @@ public class PromDetailListSteps extends Steps {
 			String companyId = sys.getCompanyId();
 			String storeId = sys.getStoreId();
 
-			PricePromInfoFactory.initialize(companyId,storeId);
+			PricePromInfoFactory.initialize(companyId,storeId, null, null, null, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -245,6 +245,7 @@ public final class SaleItemsHandler {
             saleRes.setPriceOverride(0 < saleIn.getActualSalesUnitPrice() && saleRes.getDiscountable()
                     && saleIn.getActualSalesUnitPrice() != saleRes.getActualSalesUnitPrice());
         }
+        saleRes.setAgeRestrictedFlag(item.getAgeRestrictedFlag());
         saleRes.setCouponFlag(item.getCouponFlag());
         saleRes.setTaxTypeSource(item.getTaxTypeSource());
         saleRes.setDiscountTypeSource(item.getDiscountTypeSource());
@@ -263,44 +264,32 @@ public final class SaleItemsHandler {
         saleRes.setLineTaxType(item.getLineTaxType());
         saleRes.setLineDiscountType(item.getLineDiscountType());
         saleRes.setPluTaxType(item.getPluTaxType());
-        // FDMM add start by mt185204 2020-07-15
+        saleRes.setRecallFlag(item.getRecallFlag());
         saleRes.setPharmaceuticalFlag(item.getPharmaceuticalFlag());
-        // FDMM add end by mt185204 2020-07-15
-        // FDMM add start RESD-3824 2020-08-18
-        saleRes.setAgeRestrictedFlag(item.getAgeRestrictedFlag());
+        saleRes.setCountLimitFlag(item.getCountLimitFlag());
+        saleRes.setCountLimit(item.getCountLimit());
+        saleRes.setCertificatePrintFlag(item.getCertificatePrintFlag());
+        saleRes.setSelfFlag(item.getSelfFlag());
+        saleRes.setDrugType(item.getDrugType());
+        saleRes.setTransferWriteType(item.getTransferWriteType());
+        saleRes.setDrugActType(item.getDrugActType());
+        saleRes.setTransferActType(item.getTransferActType());
+        saleRes.setCertificateNo(item.getCertificateNo());
         saleRes.setClsAgeRestrictedFlag(item.getClsAgeRestrictedFlag());
         saleRes.setLineAgeRestrictedFlag(item.getLineAgeRestrictedFlag());
         saleRes.setDptAgeRestrictedFlag(item.getDptAgeRestrictedFlag());
-        // FDMM add end RESD-3824 2020-08-18
-        // FDMM add start RESD-3584 2020-08-19
-        saleRes.setSelfFlag(item.getSelfFlag());
-        saleRes.setSelfMedicationMark(item.getSelfMedicationMark());
-        // FDMM add end RESD-3584 2020-08-19
-        // FDMM add start RESD-3589 2020-09-8
-        saleRes.setRecallFlag(item.getRecallFlag());
         saleRes.setCallInReason(item.getCallInReason());
-        // FDMM add end RESD-3589 2020-09-8
-        // FDMM add start RESD-3595 2020-09-18
-        saleRes.setDrugActType(item.getDrugActType());
-        saleRes.setDrugType(item.getDrugType());
-        // FDMM add end RESD-3595 2020-09-18
-        // FDMM add start RESD-3594 2020-09-22
-        saleRes.setCountLimitFlag(item.getCountLimitFlag());
-        saleRes.setCountLimit(item.getCountLimit());
-        // FDMM add end RESD-3594 2020-09-22
-        // FDMM add start RESD-3601 2020-09-28
-        saleRes.setTransferWriteType(item.getTransferWriteType());
-        saleRes.setTransferActType(item.getTransferActType());
-        // FDMM add end RESD-3601 2020-09-28
-        // FDMM add start RESD-3582 2020-09-30
-        saleRes.setCertificatePrintFlag(item.getCertificatePrintFlag());
-        // FDMM add end RESD-3582 2020-09-30
-        // FDMM add start RESD-4596 2020-10-08
-        saleRes.setSelfSaleRestrictedFlag(item.getSelfSaleRestrictedFlag());
-        // FDMM add end RESD-4596 2020-10-08
-        // FDMM add start RESD-3831 2020-10-12
+        saleRes.setSelfMedicationMark(item.getSelfMedicationMark());
+        saleRes.setComstdName(item.getComstdName());
+        saleRes.setFoodFlag(item.getFoodFlag());
         saleRes.setSaleRestrictedFlag(item.getSaleRestrictedFlag());
-        // FDMM add end RESD-3831 2020-10-12
+        saleRes.setSelfSaleRestrictedFlag(item.getSelfSaleRestrictedFlag());
+        saleRes.setOrderSaleFlag(item.getOrderSaleFlag());
+        saleRes.setBestBeforePeriod(item.getBestBeforePeriod());
+        saleRes.setSalePeriod(item.getSalePeriod());
+        saleRes.setPricePromList(item.getPricePromList());
+        saleRes.setPriceUrgentInfo(item.getPriceUrgentInfo());
+        saleRes.setPriceMMInfoList(item.getPriceMMInfoList());
         return saleRes;
     }
 

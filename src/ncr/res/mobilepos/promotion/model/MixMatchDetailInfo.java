@@ -1,13 +1,15 @@
 package ncr.res.mobilepos.promotion.model;
 
+import java.util.List;
+
+import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 
 public class MixMatchDetailInfo extends RuleEntryInfo implements Comparable<MixMatchDetailInfo> {
-//    private String entryId;
-//    private double price;
-//    private int quantity;
     private String mmNo;
-
-    public MixMatchDetailInfo() {
+    
+    private List<PriceMMInfo> priceMMInfoList;
+    
+	public MixMatchDetailInfo() {
         super();
     }
 
@@ -19,31 +21,17 @@ public class MixMatchDetailInfo extends RuleEntryInfo implements Comparable<MixM
         this.mmNo = mmNo;
     }
 
-//    public String getEntryId() {
-//        return entryId;
-//    }
-//
-//    public void setEntryId(String entryId) {
-//        this.entryId = entryId;
-//    }
-//
-//    public double getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(double price) {
-//        this.price = price;
-//    }
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
 
-    @Override
+
+    public List<PriceMMInfo> getPriceMMInfoList() {
+		return priceMMInfoList;
+	}
+
+	public void setPriceMMInfoList(List<PriceMMInfo> priceMMInfoList) {
+		this.priceMMInfoList = priceMMInfoList;
+	}
+
+	@Override
     public int compareTo(MixMatchDetailInfo o) {
         return new Double(o.getTruePrice()).compareTo(this.getTruePrice());
     }

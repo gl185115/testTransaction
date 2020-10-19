@@ -1,6 +1,9 @@
 package ncr.res.mobilepos.pricing.factory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -35,9 +38,9 @@ public class PricePromInfoFactory {
     public PricePromInfoFactory() {
     }
 
-    public static List<PricePromInfo> initialize(String companyId, String storeId) throws Exception {
+    public static List<PricePromInfo> initialize(String companyId, String storeId, String itemId, String dpt, String line, String classId) throws Exception {
         instance = null;
-        instance = pricePromInfoConstant(companyId, storeId);
+        instance = pricePromInfoConstant(companyId, storeId, itemId, dpt, line, classId);
         return instance;
     }
 
@@ -51,7 +54,7 @@ public class PricePromInfoFactory {
      * @return List<PricePromInfo>
      * @throws Exception
      */
-    private static List<PricePromInfo> pricePromInfoConstant(String companyId, String storeId) throws Exception {
+    private static List<PricePromInfo> pricePromInfoConstant(String companyId, String storeId, String itemId, String dpt, String line, String classId) throws Exception {
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PricePromInfoFactory.class);
         String functionName = "pricePromInfoConstant";
 
@@ -67,11 +70,14 @@ public class PricePromInfoFactory {
                 throw new DaoException("Business date is not set!");
             }
             String bizDay = dateSetting.getToday();
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+    		Calendar cal = Calendar.getInstance();
+    		bizDay = bizDay.replace("-", "") + dateFormat.format(cal.getTime()).substring(8);
 
             PricePromList = new ArrayList<PricePromInfo>();
             DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IPricePromInfoDAO pricePromInfDAO = daoFactory.getPricePromInfoDAO();
-            PricePromList = pricePromInfDAO.getPricePromInfoList(companyId, storeId, bizDay);
+            PricePromList = pricePromInfDAO.getPricePromInfoList(companyId, storeId, bizDay, itemId, dpt, line, classId);
 
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,

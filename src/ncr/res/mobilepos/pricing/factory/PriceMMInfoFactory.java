@@ -1,6 +1,9 @@
 package ncr.res.mobilepos.pricing.factory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -35,9 +38,9 @@ public class PriceMMInfoFactory {
 	public PriceMMInfoFactory() {
 	}
 
-	public static List<PriceMMInfo> initialize(String companyId, String storeId) throws Exception {
+	public static List<PriceMMInfo> initialize(String companyId, String storeId, String mdInternal) throws Exception {
 		instance = null;
-		instance = priceMMInfoConstant(companyId, storeId);
+		instance = priceMMInfoConstant(companyId, storeId, mdInternal);
 		return instance;
 	}
 
@@ -49,10 +52,11 @@ public class PriceMMInfoFactory {
 	 * Get PriceMMInfo Information.
 	 * @param companyId
 	 * @param storeId
+	 * @param mdInternal
 	 * @return List<PriceMMInfo>
 	 * @throws Exception
 	 */
-	private static List<PriceMMInfo> priceMMInfoConstant(String companyId, String storeId) throws Exception {
+	private static List<PriceMMInfo> priceMMInfoConstant(String companyId, String storeId, String mdInternal) throws Exception {
 		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PriceMMInfoFactory.class);
 		String functionName = "priceMMInfoConstant";
 
@@ -72,7 +76,7 @@ public class PriceMMInfoFactory {
 			PriceMMList = new ArrayList<PriceMMInfo>();
 			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 			IPriceMMInfoDAO priceMMInfDAO = daoFactory.getPriceMMInfoDAO();
-			PriceMMList = priceMMInfDAO.getPriceMMInfoList(companyId, storeId, bizDay);
+			PriceMMList = priceMMInfDAO.getPriceMMInfoList(companyId, storeId, bizDay, mdInternal);
 
 		} catch (DaoException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,

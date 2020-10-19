@@ -1,5 +1,7 @@
 package ncr.res.mobilepos.department.model;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,6 +13,7 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 
 /**
  * Class that encapsulates list of departments.
@@ -59,6 +62,9 @@ public class ViewDepartment extends ResultBase {
      */
     @XmlElement(name = "PromotionType")
     private String promotionType;
+    
+    @XmlElement(name = "PricePromList")
+    private List<PricePromInfo> pricePromList; 
 
     /**
      * Gets the list of departments.
@@ -192,8 +198,16 @@ public class ViewDepartment extends ResultBase {
     public final void setPromotionType(final String promotionType) {
         this.promotionType = promotionType;
     }
+    
+    @ApiModelProperty(value="“Á”„", notes="“Á”„")
+    public List<PricePromInfo> getPricePromList() {
+		return pricePromList;
+	}
 
-
+	public void setPricePromList(List<PricePromInfo> pricePromList) {
+		this.pricePromList = pricePromList;
+	}
+	
     @Override
     public final String toString() {
         ObjectMapper mapper = new ObjectMapper();

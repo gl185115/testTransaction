@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Resource auth="Container" name="jdbc/MSSQLSERVER" type="javax.sql.DataSource"
-        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        url="jdbc:sqlserver://localhost:1433;databaseName=RESTransaction;selectMethod=cursor;sendStringParametersAsUnicode=false" username="entsvr" password="ncrsa_ora"
+	<Resource auth="Container" description="Database Connection" name="jdbc/MSSQLSERVER" type="javax.sql.DataSource"
+    driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    url="jdbc:sqlserver://localhost:1433;databaseName=RESTransaction;selectMethod=cursor;sendStringParametersAsUnicode=false" username="entsvr" password="ncrsa_ora"
         maxTotal="50" maxIdle="50" defaultAutoCommit="false" />
-
-    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+        
+	<Realm className="org.apache.catalina.realm.DataSourceRealm"
           userTable="RESMaster.dbo.MST_USER_CREDENTIALS"
           userCredCol="PassCode"
           userNameCol="OperatorNo"
@@ -13,4 +13,14 @@
           dataSourceName="jdbc/MSSQLSERVER"
           roleNameCol="Role"
           localDataSource="true" />
+
+    <Parameter name="AESKeyStorePath" value="D:/apache-tomcat-8.0.24/conf\AES_MasterKey.keystore" override="false"/>
+    <Parameter name="AESKeyStorePass" value="changeit" override="false"/>
+    <Parameter name="AESKeyStoreKeyAlias" value="AESKey" override="false"/>
+    <Parameter name="AESKeyStoreGenDateAlias" value="AESKeyGenDate" override="false"/>
+    <Parameter name="UeIoServerAddress" value="127.0.0.1" override="false"/>
+    <Parameter name="UeIoServerPort" value="1900" override="false"/>
+    <Parameter name="UeLocationCode" value="Store000031" override="false"/>
+    <Parameter name="UeProtocolVersion" value="1.0" override="false"/>
+    <Parameter name="UeProtocolBuild" value="20" override="false"/>
 </Context>

@@ -67,7 +67,7 @@ public class AddItemFromEnterpriseTest {
 			// Mock SQLServerItemDAO to make local db returns with item not found
 			GlobalConstant.setPriceIncludeTaxKey("0");
 			sqlItemDaoMock = PowerMockito.mock(SQLServerItemDAO.class);
-			PowerMockito.when(sqlItemDaoMock.getItemByPLU(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyInt(), Matchers.anyString(), Matchers.anyMap())).thenReturn(null);
+			PowerMockito.when(sqlItemDaoMock.getItemByPLU(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyInt(), Matchers.anyString(), Matchers.anyMap(), Matchers.anyString())).thenReturn(null);
 			
 			// Mock dao calls to proceed
 			PowerMockito.doNothing().when(sqlItemDaoMock).getPremiumitemInfo(Matchers.anyString(), Matchers.any(Item.class), Matchers.anyString(), Matchers.anyString());

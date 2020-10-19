@@ -105,8 +105,8 @@ public class ItemResourceSteps extends Steps {
         }
 
         if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(storeid)) {
-			PricePromInfoFactory.initialize(companyId,storeid);
-			PriceMMInfoFactory.initialize(companyId,storeid);
+			PricePromInfoFactory.initialize(companyId,storeid, null, null, null, null);
+			PriceMMInfoFactory.initialize(companyId,storeid, null);
 		}
 
         actualProduct = itemres.getItemByPLUcode(storeid, pluCode, companyId, businessDay);

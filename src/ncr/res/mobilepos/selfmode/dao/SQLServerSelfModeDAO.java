@@ -93,7 +93,10 @@ public class SQLServerSelfModeDAO extends AbstractDao implements ISelfModeDAO {
 			upadteStmt.setString(SQLStatement.PARAM11, selfMode.getMessage());
 			upadteStmt.setInt(SQLStatement.PARAM12, selfMode.getAlert());
 			upadteStmt.setString(SQLStatement.PARAM13, selfMode.getUpdateDateTime());
-
+			upadteStmt.setString(SQLStatement.PARAM14, selfMode.getTotal());
+			upadteStmt.setString(SQLStatement.PARAM15, selfMode.getItemCount());
+						
+			
 			updateCount = upadteStmt.executeUpdate();
 			if (updateCount >= SQLResultsConstants.ONE_ROW_AFFECTED) {
 				connection.commit();
@@ -162,6 +165,8 @@ public class SQLServerSelfModeDAO extends AbstractDao implements ISelfModeDAO {
 				row.put("Message", resultset.getString("Message"));
 				row.put("Alert", resultset.getString("Alert"));
 				row.put("UpdateDateTime", resultset.getString("UpdateDateTime"));
+				row.put("Total", resultset.getString("Total"));
+				row.put("ItemCount", resultset.getString("ItemCount"));
 				selfModeResults.put(row);
 			}
 			result.setNCRWSSResultCode(ResultBase.RES_OK);
@@ -178,9 +183,72 @@ public class SQLServerSelfModeDAO extends AbstractDao implements ISelfModeDAO {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
 					"SQL Exception Error occured." + " Failed to get status. \n" + ex.getMessage());
 		} finally {
-			closeConnectionObjects(connection, getStmt, null);
+			closeConnectionObjects(connection, getStmt, resultset);
 			tp.methodExit(result);
 		}
 		return result;
 	}
+
+    // add history table
+/*
+	@Override
+	public final ResultBase updateHistory(final SelfMode selfMode) throws DaoException {
+
+		String functionName = "SQLServerSelfModeDAO.updateHistory";
+		tp.methodEnter(functionName);
+		tp.println("SelfMode", selfMode);
+
+		ResultBase result = new ResultBase();
+		Connection connection = null;
+		PreparedStatement upadteStmt = null;
+		SQLStatement sqlStatement = null;
+		int updateCount = 0;
+		try {
+
+			connection = dbManager.getConnection();
+			sqlStatement = SQLStatement.getInstance();
+
+			upadteStmt = connection.prepareStatement(sqlStatement.getProperty("update-self-mode-status-history"));
+			upadteStmt.setString(SQLStatement.PARAM1, selfMode.getCompanyId());
+			upadteStmt.setString(SQLStatement.PARAM2, selfMode.getRetailStoreId());
+			upadteStmt.setString(SQLStatement.PARAM3, selfMode.getWorkstationId());
+			upadteStmt.setInt(SQLStatement.PARAM4, selfMode.getTraining());
+			upadteStmt.setInt(SQLStatement.PARAM5, selfMode.getStatus());
+			upadteStmt.setInt(SQLStatement.PARAM6, selfMode.getDetail());
+			upadteStmt.setInt(SQLStatement.PARAM7, selfMode.getPrinter());
+			upadteStmt.setInt(SQLStatement.PARAM8, selfMode.getCashChanger());
+			upadteStmt.setString(SQLStatement.PARAM9, selfMode.getCashChangerCount());
+			upadteStmt.setString(SQLStatement.PARAM10, selfMode.getCashChangerCountStatus());
+			upadteStmt.setString(SQLStatement.PARAM11, selfMode.getMessage());
+			upadteStmt.setInt(SQLStatement.PARAM12, selfMode.getAlert());
+			upadteStmt.setString(SQLStatement.PARAM13, selfMode.getUpdateDateTime());
+			upadteStmt.setString(SQLStatement.PARAM14, selfMode.getTotal());
+			upadteStmt.setString(SQLStatement.PARAM15, selfMode.getItemCount());
+			
+			updateCount = upadteStmt.executeUpdate();
+			if (updateCount >= SQLResultsConstants.ONE_ROW_AFFECTED) {
+				connection.commit();
+				result.setMessage(ResultBase.RES_SUCCESS_MSG);
+				result.setNCRWSSResultCode(ResultBase.RES_OK);
+			} else {
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_SQL);
+				tp.println("No row(s)( affected. Check TXL_SELFMODE_STATE_HISTORY table structure.");
+			}
+		} catch (SQLException sqlEx) {
+			result.setMessage(sqlEx.getMessage());
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_SQL);
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+					"SQL Exception Error occured." + " Failed to update status history. \n" + sqlEx.getMessage());
+		} catch (Exception ex) {
+			result.setMessage(ex.getMessage());
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+					"SQL Exception Error occured." + " Failed to update status history. \n" + ex.getMessage());
+		} finally {
+			closeConnectionObjects(connection, upadteStmt, null);
+			tp.methodExit(result);
+		}
+		return result;
+	}
+*/	
 }

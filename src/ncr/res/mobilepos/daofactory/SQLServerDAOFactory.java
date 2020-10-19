@@ -77,6 +77,8 @@ import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.SQLServerMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastersync.dao.IMasterSyncDAO;
 import ncr.res.mobilepos.mastersync.dao.SQLServerMasterSyncDAO;
+import ncr.res.mobilepos.mujiPassport.dao.IMujiPassportDAO;
+import ncr.res.mobilepos.mujiPassport.dao.SQLServerMujiPassportDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.SQLServerNationalityInfoDAO;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
@@ -93,10 +95,14 @@ import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.IPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
+import ncr.res.mobilepos.pricing.dao.IPriceUrgentInfoDAO;
+import ncr.res.mobilepos.pricing.dao.IUrgentChangePriceInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerPMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerPricePromInfoDAO;
+import ncr.res.mobilepos.pricing.dao.SQLServerPriceUrgentInfoDAO;
+import ncr.res.mobilepos.pricing.dao.SQLServerUrgentChangePriceInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
 import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
@@ -229,7 +235,7 @@ public class SQLServerDAOFactory extends DAOFactory {
     public final ISystemSettingDAO getSystemSettingDAO() throws DaoException {
         return new SQLServerSystemSettingDAO();
     }
-    
+
     @Override
     public final ITerminalInfoDAO getTerminalInfoDAO() throws DaoException {
         return new SQLServerTerminalInfoDAO();
@@ -422,6 +428,11 @@ public class SQLServerDAOFactory extends DAOFactory {
 	}
 
 	@Override
+	public IPriceUrgentInfoDAO getPriceUrgentInfoDAO() throws DaoException {
+		return new SQLServerPriceUrgentInfoDAO();
+	}
+
+	@Override
 	public final IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException {
 		return new SQLServerPromotionMsgInfoDAO();
 	}
@@ -440,19 +451,28 @@ public class SQLServerDAOFactory extends DAOFactory {
     public IFuturePayDAO getFuturePayDAO() throws DaoException {
         return new SQLServerFuturePayDAO();
     }
-    
+
+    @Override
+    public IMasterSyncDAO getMasterSyncDAO() throws DaoException {
+        return new SQLServerMasterSyncDAO();
+    }
+
+    @Override
+    public IUrgentChangePriceInfoDAO getUrgentChangePriceInfoDAO() throws DaoException {
+        return new SQLServerUrgentChangePriceInfoDAO();
+    }
+
 	@Override
-	public IMasterSyncDAO getMasterSyncDAO() throws DaoException {
-		return new SQLServerMasterSyncDAO();
+	public IPMInfoDAO getPMInfoDAO() throws DaoException {
+		return new SQLServerPMInfoDAO();
 	}
 
 	@Override
 	public ISelfModeDAO getISelfModeDAO() throws DaoException {
 		return new SQLServerSelfModeDAO();
 	}
-
-	@Override
-	public IPMInfoDAO getPMInfoDAO() throws DaoException {
-		return new SQLServerPMInfoDAO();
-	}
+   @Override
+    public IMujiPassportDAO getMujiPassportDAO() throws DaoException {
+        return new SQLServerMujiPassportDAO();
+    }
 }

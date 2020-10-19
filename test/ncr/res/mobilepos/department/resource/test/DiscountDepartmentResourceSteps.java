@@ -95,7 +95,7 @@ public class DiscountDepartmentResourceSteps extends Steps {
     	dptResource.setContext(servletContext);
 
     	try {
-			PricePromInfoFactory.initialize(companyId, storeId);
+			PricePromInfoFactory.initialize(companyId, storeId, null, null, null, null);
 		} catch (Exception e) {
 			// TODO é©ìÆê∂ê¨Ç≥ÇÍÇΩ catch ÉuÉçÉbÉN
 			e.printStackTrace();

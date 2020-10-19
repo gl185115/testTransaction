@@ -19,6 +19,8 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.point.model.Point;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
@@ -43,13 +45,13 @@ public class PointResource {
     private static final String PATH_NAME = "point";
     @Context
     private ServletContext servletContext;
-
+    
     public PointResource() {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
+        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), 
         		getClass());
     }
-
+    
     @Path("/getitempointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -80,13 +82,13 @@ public class PointResource {
             .println("barCode", barCode);
         PointRateResponse response = new PointRateResponse();
         List<ItemPointRate> itemPointRateList = new ArrayList<ItemPointRate>();
-
+        
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(response.toString());
             return response;
         }
-
+        
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
             itemPointRateList = pointDao.getItemPointRate(companyId, storeId, businessDate, deptCode, groupCode, brandId, barCode);
@@ -115,8 +117,8 @@ public class PointResource {
         }
         return response;
     }
-
-
+    
+    
     @Path("/gettranpointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -138,13 +140,13 @@ public class PointResource {
             .println("businessDate", businessDate);
         PointRateResponse response = new PointRateResponse();
         List<TranPointRate> tranPointRateList = new ArrayList<TranPointRate>();
-
+        
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(response.toString());
             return response;
         }
-
+        
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
             tranPointRateList = pointDao.getTranPointRate(companyId, storeId, businessDate);
@@ -171,10 +173,10 @@ public class PointResource {
         }
         return response;
     }
-
+    
     /**
      * Service to view CashingUnit of given parameter companyid and recordId.
-     *
+     * 
      * @param companyid
      * @param recordId
      * @return JSON type of CashingUnit.

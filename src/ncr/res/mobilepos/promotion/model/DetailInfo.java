@@ -17,6 +17,24 @@ public class DetailInfo {
     /**ïΩãœâøäi*/
     private double averagePrice = 0;
     
+    /**ê¨óßå„äÑà¯ó¶1*/
+    private double currentDecisionPriceRate = 0;
+    
+    /**ê¨óßäÑà¯ó¶1*/
+    private double currentConditionPriceRate = 0;
+    
+    public double getCurrentDecisionPriceRate() {
+		return currentDecisionPriceRate;
+	}
+	public void setCurrentDecisionPriceRate(double currentDecisionPriceRate) {
+		this.currentDecisionPriceRate = currentDecisionPriceRate;
+	}
+	public double getCurrentConditionPriceRate() {
+		return currentConditionPriceRate;
+	}
+	public void setCurrentConditionPriceRate(double currentConditionPriceRate) {
+		this.currentConditionPriceRate = currentConditionPriceRate;
+	}
     public double getAveragePrice() {
         return averagePrice;
     }
@@ -74,10 +92,12 @@ public class DetailInfo {
                         int quantity = info.getQuantity();
                         String entryId = info.getEntryId();
                         double price = info.getTruePrice();
+                        String sku = info.getSku();
                         info = new MixMatchDetailInfo();
                         info.setEntryId(entryId);
                         info.setQuantity(quantity + info1.getQuantity());
                         info.setTruePrice(price);
+                        info.setSku(sku);
                     }
                 }
                 entryList.add(info);

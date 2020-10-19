@@ -6,6 +6,7 @@ public class RuleEntryInfo {
     private double truePrice;
     private int taxId;
     private int originalTaxId;
+    private String sku;
     public String getEntryId() {
         return entryId;
     }
@@ -36,5 +37,11 @@ public class RuleEntryInfo {
     public void setOriginalTaxId(int originalTaxId) {
         this.originalTaxId = originalTaxId;
     }
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
 
 }

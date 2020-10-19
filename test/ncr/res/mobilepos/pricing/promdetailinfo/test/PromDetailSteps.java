@@ -80,7 +80,7 @@ public class PromDetailSteps extends Steps {
 			status = 0;
 			pricePromList = pricePromInfoFactory.initialize(
 					StringUtility.convNullOrEmptryString(companyId),
-					StringUtility.convNullOrEmptryString(storeId));
+					StringUtility.convNullOrEmptryString(storeId), null, null, null, null);
 		} catch (DaoException e) {
 			status = ERROR_DAOEXCEPTION;
 		}

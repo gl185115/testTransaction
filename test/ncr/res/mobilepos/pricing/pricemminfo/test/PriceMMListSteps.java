@@ -62,7 +62,7 @@ public class PriceMMListSteps extends Steps {
 			String companyId = sys.getCompanyId();
 			String storeId = sys.getStoreId();
 
-			PriceMMInfoFactory.initialize(companyId,storeId);
+			PriceMMInfoFactory.initialize(companyId,storeId, null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

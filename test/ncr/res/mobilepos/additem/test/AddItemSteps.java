@@ -78,8 +78,8 @@ public class AddItemSteps extends Steps {
 		this.businessDate = businessDate;
 		this.seqNo = seqNo;
 		this.priceCheck = priceCheck;
-		PricePromInfoFactory.initialize(companyId, storeId);
-		PriceMMInfoFactory.initialize(companyId, storeId);
+		PricePromInfoFactory.initialize(companyId, storeId, null, null, null, null);
+		PriceMMInfoFactory.initialize(companyId, storeId, null);
 		TaxRateInfoFactory.initialize(companyId, storeId);
 	}
 

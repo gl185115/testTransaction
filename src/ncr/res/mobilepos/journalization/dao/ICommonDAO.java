@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.journalization.model.ForwardCashierListInfo;
+import ncr.res.mobilepos.journalization.model.ForwardCheckerListInfo;
 import ncr.res.mobilepos.journalization.model.EventDetail;
 import ncr.res.mobilepos.journalization.model.ForwardListInfo;
+import ncr.res.mobilepos.journalization.model.ForwardUnprocessedListInfo;
 import ncr.res.mobilepos.journalization.model.GoldCertificate;
 import ncr.res.mobilepos.journalization.model.GuestZoneInfo;
 import ncr.res.mobilepos.journalization.model.Reservation;
@@ -73,4 +76,36 @@ public interface ICommonDAO {
     * @throws SQLException
     */
    public int updateForwardStatus(String CompanyId, String RetailStoreId, String WorkstationId, String SequenceNumber, String Queue, String BusinessDayDate, String TrainingFlag, int Status) throws DaoException, SQLException;
+
+   /**
+    * 精算機情報一覧取
+    * @param companyid
+    * @param retailstoreid
+    * @param trainingflag
+    * @param terminalId
+    * @return一覧リスト
+    * @throws DaoException
+    */
+   public List<ForwardCashierListInfo> getForwardCashierList (String companyId, String retailStoreId, String trainingFlag, String terminalId) throws DaoException;
+
+/**
+ * 前捌 リストの取得
+ */
+   public List<ForwardCheckerListInfo> getForwardCheckerList(String companyId, String retailStoreId, String trainingFlag, String workstationId) throws DaoException;
+
+   /**
+    * 未処理データ一覧　取得
+    * @param CompanyId
+    * @param RetailStoreId
+    * @param Terminalid
+    * @param TrainingFlag
+    * @param LayawayFlag
+    * @param Queue
+    * @param TxType
+    * @param BussinessDayDate
+    * @return　一覧リスト
+    * @throws DaoException
+    */
+   public List<ForwardUnprocessedListInfo> getForwardUnprocessedList (String CompanyId, String RetailStoreId, String Terminalid, String TrainingFlag, String LayawayFlag, String Queue, String TxType, String BussinessDayDate) throws DaoException;
+
 }

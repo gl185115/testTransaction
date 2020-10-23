@@ -12178,9 +12178,7 @@ ORDER BY empinfo.EmpCode;
     Status,
     Message,
     Alert,
-    UpdateDateTime,
-    Total,
-    ItemCount
+    UpdateDateTime
   FROM [RESTransaction].[dbo].[TXL_SELFMODE_STATE]
   WHERE
     ((@companyId IS NULL OR LEN(@companyId) = 0) OR (CompanyId = @companyId )) AND
@@ -12202,9 +12200,7 @@ DECLARE @companyId varchar(12),
     @cashChangerCountStatus varchar(max),
     @message varchar(max),
     @alert int,
-    @updateDateTime DateTime,
-    @total varchar(15),
-    @itemCount varchar(12)
+    @updateDateTime DateTime
 SET @companyId = LTRIM(RTRIM(?))
 SET @retailStoreId = LTRIM(RTRIM(?))
 SET @workstationId = LTRIM(RTRIM(?))
@@ -12218,8 +12214,6 @@ SET @cashChangerCountStatus = LTRIM(RTRIM(?))
 SET @message = LTRIM(RTRIM(?))
 SET @alert = LTRIM(RTRIM(?))
 SET @updateDateTime = LTRIM(RTRIM(?))
-SET @total = LTRIM(RTRIM(?))
-SET @itemCount = LTRIM(RTRIM(?))
 
 IF NOT EXISTS (
   SELECT
@@ -12245,9 +12239,7 @@ IF NOT EXISTS (
     CashChangerCountStatus,
     Message,
     Alert,
-    UpdateDateTime,
-    Total,
-    ItemCount)
+    UpdateDateTime)
   VALUES(
     @companyId,
     @retailStoreId,
@@ -12261,9 +12253,7 @@ IF NOT EXISTS (
     @cashChangerCountStatus,
     @message,
     @alert,
-    @updateDateTime,
-    @total,
-    @itemCount
+    @updateDateTime
   );
 ELSE
   UPDATE RESTransaction.dbo.TXL_SELFMODE_STATE
@@ -12280,9 +12270,7 @@ ELSE
     CashChangerCountStatus = @cashChangerCountStatus,
     Message = @message,
     Alert = @alert,
-    UpdateDateTime = @updateDateTime,
-    Total = @total,
-    ItemCount = @itemCount
+    UpdateDateTime = @updateDateTime
 --  WHERE
 --    CompanyId= @companyId
 --    AND
@@ -12303,9 +12291,7 @@ DECLARE @companyId varchar(12),
     @cashChangerCountStatus varchar(max),
     @message varchar(max),
     @alert int,
-    @updateDateTime DateTime,
-    @total varchar(15),
-    @itemCount varchar(12)
+    @updateDateTime DateTime
 SET @companyId = LTRIM(RTRIM(?))
 SET @retailStoreId = LTRIM(RTRIM(?))
 SET @workstationId = LTRIM(RTRIM(?))
@@ -12319,8 +12305,6 @@ SET @cashChangerCountStatus = LTRIM(RTRIM(?))
 SET @message = LTRIM(RTRIM(?))
 SET @alert = LTRIM(RTRIM(?))
 SET @updateDateTime = LTRIM(RTRIM(?))
-SET @total = LTRIM(RTRIM(?))
-SET @itemCount = LTRIM(RTRIM(?))
 
 INSERT INTO RESTransaction.dbo.TXL_SELFMODE_STATE_HISTORY
 (
@@ -12336,9 +12320,7 @@ INSERT INTO RESTransaction.dbo.TXL_SELFMODE_STATE_HISTORY
   CashChangerCountStatus,
   Message,
   Alert,
-  UpdateDateTime,
-  Total,
-  ItemCount
+  UpdateDateTime
 )
 VALUES
 (
@@ -12354,9 +12336,7 @@ VALUES
   @cashChangerCountStatus,
   @message,
   @alert,
-  @updateDateTime,
-  @total,
-  @itemCount
+  @updateDateTime
 );
 </entry>
 <entry key="get-self-mode-status">
@@ -12379,9 +12359,7 @@ VALUES
     CashChangerCountStatus,
     Message,
     Alert,
-    UpdateDateTime,
-    Total,
-    ItemCount
+    UpdateDateTime
   FROM RESTransaction.dbo.TXL_SELFMODE_STATE
   WHERE
     ((@companyId IS NULL OR LEN(@companyId) = 0) OR (CompanyId = @companyId )) AND

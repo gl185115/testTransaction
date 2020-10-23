@@ -51,12 +51,6 @@ public class SelfMode {
 	@XmlElement(name = "UpdateDateTime")
 	private String updateDateTime = null;
 	
-	@XmlElement(name = "Total")
-	private String total = null;
-	
-	@XmlElement(name = "ItemCount")
-	private String itemCount = null;
-	
 	@ApiModelProperty(value = "企業コード", notes = "企業コード")
 	public String getCompanyId() {
 		return companyId;
@@ -173,24 +167,6 @@ public class SelfMode {
 	public void setUpdateDateTime(String updateDateTime) {
 		this.updateDateTime = updateDateTime;
 	}
-	
-	@ApiModelProperty(value = "合計", notes = "合計")
-	public String getTotal() {
-		return total;
-	}
-
-	public void setTotal(String total) {
-		this.total = total;
-	}
-	
-	@ApiModelProperty(value = "点数", notes = "点数")
-	public String getItemCount() {
-		return itemCount;
-	}
-
-	public void setItemCount(String itemCount) {
-		this.itemCount = itemCount;
-	}
 
 	@Override
 	public String toString() {
@@ -198,7 +174,7 @@ public class SelfMode {
 				+ workstationId + ", status=" + status + ", detail=" + detail + ", printer=" + printer
 				+ ", cashChanger=" + cashChanger + ", cashChangerCount=" + cashChangerCount
 				+ ", cashChangerCountStatus=" + cashChangerCountStatus + ", message=" + message + ", alert=" + alert
-				+ ", updateDateTime=" + updateDateTime + ", total=" + total + ", itemCount=" + itemCount + "]";
+				+ ", updateDateTime=" + updateDateTime + "]";
 	}
 
 }

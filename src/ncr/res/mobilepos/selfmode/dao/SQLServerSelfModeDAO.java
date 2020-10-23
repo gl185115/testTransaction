@@ -93,8 +93,6 @@ public class SQLServerSelfModeDAO extends AbstractDao implements ISelfModeDAO {
 			upadteStmt.setString(SQLStatement.PARAM11, selfMode.getMessage());
 			upadteStmt.setInt(SQLStatement.PARAM12, selfMode.getAlert());
 			upadteStmt.setString(SQLStatement.PARAM13, selfMode.getUpdateDateTime());
-			upadteStmt.setString(SQLStatement.PARAM14, selfMode.getTotal());
-			upadteStmt.setString(SQLStatement.PARAM15, selfMode.getItemCount());
 						
 			
 			updateCount = upadteStmt.executeUpdate();
@@ -165,8 +163,6 @@ public class SQLServerSelfModeDAO extends AbstractDao implements ISelfModeDAO {
 				row.put("Message", resultset.getString("Message"));
 				row.put("Alert", resultset.getString("Alert"));
 				row.put("UpdateDateTime", resultset.getString("UpdateDateTime"));
-				row.put("Total", resultset.getString("Total"));
-				row.put("ItemCount", resultset.getString("ItemCount"));
 				selfModeResults.put(row);
 			}
 			result.setNCRWSSResultCode(ResultBase.RES_OK);

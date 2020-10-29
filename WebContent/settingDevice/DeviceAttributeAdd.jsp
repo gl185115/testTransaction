@@ -46,6 +46,8 @@ ArrayList<String> ATT11_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナーを接続しない"); add("RFIDスキャナーを接続する");}};
 ArrayList<String> ATT12_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無効"); add("Selfモード有効");}};
+ArrayList<String> ATT13_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジケータ無効"); add("トーンインジケータ有効");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -385,6 +387,19 @@ ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無�
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td align="right">属性１３ ： </td>
+                <td align="left">
+                    <select name="Attribute13" id="Attribute13" required>
+                    <%
+                        for (int i=0;i<ATT13_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT13_VAL.get(i) + "\"");
+                            out.println(">" + ATT13_VAL.get(i) +" : " + ATT13_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
 <!--		<tr>
 				<td class="center">属性９</td>
 				<td><input maxlength="4" type="text" name="Attribute9" id="Attribute9" size=4></td>
@@ -432,6 +447,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('Attribute10').value);
         valueList.push(document.getElementById('Attribute11').value);
         valueList.push(document.getElementById('Attribute12').value);
+        valueList.push(document.getElementById('Attribute13').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

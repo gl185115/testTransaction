@@ -237,7 +237,7 @@
           <tr>
             <td align="right">店番号 ： </td>
             <td align="left">
-              <input type="text" disabled name="CheckedStoreID" id="CheckedStoreID" size=4">
+              <input type="text" disabled name="CheckedStoreID" id="CheckedStoreID" size=6">
             </td>
           </tr>
           <tr>

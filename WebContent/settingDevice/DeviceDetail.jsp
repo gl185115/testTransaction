@@ -344,6 +344,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
             sqlStr += " ,device_attribute.Attribute10    AS pda_Attribute10    ";
             sqlStr += " ,device_attribute.Attribute11    AS pda_Attribute11    ";
             sqlStr += " ,device_attribute.Attribute12    AS pda_Attribute12    ";
+            sqlStr += " ,device_attribute.Attribute13    AS pda_Attribute13    ";
             // MST_PRINTERINFO
             sqlStr += " ,printinfo.CompanyId   AS mpi_CompanyId   ";
             sqlStr += " ,printinfo.StoreId     AS mpi_StoreId     ";
@@ -475,6 +476,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute10"));
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute11"));
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute12"));
+                PrmDeviceAttributeList.add(rs.getString("pda_Attribute13"));
 
                 // MST_PRINTERINFO
                 ArrayList<String> MstPrinterinfoList = new ArrayList<String>();
@@ -811,6 +813,11 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td colspan="2" class="orangetd">属性１２(Attribute12)</td>
                     <td><input type="text" id="pda_Attribute12" name="pda_Attribute12" value="<%=PrmDeviceAttributeLists.get(0).get(18)%>"  disabled style="width: 100%" ></td>
                     <td><input type="text" id="tra_pda_Attribute12" name="tra_pda_Attribute12" value="<%=PrmDeviceAttributeLists.get(1).get(18)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">属性１３(Attribute13)</td>
+                    <td><input type="text" id="pda_Attribute13" name="pda_Attribute13" value="<%=PrmDeviceAttributeLists.get(0).get(19)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute13" name="tra_pda_Attribute13" value="<%=PrmDeviceAttributeLists.get(1).get(19)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
                     <th style="width: 50%" colspan="2">MST_PRINTERINFO 項目</th>

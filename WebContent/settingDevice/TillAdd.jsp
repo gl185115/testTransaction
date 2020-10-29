@@ -148,7 +148,7 @@ window.onload = function() {
           <tr>
             <td align="right">店番号 ： </td>
             <td align="left">
-              <input type="text" disabled name="storeID" id="storeID" size=4 value="<%=request.getParameter("searchStoreID")%>">
+              <input type="text" disabled name="storeID" id="storeID" size=6 value="<%=request.getParameter("searchStoreID")%>">
             </td>
           </tr>
           <tr>

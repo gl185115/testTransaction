@@ -42,6 +42,8 @@ ArrayList<String> ATT11_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナーを接続しない"); add("RFIDスキャナーを接続する");}};
 ArrayList<String> ATT12_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無効"); add("Selfモード有効");}};
+ArrayList<String> ATT13_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジケータ無効"); add("トーンインジケータ有効");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -84,8 +86,10 @@ ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無�
 	// ATTAttribute11
 	String ATTAttribute11 = request.getParameter("ATTAttribute11");
 	// ATTAttribute12
-    String ATTAttribute12 = request.getParameter("ATTAttribute12");
-    String errString = "";
+	String ATTAttribute12 = request.getParameter("ATTAttribute12");
+	// ATTAttribute13
+	String ATTAttribute13 = request.getParameter("ATTAttribute13");
+	String errString = "";
 	String infoString = "";
 
     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
@@ -111,6 +115,7 @@ ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無�
                 + ", Attribute10=?"
                 + ", Attribute11=?"
                 + ", Attribute12=?"
+                + ", Attribute13=?"
                 + " WHERE AttributeId=?; "
                 ;
         PreparedStatement psIns = conn.prepareStatement(sqlStr);
@@ -133,7 +138,8 @@ ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無�
         psIns.setString(16, ATTAttribute10);
         psIns.setString(17, ATTAttribute11);
         psIns.setString(18, ATTAttribute12);
-        psIns.setString(19, ATTAttributeId);
+        psIns.setString(19, ATTAttribute13);
+        psIns.setString(20, ATTAttributeId);
 
         try {
             int rsIns = psIns.executeUpdate();
@@ -581,6 +587,18 @@ ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無�
                             }
                         %>
                 </select></td>
+			</tr>
+			<tr>
+                <td align="right">属性１３(Attribute13) ：</td>
+                <td align="left"><select name="ATTAttribute13"
+                    id="ATTAttribute13" required>
+                        <%
+                            for (int i = 0; i < ATT13_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT13_VAL.get(i) + "\"");
+                                out.println(">" + ATT13_VAL.get(i) + " : " + ATT13_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
             </tr>
 <!--
 			<tr>
@@ -663,10 +681,12 @@ ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無�
 		// ATTATTAttribute11
 		StrId = 'attribute11' + InValue;
 		document.getElementById('ATTAttribute11').value = document.getElementById(StrId).value || false;
-	    // ATTATTAttribute12
-        StrId = 'attribute12' + InValue;
-        document.getElementById('ATTAttribute12').value = document.getElementById(StrId).value || false;
-
+		// ATTATTAttribute12
+		StrId = 'attribute12' + InValue;
+		document.getElementById('ATTAttribute12').value = document.getElementById(StrId).value || false;
+		// ATTATTAttribute13
+		StrId = 'attribute13' + InValue;
+		document.getElementById('ATTAttribute13').value = document.getElementById(StrId).value || false;
 		document.getElementById('updateArea').style.display = "block";
 	}
 
@@ -697,6 +717,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('ATTAttribute10').value);
         valueList.push(document.getElementById('ATTAttribute11').value);
         valueList.push(document.getElementById('ATTAttribute12').value);
+        valueList.push(document.getElementById('ATTAttribute13').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

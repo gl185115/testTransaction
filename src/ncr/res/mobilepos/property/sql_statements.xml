@@ -2650,8 +2650,8 @@ ORDER BY Dpt
             DeleteFlag = 0.0 AND
             StoreId = @storeId AND
             CompanyId = @companyId AND
-			SubCode1 != '3' OR SubCode1 IS NULL OR
-			(SubCode1 = '3' AND SubCode2 = @SubCode2 )
+            (SubCode1 != '3' OR SubCode1 IS NULL OR
+            (SubCode1 = '3' AND SubCode2 = @SubCode2 ))
         ORDER BY
             DisplayOrder,
             cast(TenderType as int)

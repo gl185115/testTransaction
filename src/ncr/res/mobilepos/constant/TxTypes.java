@@ -67,6 +67,7 @@ public final class TxTypes {
     public static final String PICKUP = "Pickup";
     public static final String SUMMARY_RECEIPT = "SummaryReceipt";
     public static final String RECEIPT_REPRINT = "ReceiptReprint";
+    public static final String SALES_REPRINT = "SalesReprint";
     public static final String GIFT_RECEIPT = "GiftReceipt";
     public static final String PAYIN = "PayIn";
     public static final String SIGNON = "SignOn";

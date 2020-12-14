@@ -999,6 +999,59 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
+     * Private Method for SalesReprint Transaction
+     *
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
+     *
+     * @return void
+     *
+     * @throws Exception
+     *             The Exception thrown when the process fails
+     */
+    private void doSalesReprintTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
+        tp.methodEnter("doSalesReprintTransaction");
+        // save poslog
+        savePosLogXML(transaction, posLogXml, TxTypes.SALES_REPRINT, savePOSLogStmt, connection, trainingMode);
+
+        TransactionLink transactionLink = transaction.getControlTransaction().getReceiptReprint().getTransactionLink();
+
+        PreparedStatement saveSalesReprintDetailsStmt = null;
+
+        try {
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            saveSalesReprintDetailsStmt = connection
+                    .prepareStatement(sqlStatement.getProperty("save-receipt-reprint-details"));
+            // insert salesreprint details to TXL_RECEIPTREPRINT_HISTORY
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM1, transaction.getRetailStoreID());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM2, transaction.getWorkStationID().getValue());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM3, transaction.getSequenceNo());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM4, transaction.getBusinessDayDate());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM5, transactionLink.getRetailStoreID());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM6, transactionLink.getWorkStationID().getValue());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM7, transactionLink.getSequenceNo());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM8, transactionLink.getBusinessDayDate());
+            saveSalesReprintDetailsStmt.setString(SQLStatement.PARAM9,
+                    transaction.getOrganizationHierarchy().getId());
+            saveSalesReprintDetailsStmt.setInt(SQLStatement.PARAM10, trainingMode);
+
+            saveSalesReprintDetailsStmt.executeUpdate();
+        } finally {
+            closeConnectionObjects(null, saveSalesReprintDetailsStmt, null);
+            tp.methodExit();
+        }
+    }
+
+    /**
      * Private Method for Saving Donation Transaction
      *
      * @param transaction
@@ -1343,6 +1396,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     break;
                 case TxTypes.RECEIPT_REPRINT:
                     doReceiptReprintTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
+                    break;
+                case TxTypes.SALES_REPRINT:
+                    doSalesReprintTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.POSSOD:
                     doPosSodTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);

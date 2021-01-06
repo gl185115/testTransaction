@@ -2,9 +2,9 @@
 <Context>
 	<Resource auth="Container" description="Database Connection" name="jdbc/MSSQLSERVER" type="javax.sql.DataSource"
     driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-    url="jdbc:sqlserver://localhost:1433;databaseName=RESTransaction;selectMethod=cursor;sendStringParametersAsUnicode=false" username="entsvr" password="ncrsa_ora"
+    url="jdbc:sqlserver://localhost:1433;databaseName=${connectDBName};selectMethod=cursor;sendStringParametersAsUnicode=false" username="entsvr" password="ncrsa_ora"
         maxTotal="50" maxIdle="50" defaultAutoCommit="false" />
-        
+
 	<Realm className="org.apache.catalina.realm.DataSourceRealm"
           userTable="RESMaster.dbo.MST_USER_CREDENTIALS"
           userCredCol="PassCode"

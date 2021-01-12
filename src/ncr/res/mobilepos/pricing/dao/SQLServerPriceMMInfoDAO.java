@@ -78,7 +78,7 @@ public class SQLServerPriceMMInfoDAO extends AbstractDao implements IPriceMMInfo
 	@Override
 	public List<PriceMMInfo> getPriceMMInfoList(String companyId, String storeId, String dayDate, String mdInternal)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPriceMMInfoList";
 		tp.println("CompanyId", companyId);
 		tp.println("storeId", storeId);
 		tp.println("dayDate", dayDate);

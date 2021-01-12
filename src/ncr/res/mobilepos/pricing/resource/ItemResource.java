@@ -430,7 +430,7 @@ public class ItemResource {
     		@ApiParam(name="mdinternal", value="商品コード") @FormParam("mdinternal") final String pluCode) {
 
         String functionName = "ItemResource.getUrgentChangeItemInfo";
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
+        tp.methodEnter("getUrgentChangeItemInfo")
                 .println("storecd", storeID)
                 .println("mdinternal", pluCode)
                 .println("bizdate", bizDate)
@@ -488,7 +488,7 @@ public class ItemResource {
 			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
 			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "businessdate", value = "業務日付") @FormParam("businessdate") final String businessDate) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPricePromInfoDptList";
 		tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
 				.println("businessDate", businessDate);
 		PricePromInfoList response = new PricePromInfoList();

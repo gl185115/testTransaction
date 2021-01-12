@@ -77,7 +77,7 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
      */
     @Override
     public final List<DataFile> getDataFiles(String companyId, String storeId) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getDataFiles";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -149,7 +149,7 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
      * Get MasterSyncParameter from PRM_MASTER_SYNC.
      */
     public List<MasterSyncParameter> getMasterSyncParameters(int syncGroupId) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMasterSyncParameters";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -196,7 +196,7 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
      * Get MasterTableRecords from each master tables.
      */
     public List<Record> getMasterTableRecords(String companyId, String storeId, MasterSyncParameter parameter, MaintenanceLog maintenanceLog) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMasterTableRecords";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -298,7 +298,7 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
      */
     private List<MaintenanceLog> getMaintenanceLogs(String companyId, String storeId, String bizCatId, long maintenanceId, int syncRecordCount,
                                                     String logTableName, String storeTableName, String idColumnName) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getMaintenanceLogs";
 
         Connection connection = null;
         PreparedStatement statement = null;

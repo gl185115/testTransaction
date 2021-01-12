@@ -472,7 +472,7 @@ public class SystemSettingResource {
             @ApiParam(name="misc3", value="取込共通サイネージ作成日時") @QueryParam("misc3") final String misc3,
             @ApiParam(name="misc4", value="取込店別サイネージ作成日時") @QueryParam("misc4") final String misc4,
             @ApiParam(name="misc5", value="予約5") @QueryParam("misc5") final String misc5) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "setBootTime";
         tp.methodEnter(functionName);
         tp.println("CompanyId", companyId)
             .println("StoreId", storeId)

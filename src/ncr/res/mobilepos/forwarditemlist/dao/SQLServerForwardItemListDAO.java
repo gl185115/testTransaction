@@ -423,7 +423,7 @@ extends AbstractDao implements IForwardItemListDAO {
     @Override
     public final String getForwardCountWithCashier(final String companyId, final String retailStoreId, final String cashierId,
     		                                  final String trainingFlag) throws DaoException  {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardCountWithCashier";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
                 .println("cashierId", cashierId)
@@ -477,7 +477,7 @@ extends AbstractDao implements IForwardItemListDAO {
     @Override
     public final List<ForwardvoidListInfo> getForwardResumeVoidList(final String companyId, final String retailStoreId,
     	    final String workStationId, final String trainingFlag) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardResumeVoidList";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
                 .println("workStationId", workStationId)

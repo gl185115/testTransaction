@@ -3331,7 +3331,7 @@ public class PromotionResource {
 			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
 
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "updateByCustomer";
 		tp.methodEnter(functionName).println("RetailStoreID", retailStoreId).println("WorkStationID", workStationId)
 		.println("SequenceNumber", sequenceNumber).println("Transaction", transactionJson);
 		PromotionResponse promotionResponse = new PromotionResponse();

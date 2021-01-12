@@ -254,7 +254,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
      */
     @Override
     public List<ForwardCashierListInfo> getForwardCashierList(String companyId, String retailStoreId, String trainingFlag, String terminalId) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardCashierList";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
                 .println("trainingFlag", trainingFlag)
@@ -301,7 +301,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
      */
     @Override
     public List<ForwardCheckerListInfo> getForwardCheckerList(String companyId, String retailStoreId, String trainingFlag, String workstationId) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardCheckerList";
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("retailStoreId", retailStoreId)
                 .println("trainingFlag", trainingFlag)
@@ -347,7 +347,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
     @Override
     public List<ForwardUnprocessedListInfo> getForwardUnprocessedList(String CompanyId, String RetailStoreId, String Terminalid,
             String TrainingFlag, String LayawayFlag, String Queue, String TxType, String BussinessDayDate) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardUnprocessedList";
         tp.methodEnter(functionName);
         tp.println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId).println("Terminalid", Terminalid)
                 .println("TrainingFlag", TrainingFlag)

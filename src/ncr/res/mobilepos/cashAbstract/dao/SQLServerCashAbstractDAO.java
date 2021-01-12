@@ -157,7 +157,7 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
      */
     @Override
 	public DispensingCodeList getDispensingCreditCode(String companyId, String retailStoreId) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getDispensingCreditCode";
         tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId);
 
         PreparedStatement selectStmnt = null;

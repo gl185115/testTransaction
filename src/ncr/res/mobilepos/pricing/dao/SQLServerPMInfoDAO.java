@@ -71,7 +71,7 @@ public class SQLServerPMInfoDAO extends AbstractDao implements IPMInfoDAO {
 	@Override
 	public List<PmItemInfo> getPmItemInfo(String companyId, String storeId, String mdInternal, String businessDate) throws DaoException {
 		String functionName = "SQLServerPMInfoDAO.getPmItemInfo";
-		tp.methodEnter(DebugLogger.getCurrentMethodName())
+		tp.methodEnter("getPmItemInfo")
 		.println("companyId", companyId)
 		.println("storeId", storeId)
 		.println("mdInternal", mdInternal)

@@ -517,7 +517,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
     public boolean isHasPromDetailList(final List<PricePromInfo> pricePromInfo, final Item searchedItem) throws DaoException {
-    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+    	tp.methodEnter("isHasPromDetailList")
         .println("PricePromInfo", pricePromInfo)
         .println("searchedItem", searchedItem);
     	
@@ -693,7 +693,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      */
 	@Override
 	public boolean isHasPriceUrgentInfo(final PriceUrgentInfo priceUrgentInfo, final Item searchedItem) throws DaoException {
-    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+    	tp.methodEnter("isHasPriceUrgentInfo")
         .println("PricePromInfo", priceUrgentInfo)
         .println("searchedItem", searchedItem);
     	
@@ -749,7 +749,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
     public boolean isHasPriceMMDetailList(final List<PriceMMInfo> priceMMInfo, final Item searchedItem) throws DaoException {
-    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+    	tp.methodEnter("isHasPriceMMDetailList")
         .println("PricePromInfo", priceMMInfo)
         .println("searchedItem", searchedItem);
     	

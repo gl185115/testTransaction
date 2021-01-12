@@ -2738,7 +2738,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
 	public int saveForwardPosLogIncludeTerminalid(PosLog posLog, String posLogXml, String queue, String cashierId, String total)
 			throws DaoException {
-		String functioName = DebugLogger.getCurrentMethodName();
+		String functioName = "saveForwardPosLogIncludeTerminalid";
         tp.methodEnter(functioName).println("queue", queue).println("chekerId",cashierId).println("total", total);
 
         int result = 0;
@@ -2817,7 +2817,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     public SearchForwardWithTerminalidPosLog getForwardItemsPosLogWithTerminalid(String companyId, String retailStoreId,
     		String queue, String businessDayDate, String cashierId, String trainingFlag) throws DaoException{
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardItemsPosLogWithTerminalid";
         tp.methodEnter(functionName)
         		.println("companyId", companyId)
         		.println("retailStoreId", retailStoreId)
@@ -2873,7 +2873,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     public int getForwardItemsPendingCount(PosLog posLog, String companyId, String retailStoreId,
     		String queue, String cashierId, String trainingFlag) throws DaoException{
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardItemsPendingCount";
         tp.methodEnter(functionName)
         		.println("companyId", companyId)
         		.println("retailStoreId", retailStoreId)

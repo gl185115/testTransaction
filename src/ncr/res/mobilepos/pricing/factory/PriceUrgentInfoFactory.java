@@ -48,7 +48,7 @@ public class PriceUrgentInfoFactory {
 	 */
 	private static List<PriceUrgentInfo> pricePromInfoConstant(String companyId, String storeId, String mdInternal) throws Exception {
 		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PriceUrgentInfoFactory.class);
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "pricePromInfoConstant";
 
 		List<PriceUrgentInfo> priceUrgentList = null;
 

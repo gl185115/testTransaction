@@ -914,7 +914,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="total", value="トータル") @FormParam("total") final String total,
     		@ApiParam(name="cashierid", value="精算機の端末番号") @FormParam("cashierid") final String cashierId ) {
 
-    	String functionName = DebugLogger.getCurrentMethodName();
+    	String functionName = "saveForwardPosLogIncludeTerminalid";
         tp.methodEnter(functionName)
           .println("companyid", companyId)
           .println("retailstoreid", retailStoreId)
@@ -1060,7 +1060,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final String trainingFlag,
     		@ApiParam(name="terminalId", value="チェッカーの端末番号") @FormParam("terminalId") final String terminalId ) throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCashierList";
         tp.println("companyid", companyId);
         tp.println("retailstoreid", retailStoreId);
         tp.println("trainingflag", trainingFlag);
@@ -1126,7 +1126,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="businessdaydate", value="POS業務日付") @FormParam("businessdaydate") String businessDayDate,
     		@ApiParam(name="cashierid", value="精算機の端末番号") @FormParam("cashierid") String cashierId,
     		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") String trainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardItemsWithTerminalid";
         tp.println("companyid", companyId);
         tp.println("retailstoreid", retailStoreId);
         tp.println("queue", queue);
@@ -1192,7 +1192,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final String trainingFlag,
     		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") final String workstationId ) throws DaoException {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCheckerList";
         tp.println("companyid", companyId);
         tp.println("retailstoreid", retailStoreId);
         tp.println("trainingflag", trainingFlag);
@@ -1257,7 +1257,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="LayawayFlag", value="予約フラグ") @FormParam("LayawayFlag") String LayawayFlag,
     		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
             @ApiParam(name="TxType", value="取引タイプ") @FormParam("TxType") String TxType) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardUnprocessedList";
         tp.println("CompanyId", CompanyId);
         tp.println("StoreCode", RetailStoreId);
         tp.println("Terminalid", Terminalid);
@@ -1329,7 +1329,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") String retailStoreId,
     		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") String workStationId,
     		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") String trainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getResumeVoidList";
         tp.println("companyid", companyId);
         tp.println("retailstoreid", retailStoreId);
         tp.println("workstationid", workStationId);
@@ -1391,7 +1391,7 @@ public class ForwardItemListResource {
     		@ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") String retailStoreId,
     		@ApiParam(name="cashierid", value="精算機の端末番号") @FormParam("cashierid") String cashierId,
     		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") String trainingFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getForwardCountWithCashier";
         tp.println("companyid", companyId);
         tp.println("retailstoreid", retailStoreId);
         tp.println("cashierid", cashierId);

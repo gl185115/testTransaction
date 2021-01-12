@@ -64,7 +64,7 @@ public class SQLServerPriceUrgentInfoDAO extends AbstractDao implements IPriceUr
 	 */
 	@Override
 	public List<PriceUrgentInfo> getPriceUrgentInfoList(String companyId, String storeId, String mdInternal) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getPriceUrgentInfoList";
 		tp.println("CompanyId", companyId);
 		tp.println("storeId", storeId);
 		tp.println("dayDate", mdInternal);

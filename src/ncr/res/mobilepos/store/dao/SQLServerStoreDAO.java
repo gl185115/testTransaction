@@ -547,7 +547,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     @Override
     public String getCertificateNo(String companyId, String storeId, String workStactionId, String traning)
             throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCertificateNo";
         tp.methodEnter("getCertificateNo").println("companyId", companyId).println("storeId", storeId)
                 .println("workStactionId", workStactionId).println("traning", traning);
 
@@ -583,7 +583,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     @Override
     public int updateCertificateNo(int SubNum2, String companyId, String storeId, String workStactionId,
             String traning) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateCertificateNo";
         tp.methodEnter("updateCertificateNo").println("SubNum2",SubNum2).println("companyId", companyId).println("storeId", storeId)
                 .println("workStactionId", workStactionId).println("traning", traning);
 

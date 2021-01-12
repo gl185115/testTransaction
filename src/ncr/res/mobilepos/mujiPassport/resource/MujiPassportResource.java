@@ -92,7 +92,7 @@ public class MujiPassportResource {
             @ApiParam(name = "authKey", value = "API認証キー") @QueryParam("authKey") final String authKey,
             @ApiParam(name = "memberID", value = "会員ID") @QueryParam("memberID") final String memberID) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getAccountInfo";
         tp.methodEnter(functionName);
         tp.println("authKey", authKey).println("memberID", memberID);
         AccountInfoResponse accountInfoResponse = new AccountInfoResponse();
@@ -264,7 +264,7 @@ public class MujiPassportResource {
             @ApiParam(name = "useCouponList", value = "使用クーポン一覧") @QueryParam("useCouponList") final String useCouponList,
             @ApiParam(name = "mybag", value = "マイバッグ持参有無") @QueryParam("mybag") final int mybag) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "registTrade";
         tp.methodEnter(functionName);
         tp.println("authKey", authKey).println("memberID", memberID).println("strCd", strCd)
                 .println("registarNo", registarNo).println("tradeDate", tradeDate).println("tradeNo", tradeNo)
@@ -432,7 +432,7 @@ public class MujiPassportResource {
             @ApiParam(name = "strCd", value = "店番") @QueryParam("strCd") final String strCd,
             @ApiParam(name = "settlementId", value = "決済情報取得TOKEN") @QueryParam("settlementId") final String settlementId) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getPassportPaymentInfo";
         tp.methodEnter(functionName);
         tp.println("authKey", authKey).println("memberID", memberID).println("strCd", strCd).println("settlementId",
                 settlementId);
@@ -596,7 +596,7 @@ public class MujiPassportResource {
             @ApiParam(name = "strCd", value = "店舗番号") @QueryParam("strCd") final String strCd,
             @ApiParam(name = "paymentInfoCode", value = "決済依頼ID") @QueryParam("paymentInfoCode") final String paymentInfoCode) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "payPassport";
         tp.methodEnter(functionName);
         tp.println("authKey", authKey).println("memberID", memberID).println("paymentType", paymentType)
                 .println("paymentRequestCode", paymentRequestCode).println("strCd", strCd)
@@ -769,7 +769,7 @@ public class MujiPassportResource {
             @ApiParam(name = "prepaidBalance", value = "決済後プリペイド残高") @QueryParam("prepaidBalance") final int prepaidBalance,
             @ApiParam(name = "prepaidExpirationDate", value = "プリペイド有効期限日時") @QueryParam("prepaidExpirationDate") final String prepaidExpirationDate) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "settlementComplete";
         tp.methodEnter(functionName);
         tp.println("authKey", authKey).println("memberID", memberID).println("settlementId", settlementId)
                 .println("journalId", journalId).println("tradeDate", tradeDate).println("strCd", strCd)

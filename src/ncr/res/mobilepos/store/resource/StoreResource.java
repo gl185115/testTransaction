@@ -380,7 +380,7 @@ public class StoreResource {
     		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getCertificateNo";
         JSONData json = new JSONData();
         tp.methodEnter("getCertificateNo")
             .println("companyid", companyId)
@@ -421,7 +421,7 @@ public class StoreResource {
     		@ApiParam(name="terminalId", value="POSコード")@QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
 
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "updateCertificateNo";
         JSONData json = new JSONData();
         tp.methodEnter("updateCertificateNo")
             .println("SubNum2", SubNum2)

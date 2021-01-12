@@ -82,7 +82,7 @@ public class MasterSyncResource {
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー")
     })
     public final MaintenanceLogResponse getNormalMaintenanceLog(MaintenanceLogRequest request) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getNormalMaintenanceLog";
 
         tp.methodEnter(functionName).println("companyId", request.getCompanyId()).println("storeId", request.getStoreId())
             .println("bizCatId", request.getBizCatId()).println("maintenanceId", request.getMaintenanceId())
@@ -168,7 +168,7 @@ public class MasterSyncResource {
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー")
     })
     public final MaintenanceLogResponse getUrgentMaintenanceLog(MaintenanceLogRequest request) {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "getUrgentMaintenanceLog";
 
         tp.methodEnter(functionName).println("companyId", request.getCompanyId()).println("storeId", request.getStoreId())
             .println("bizCatId", request.getBizCatId()).println("maintenanceId", request.getMaintenanceId())

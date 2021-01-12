@@ -149,7 +149,7 @@ extends AbstractDao implements ISystemSettingDAO {
 	}
     @Override
     public int setBootTime(String companyid, String storeid, String workstationid, String bootdatetime) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "setBootTime";
         tp.methodEnter(functionName);
         Connection connection = null;
         int resultCode = 0;
@@ -192,7 +192,7 @@ extends AbstractDao implements ISystemSettingDAO {
     }
     @Override
     public int setSoftwareVersionTime(String companyId, String storeId, String workstationid, String verTablet, String verTransaction, String verBatch, String misc1, String misc2, String misc3, String misc4, String misc5) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
+        String functionName = "setSoftwareVersionTime";
         tp.methodEnter(functionName);
         Connection connection = null;
         int resultCode = 0;

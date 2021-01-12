@@ -75,7 +75,7 @@ public class SQLServerUrgentChangePriceInfoDAO extends AbstractDao implements IU
 	@Override
 	public UrgentChangeItemInfo getUrgentChangePriceInfo(String companyId,String storeId,String mdInternal,String bizDate,String bizDateTime)
 			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getUrgentChangePriceInfo";
     	tp.println("CompanyId", companyId);
         tp.println("storeId", storeId);
         tp.println("mdInternal", mdInternal);

@@ -124,7 +124,7 @@ public class CashAbstractResource {
 	public final DispensingCodeList getDispensingCreditCode(
 			@ApiParam(name = "CompanyId", value = "âÔé–ÉRÅ[Éh") @QueryParam("CompanyId") final String companyId,
 			@ApiParam(name = "RetailStoreId", value = "ìXî‘çÜ") @QueryParam("RetailStoreId") final String retailStoreId) {
-		String functionName = DebugLogger.getCurrentMethodName();
+		String functionName = "getDispensingCreditCode";
 		tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId);
 
 		DispensingCodeList dcList = new DispensingCodeList();

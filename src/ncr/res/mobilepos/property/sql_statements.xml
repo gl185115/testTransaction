@@ -9,7 +9,8 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
         @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10),
         @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10), @lineStoreId VARCHAR(10), @callinStoreId VARCHAR(10),
-        @selfmedicationStoreId VARCHAR(10), @nameDesignatedStoreId VARCHAR(10), @nameTrasferStoreId VARCHAR(10), @designateddrugStoreId VARCHAR(10), @trasferletterStoreId VARCHAR(10)
+        @selfmedicationStoreId VARCHAR(10), @nameDesignatedStoreId VARCHAR(10), @nameTrasferStoreId VARCHAR(10),
+        @designateddrugStoreId VARCHAR(10), @trasferletterStoreId VARCHAR(10), @targetStoreType VARCHAR(2)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
     SET @MdInternal = LTRIM(RTRIM(?))
@@ -32,6 +33,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @nameTrasferStoreId = @storeId
     SET @designateddrugStoreId = @storeId
     SET @trasferletterStoreId = @storeId
+    SET @targetStoreType = '2'
 
     SELECT @MdInternal = plu.MdInternal FROM RESMaster.dbo.MST_PLU plu
      WHERE plu.CompanyId = @companyId
@@ -51,7 +53,10 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
          AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
-    SET @storeId = '0'
+    BEGIN
+        SET @storeId = '0'
+        SET @storeStoreId = '0'
+    END
 
     IF NOT EXISTS (
        SELECT *
@@ -63,11 +68,13 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          AND pluStore.MdInternal = plu.MdInternal
          AND pluStore.DeleteFlag = 0.0
          AND pluStore.StoreId = @storeStoreId
+         AND pluStore.TargetStoreType = @targetStoreType
+         AND (@businessDate) BETWEEN REPLACE(CAST(pluStore.StartDate AS VARCHAR(10)),'-','') AND REPLACE(CAST(pluStore.EndDate AS VARCHAR(10)),'-','')
        WHERE
          plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
          AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
-    SET @storeStoreId = '0'
+    SET @targetStoreType = '1'
 
     IF NOT EXISTS (
        SELECT *
@@ -424,11 +431,24 @@ SELECT TOP 1
        expirationDate.SalesPeriod
 FROM
   RESMaster.dbo.MST_PLU plu
-LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
+LEFT JOIN  (
+    SELECT top 1
+        store.CompanyId,
+        store.StoreId,
+        store.MdInternal,
+        store.SalesPrice
+    FROM RESMaster.dbo.MST_PLU_STORE store
+    WHERE store.CompanyId = @companyId
+    AND store.StoreId = @storeStoreId
+    AND store.MdInternal = @MdInternal
+    AND store.DeleteFlag = 0.0
+    AND store.TargetStoreType = @targetStoreType
+    AND (@businessDate) BETWEEN REPLACE(CAST(store.StartDate AS VARCHAR(10)),'-','') AND REPLACE(CAST(store.EndDate AS VARCHAR(10)),'-','')
+    ORDER BY store.UpdDate DESC
+) plustore
 ON plu.CompanyId = plustore.CompanyId
 AND plustore.StoreId = @storeStoreId
-AND plustore.MdInternal = plu.MdInternal
-AND plustore.DeleteFlag = 0.0
+AND plu.MdInternal = plustore.MdInternal
 LEFT JOIN RESMaster.dbo.MST_DPTINFO dpt
 ON plu.CompanyId = dpt.CompanyId
 AND dpt.StoreId = @dptStoreId

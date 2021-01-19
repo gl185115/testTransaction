@@ -1122,7 +1122,7 @@ public class TerminalItem {
 
 		return list;
 	}
-
+    
     /**
      * get the item of mixMatch info
      * @param mmNo mixMatchcode
@@ -1133,6 +1133,8 @@ public class TerminalItem {
         Map<String, Map<String, Object>> detailMap = new HashMap<String, Map<String, Object>>();
         // the sum of quantity
         int sumCount = 0;
+        double vLastDecisionPrice = 0;
+        double vLastDecisionPriceRate = 0;
         Map<String, Object> map = new HashMap<String, Object>();
         List<MixMatchDetailInfo> ruleList2 = new ArrayList<MixMatchDetailInfo>();
         List<MixMatchDetailInfo> ruleList1 = new ArrayList<MixMatchDetailInfo>();
@@ -1206,14 +1208,32 @@ public class TerminalItem {
                 detailinfo.addEntryList(ruleList2);
                 // if(null != rule.getDecisionPrice3()){
                 if(PromotionConstants.DISCOUNT_CLASS_3.equals(rule.getDiscountClass())) {
-                	map.put("lastDecisionPrice", rule.getDecisionPrice3());
-                    detailinfo.setCurrentDecisionPrice(nullToZero(rule.getDecisionPrice3()));
+                	if (rule.getDecisionPrice3() != null) {
+              		  	vLastDecisionPrice = rule.getDecisionPrice3();
+              	  	} else if (rule.getDecisionPrice2() != null) {
+              	  		vLastDecisionPrice = rule.getDecisionPrice2();
+              	  	} else if (rule.getDecisionPrice1() != null) {
+              	  		vLastDecisionPrice = rule.getDecisionPrice1();
+              	  	} else {
+              	  		vLastDecisionPrice = 0;
+              	  	}
+              	  	map.put("lastDecisionPrice", vLastDecisionPrice);
+                    detailinfo.setCurrentDecisionPrice(vLastDecisionPrice);
                     detailinfo.setConditionPrice(rule.getConditionPrice3());
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                	map.put("lastDecisionPriceRate", rule.getDecisionRate3());
+                	if (rule.getDecisionRate3() != null) {
+              		  	vLastDecisionPriceRate = rule.getDecisionRate3();
+              	  	} else if (rule.getDecisionRate2() != null) {
+              	  		vLastDecisionPriceRate = rule.getDecisionRate2();
+              	  	} else if (rule.getDecisionRate1() != null) {
+              	  		vLastDecisionPriceRate = rule.getDecisionRate1();
+              	  	} else {
+              	  		vLastDecisionPrice = 0;
+              	  	}
+                	map.put("lastDecisionPriceRate", vLastDecisionPriceRate);
                 	detailinfo.setCurrentConditionPriceRate(nullToZero(rule.getConditionRate3()));
-                	detailinfo.setCurrentDecisionPriceRate(nullToZero(rule.getDecisionRate3()));
+                	detailinfo.setCurrentDecisionPriceRate(vLastDecisionPriceRate);
                 }
                     
                     // detailinfo.setAveragePrice(rule.getAveragePrice3() > rule.getDecisionPrice3() ? rule.getDecisionPrice3() : rule.getAveragePrice3());
@@ -1290,19 +1310,29 @@ public class TerminalItem {
                 ruleList1.add(ruleentryinfo1);
                 detailinfo.addEntryList(ruleList1);
                 if(PromotionConstants.DISCOUNT_CLASS_3.equals(rule.getDiscountClass())) {
+                	if (rule.getDecisionPrice2() != null) {
+              		  	vLastDecisionPrice = rule.getDecisionPrice2();
+              	  	} else if (rule.getDecisionPrice1() != null) {
+              	  		vLastDecisionPrice = rule.getDecisionPrice1();
+              	  	} else {
+              	  		vLastDecisionPrice = 0;
+              	  	}                	
                 	detailinfo.setConditionPrice(rule.getConditionPrice2());
                 	detailinfo.setAveragePrice(rule.getAveragePrice2());
-                	detailinfo.setCurrentDecisionPrice(nullToZero(rule.getDecisionPrice2()));
-                	if (rule.getDecisionPrice2() != null && !map.containsKey("lastDecisionPrice")) {
-                		map.put("lastDecisionPrice", rule.getDecisionPrice2());
-                	}
+              	  	map.put("lastDecisionPrice", vLastDecisionPrice);
+                    detailinfo.setCurrentDecisionPrice(vLastDecisionPrice);
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                    if (rule.getDecisionRate2() != null && !map.containsKey("lastDecisionPriceRate")) {
-                        map.put("lastDecisionPriceRate", rule.getDecisionRate2());
-                    }
+                	if (rule.getDecisionRate2() != null) {
+              		  	vLastDecisionPriceRate = rule.getDecisionRate2();
+              	  	} else if (rule.getDecisionRate1() != null) {
+              	  		vLastDecisionPriceRate = rule.getDecisionRate1();
+              	  	} else {
+              	  		vLastDecisionPriceRate = 0;
+              	  	}
+                    map.put("lastDecisionPriceRate", vLastDecisionPriceRate);
                 	detailinfo.setCurrentConditionPriceRate(nullToZero(rule.getConditionRate2()));
-                	detailinfo.setCurrentDecisionPriceRate(nullToZero(rule.getDecisionRate2()));
+                	detailinfo.setCurrentDecisionPriceRate(vLastDecisionPriceRate);
                 }
                 if (map.containsKey("rule2")) {
                     ((DetailInfo) map.get("rule2")).addEntryList(ruleList1);
@@ -1371,19 +1401,25 @@ public class TerminalItem {
                 detailinfo.addEntryList(ruleList);
                 
                 if(PromotionConstants.DISCOUNT_CLASS_3.equals(rule.getDiscountClass())) {
-                    detailinfo.setCurrentDecisionPrice(nullToZero(rule.getDecisionPrice1()));
-                    if (rule.getDecisionPrice1() != null && !map.containsKey("lastDecisionPrice")) {
-                        map.put("lastDecisionPrice", rule.getDecisionPrice1());
-                    }
+                	if(rule.getDecisionPrice1() != null) {
+              		  	vLastDecisionPrice = rule.getDecisionPrice1();
+              	  	} else {
+              	  		vLastDecisionPrice = 0;
+              	  	}
+                	map.put("lastDecisionPrice", vLastDecisionPrice);
+                	detailinfo.setCurrentDecisionPrice(vLastDecisionPrice);
                     detailinfo.setAveragePrice(rule.getAveragePrice1());
                     detailinfo.setConditionPrice(rule.getConditionPrice1());
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                    if (rule.getDecisionRate1() != null && !map.containsKey("lastDecisionPriceRate")) {
-                        map.put("lastDecisionPriceRate", rule.getDecisionRate1());
-                    }
+                	if(rule.getDecisionRate1() != null) {
+              		  	vLastDecisionPriceRate = rule.getDecisionRate1();
+              	  	} else {
+              	  		vLastDecisionPriceRate = 0;
+              	  	}
+                    map.put("lastDecisionPriceRate", vLastDecisionPriceRate);
                 	detailinfo.setCurrentConditionPriceRate(nullToZero(rule.getConditionRate1()));
-                	detailinfo.setCurrentDecisionPriceRate(nullToZero(rule.getDecisionRate1()));
+                	detailinfo.setCurrentDecisionPriceRate(vLastDecisionPriceRate);
                 }
                 
                 if (map.containsKey("rule1")) {

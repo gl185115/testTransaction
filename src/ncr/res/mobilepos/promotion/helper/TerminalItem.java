@@ -1180,7 +1180,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo3.getQuantity();
             }
-            if (rule.getConditionCount3() > 0 && (sumCount / rule.getConditionCount3()) >= 1) {
+            if (rule.getConditionCount3() > 0 && (sumCount / rule.getConditionCount3()) >= 1 && vLastDecisionPrice == 0) {
                 if (map.containsKey("rule1")) {
                     map.remove("rule1");
                 }
@@ -1280,7 +1280,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo2.getQuantity();
             }
-            if (rule.getConditionCount2() > 0 && (sumCount / rule.getConditionCount2()) >= 1) {
+            if (rule.getConditionCount2() > 0 && (sumCount / rule.getConditionCount2()) >= 1 && vLastDecisionPrice == 0) {
                 if (map.containsKey("rule1")) {
                     map.remove("rule1");
                 }
@@ -1373,7 +1373,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo1.getQuantity();
             }
-            if (rule.getConditionCount1() > 0 &&(sumCount / rule.getConditionCount1()) >= 1) {
+            if (rule.getConditionCount1() > 0 &&(sumCount / rule.getConditionCount1()) >= 1 && vLastDecisionPrice == 0) {
                 MixMatchDetailInfo ruleentryinfo1 = new MixMatchDetailInfo();
                 ruleentryinfo1.setEntryId(mixMatchDetailInfo1.getEntryId());
                 ruleentryinfo1.setTruePrice(mixMatchDetailInfo1.getTruePrice());

@@ -239,7 +239,7 @@ public class SQLServerPriceMMInfoDAO extends AbstractDao implements IPriceMMInfo
         	dayOfWeekFlag = result.getInt(result.findColumn("DayOfWeekSatFlag")) == 1;
         	break;
         case DAY_OF_WEEKSUN:
-        	dayOfWeekFlag = result.getInt(result.findColumn("DayOfWeekSatFlag")) == 1;
+        	dayOfWeekFlag = result.getInt(result.findColumn("DayOfWeekSunFlag")) == 1;
         	break;
         default:
         	dayOfWeekFlag = false;

@@ -1208,28 +1208,28 @@ public class TerminalItem {
                 detailinfo.addEntryList(ruleList2);
                 // if(null != rule.getDecisionPrice3()){
                 if(PromotionConstants.DISCOUNT_CLASS_3.equals(rule.getDiscountClass())) {
-                	if (rule.getDecisionPrice3() != null) {
+                	if (rule.getDecisionPrice3() != null && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getDecisionPrice3())) {
               		  	vLastDecisionPrice = rule.getDecisionPrice3();
-              	  	} else if (rule.getDecisionPrice2() != null) {
+              	  	} else if (rule.getDecisionPrice2() != null && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getDecisionPrice2())) {
               	  		vLastDecisionPrice = rule.getDecisionPrice2();
-              	  	} else if (rule.getDecisionPrice1() != null) {
+              	  	} else if (rule.getDecisionPrice1() != null && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getDecisionPrice1())) {
               	  		vLastDecisionPrice = rule.getDecisionPrice1();
               	  	} else {
-              	  		vLastDecisionPrice = 0;
+              	  		vLastDecisionPrice = vLastDecisionPrice != 0 ? vLastDecisionPrice : 0;
               	  	}
               	  	map.put("lastDecisionPrice", vLastDecisionPrice);
                     detailinfo.setCurrentDecisionPrice(vLastDecisionPrice);
                     detailinfo.setConditionPrice(rule.getConditionPrice3());
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                	if (rule.getDecisionRate3() != null) {
+                	if (rule.getDecisionRate3() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate3())) {
               		  	vLastDecisionPriceRate = rule.getDecisionRate3();
-              	  	} else if (rule.getDecisionRate2() != null) {
+              	  	} else if (rule.getDecisionRate2() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate2())) {
               	  		vLastDecisionPriceRate = rule.getDecisionRate2();
-              	  	} else if (rule.getDecisionRate1() != null) {
+              	  	} else if (rule.getDecisionRate1() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate1())) {
               	  		vLastDecisionPriceRate = rule.getDecisionRate1();
               	  	} else {
-              	  		vLastDecisionPrice = 0;
+              	  		vLastDecisionPriceRate = vLastDecisionPriceRate != 0 ? vLastDecisionPriceRate : 0;
               	  	}
                 	map.put("lastDecisionPriceRate", vLastDecisionPriceRate);
                 	detailinfo.setCurrentConditionPriceRate(nullToZero(rule.getConditionRate3()));
@@ -1280,7 +1280,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo2.getQuantity();
             }
-            if (rule.getConditionCount2() > 0 && (sumCount / rule.getConditionCount2()) >= 1 && vLastDecisionPrice == 0) {
+            if (rule.getConditionCount2() > 0 && (sumCount / rule.getConditionCount2()) >= 1 && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getAveragePrice2())) {
                 if (map.containsKey("rule1")) {
                     map.remove("rule1");
                 }
@@ -1310,12 +1310,12 @@ public class TerminalItem {
                 ruleList1.add(ruleentryinfo1);
                 detailinfo.addEntryList(ruleList1);
                 if(PromotionConstants.DISCOUNT_CLASS_3.equals(rule.getDiscountClass())) {
-                	if (rule.getDecisionPrice2() != null) {
+                	if (rule.getDecisionPrice2() != null && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getDecisionPrice2())) {
               		  	vLastDecisionPrice = rule.getDecisionPrice2();
-              	  	} else if (rule.getDecisionPrice1() != null) {
+              	  	} else if (rule.getDecisionPrice1() != null && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getDecisionPrice1())) {
               	  		vLastDecisionPrice = rule.getDecisionPrice1();
               	  	} else {
-              	  		vLastDecisionPrice = 0;
+              	  		vLastDecisionPrice = vLastDecisionPrice != 0 ? vLastDecisionPrice : 0;
               	  	}                	
                 	detailinfo.setConditionPrice(rule.getConditionPrice2());
                 	detailinfo.setAveragePrice(rule.getAveragePrice2());
@@ -1323,12 +1323,12 @@ public class TerminalItem {
                     detailinfo.setCurrentDecisionPrice(vLastDecisionPrice);
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                	if (rule.getDecisionRate2() != null) {
+                	if (rule.getDecisionRate2() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate2())) {
               		  	vLastDecisionPriceRate = rule.getDecisionRate2();
-              	  	} else if (rule.getDecisionRate1() != null) {
+              	  	} else if (rule.getDecisionRate1() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate1())) {
               	  		vLastDecisionPriceRate = rule.getDecisionRate1();
               	  	} else {
-              	  		vLastDecisionPriceRate = 0;
+              	  		vLastDecisionPriceRate = vLastDecisionPriceRate != 0 ? vLastDecisionPriceRate : 0;
               	  	}
                     map.put("lastDecisionPriceRate", vLastDecisionPriceRate);
                 	detailinfo.setCurrentConditionPriceRate(nullToZero(rule.getConditionRate2()));
@@ -1373,7 +1373,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo1.getQuantity();
             }
-            if (rule.getConditionCount1() > 0 &&(sumCount / rule.getConditionCount1()) >= 1 && vLastDecisionPrice == 0) {
+            if (rule.getConditionCount1() > 0 &&(sumCount / rule.getConditionCount1()) >= 1 && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getAveragePrice1())) {
                 MixMatchDetailInfo ruleentryinfo1 = new MixMatchDetailInfo();
                 ruleentryinfo1.setEntryId(mixMatchDetailInfo1.getEntryId());
                 ruleentryinfo1.setTruePrice(mixMatchDetailInfo1.getTruePrice());
@@ -1401,10 +1401,10 @@ public class TerminalItem {
                 detailinfo.addEntryList(ruleList);
                 
                 if(PromotionConstants.DISCOUNT_CLASS_3.equals(rule.getDiscountClass())) {
-                	if(rule.getDecisionPrice1() != null) {
+                	if(rule.getDecisionPrice1() != null && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getDecisionPrice1())) {
               		  	vLastDecisionPrice = rule.getDecisionPrice1();
               	  	} else {
-              	  		vLastDecisionPrice = 0;
+              	  		vLastDecisionPrice = vLastDecisionPrice != 0 ? vLastDecisionPrice : 0;
               	  	}
                 	map.put("lastDecisionPrice", vLastDecisionPrice);
                 	detailinfo.setCurrentDecisionPrice(vLastDecisionPrice);
@@ -1412,10 +1412,10 @@ public class TerminalItem {
                     detailinfo.setConditionPrice(rule.getConditionPrice1());
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                	if(rule.getDecisionRate1() != null) {
+                	if(rule.getDecisionRate1() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate1())) {
               		  	vLastDecisionPriceRate = rule.getDecisionRate1();
               	  	} else {
-              	  		vLastDecisionPriceRate = 0;
+              	  		vLastDecisionPriceRate = vLastDecisionPriceRate != 0 ? vLastDecisionPriceRate : 0;
               	  	}
                     map.put("lastDecisionPriceRate", vLastDecisionPriceRate);
                 	detailinfo.setCurrentConditionPriceRate(nullToZero(rule.getConditionRate1()));

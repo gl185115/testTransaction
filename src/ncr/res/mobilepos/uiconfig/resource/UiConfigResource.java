@@ -53,6 +53,7 @@ public class UiConfigResource {
     private static final String EXTENSION_CUSTOM_IMAGE_JPG = ".jpg";
     private static final String EXTENSION_CUSTOM_IMAGE_PNG = ".png";
     private static final String EXTENSION_CUSTOM_IMAGE_GIF = ".gif";
+    private static final String EXTENSION_CUSTOM_IMAGE_BMP = ".bmp";
     private static final String EXTENSION_CUSTOM_SOUND_WAV = ".wav";
 
     /**
@@ -393,7 +394,7 @@ public class UiConfigResource {
      */
     @Path("/custom/{typeParam}/images/{filename}")
     @GET
-    @Produces({"image/png", "image/jpg", "image/gif"})
+    @Produces({"image/png", "image/jpg", "image/gif", "image/bmp"})
     @ApiOperation(value="各種カスタムイメージファイルの取得", response=Response.class)
     public final Response requestTypeParamCustomImage(
             @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
@@ -413,7 +414,8 @@ public class UiConfigResource {
         }
 
         // 2, Validates file extension, it should be png or jpg or gif.
-        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_GIF)) {
+        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG) &&
+            !filename.endsWith(EXTENSION_CUSTOM_IMAGE_GIF) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_BMP)) {
             tp.methodExit("Invalid filename:" + filename);
             LOGGER.logAlert(
                     this.getClass().getSimpleName(),
@@ -454,7 +456,7 @@ public class UiConfigResource {
      */
     @Path("/custom/images/{typeParam}/{filename}")
     @GET
-    @Produces({"image/png", "image/jpg", "image/gif"})
+    @Produces({"image/png", "image/jpg", "image/gif", "image/bmp"})
     @ApiOperation(value="各種カスタムイメージファイルの取得", response=Response.class)
     public final Response requestCustomTypeParamImage(
             @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
@@ -474,7 +476,8 @@ public class UiConfigResource {
         }
 
         // 2, Validates file extension, it should be png, jpg or gif.
-        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_GIF)) {
+        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG) &&
+            !filename.endsWith(EXTENSION_CUSTOM_IMAGE_GIF) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_BMP)) {
             tp.methodExit("Invalid filename:" + filename);
             LOGGER.logAlert(
                     this.getClass().getSimpleName(),

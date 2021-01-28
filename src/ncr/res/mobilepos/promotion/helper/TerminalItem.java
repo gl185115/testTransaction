@@ -1222,11 +1222,11 @@ public class TerminalItem {
                     detailinfo.setConditionPrice(rule.getConditionPrice3());
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                	if (rule.getDecisionRate3() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate3())) {
+                	if (rule.getDecisionRate3() != null && vLastDecisionPriceRate == 0 && vLastDecisionPriceRate < rule.getDecisionRate3()) {
               		  	vLastDecisionPriceRate = rule.getDecisionRate3();
-              	  	} else if (rule.getDecisionRate2() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate2())) {
+              	  	} else if (rule.getDecisionRate2() != null && vLastDecisionPriceRate == 0 && vLastDecisionPriceRate < rule.getDecisionRate2()) {
               	  		vLastDecisionPriceRate = rule.getDecisionRate2();
-              	  	} else if (rule.getDecisionRate1() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate1())) {
+              	  	} else if (rule.getDecisionRate1() != null && vLastDecisionPriceRate == 0 && vLastDecisionPriceRate < rule.getDecisionRate1()) {
               	  		vLastDecisionPriceRate = rule.getDecisionRate1();
               	  	} else {
               	  		vLastDecisionPriceRate = vLastDecisionPriceRate != 0 ? vLastDecisionPriceRate : 0;
@@ -1323,9 +1323,9 @@ public class TerminalItem {
                     detailinfo.setCurrentDecisionPrice(vLastDecisionPrice);
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                	if (rule.getDecisionRate2() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate2())) {
+                	if (rule.getDecisionRate2() != null && vLastDecisionPriceRate == 0 && vLastDecisionPriceRate < rule.getDecisionRate2()) {
               		  	vLastDecisionPriceRate = rule.getDecisionRate2();
-              	  	} else if (rule.getDecisionRate1() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate1())) {
+              	  	} else if (rule.getDecisionRate1() != null && vLastDecisionPriceRate == 0 && vLastDecisionPriceRate < rule.getDecisionRate1()) {
               	  		vLastDecisionPriceRate = rule.getDecisionRate1();
               	  	} else {
               	  		vLastDecisionPriceRate = vLastDecisionPriceRate != 0 ? vLastDecisionPriceRate : 0;
@@ -1412,7 +1412,7 @@ public class TerminalItem {
                     detailinfo.setConditionPrice(rule.getConditionPrice1());
                 }
                 if(PromotionConstants.DISCOUNT_CLASS_1.equals(rule.getDiscountClass())) {
-                	if(rule.getDecisionRate1() != null && (vLastDecisionPriceRate == 0 || vLastDecisionPriceRate < rule.getDecisionRate1())) {
+                	if(rule.getDecisionRate1() != null && vLastDecisionPriceRate == 0 && vLastDecisionPriceRate < rule.getDecisionRate1()) {
               		  	vLastDecisionPriceRate = rule.getDecisionRate1();
               	  	} else {
               	  		vLastDecisionPriceRate = vLastDecisionPriceRate != 0 ? vLastDecisionPriceRate : 0;

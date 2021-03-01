@@ -1872,13 +1872,16 @@ public class PromotionResource {
 								MixMatchDetailInfo mmdi = terminalItem.getBmMapByEntryid().get(saleIn.getItemEntryId());
 								terminalItem.setBmDetailMapList(mmdi.getPriceMMInfoList(), info);  
 							} else {
-								ItemResource itemResource = new ItemResource();
-								List<PriceMMInfo> priceMMList = itemResource.getPriceMMList(saleIn.getSku());
-								Item item = new Item();
-								item.setPriceMMInfoList(priceMMList);
-								terminalItem.addBmRuleMap(item); 
-								terminalItem.setBmDetailMapList(priceMMList, info); 
+								if (setBmDetailMapItem(transactionIn, saleIn, terminalItem)) {
+									ItemResource itemResource = new ItemResource();
+									List<PriceMMInfo> priceMMList = itemResource.getPriceMMList(saleIn.getSku());
+									Item item = new Item();
+									item.setPriceMMInfoList(priceMMList);
+									terminalItem.addBmRuleMap(item); 
+									terminalItem.setBmDetailMapList(priceMMList, info); 
+								}
 							}
+							if (setBmDetailMapItem(transactionIn, saleIn, terminalItem)) {
 								Map<String, String> map = new HashMap<>(4);
 								map.put("companyId", companyId);
 								map.put("retailStoreId", retailStoreId);
@@ -1886,6 +1889,7 @@ public class PromotionResource {
 								map.put("businessDate", businessDate);
 								List<PmItemInfo> pmList =  pMItemsHandler.getPmByItemId(terminalItem, saleIn, map, daoFactory);
 								pMItemsHandler.cachePmInfo(pmList,terminalItem, saleIn, false, true, 0);
+							}
 						}
 					}
 				}

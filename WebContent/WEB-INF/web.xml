@@ -29,6 +29,7 @@
         ncr.res.mobilepos.exception.provider,
         ncr.res.mobilepos.forwarditemlist.resource,
         ncr.res.mobilepos.futurePay.resource,
+        ncr.res.mobilepos.intaPay.resource,
         ncr.res.mobilepos.mujiPassport.resource,
         ncr.res.mobilepos.journalization.resource,
         ncr.res.mobilepos.line.resource,
@@ -104,6 +105,7 @@
       <url-pattern>/rest/creditauthorization/*</url-pattern>
       <url-pattern>/rest/customerSearch/*</url-pattern>
       <url-pattern>/rest/futurePay/*</url-pattern>
+      <url-pattern>/rest/IntaPay/*</url-pattern>
       <url-pattern>/rest/mujiPassport/*</url-pattern>
       <url-pattern>/rest/customeraccount/*</url-pattern>
       <url-pattern>/rest/departmentinfo/detail</url-pattern>
@@ -255,7 +257,7 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>${drive.path}\software\ncr\res\log\snap_dir</env-entry-value>
   </env-entry>
-  <!-- 売上表レポート利用のファーマットファイル -->
+  <!-- 売上表レポ�Eト利用のファーマットファイル -->
   <env-entry>
     <env-entry-name>ReportFormatNewPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
@@ -273,7 +275,7 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>${drive.path}\software\ncr\res\link\systemconfig\interface.xml</env-entry-value>
   </env-entry>
-  <!-- fs add start 53mmと80mmのレシート識別子
+  <!-- fs add start 53mmと80mmのレシート識別孁E
        1 is Flag for 53mm receipt paper
        2 is Flag for 80mm receipt paper.-->
   <env-entry>

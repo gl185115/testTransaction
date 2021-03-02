@@ -35,6 +35,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.intaPay.factory.IntaPayFactory;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.point.factory.PointRateFactory;
@@ -164,6 +165,8 @@ public class WebContextListener implements ServletContextListener {
         BarcodeAssignmentFactory.initialize(environmentEntries.getParaBasePath());
         // Loads config file for Toppan Giftcard feature.
         ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
+        // Loads config form systemconfig table for intapay
+        IntaPayFactory.initialize();
 
         // Loads System Name Information
     	NameCategoryFactory.initialize();

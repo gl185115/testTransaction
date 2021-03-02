@@ -43,6 +43,7 @@ import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.dao.SQLServerForwardItemListDAO;
 import ncr.res.mobilepos.futurePay.dao.IFuturePayDAO;
 import ncr.res.mobilepos.journalization.dao.ICommonDAO;
+import ncr.res.mobilepos.intaPay.dao.IIntaPayDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastersync.dao.IMasterSyncDAO;
@@ -504,4 +505,6 @@ public abstract class DAOFactory {
 	public abstract IPMInfoDAO getPMInfoDAO() throws DaoException;
 
     public abstract IMujiPassportDAO getMujiPassportDAO() throws DaoException;
+
+    public abstract IIntaPayDAO getIntaPayDAO() throws DaoException;
 }

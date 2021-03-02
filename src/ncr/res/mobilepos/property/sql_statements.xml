@@ -3968,6 +3968,18 @@ ORDER BY
                 @eodtranno )
 </entry>
 
+<!-- *************************  ENTRY KEY FOR DEVICE AUTHENTICATION   ************************* -->
+
+<entry key="get-store-parameter">
+    SELECT TOP 1
+      %s
+    FROM
+      RESMaster.dbo.PRM_STORE_PARAM
+    WHERE
+      CompanyId = ? AND
+      StoreId = ?
+</entry>
+
 <!-- *************************  ENTRY KEY FOR SYSTEM CONFIGURATION   ************************* -->
 <entry key="get-system-parameters">
       SELECT

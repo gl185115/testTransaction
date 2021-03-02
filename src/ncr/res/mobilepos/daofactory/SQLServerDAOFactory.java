@@ -70,6 +70,8 @@ import ncr.res.mobilepos.futurePay.dao.IFuturePayDAO;
 import ncr.res.mobilepos.futurePay.dao.SQLServerFuturePayDAO;
 import ncr.res.mobilepos.giftcard.dao.SQLServerTxlCardFailureDAO;
 import ncr.res.mobilepos.journalization.dao.ICommonDAO;
+import ncr.res.mobilepos.intaPay.dao.IIntaPayDAO;
+import ncr.res.mobilepos.intaPay.dao.SQLServerIntaPayDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.dao.SQLServerCommonDAO;
 import ncr.res.mobilepos.journalization.dao.SQLServerPosLogDAO;
@@ -474,5 +476,10 @@ public class SQLServerDAOFactory extends DAOFactory {
    @Override
     public IMujiPassportDAO getMujiPassportDAO() throws DaoException {
         return new SQLServerMujiPassportDAO();
+    }
+
+   @Override
+    public IIntaPayDAO getIntaPayDAO() throws DaoException {
+        return new SQLServerIntaPayDAO();
     }
 }

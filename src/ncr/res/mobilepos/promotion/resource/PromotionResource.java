@@ -1872,7 +1872,7 @@ public class PromotionResource {
 								MixMatchDetailInfo mmdi = terminalItem.getBmMapByEntryid().get(saleIn.getItemEntryId());
 								terminalItem.setBmDetailMapList(mmdi.getPriceMMInfoList(), info);  
 							} else {
-								if (setBmDetailMapItem(transactionIn, saleIn, terminalItem)) {
+								if (!NOT_DISCOUNTABLE.equals(saleIn.getDiscountType())) {
 									ItemResource itemResource = new ItemResource();
 									List<PriceMMInfo> priceMMList = itemResource.getPriceMMList(saleIn.getSku());
 									Item item = new Item();
@@ -1881,7 +1881,7 @@ public class PromotionResource {
 									terminalItem.setBmDetailMapList(priceMMList, info); 
 								}
 							}
-							if (setBmDetailMapItem(transactionIn, saleIn, terminalItem)) {
+							if (!NOT_DISCOUNTABLE.equals(saleIn.getDiscountType())) {
 								Map<String, String> map = new HashMap<>(4);
 								map.put("companyId", companyId);
 								map.put("retailStoreId", retailStoreId);

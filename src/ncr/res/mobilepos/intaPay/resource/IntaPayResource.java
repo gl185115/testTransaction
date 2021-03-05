@@ -135,7 +135,7 @@ public class IntaPayResource {
     @Path("/pay")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value = "intaPay情報取得する", response = IntaPayReturnBean.class)
+    @ApiOperation(value = "intaPay　支払", response = IntaPayReturnBean.class)
     @ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
@@ -245,7 +245,7 @@ public class IntaPayResource {
     @Path("/query.pay")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value = "intaPay情報取得する", response = IntaPayReturnBean.class)
+    @ApiOperation(value = "intaPay　支払検索", response = IntaPayReturnBean.class)
     @ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
@@ -348,7 +348,7 @@ public class IntaPayResource {
     @Path("/refund")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value = "intaPay情報取得する", response = IntaPayReturnBean.class)
+    @ApiOperation(value = "intaPay　返金", response = IntaPayReturnBean.class)
     @ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
@@ -451,7 +451,7 @@ public class IntaPayResource {
     @Path("/query.refund")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value = "intaPay情報取得する", response = IntaPayReturnBean.class)
+    @ApiOperation(value = "intaPay　返金検索", response = IntaPayReturnBean.class)
     @ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),

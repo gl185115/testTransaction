@@ -2543,6 +2543,21 @@ public class PromotionResource {
 				Promotion promotion = new Promotion();
 				//TODO;
 				boolean needMakePm = true;
+				String itemId = saleIn.getItemId();
+				Item item = null;
+				Sale saleItem = null;
+				Map<String, Sale> itemCacheMap = terminalItem.getItemCacheMap();
+				item = new Item(); 
+				Item oldItem = itemCacheMap.get(itemId);
+				BeanUtils.copyProperties(item, oldItem);
+				saleItem =  new Sale();
+				Sale sale = itemCacheMap.get(itemId);
+				BeanUtils.copyProperties(saleItem, sale);
+				saleItem.setItemEntryId(saleIn.getItemEntryId());
+				
+				if (NOT_DISCOUNTABLE.equals(saleItem.getDiscountType())) {
+					needMakePm = false;
+				}
 				if(needMakePm) {
 					String mixMatchCode = terminalItem.getItemMixMatchCode(saleIn.getItemEntryId());
 					if (StringUtility.isNullOrEmpty(mixMatchCode)) {
@@ -2578,8 +2593,10 @@ public class PromotionResource {
 				}else {
 					pMItemsHandler.updateCache(terminalItem, saleIn);
 				}
-				pMItemsHandler.makePmInfo(terminalItem, promotion);
-				deleteViewPm(terminalItem, promotion,saleIn);
+				if(needMakePm) {
+					pMItemsHandler.makePmInfo(terminalItem, promotion);
+					deleteViewPm(terminalItem, promotion,saleIn);
+				}
 				promotionResponse.setPromotion(promotion);
 			}
 

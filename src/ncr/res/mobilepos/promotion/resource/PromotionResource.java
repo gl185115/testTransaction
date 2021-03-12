@@ -2544,19 +2544,15 @@ public class PromotionResource {
 				//TODO;
 				boolean needMakePm = true;
 				String itemId = saleIn.getItemId();
-				Item item = null;
 				Sale saleItem = null;
 				Map<String, Sale> itemCacheMap = terminalItem.getItemCacheMap();
-				item = new Item(); 
-				Item oldItem = itemCacheMap.get(itemId);
-				BeanUtils.copyProperties(item, oldItem);
 				saleItem =  new Sale();
 				Sale sale = itemCacheMap.get(itemId);
-				BeanUtils.copyProperties(saleItem, sale);
-				saleItem.setItemEntryId(saleIn.getItemEntryId());
-				
-				if (NOT_DISCOUNTABLE.equals(saleItem.getDiscountType())) {
-					needMakePm = false;
+				if (null != sale) {
+					BeanUtils.copyProperties(saleItem, sale);
+					if (NOT_DISCOUNTABLE.equals(saleItem.getDiscountType())) {
+						needMakePm = false;
+					}
 				}
 				if(needMakePm) {
 					String mixMatchCode = terminalItem.getItemMixMatchCode(saleIn.getItemEntryId());

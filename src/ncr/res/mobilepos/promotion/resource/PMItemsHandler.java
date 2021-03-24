@@ -280,7 +280,13 @@ public class PMItemsHandler {
 							pmPriceRate = info.getPmRate();
 							decisionPMPrice =  info.getDecisionPMPrice();
 							decisionPMPriceRate = info.getDecisionPMRate();
-						}
+						}						
+						if (minGroupQuantity > 1 && currentQuantity > 1 && (decisionPMPrice > 0 || decisionPMPriceRate > 0)) {
+							if (!(PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass) && pmPrice < (decisionPMPrice * pmCnt))) {
+								minGroupQuantity = 1;
+								continue;
+							}
+						}						
 						if(currentQuantity > minGroupQuantity) {
 							pmItemPrice += info.getSalePrice() * ((info.getQuantity() + minGroupQuantity - currentQuantity) < 0 ? 0 : (info.getQuantity() + minGroupQuantity - currentQuantity));
 						}else {

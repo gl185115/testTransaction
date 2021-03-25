@@ -257,6 +257,8 @@ public class PMItemsHandler {
 				double pmPriceRate = 0;
 				double decisionPMPrice = 0;
 				double decisionPMPriceRate = 0;
+				double pmDiscountExempt = 0;
+				int pmDiscountExemptCnt = 0;
 				int subNum1 = 0;
 				double discountPrice = 0;
 				boolean  canMakePm = true;
@@ -286,8 +288,12 @@ public class PMItemsHandler {
 								minGroupQuantity = 1;
 								continue;
 							}
-						}						
-						if(currentQuantity > minGroupQuantity) {
+						}			
+						if(currentQuantity > minGroupQuantity) {			
+							if(PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass) && info.getSalePrice() < decisionPMPrice) {
+								pmDiscountExempt += info.getSalePrice();
+								pmDiscountExemptCnt += info.getQuantity();
+							}
 							pmItemPrice += info.getSalePrice() * ((info.getQuantity() + minGroupQuantity - currentQuantity) < 0 ? 0 : (info.getQuantity() + minGroupQuantity - currentQuantity));
 						}else {
 							pmItemPrice += info.getSalePrice() * info.getQuantity();
@@ -304,9 +310,9 @@ public class PMItemsHandler {
 					
 					if(PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass)) {
 						discountPrice = pmItemPrice - pmPrice * minGroupQuantity;
-						if(decisionPMPrice > 0) {
-							int pmUserQuantity = pmCnt * minGroupQuantity;
-							discountPrice = allPrice - pmPrice * minGroupQuantity  -  (allQuantity - pmUserQuantity) * decisionPMPrice;
+						int pmUserQuantity = pmCnt * minGroupQuantity;
+						if(decisionPMPrice > 0 && allQuantity > pmUserQuantity) {
+							discountPrice = allPrice - pmPrice * minGroupQuantity  -  (allQuantity - pmUserQuantity - pmDiscountExemptCnt) * decisionPMPrice - pmDiscountExempt;
 						}
 					}
 					if(discountPrice > 0) {

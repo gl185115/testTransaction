@@ -283,7 +283,9 @@ public class PMItemsHandler {
 							decisionPMPrice =  info.getDecisionPMPrice();
 							decisionPMPriceRate = info.getDecisionPMRate();
 						}						
-						if (minGroupQuantity > 1 && currentQuantity > 1 && (decisionPMPrice > 0 || decisionPMPriceRate > 0)) {
+						if (minGroupQuantity > 1 && currentQuantity > 1 && 
+								((PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass) && decisionPMPrice > 0) || 
+								(PromotionConstants.DISCOUNT_CLASS_1.equals(discountClass) && decisionPMPriceRate > 0))) {
 							if (!(PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass) && pmPrice < (decisionPMPrice * pmCnt))) {
 								minGroupQuantity = 1;
 								continue;

@@ -18,19 +18,31 @@ public class MasterTable {
     @XmlElement(name = "tableName")
     private String tableName;
 
+    @XmlElement(name = "outputType")
+    private int outputType;
+
+    @XmlElement(name = "outputPath")
+    private String outputPath;
+
     @XmlElement(name = "recordCount")
     private int recordCount;
 
     @XmlElement(name = "records")
     private List<Record> records;
 
+    @XmlElement(name = "pickListImages")
+    private List<PickListImage> pickListImages;
+
     /**
      * MasterTableを初期化する。
      */
     public MasterTable() {
         tableName = "";
+        outputType = 0;
+        outputPath = "";
         recordCount = 0;
         records = new LinkedList<Record>();
+        pickListImages = new LinkedList<PickListImage>();
     }
 
     /**
@@ -48,6 +60,40 @@ public class MasterTable {
      */
     public void setTableName(final String tableName) {
         this.tableName = tableName;
+    }
+
+    /**
+     * 出力タイプを取得する。
+     * @return 出力タイプ
+     */
+    @ApiModelProperty(value = "出力タイプ", notes = "出力タイプ")
+    public int getOutputType() {
+        return outputType;
+    }
+
+    /**
+     * 出力タイプを設定する。
+     * @param outputType 出力タイプ
+     */
+    public void setOutputType(final int outputType) {
+        this.outputType = outputType;
+    }
+
+    /**
+     * 出力先パスを取得する。
+     * @return 出力先パス
+     */
+    @ApiModelProperty(value = "出力先パス", notes = "出力先パス")
+    public String getOutputPath() {
+        return outputPath;
+    }
+
+    /**
+     * 出力先パスを設定する。
+     * @param outputPath 出力先パス
+     */
+    public void setOutputPath(final String outputPath) {
+        this.outputPath = outputPath;
     }
 
     /**
@@ -83,15 +129,37 @@ public class MasterTable {
         this.records = records == null ? new LinkedList<Record>() : records;
     }
 
+    /**
+     * ピックリスト画像一覧を取得する。
+     * @return ピックリスト画像一覧
+     */
+    public List<PickListImage> getPickListImages() {
+        return pickListImages;
+    }
+
+    /**
+     * ピックリスト画像一覧を設定する。
+     * @param pickListImages ピックリスト画像一覧
+     */
+    public void setPickListImages(final List<PickListImage> pickListImages) {
+        this.pickListImages = pickListImages == null ? new LinkedList<PickListImage>() : pickListImages;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
         builder.append("tableName: ").append(getTableName());
+        builder.append("; outputType: ").append(getOutputType());
+        builder.append("; outputPath: ").append(getOutputPath());
         builder.append("; recordCount: ").append(getRecordCount());
 
         for (Record record : getRecords()) {
             builder.append("; record: ").append(record);
+        }
+
+        for (PickListImage image : getPickListImages()) {
+            builder.append(": pickListImage: ").append(image);
         }
 
         return builder.toString();

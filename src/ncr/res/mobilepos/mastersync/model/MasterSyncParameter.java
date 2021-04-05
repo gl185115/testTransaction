@@ -7,6 +7,8 @@ public class MasterSyncParameter {
     private String schemaName;
     private String tableName;
     private String functionName;
+    private int outputType;
+    private String outputPath;
 
     public MasterSyncParameter() {
         syncGroupId = 0;
@@ -15,6 +17,8 @@ public class MasterSyncParameter {
         schemaName = "";
         tableName = "";
         functionName = "";
+        outputType = 0;
+        outputPath = "";
     }
 
     public int getSyncGroupId() {
@@ -63,5 +67,21 @@ public class MasterSyncParameter {
 
     public void setFunctionName(final String functionName) {
         this.functionName = functionName == null ? "" : functionName;
+    }
+
+    public int getOutputType() {
+        return outputType;
+    }
+
+    public void setOutputType(final int outputType) {
+        this.outputType = outputType;
+    }
+
+    public String getOutputPath() {
+        return outputPath;
+    }
+
+    public void setOutputPath(final String outputPath) {
+        this.outputPath = outputPath;
     }
 }

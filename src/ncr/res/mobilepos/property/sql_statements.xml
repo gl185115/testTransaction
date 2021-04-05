@@ -12901,13 +12901,30 @@ ELSE
         DatabaseName,
         SchemaName,
         TableName,
-        FunctionName
+        FunctionName,
+        OutputType,
+        OutputPath
     FROM
         RESMaster.dbo.PRM_MASTER_SYNC
     WHERE
         SyncGroupId = @SyncGroupId
     ORDER BY
         SyncTableId
+</entry>
+
+<entry key="mastersync-get-posparamfile-parameter">
+    DECLARE @CompanyId      varchar(12)     = '0'
+    DECLARE @StoreId        varchar(10)     = '0'
+    DECLARE @ParameterId    varchar(100)    = 'PickListImageFileDir'
+
+    SELECT
+        ExportOption
+    FROM
+        RESMaster.dbo.PRM_SYS_POS_PARAMFILE
+    WHERE
+        CompanyId   = @CompanyId
+    AND StoreId     = @StoreId
+    AND ParameterId = @ParameterId
 </entry>
 <!-- ********** SQL statements for MasterSync end **********  -->
 </properties>

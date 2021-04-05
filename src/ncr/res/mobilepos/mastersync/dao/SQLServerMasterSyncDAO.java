@@ -172,7 +172,9 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
                 parameter.setSchemaName(result.getString(result.findColumn("SchemaName")));
                 parameter.setTableName(result.getString(result.findColumn("TableName")));
                 parameter.setFunctionName(result.getString(result.findColumn("FunctionName")));
-
+                parameter.setOutputType(result.getInt(result.findColumn("OutputType")));
+                parameter.setOutputPath(result.getString(result.findColumn("OutputPath")));
+                tp.println("getMasterSyncParameters DatabaseName:",parameter.getDatabaseName()).println("TableName:",parameter.getTableName()).println("FunctionName:",parameter.getFunctionName()).println("OutputType:",parameter.getOutputType()).println("OutputPath:",parameter.getOutputPath());
                 parameters.add(parameter);
             }
         } catch (SQLException sqlEx) {
@@ -213,6 +215,8 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
             statement.setString(SQLStatement.PARAM1, companyId);
             statement.setString(SQLStatement.PARAM2, storeId);
             statement.setString(SQLStatement.PARAM3, maintenanceLog.getReferenceCondition());
+            
+            tp.println("getMasterTableRecords statement:", statement.toString()).println("sql:",sql).println("getReferenceCondition",maintenanceLog.getReferenceCondition());
 
             result = statement.executeQuery();
             ResultSetMetaData meta = statement.getMetaData();
@@ -283,6 +287,45 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
         }
 
         return records;
+    }
+
+    /**
+     * Get PickListImageDirectory from PRM_SYS_POS_PARAMFILE.
+     */
+    public String getPickListImageDirectory() throws DaoException {
+        String functionName = "getPickListImageDirectory";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        String directory = "";
+
+        try {
+            connection = dbManager.getConnection();
+
+            statement = connection.prepareStatement(sqlStatement.getProperty("mastersync-get-posparamfile-parameter"));
+
+            result = statement.executeQuery();
+
+            while (result.next()) {
+                directory = result.getString(result.findColumn("ExportOption"));
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL, "Failed to get the MasterSyncParameters.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @getMasterSyncParameters", sqlEx);
+        } catch (NumberFormatException numberEx) {
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_PARSE, "Failed to get the MasterSyncParameters.\n" + numberEx.getMessage());
+            throw new DaoException("NumberFormatException: @getMasterSyncParameters", numberEx);
+        } catch (Exception ex) {
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL, "Failed to get the MasterSyncParameters.\n" + ex.getMessage());
+            throw new DaoException("Exception: @getMasterSyncParameters", ex);
+        } finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(directory);
+        }
+
+        return directory;
     }
 
     /**

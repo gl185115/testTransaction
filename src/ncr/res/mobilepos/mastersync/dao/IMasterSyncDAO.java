@@ -51,4 +51,11 @@ public interface IMasterSyncDAO {
      * @throws DaoException Exception when error occurs.
      */
     List<Record> getMasterTableRecords(String companyId, String storeId, MasterSyncParameter parameter, MaintenanceLog maintenanceLog) throws DaoException;
+
+    /**
+     * Get PickListImageDirectory from PRM_SYS_POS_PARAMFILE.
+     * @return String
+     * @throws DaoException when error occurs.
+     */
+    String getPickListImageDirectory() throws DaoException;
 }

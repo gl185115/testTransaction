@@ -507,6 +507,7 @@ public class PMItemsHandler {
 			newMap.remove(info.getPmKey());
 			resultMap.put(info.getPmKey(), info);
 			if(null != pmItemList && pmItemList.size() > 0) {
+				pmItemList = sortListByPair(pmItemList, terminalItem);
 				for(PmItemInfo pmItem : pmItemList) {
 					String itemEntryId = pmItem.getItemEntryId();
 					if(itemOfManyPm.containsKey(itemEntryId)) {
@@ -532,6 +533,50 @@ public class PMItemsHandler {
 		}else {
 			return resultMap;
 		}
+	}
+	
+	private List<PmItemInfo> sortListByPair(List<PmItemInfo> pmItemList, TerminalItem terminalItem) throws IllegalAccessException, InvocationTargetException {
+		Map<String, ItemForPm> itemOfManyPm = terminalItem.getItemOfManyPm();
+		List<PmItemInfo> pmItemListCopy = new ArrayList<PmItemInfo>();
+		List<PmItemInfo> result = new ArrayList<PmItemInfo>();
+		pmItemListCopy.addAll(pmItemList);
+		int pairLeftCount = 0;
+		int pairRightCount = 0;
+		String pairLeftId = "";
+		String pairRightId = "";
+		String newItemId = "";
+		String prevItemId = "";
+		// transfer 1st pmItem from pmItemListCopy into result
+		prevItemId = itemOfManyPm.get(pmItemListCopy.get(0).getItemEntryId()).getItemId();
+		pairLeftId = prevItemId;
+		pairLeftCount += itemOfManyPm.get(pmItemListCopy.get(0).getItemEntryId()).getQuantity();
+		result.add(pmItemListCopy.get(0));
+		pmItemListCopy.remove(0);
+		// alternate adding pmItem from pmItemListCopy into result by itemEntryId
+		while(pmItemListCopy.size() > 0) {
+			boolean shouldBreak = true;
+			for(int i=0; i < pmItemListCopy.size(); i++){
+				newItemId = itemOfManyPm.get(pmItemListCopy.get(i).getItemEntryId()).getItemId();
+				if (!prevItemId.equals(newItemId)) {
+					// transfer pmItem of index i from pmItemListCopy into result
+					prevItemId = itemOfManyPm.get(pmItemListCopy.get(i).getItemEntryId()).getItemId();
+					if (pairRightId.equals("")) pairRightId = prevItemId;
+					if (prevItemId.equals(pairLeftId)) pairLeftCount += itemOfManyPm.get(pmItemListCopy.get(i).getItemEntryId()).getQuantity();
+					if (prevItemId.equals(pairRightId)) pairRightCount += itemOfManyPm.get(pmItemListCopy.get(i).getItemEntryId()).getQuantity();
+					result.add(pmItemListCopy.get(i));
+					pmItemListCopy.remove(i);
+					shouldBreak = false;
+				}
+			}
+			if (shouldBreak) {
+				break;
+			}
+		}
+		if (result.size() % 2 != 0  && pairLeftCount!=pairRightCount) {
+			// remove last extra pm item from result without a pair
+			result.remove(result.size()-1);
+		}
+		return result;
 	}
 	
 	private Map<String, Map<String, List<PmItemInfo>>> makeNewMap(Map<String,Map<String, List<PmItemInfo>>> map, 

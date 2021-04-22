@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -679,28 +680,51 @@ public class TerminalItem {
 	    		this.cleanMixMatchMap(detailMmMap);
 	    		// compute the discount of every BM
 	    		this.computeMixMatchDiscount(detailMmMap);
+	    		
 	    		// sort by discount price
 	    		List<Map<String, Object>> sortedMmMap = sortByValueAscending(detailMmMap);
-	    		
+
 	    		// coumute and select the best group
 	    		if (sortedMmMap != null && !sortedMmMap.isEmpty()) {
 		            for(Map<String, Object> map : sortedMmMap){
 		            	this.setBmQuantity("rule3", map, clonedBmDetailMap);
 		            	this.setBmQuantity("rule2", map, clonedBmDetailMap);
 		            	this.setBmQuantity("rule1", map, clonedBmDetailMap);
+		            	
 		            	if(map.containsKey("remainder")) {
-		            		DetailInfo detailInfo = (DetailInfo) map.get("remainder");
-		            		List<MixMatchDetailInfo> entryList =  detailInfo.getEntryList();
-		            		for (MixMatchDetailInfo mmInfo : entryList) {
+							DetailInfo detailInfoRemainder = (DetailInfo) map.get("remainder");
+		            		List<MixMatchDetailInfo> remainderEntryList =  detailInfoRemainder.getEntryList();
+		            		for (MixMatchDetailInfo remainder : remainderEntryList) {
+		            			MixMatchDetailInfo remainderInfo = null;
 		            			for (Entry<String, List<MixMatchDetailInfo>> entry1 : clonedBmDetailMap.entrySet()) {
-		            				for (MixMatchDetailInfo entry2 : entry1.getValue()) {
-		            					if (entry2.getEntryId().equals(mmInfo.getEntryId())) {
-		            						int surplus = entry2.getQuantity() - mmInfo.getQuantity();
-		            						entry2.setQuantity(surplus >= 0 ? surplus : 0);
+		            				for (MixMatchDetailInfo clonedMapEachVal : entry1.getValue()) {
+		            					if (clonedMapEachVal.getEntryId().equals(remainder.getEntryId())) {
+		            						if(entry1.getKey().equals(map.get("keyValue"))) {	
+		            							remainderInfo = clonedMapEachVal;
+		            							break;
+		            						} else {
+		            							if(remainderInfo != null  && remainderInfo.getEntryId().equals(remainder.getEntryId())) {
+		            								int surplus = clonedMapEachVal.getQuantity() - remainder.getQuantity();
+						            				if (entry1.getValue().size() == 1) {
+						            					clonedMapEachVal.setQuantity(surplus >= 0 ? surplus : 0);
+						            				} else {
+							            				remainderInfo.setQuantity(surplus >= 0 ? surplus : 0);
+							            				remainder.setQuantity(remainderInfo.getQuantity());
+						            				}
+						            				remainderInfo = null;
+		            							}
+		            						}
 		            					}
 		            				}
 		            			}
 		                	}
+		            		Iterator<MixMatchDetailInfo> itr = remainderEntryList.iterator(); 
+		            		while (itr.hasNext()) { 
+		            			MixMatchDetailInfo remainder = itr.next(); 
+		            			if(remainder.getQuantity() == 0) {
+		            				itr.remove();
+		            			} 
+		            		}
 		            	}
 		            	retMap.put((String) map.get("keyValue"), map);
 		            	break;
@@ -1152,6 +1176,7 @@ public class TerminalItem {
         }
         // loop the list matching rule3
         for (MixMatchDetailInfo mixMatchDetailInfo3 : ruleList3) {
+        	if(mixMatchDetailInfo3.getQuantity() == 0) continue;
         	// if the coupon has the tm then the saleItem can't make bm
         	if(tmItemSet.size() > 0 && tmItemSet.contains(mixMatchDetailInfo3.getEntryId())) {
         		continue;
@@ -1263,6 +1288,7 @@ public class TerminalItem {
         }
 
         for (MixMatchDetailInfo mixMatchDetailInfo2 : ruleList2) {
+        	if(mixMatchDetailInfo2.getQuantity() == 0) continue;
             sumCount = 0;
             MixMatchDetailInfo info = new MixMatchDetailInfo();
             info.setEntryId(mixMatchDetailInfo2.getEntryId());
@@ -1356,6 +1382,8 @@ public class TerminalItem {
             ruleList1.add(info);
         }
         for (MixMatchDetailInfo mixMatchDetailInfo1 : ruleList1) {
+        	int remainder = mixMatchDetailInfo1.getQuantity();
+        	if(remainder == 0) continue;
             sumCount = 0;
             MixMatchDetailInfo info = new MixMatchDetailInfo();
             info.setEntryId(mixMatchDetailInfo1.getEntryId());
@@ -1363,7 +1391,6 @@ public class TerminalItem {
             info.setTaxId(mixMatchDetailInfo1.getTaxId());
             info.setSku(mixMatchDetailInfo1.getSku());
             info.setPriceMMInfoList(mixMatchDetailInfo1.getPriceMMInfoList());
-            int remainder = mixMatchDetailInfo1.getQuantity();
             int sumCount1 = 0;
             for (MixMatchDetailInfo ruleInfo : ruleList) {
                 sumCount1 = sumCount1 + ruleInfo.getQuantity();

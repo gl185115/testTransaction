@@ -206,6 +206,7 @@ public class PMItemsHandler {
 	 * @param pmMap
 	 * @return
 	 */
+	@SuppressWarnings({ "unused", "null" })
 	private List<PmDiscountInfo> createPm(Map<String, Map<String, List<PmItemInfo>>> pmMap, Map<String, ItemForPm> itemOfManyPm) {
 		List<PmDiscountInfo> list = new ArrayList<>();
 		for(Map.Entry<String, Map<String, List<PmItemInfo>>> map : pmMap.entrySet()) {
@@ -227,8 +228,29 @@ public class PMItemsHandler {
 				
 				 int minGroupQuantity = 0;
 				 boolean isContinue = false;
+				
+				HashMap<String, Double> bundleList = new HashMap<String, Double>();
+				
 				for(Map.Entry<String,List<PmItemInfo>> mmEntry : pmGroupMap.entrySet()) {
 					List<PmItemInfo> currentList = mmEntry.getValue();
+					sortList(currentList);
+					
+					if (PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass)) {
+						int bundleCtr = 0;
+						for(int i = 0; i < currentList.size(); i++) {
+							PmItemInfo pmInfo =  currentList.get(i);
+							for(int x = 0; x < pmInfo.getQuantity(); x++) {
+								String bundleKey = "Bundle" + bundleCtr + "-" + pmInfo.getPmPrice();
+								if(bundleList.size() == 0 || !bundleList.containsKey(bundleKey)) {
+									bundleList.put(bundleKey, pmInfo.getSalePrice());
+								} else {
+									bundleList.put(bundleKey, bundleList.get(bundleKey) + pmInfo.getSalePrice());
+								}
+								bundleCtr ++;
+							}
+						}
+					}
+					
 					int currentMinQuantity = 0;
 					if(currentList.size() == 0) {
 						isContinue = true;
@@ -249,6 +271,20 @@ public class PMItemsHandler {
 				if(isContinue) {
 					continue;
 				}
+
+				int removeBundleCnt = 0;
+				if (bundleList.size() > 0) {
+					for (Map.Entry<String, Double> entry : bundleList.entrySet()) {
+						String bundleKey = entry.getKey();
+						Double bundleVal = entry.getValue();
+						Double bundlePrice = Double.parseDouble(bundleKey.split("-")[1]);
+						if (bundleVal < bundlePrice) {
+							removeBundleCnt ++;
+						}
+					}
+					minGroupQuantity = bundleList.size() - removeBundleCnt;
+				}
+				
 				PmDiscountInfo discountInfo = new PmDiscountInfo();
 				List<PmItemInfo> pmItemList  = new ArrayList<PmItemInfo>();
 				double pmItemPrice = 0;

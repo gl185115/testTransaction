@@ -206,6 +206,7 @@ public class PMItemsHandler {
 	 * @param pmMap
 	 * @return
 	 */
+	@SuppressWarnings({ "unused", "null" })
 	private List<PmDiscountInfo> createPm(Map<String, Map<String, List<PmItemInfo>>> pmMap, Map<String, ItemForPm> itemOfManyPm) {
 		List<PmDiscountInfo> list = new ArrayList<>();
 		for(Map.Entry<String, Map<String, List<PmItemInfo>>> map : pmMap.entrySet()) {
@@ -228,9 +229,30 @@ public class PMItemsHandler {
 				 int minGroupQuantity = 0;
 				 boolean isContinue = false;
 				
+				HashMap<String, Double> bundleList = new HashMap<String, Double>();
+				HashMap<String, Integer> bundleListItemsCnt = new HashMap<String, Integer>();
 				
 				for(Map.Entry<String,List<PmItemInfo>> mmEntry : pmGroupMap.entrySet()) {
 					List<PmItemInfo> currentList = mmEntry.getValue();
+					sortList(currentList);
+					
+					if (PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass)) {
+						int bundleCtr = 0;
+						for(int i = 0; i < currentList.size(); i++) {
+							PmItemInfo pmInfo =  currentList.get(i);
+							for(int x = 0; x < pmInfo.getQuantity(); x++) {
+								String bundleKey = "Bundle" + bundleCtr + "-" + pmInfo.getPmPrice();
+
+								if(bundleList.size() == 0 || !bundleList.containsKey(bundleKey)) {
+									bundleList.put(bundleKey, pmInfo.getSalePrice());
+								} else {
+									bundleList.put(bundleKey, bundleList.get(bundleKey) + pmInfo.getSalePrice());
+								}
+								bundleListItemsCnt.put(bundleKey, bundleListItemsCnt.containsKey(bundleKey) ? bundleListItemsCnt.get(bundleKey) + 1 : 1);
+								bundleCtr ++;
+							}
+						}
+					}
 					
 					int currentMinQuantity = 0;
 					if(currentList.size() == 0) {
@@ -251,6 +273,20 @@ public class PMItemsHandler {
 				}
 				if(isContinue) {
 					continue;
+				}
+
+				int removeBundleCnt = 0;
+				if (bundleList.size() > 0) {
+					for (Map.Entry<String, Double> entry : bundleList.entrySet()) {
+						String bundleKey = entry.getKey();
+						Double bundleVal = entry.getValue();
+						Double bundlePrice = Double.parseDouble(bundleKey.split("-")[1]);
+						int bundleItemCnt = bundleListItemsCnt.get(bundleKey);
+						if (bundleVal < bundlePrice || bundleItemCnt < pmCnt) {
+							removeBundleCnt ++;
+						}
+					}
+					minGroupQuantity = bundleList.size() - removeBundleCnt;
 				}
 				
 				PmDiscountInfo discountInfo = new PmDiscountInfo();
@@ -391,7 +427,9 @@ public class PMItemsHandler {
 		Collections.sort(list, new Comparator<PmDiscountInfo>() {
 			@Override
 			public int compare(PmDiscountInfo o1, PmDiscountInfo o2) {
-				double reminder = o2.getDiscountPrice() - o1.getDiscountPrice();
+				int o2Times = o2.getTimes();
+				int o1Times = o1.getTimes();
+				double reminder = (o2.getDiscountPrice() / o2Times) - (o1.getDiscountPrice() / o1Times);
 				if(reminder > 0) {
 					return 1;
 				}else if(reminder == 0) {

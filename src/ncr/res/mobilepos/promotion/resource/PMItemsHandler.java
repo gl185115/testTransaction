@@ -333,7 +333,7 @@ public class PMItemsHandler {
 						}			
 						if(currentQuantity > minGroupQuantity) {			
 							if(PromotionConstants.DISCOUNT_CLASS_3.equals(discountClass) && info.getSalePrice() <= decisionPMPrice) {
-								pmDiscountExempt += info.getSalePrice() * (currentQuantity - minGroupQuantity);
+								pmDiscountExempt = info.getSalePrice() * (currentQuantity - minGroupQuantity);
 								pmDiscountExemptCnt = currentQuantity - minGroupQuantity;
 							}
 							pmItemPrice += info.getSalePrice() * ((info.getQuantity() + minGroupQuantity - currentQuantity) < 0 ? 0 : (info.getQuantity() + minGroupQuantity - currentQuantity));

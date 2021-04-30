@@ -1205,7 +1205,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo3.getQuantity();
             }
-            double totalTruePrice = ruleList.stream().mapToDouble((f) -> f.getTruePrice()).sum() + mixMatchDetailInfo3.getTruePrice();
+            double totalTruePrice = ruleList.stream().mapToDouble((f) -> f.getTruePrice() * f.getQuantity()).sum() + (mixMatchDetailInfo3.getTruePrice() * mixMatchDetailInfo3.getQuantity());
             if (rule.getConditionCount3() > 0 && (sumCount / rule.getConditionCount3()) >= 1 && vLastDecisionPrice == 0
             		&& totalTruePrice > rule.getConditionPrice3()) {
                 if (map.containsKey("rule1")) {
@@ -1308,7 +1308,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo2.getQuantity();
             }
-            double totalTruePrice = ruleList.stream().mapToDouble((f) -> f.getTruePrice()).sum() + mixMatchDetailInfo2.getTruePrice();
+            double totalTruePrice = ruleList.stream().mapToDouble((f) -> f.getTruePrice() * f.getQuantity()).sum() + (mixMatchDetailInfo2.getTruePrice() * mixMatchDetailInfo2.getQuantity());
             if (rule.getConditionCount2() > 0 && (sumCount / rule.getConditionCount2()) >= 1 && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getAveragePrice2())
             		&& totalTruePrice > rule.getConditionPrice2()) {
                 if (map.containsKey("rule1")) {
@@ -1404,7 +1404,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo1.getQuantity();
             }
-            double totalTruePrice = ruleList.stream().mapToDouble((f) -> f.getTruePrice()).sum() + mixMatchDetailInfo1.getTruePrice();
+            double totalTruePrice = ruleList.stream().mapToDouble((f) -> f.getTruePrice() * f.getQuantity()).sum() + (mixMatchDetailInfo1.getTruePrice() * mixMatchDetailInfo1.getQuantity());
             if (rule.getConditionCount1() > 0 &&(sumCount / rule.getConditionCount1()) >= 1 && (vLastDecisionPrice == 0 || vLastDecisionPrice > rule.getAveragePrice1())
             		&& totalTruePrice > rule.getConditionPrice1()) {
                 MixMatchDetailInfo ruleentryinfo1 = new MixMatchDetailInfo();

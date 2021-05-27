@@ -2176,6 +2176,7 @@ public class PromotionResource {
 			}
 			count++;
 		}
+		tp.methodEnter("getUrl").println("url", url);
 		return url;
 	}
 	/**

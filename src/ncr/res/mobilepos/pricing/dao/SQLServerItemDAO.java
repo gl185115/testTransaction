@@ -81,6 +81,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
 	//default 型番カラム値設定
 	private String defaultComstdName = "plu.MdNameLocal1 ComstdName";
+	public static final String BarcodePrefix = "20";
+	public static final String[] BarcodePrefixArr = {"02","21","24","25"};
 	
     /**
      * Default Constructor for SQLServerItemDAO
@@ -197,9 +199,15 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         if (pluCode.contains(" ")) {
         	mdInternal = pluCode.split(" ")[0];
         	sizeId = pluCode.split(" ")[1].substring(4, 7);
+		} else if (Arrays.asList(BarcodePrefixArr).contains(pluCode.substring(0, 2))){
+			mdInternal = pluCode.substring(0,7) + "00000" + getCheckSum(pluCode.substring(0,7) + "00000");
+		} else if (pluCode.substring(0, 2).equals(BarcodePrefix)){
+			mdInternal = pluCode.substring(0,8) + "0000" + getCheckSum(pluCode.substring(0,8) + "0000");
 		} else {
 			mdInternal = pluCode;
 		}
+        
+        tp.println("mdInternal", mdInternal);
 
         //型番設定
         if (!StringUtility.isNullOrEmpty(comstdName)) {
@@ -1321,4 +1329,28 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 			pluTaxId = "plu.SubNum1 pluSubNum1";
 		}
 	}
+    /**
+	 * チェックデジット計算する
+	 *
+	 * @param mapReturn
+	 */
+	private String getCheckSum(String data) {
+        int evenSum = 0,
+            baseSum = 0,
+            sum = 0;
+        for (int i = 0; i < data.length(); i++) {
+            if (i % 2 == 0) {
+                baseSum += Integer.parseInt(String.valueOf(data.charAt(i)));
+            } else {
+                evenSum += Integer.parseInt(String.valueOf(data.charAt(i)));
+            }
+        }
+        if (data.length() == 11) {
+            sum = baseSum * 3 + evenSum;
+        } else {
+            sum = evenSum * 3 + baseSum;
+        }
+        // return (sum.charAt(sum.length - 1) == '0' ? 0 : 10 - parseInt(sum.charAt(sum.length - 1))).toString();
+        return Integer.toString((10 - sum % 10) % 10);
+    }
 }

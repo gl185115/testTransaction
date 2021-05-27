@@ -35,16 +35,6 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @trasferletterStoreId = @storeId
     SET @targetStoreType = '2'
 
-    SELECT @MdInternal = plu.MdInternal FROM RESMaster.dbo.MST_PLU plu
-     WHERE plu.CompanyId = @companyId
-       AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
-       AND plu.MdInternal = CASE WHEN LEFT(@MdInternal, 2) IN ('20') THEN LEFT(@MdInternal,8) + '00000'
-                                    WHEN LEFT(@MdInternal, 2) IN ('02', '21', '24', '25') THEN LEFT(@MdInternal,7) + '000000'
-                                    ELSE @MdInternal END
-       OR  plu.MdInternal LIKE CASE WHEN LEFT(@MdInternal, 2) IN ('20') THEN LEFT(@MdInternal,8) + '0000%%'
-                                    WHEN LEFT(@MdInternal, 2) IN ('02', '21', '24', '25') THEN LEFT(@MdInternal,7) + '00000%%'
-                                    ELSE @MdInternal END
-
     IF NOT EXISTS (
        SELECT *
        FROM
@@ -53,10 +43,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
          AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
-    BEGIN
-        SET @storeId = '0'
-        SET @storeStoreId = '0'
-    END
+    SET @storeId = '0'
 
     IF NOT EXISTS (
        SELECT *

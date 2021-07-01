@@ -4278,7 +4278,8 @@ ORDER BY
       printinfo.IpAddress,
       printinfo.PortNumUdp,
       printinfo.PortNumTcp,
-      devinfo.AttributeId
+      devinfo.AttributeId,
+      devinfo.SubNum5
     FROM
       RESMaster.dbo.MST_DEVICEINFO devinfo
     LEFT JOIN

@@ -225,6 +225,8 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 		result.findColumn("PortNumTcp")));
                 devInfo.setAttributeId(result.getString(
                 		result.findColumn("AttributeId")));
+                devInfo.setWsPortNumber(result.getString(
+                		result.findColumn("SubNum5")));
             } else {
                 devInfo.setLinkPOSTerminalId("");
             }

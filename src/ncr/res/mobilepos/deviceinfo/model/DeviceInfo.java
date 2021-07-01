@@ -137,6 +137,8 @@ public class DeviceInfo {
     @XmlElement(name = "AttributeId")
     private String attributeId;
 
+    @XmlElement(name = "WsPortNumber")
+    private String wsPortNumber;
     /**
      * 
      * Setter for the device name.
@@ -472,5 +474,12 @@ public class DeviceInfo {
     }
     public final void setAttributeId(final String attributeId) {
     	this.attributeId = attributeId;
+    }
+    @ApiModelProperty(value="websocket接続ポート番号", notes="websocket接続ポート番号")
+    public final String getWsPortNumber() {
+    	return wsPortNumber;
+    }
+    public final void setWsPortNumber(final String wsPortNumber) {
+    	this.wsPortNumber = wsPortNumber;
     }
 }

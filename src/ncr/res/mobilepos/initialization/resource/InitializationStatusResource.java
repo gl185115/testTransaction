@@ -129,15 +129,12 @@ public class InitializationStatusResource {
     		logName = "WindowsEnvironmentVariables";
     		iowlogWrite(LOGGER, logName);
     	}
-
-        try {
-			if(!WindowsEnvironmentVariables.initInstance().isServerTypeEnterprise()){
-				if (SystemFileConfig.getInstance() == null) {
-	        		logName = "SystemFileConfig";
-	        		iowlogWrite(LOGGER, logName);
-	        	}
-			}
-		} catch (NamingException e) {}
+        else if (!WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise()){
+            if (SystemFileConfig.getInstance() == null) {
+                logName = "SystemFileConfig";
+                iowlogWrite(LOGGER, logName);
+	        }
+        }
 
         if(!StringUtility.isNullOrEmpty(logName)) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

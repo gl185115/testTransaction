@@ -8,10 +8,10 @@
     <groupId>${myGroupId}</groupId>
     <version>${myVersion}</version>
     <scm>
-        <connection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES MeX/Base/resTransaction/trunk/</connection>
-        <developerConnection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES MeX/Base/resTransaction/trunk/</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://subversion.sweng.ncr.com/svn/repos/pa/res/RES MeX/Base/resTransaction/trunk/</url>
+        <connection>scm:git:https://github.com/ncr-swt-retail/res-Transaction.git</connection>
+        <developerConnection>scm:git:https://github.com/ncr-swt-retail/res-Transaction.git</developerConnection>
+		<url>https://github.com/ncr-swt-retail/res-Transaction</url>
+        <tag>master</tag>
     </scm>
 
     <properties>
@@ -35,9 +35,9 @@
         <myVersion>temp</myVersion>
         <myArtifactId>temp</myArtifactId>
         <drive.path>C:</drive.path>
-		<svn.revision>0</svn.revision>
+		<git.revision>0</git.revision>
         <connectDBName>RESTransaction</connectDBName>
-        <svn.url>/res/RES MeX/Base/resTransaction/branches/3.3.0</svn.url>
+        <git.url>https://github.com/ncr-swt-retail/res-Transaction</git.url>
     </properties>
 
     <repositories>
@@ -370,22 +370,8 @@
 	                <timestampFormat>{0,date,dd-MM-yyyy HH:mm:ss}</timestampFormat>
 	                <doCheck>false</doCheck>
 	                <doUpdate>false</doUpdate>
-	                <providerImplementations>
-	                    <svn>javasvn</svn>
-	                </providerImplementations>
+					<shortRevisionLength>8</shortRevisionLength>
 	            </configuration>
-	            <dependencies>
-	                <dependency>
-	                    <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
-	                    <artifactId>maven-scm-provider-svnjava</artifactId>
-	                    <version>2.1.1</version>
-	                </dependency>
-	                <dependency>
-	                    <groupId>org.tmatesoft.svnkit</groupId>
-	                    <artifactId>svnkit</artifactId>
-	                    <version>1.8.5</version>
-	                </dependency>
-	            </dependencies>
 	        </plugin>
 
             <!-- Build plan list (optional) -->
@@ -446,36 +432,7 @@
                 </executions>
             </plugin>
 
-            <!-- Cobertura coverage in verify -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <skip>${maven.test.skip}</skip>
-                    <formats>
-                        <format>xml</format>
-                        <format>html</format>
-                    </formats>
-                    <check>
-                        <branchRate>85</branchRate>
-                        <lineRate>85</lineRate>
-                        <totalBranchRate>85</totalBranchRate>
-                        <totalLineRate>85</totalLineRate>
-                        <haltOnFailure>false</haltOnFailure>
-                    </check>
-                </configuration>
-                <executions>
-                    <execution>
-                        <!-- Default phase is verify -->
-                        <goals>
-                            <goal>clean</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
 
             <!-- Jacoco coverage in verify. Since Cobertura doesn't support JDK1.8 -->
             <plugin>
@@ -589,8 +546,8 @@
                         </manifest>
                         <manifestEntries>
                             <Implementation-Build>${project.version}(${buildNumber})</Implementation-Build>
-                            <svn-repository>${svn.url}</svn-repository>
-                            <svn-revision>${svn.revision}</svn-revision>
+                            <git-repository>${git.url}</git-repository>
+                            <git-revision>${git.revision}</git-revision>
                         </manifestEntries>
                     </archive>
                     <containerConfigXML>WebContent\META-INF\context.xml</containerConfigXML>

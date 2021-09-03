@@ -8,10 +8,10 @@
     <groupId>${myGroupId}</groupId>
     <version>${myVersion}</version>
     <scm>
-        <connection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</connection>
-        <developerConnection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</url>
+        <connection>scm:git:https://github.com/ncr-swt-retail/res-Transaction.git</connection>
+        <developerConnection>scm:git:https://github.com/ncr-swt-retail/res-Transaction.git</developerConnection>
+		<url>https://github.com/ncr-swt-retail/res-Transaction</url>
+        <tag>master</tag>
     </scm>
 
     <properties>
@@ -35,35 +35,36 @@
         <myVersion>temp</myVersion>
         <myArtifactId>temp</myArtifactId>
         <drive.path>C:</drive.path>
+		<git.revision>0</git.revision>
         <connectDBName>RESTransaction</connectDBName>
-		<svn.revision>0</svn.revision>
-        <svn.url>/res/RES MeX/Base/resTransaction/branches/3.3.0</svn.url>
+        <git.url>https://github.com/ncr-swt-retail/res-Transaction</git.url>
     </properties>
 
     <repositories>
         <repository>
-            <id>resmex-releases</id>
-            <name>RES MeX Releases</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
+            <id>central</id>
+            <name>ncr-artifactory-member-0-releases</name>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-releases</url>
         </repository>
+
         <repository>
-            <id>resmex-snapshots</id>
-            <name>RES MeX SnapShots</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
+            <id>snapshots</id>
+            <name>ncr-artifactory-member-1-snapshots</name>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-snapshots</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <repository>
-            <id>resmex-releases</id>
-            <name>RES MeX Releases</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
+            <id>central</id>
+            <name>ncr-artifactory-member-0-releases</name>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-releases</url>
         </repository>
+
         <snapshotRepository>
-            <id>resmex-snapshots</id>
-            <name>RES MeX Snapshots</name>
-            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>snapshots</id>
+            <name>ncr-artifactory-member-1-snapshots</name>
+            <url>https://ncr.jfrog.io/artifactory/resmex-maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -71,7 +72,7 @@
         <dependency>
             <groupId>ncr.res.base</groupId>
             <artifactId>mex-common</artifactId>
-            <version>3.5.0.7</version>
+            <version>3.5.1.18</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -212,16 +213,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>ncr.res.base.javalib</groupId>
+            <groupId>ncr.res.base</groupId>
             <artifactId>toppan-giftcard-mobile</artifactId>
-            <version>3.5.1.7</version>
-            <scope>compile</scope>
+            <version>3.5.2.9</version>
         </dependency>
         <dependency>
-            <groupId>mobilepos</groupId>
+            <groupId>ncr.res.base</groupId>
             <artifactId>poslog-binding</artifactId>
-            <version>3.5.0.26</version>
-            <scope>compile</scope>
+            <version>3.5.1.5</version>
         </dependency>
 
         <!-- For Test -->
@@ -316,6 +315,11 @@
             <version>1.6.6</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+        	<version>4.5.6</version>
+        </dependency>
     </dependencies>
 
     <!-- Build -->
@@ -366,22 +370,8 @@
 	                <timestampFormat>{0,date,dd-MM-yyyy HH:mm:ss}</timestampFormat>
 	                <doCheck>false</doCheck>
 	                <doUpdate>false</doUpdate>
-	                <providerImplementations>
-	                    <svn>javasvn</svn>
-	                </providerImplementations>
+					<shortRevisionLength>8</shortRevisionLength>
 	            </configuration>
-	            <dependencies>
-	                <dependency>
-	                    <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
-	                    <artifactId>maven-scm-provider-svnjava</artifactId>
-	                    <version>2.1.1</version>
-	                </dependency>
-	                <dependency>
-	                    <groupId>org.tmatesoft.svnkit</groupId>
-	                    <artifactId>svnkit</artifactId>
-	                    <version>1.8.5</version>
-	                </dependency>
-	            </dependencies>
 	        </plugin>
 
             <!-- Build plan list (optional) -->
@@ -442,36 +432,7 @@
                 </executions>
             </plugin>
 
-            <!-- Cobertura coverage in verify -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <skip>${maven.test.skip}</skip>
-                    <formats>
-                        <format>xml</format>
-                        <format>html</format>
-                    </formats>
-                    <check>
-                        <branchRate>85</branchRate>
-                        <lineRate>85</lineRate>
-                        <totalBranchRate>85</totalBranchRate>
-                        <totalLineRate>85</totalLineRate>
-                        <haltOnFailure>false</haltOnFailure>
-                    </check>
-                </configuration>
-                <executions>
-                    <execution>
-                        <!-- Default phase is verify -->
-                        <goals>
-                            <goal>clean</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
 
             <!-- Jacoco coverage in verify. Since Cobertura doesn't support JDK1.8 -->
             <plugin>
@@ -585,8 +546,8 @@
                         </manifest>
                         <manifestEntries>
                             <Implementation-Build>${project.version}(${buildNumber})</Implementation-Build>
-                            <svn-repository>${svn.url}</svn-repository>
-                            <svn-revision>${svn.revision}</svn-revision>
+                            <git-repository>${git.url}</git-repository>
+                            <git-revision>${git.revision}</git-revision>
                         </manifestEntries>
                     </archive>
                     <containerConfigXML>WebContent\META-INF\context.xml</containerConfigXML>
@@ -619,35 +580,35 @@
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <repositoryId>resmex-snapshots</repositoryId>
+                            <repositoryId>central</repositoryId>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${myArtifactId}</artifactId>
                             <version>${project.version}</version>
                             <packaging>war</packaging>
                             <file>${project.build.directory}/${myArtifactId}.war</file>
-                            <pomFile>pom.xml</pomFile>
+                            <pomFile>pom_jfrog.xml</pomFile>
                             <generatePom>true</generatePom>
                             <uniqueVersion>false</uniqueVersion>
-                            <url>${project.distributionManagement.snapshotRepository.url}</url>
+                            <url>${project.distributionManagement.repository.url}</url>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>apidoc</id>
+                        <id>resTransaction-APIdocument</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <repositoryId>resmex-snapshots</repositoryId>
+                            <repositoryId>central</repositoryId>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>apidoc</artifactId>
+                            <artifactId>resTransaction-APIdocument</artifactId>
                             <version>${project.version}</version>
                             <packaging>html</packaging>
-                            <pomFile>pom.xml</pomFile>
-                            <file>${project.build.directory}/api_document.html</file>
+                            <pomFile>pom_jfrog.xml</pomFile>
+                            <file>${project.build.directory}/resTransaction-APIdocument.html</file>
                             <uniqueVersion>false</uniqueVersion>
                             <generatePom>true</generatePom>
-                            <url>${project.distributionManagement.snapshotRepository.url}</url>
+                            <url>${project.distributionManagement.repository.url}</url>
                         </configuration>
                     </execution>
                 </executions>
@@ -672,7 +633,7 @@
                             <outputTemplate>${project.basedir}/resources/strapdown.html.mustache</outputTemplate>
                             <mustacheFileRoot>${project.basedir}/resources/</mustacheFileRoot>
                             <useOutputFlatStructure>false</useOutputFlatStructure>
-                            <outputPath>${project.build.directory}/api_document.html</outputPath>
+                            <outputPath>${project.build.directory}/resTransaction-APIdocument.html</outputPath>
                             <swaggerDirectory>${project.build.directory}/swagger-ui_data</swaggerDirectory>
                         </apiSource>
                     </apiSources>

@@ -586,7 +586,7 @@
                             <version>${project.version}</version>
                             <packaging>war</packaging>
                             <file>${project.build.directory}/${myArtifactId}.war</file>
-                            <pomFile>pom_jfrog.xml</pomFile>
+                            <pomFile>pom.xml</pomFile>
                             <generatePom>true</generatePom>
                             <uniqueVersion>false</uniqueVersion>
                             <url>${project.distributionManagement.repository.url}</url>
@@ -604,7 +604,7 @@
                             <artifactId>resTransaction-APIdocument</artifactId>
                             <version>${project.version}</version>
                             <packaging>html</packaging>
-                            <pomFile>pom_jfrog.xml</pomFile>
+                            <pomFile>pom.xml</pomFile>
                             <file>${project.build.directory}/resTransaction-APIdocument.html</file>
                             <uniqueVersion>false</uniqueVersion>
                             <generatePom>true</generatePom>

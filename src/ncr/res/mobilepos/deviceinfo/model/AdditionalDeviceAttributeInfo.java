@@ -26,125 +26,125 @@ public class AdditionalDeviceAttributeInfo extends ResultBase {
 	@XmlElement(name = "Training")
 	private Integer training;
 	
-	@XmlElement(name = "ExtraCode1")
-	private String extraCode1;
+	@XmlElement(name = "AdditionalCode1")
+	private String additionalCode1;
 	
-	@XmlElement(name = "ExtraCode2")
-	private String extraCode2;
+	@XmlElement(name = "AdditionalCode2")
+	private String additionalCode2;
 	
-	@XmlElement(name = "ExtraCode3")
-	private String extraCode3;
+	@XmlElement(name = "AdditionalCode3")
+	private String additionalCode3;
 	
-	@XmlElement(name = "ExtraCode4")
-	private String extraCode4;
+	@XmlElement(name = "AdditionalCode4")
+	private String additionalCode4;
 	
-	@XmlElement(name = "ExtraCode5")
-	private String extraCode5;
+	@XmlElement(name = "AdditionalCode5")
+	private String additionalCode5;
 	
-	@XmlElement(name = "ExtraCode6")
-	private String extraCode6;
+	@XmlElement(name = "AdditionalCode6")
+	private String additionalCode6;
 	
-	@XmlElement(name = "ExtraCode7")
-	private String extraCode7;
+	@XmlElement(name = "AdditionalCode7")
+	private String additionalCode7;
 	
-	@XmlElement(name = "ExtraCode8")
-	private String extraCode8;
+	@XmlElement(name = "AdditionalCode8")
+	private String additionalCode8;
 	
-	@XmlElement(name = "ExtraCode9")
-	private String extraCode9;
+	@XmlElement(name = "AdditionalCode9")
+	private String additionalCode9;
 	
-	@XmlElement(name = "ExtraCode10")
-	private String extraCode10;
+	@XmlElement(name = "AdditionalCode10")
+	private String additionalCode10;
 	
-	@XmlElement(name = "ExtraNum1")
-	private Integer extraNum1;
+	@XmlElement(name = "AdditionalNum1")
+	private Integer additionalNum1;
 	
-	@XmlElement(name = "ExtraNum2")
-	private Integer extraNum2;
+	@XmlElement(name = "AdditionalNum2")
+	private Integer additionalNum2;
 	
-	@XmlElement(name = "ExtraNum3")
-	private Integer extraNum3;
+	@XmlElement(name = "AdditionalNum3")
+	private Integer additionalNum3;
 	
-	@XmlElement(name = "ExtraNum4")
-	private Integer extraNum4;
+	@XmlElement(name = "AdditionalNum4")
+	private Integer additionalNum4;
 	
-	@XmlElement(name = "ExtraNum5")
-	private Integer extraNum5;
+	@XmlElement(name = "AdditionalNum5")
+	private Integer additionalNum5;
 	
-	@XmlElement(name = "ExtraNum6")
-	private Integer extraNum6;
+	@XmlElement(name = "AdditionalNum6")
+	private Integer additionalNum6;
 	
-	@XmlElement(name = "ExtraNum7")
-	private Integer extraNum7;
+	@XmlElement(name = "AdditionalNum7")
+	private Integer additionalNum7;
 	
-	@XmlElement(name = "ExtraNum8")
-	private Integer extraNum8;
+	@XmlElement(name = "AdditionalNum8")
+	private Integer additionalNum8;
 	
-	@XmlElement(name = "ExtraNum9")
-	private Integer extraNum9;
+	@XmlElement(name = "AdditionalNum9")
+	private Integer additionalNum9;
 	
-	@XmlElement(name = "ExtraNum10")
-	private Integer extraNum10;
+	@XmlElement(name = "AdditionalNum10")
+	private Integer additionalNum10;
 	
-	@XmlElement(name = "ExtraFlag1")
-	private Integer extraFlag1;
+	@XmlElement(name = "AdditionalFlag1")
+	private Integer additionalFlag1;
 	
-	@XmlElement(name = "ExtraFlag2")
-	private Integer extraFlag2;
+	@XmlElement(name = "AdditionalFlag2")
+	private Integer additionalFlag2;
 	
-	@XmlElement(name = "ExtraFlag3")
-	private Integer extraFlag3;
+	@XmlElement(name = "AdditionalFlag3")
+	private Integer additionalFlag3;
 	
-	@XmlElement(name = "ExtraFlag4")
-	private Integer extraFlag4;
+	@XmlElement(name = "AdditionalFlag4")
+	private Integer additionalFlag4;
 	
-	@XmlElement(name = "ExtraFlag5")
-	private Integer extraFlag5;
+	@XmlElement(name = "AdditionalFlag5")
+	private Integer additionalFlag5;
 	
-	@XmlElement(name = "ExtraFlag6")
-	private Integer extraFlag6;
+	@XmlElement(name = "AdditionalFlag6")
+	private Integer additionalFlag6;
 	
-	@XmlElement(name = "ExtraFlag7")
-	private Integer extraFlag7;
+	@XmlElement(name = "AdditionalFlag7")
+	private Integer additionalFlag7;
 	
-	@XmlElement(name = "ExtraFlag8")
-	private Integer extraFlag8;
+	@XmlElement(name = "AdditionalFlag8")
+	private Integer additionalFlag8;
 	
-	@XmlElement(name = "ExtraFlag9")
-	private Integer extraFlag9;
+	@XmlElement(name = "AdditionalFlag9")
+	private Integer additionalFlag9;
 	
-	@XmlElement(name = "ExtraFlag10")
-	private Integer extraFlag10;
+	@XmlElement(name = "AdditionalFlag10")
+	private Integer additionalFlag10;
 	
-	@XmlElement(name = "ExtraFlag11")
-	private Integer extraFlag11;
+	@XmlElement(name = "AdditionalFlag11")
+	private Integer additionalFlag11;
 	
-	@XmlElement(name = "ExtraFlag12")
-	private Integer extraFlag12;
+	@XmlElement(name = "AdditionalFlag12")
+	private Integer additionalFlag12;
 	
-	@XmlElement(name = "ExtraFlag13")
-	private Integer extraFlag13;
+	@XmlElement(name = "AdditionalFlag13")
+	private Integer additionalFlag13;
 	
-	@XmlElement(name = "ExtraFlag14")
-	private Integer extraFlag14;
+	@XmlElement(name = "AdditionalFlag14")
+	private Integer additionalFlag14;
 	
-	@XmlElement(name = "ExtraFlag15")
-	private Integer extraFlag15;
+	@XmlElement(name = "AdditionalFlag15")
+	private Integer additionalFlag15;
 	
-	@XmlElement(name = "ExtraFlag16")
-	private Integer extraFlag16;
+	@XmlElement(name = "AdditionalFlag16")
+	private Integer additionalFlag16;
 	
-	@XmlElement(name = "ExtraFlag17")
-	private Integer extraFlag17;
+	@XmlElement(name = "AdditionalFlag17")
+	private Integer additionalFlag17;
 	
-	@XmlElement(name = "ExtraFlag18")
-	private Integer extraFlag18;
+	@XmlElement(name = "AdditionalFlag18")
+	private Integer additionalFlag18;
 	
-	@XmlElement(name = "ExtraFlag19")
-	private Integer extraFlag19;
+	@XmlElement(name = "AdditionalFlag19")
+	private Integer additionalFlag19;
 	
-	@XmlElement(name = "ExtraFlag20")
-	private Integer extraFlag20;
+	@XmlElement(name = "AdditionalFlag20")
+	private Integer additionalFlag20;
 
 	public String getCompanyId() {
 		return companyId;
@@ -178,325 +178,324 @@ public class AdditionalDeviceAttributeInfo extends ResultBase {
 		this.training = training;
 	}
 
-	public String getExtraCode1() {
-		return extraCode1;
-	}
-
-	public void setExtraCode1(String extraCode1) {
-		this.extraCode1 = extraCode1;
-	}
-
-	public String getExtraCode2() {
-		return extraCode2;
-	}
-
-	public void setExtraCode2(String extraCode2) {
-		this.extraCode2 = extraCode2;
-	}
-
-	public String getExtraCode3() {
-		return extraCode3;
-	}
-
-	public void setExtraCode3(String extraCode3) {
-		this.extraCode3 = extraCode3;
-	}
-
-	public String getExtraCode4() {
-		return extraCode4;
-	}
-
-	public void setExtraCode4(String extraCode4) {
-		this.extraCode4 = extraCode4;
-	}
-
-	public String getExtraCode5() {
-		return extraCode5;
-	}
-
-	public void setExtraCode5(String extraCode5) {
-		this.extraCode5 = extraCode5;
-	}
-
-	public String getExtraCode6() {
-		return extraCode6;
-	}
-
-	public void setExtraCode6(String extraCode6) {
-		this.extraCode6 = extraCode6;
-	}
-
-	public String getExtraCode7() {
-		return extraCode7;
-	}
-
-	public void setExtraCode7(String extraCode7) {
-		this.extraCode7 = extraCode7;
-	}
-
-	public String getExtraCode8() {
-		return extraCode8;
-	}
-
-	public void setExtraCode8(String extraCode8) {
-		this.extraCode8 = extraCode8;
-	}
-
-	public String getExtraCode9() {
-		return extraCode9;
-	}
-
-	public void setExtraCode9(String extraCode9) {
-		this.extraCode9 = extraCode9;
-	}
-
-	public Integer getExtraNum1() {
-		return extraNum1;
-	}
-
-	public void setExtraNum1(Integer extraNum1) {
-		this.extraNum1 = extraNum1;
-	}
-
-	public Integer getExtraNum2() {
-		return extraNum2;
-	}
-
-	public void setExtraNum2(Integer extraNum2) {
-		this.extraNum2 = extraNum2;
-	}
-
-	public Integer getExtraNum3() {
-		return extraNum3;
-	}
-
-	public void setExtraNum3(Integer extraNum3) {
-		this.extraNum3 = extraNum3;
-	}
-
-	public Integer getExtraNum4() {
-		return extraNum4;
-	}
-
-	public void setExtraNum4(Integer extraNum4) {
-		this.extraNum4 = extraNum4;
-	}
-
-	public Integer getExtraNum5() {
-		return extraNum5;
-	}
-
-	public void setExtraNum5(Integer extraNum5) {
-		this.extraNum5 = extraNum5;
-	}
-
-	public Integer getExtraNum6() {
-		return extraNum6;
-	}
-
-	public void setExtraNum6(Integer extraNum6) {
-		this.extraNum6 = extraNum6;
-	}
-
-	public Integer getExtraNum7() {
-		return extraNum7;
-	}
-
-	public void setExtraNum7(Integer extraNum7) {
-		this.extraNum7 = extraNum7;
-	}
-
-	public Integer getExtraNum8() {
-		return extraNum8;
-	}
-
-	public void setExtraNum8(Integer extraNum8) {
-		this.extraNum8 = extraNum8;
-	}
-
-	public Integer getExtraNum9() {
-		return extraNum9;
-	}
-
-	public void setExtraNum9(Integer extraNum9) {
-		this.extraNum9 = extraNum9;
-	}
-
-	public Integer getExtraNum10() {
-		return extraNum10;
-	}
-
-	public void setExtraNum10(Integer extraNum10) {
-		this.extraNum10 = extraNum10;
-	}
-
-	public Integer getExtraFlag1() {
-		return extraFlag1;
-	}
-
-	public void setExtraFlag1(Integer extraFlag1) {
-		this.extraFlag1 = extraFlag1;
-	}
-
-	public Integer getExtraFlag2() {
-		return extraFlag2;
-	}
-
-	public void setExtraFlag2(Integer extraFlag2) {
-		this.extraFlag2 = extraFlag2;
-	}
-
-	public Integer getExtraFlag3() {
-		return extraFlag3;
-	}
-
-	public void setExtraFlag3(Integer extraFlag3) {
-		this.extraFlag3 = extraFlag3;
-	}
-
-	public Integer getExtraFlag4() {
-		return extraFlag4;
-	}
-
-	public void setExtraFlag4(Integer extraFlag4) {
-		this.extraFlag4 = extraFlag4;
-	}
-
-	public Integer getExtraFlag5() {
-		return extraFlag5;
-	}
-
-	public void setExtraFlag5(Integer extraFlag5) {
-		this.extraFlag5 = extraFlag5;
-	}
-
-	public Integer getExtraFlag6() {
-		return extraFlag6;
-	}
-
-	public void setExtraFlag6(Integer extraFlag6) {
-		this.extraFlag6 = extraFlag6;
-	}
-
-	public Integer getExtraFlag7() {
-		return extraFlag7;
-	}
-
-	public void setExtraFlag7(Integer extraFlag7) {
-		this.extraFlag7 = extraFlag7;
-	}
-
-	public Integer getExtraFlag8() {
-		return extraFlag8;
-	}
-
-	public void setExtraFlag8(Integer extraFlag8) {
-		this.extraFlag8 = extraFlag8;
-	}
-
-	public Integer getExtraFlag9() {
-		return extraFlag9;
-	}
-
-	public void setExtraFlag9(Integer extraFlag9) {
-		this.extraFlag9 = extraFlag9;
-	}
-
-	public Integer getExtraFlag10() {
-		return extraFlag10;
-	}
-
-	public void setExtraFlag10(Integer extraFlag10) {
-		this.extraFlag10 = extraFlag10;
-	}
-
-	public Integer getExtraFlag11() {
-		return extraFlag11;
-	}
-
-	public void setExtraFlag11(Integer extraFlag11) {
-		this.extraFlag11 = extraFlag11;
-	}
-
-	public Integer getExtraFlag12() {
-		return extraFlag12;
-	}
-
-	public void setExtraFlag12(Integer extraFlag12) {
-		this.extraFlag12 = extraFlag12;
-	}
-
-	public Integer getExtraFlag13() {
-		return extraFlag13;
-	}
-
-	public void setExtraFlag13(Integer extraFlag13) {
-		this.extraFlag13 = extraFlag13;
-	}
-
-	public Integer getExtraFlag14() {
-		return extraFlag14;
-	}
-
-	public void setExtraFlag14(Integer extraFlag14) {
-		this.extraFlag14 = extraFlag14;
-	}
-
-	public Integer getExtraFlag15() {
-		return extraFlag15;
-	}
-
-	public void setExtraFlag15(Integer extraFlag15) {
-		this.extraFlag15 = extraFlag15;
-	}
-
-	public Integer getExtraFlag16() {
-		return extraFlag16;
-	}
-
-	public void setExtraFlag16(Integer extraFlag16) {
-		this.extraFlag16 = extraFlag16;
-	}
-
-	public Integer getExtraFlag17() {
-		return extraFlag17;
-	}
-
-	public void setExtraFlag17(Integer extraFlag17) {
-		this.extraFlag17 = extraFlag17;
-	}
-
-	public Integer getExtraFlag18() {
-		return extraFlag18;
-	}
-
-	public void setExtraFlag18(Integer extraFlag18) {
-		this.extraFlag18 = extraFlag18;
-	}
-
-	public Integer getExtraFlag19() {
-		return extraFlag19;
-	}
-
-	public void setExtraFlag19(Integer extraFlag19) {
-		this.extraFlag19 = extraFlag19;
-	}
-
-	public Integer getExtraFlag20() {
-		return extraFlag20;
-	}
-
-	public void setExtraFlag20(Integer extraFlag20) {
-		this.extraFlag20 = extraFlag20;
-	}
-
-	public String getExtraCode10() {
-		return extraCode10;
-	}
-
-	public void setExtraCode10(String extraCode10) {
-		this.extraCode10 = extraCode10;
-	}
-
 	
+	public String getAdditionalCode1() {
+		return additionalCode1;
+	}
+
+	public void setAdditionalCode1(String additionalCode1) {
+		this.additionalCode1 = additionalCode1;
+	}
+
+	public String getAdditionalCode2() {
+		return additionalCode2;
+	}
+
+	public void setAdditionalCode2(String additionalCode2) {
+		this.additionalCode2 = additionalCode2;
+	}
+
+	public String getAdditionalCode3() {
+		return additionalCode3;
+	}
+
+	public void setAdditionalCode3(String additionalCode3) {
+		this.additionalCode3 = additionalCode3;
+	}
+
+	public String getAdditionalCode4() {
+		return additionalCode4;
+	}
+
+	public void setAdditionalCode4(String additionalCode4) {
+		this.additionalCode4 = additionalCode4;
+	}
+
+	public String getAdditionalCode5() {
+		return additionalCode5;
+	}
+
+	public void setAdditionalCode5(String additionalCode5) {
+		this.additionalCode5 = additionalCode5;
+	}
+
+	public String getAdditionalCode6() {
+		return additionalCode6;
+	}
+
+	public void setAdditionalCode6(String additionalCode6) {
+		this.additionalCode6 = additionalCode6;
+	}
+
+	public String getAdditionalCode7() {
+		return additionalCode7;
+	}
+
+	public void setAdditionalCode7(String additionalCode7) {
+		this.additionalCode7 = additionalCode7;
+	}
+
+	public String getAdditionalCode8() {
+		return additionalCode8;
+	}
+
+	public void setAdditionalCode8(String additionalCode8) {
+		this.additionalCode8 = additionalCode8;
+	}
+
+	public String getAdditionalCode9() {
+		return additionalCode9;
+	}
+
+	public void setAdditionalCode9(String additionalCode9) {
+		this.additionalCode9 = additionalCode9;
+	}
+
+	public String getAdditionalCode10() {
+		return additionalCode10;
+	}
+
+	public void setAdditionalCode10(String additionalCode10) {
+		this.additionalCode10 = additionalCode10;
+	}
+
+	public Integer getAdditionalNum1() {
+		return additionalNum1;
+	}
+
+	public void setAdditionalNum1(Integer additionalNum1) {
+		this.additionalNum1 = additionalNum1;
+	}
+
+	public Integer getAdditionalNum2() {
+		return additionalNum2;
+	}
+
+	public void setAdditionalNum2(Integer additionalNum2) {
+		this.additionalNum2 = additionalNum2;
+	}
+
+	public Integer getAdditionalNum3() {
+		return additionalNum3;
+	}
+
+	public void setAdditionalNum3(Integer additionalNum3) {
+		this.additionalNum3 = additionalNum3;
+	}
+
+	public Integer getAdditionalNum4() {
+		return additionalNum4;
+	}
+
+	public void setAdditionalNum4(Integer additionalNum4) {
+		this.additionalNum4 = additionalNum4;
+	}
+
+	public Integer getAdditionalNum5() {
+		return additionalNum5;
+	}
+
+	public void setAdditionalNum5(Integer additionalNum5) {
+		this.additionalNum5 = additionalNum5;
+	}
+
+	public Integer getAdditionalNum6() {
+		return additionalNum6;
+	}
+
+	public void setAdditionalNum6(Integer additionalNum6) {
+		this.additionalNum6 = additionalNum6;
+	}
+
+	public Integer getAdditionalNum7() {
+		return additionalNum7;
+	}
+
+	public void setAdditionalNum7(Integer additionalNum7) {
+		this.additionalNum7 = additionalNum7;
+	}
+
+	public Integer getAdditionalNum8() {
+		return additionalNum8;
+	}
+
+	public void setAdditionalNum8(Integer additionalNum8) {
+		this.additionalNum8 = additionalNum8;
+	}
+
+	public Integer getAdditionalNum9() {
+		return additionalNum9;
+	}
+
+	public void setAdditionalNum9(Integer additionalNum9) {
+		this.additionalNum9 = additionalNum9;
+	}
+
+	public Integer getAdditionalNum10() {
+		return additionalNum10;
+	}
+
+	public void setAdditionalNum10(Integer additionalNum10) {
+		this.additionalNum10 = additionalNum10;
+	}
+
+	public Integer getAdditionalFlag1() {
+		return additionalFlag1;
+	}
+
+	public void setAdditionalFlag1(Integer additionalFlag1) {
+		this.additionalFlag1 = additionalFlag1;
+	}
+
+	public Integer getAdditionalFlag2() {
+		return additionalFlag2;
+	}
+
+	public void setAdditionalFlag2(Integer additionalFlag2) {
+		this.additionalFlag2 = additionalFlag2;
+	}
+
+	public Integer getAdditionalFlag3() {
+		return additionalFlag3;
+	}
+
+	public void setAdditionalFlag3(Integer additionalFlag3) {
+		this.additionalFlag3 = additionalFlag3;
+	}
+
+	public Integer getAdditionalFlag4() {
+		return additionalFlag4;
+	}
+
+	public void setAdditionalFlag4(Integer additionalFlag4) {
+		this.additionalFlag4 = additionalFlag4;
+	}
+
+	public Integer getAdditionalFlag5() {
+		return additionalFlag5;
+	}
+
+	public void setAdditionalFlag5(Integer additionalFlag5) {
+		this.additionalFlag5 = additionalFlag5;
+	}
+
+	public Integer getAdditionalFlag6() {
+		return additionalFlag6;
+	}
+
+	public void setAdditionalFlag6(Integer additionalFlag6) {
+		this.additionalFlag6 = additionalFlag6;
+	}
+
+	public Integer getAdditionalFlag7() {
+		return additionalFlag7;
+	}
+
+	public void setAdditionalFlag7(Integer additionalFlag7) {
+		this.additionalFlag7 = additionalFlag7;
+	}
+
+	public Integer getAdditionalFlag8() {
+		return additionalFlag8;
+	}
+
+	public void setAdditionalFlag8(Integer additionalFlag8) {
+		this.additionalFlag8 = additionalFlag8;
+	}
+
+	public Integer getAdditionalFlag9() {
+		return additionalFlag9;
+	}
+
+	public void setAdditionalFlag9(Integer additionalFlag9) {
+		this.additionalFlag9 = additionalFlag9;
+	}
+
+	public Integer getAdditionalFlag10() {
+		return additionalFlag10;
+	}
+
+	public void setAdditionalFlag10(Integer additionalFlag10) {
+		this.additionalFlag10 = additionalFlag10;
+	}
+
+	public Integer getAdditionalFlag11() {
+		return additionalFlag11;
+	}
+
+	public void setAdditionalFlag11(Integer additionalFlag11) {
+		this.additionalFlag11 = additionalFlag11;
+	}
+
+	public Integer getAdditionalFlag12() {
+		return additionalFlag12;
+	}
+
+	public void setAdditionalFlag12(Integer additionalFlag12) {
+		this.additionalFlag12 = additionalFlag12;
+	}
+
+	public Integer getAdditionalFlag13() {
+		return additionalFlag13;
+	}
+
+	public void setAdditionalFlag13(Integer additionalFlag13) {
+		this.additionalFlag13 = additionalFlag13;
+	}
+
+	public Integer getAdditionalFlag14() {
+		return additionalFlag14;
+	}
+
+	public void setAdditionalFlag14(Integer additionalFlag14) {
+		this.additionalFlag14 = additionalFlag14;
+	}
+
+	public Integer getAdditionalFlag15() {
+		return additionalFlag15;
+	}
+
+	public void setAdditionalFlag15(Integer additionalFlag15) {
+		this.additionalFlag15 = additionalFlag15;
+	}
+
+	public Integer getAdditionalFlag16() {
+		return additionalFlag16;
+	}
+
+	public void setAdditionalFlag16(Integer additionalFlag16) {
+		this.additionalFlag16 = additionalFlag16;
+	}
+
+	public Integer getAdditionalFlag17() {
+		return additionalFlag17;
+	}
+
+	public void setAdditionalFlag17(Integer additionalFlag17) {
+		this.additionalFlag17 = additionalFlag17;
+	}
+
+	public Integer getAdditionalFlag18() {
+		return additionalFlag18;
+	}
+
+	public void setAdditionalFlag18(Integer additionalFlag18) {
+		this.additionalFlag18 = additionalFlag18;
+	}
+
+	public Integer getAdditionalFlag19() {
+		return additionalFlag19;
+	}
+
+	public void setAdditionalFlag19(Integer additionalFlag19) {
+		this.additionalFlag19 = additionalFlag19;
+	}
+
+	public Integer getAdditionalFlag20() {
+		return additionalFlag20;
+	}
+
+	public void setAdditionalFlag20(Integer additionalFlag20) {
+		this.additionalFlag20 = additionalFlag20;
+	}
 }

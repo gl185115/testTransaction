@@ -16,6 +16,7 @@ import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.mobilepos.deviceinfo.model.AdditionalDeviceAttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
@@ -595,6 +596,104 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     attributeInfo.setAttribute29(resultSet.getString("Attribute29") == null ? "" : resultSet.getString("Attribute29"));
                     attributeInfo.setAttribute30(resultSet.getString("Attribute30") == null ? "" : resultSet.getString("Attribute30"));
                     attributeInfo.setTrainingMode(resultSet.getInt("Training"));
+                    attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+                    attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+                    attributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
+
+                    returnData = attributeInfo;
+                } else {
+                    // No data found.
+                    ResultBase errorReturn = new ResultBase();
+                    errorReturn.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                    errorReturn.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                    errorReturn.setMessage(ResultBase.RES_NODATAFOUND_MSG);
+
+                    returnData = errorReturn;
+                }
+            }
+        } catch (SQLException sqlEx) {
+            throw new DaoException("SQLException: @SQLDeviceInfoDAO"
+                    + "." + functionName + " - Failed to Get the Attribute Info.", sqlEx);
+        } finally {
+            tp.methodExit(returnData);
+        }
+        return returnData;
+    }
+    /**
+	 * Gets the Additional Device Attribute.
+	 * @param storeId		- The store identifier.
+	 * @param terminalId	- The terminal/device identifier.
+	 * @param companyId
+	 * @param training
+	 * @return AttributeInfo - The Info of the Device Attribute.
+	 * @throws DaoException	- Thrown when DAO error is encountered.
+     */
+    public final ResultBase getAdditionalDeviceAttributeInfo(final String storeId, final String terminalId, String companyId, int training)
+    		throws DaoException {
+        String functionName = "getAdditionalDeviceAttributeInfo";
+        tp.methodEnter(functionName);
+        tp.println("storeId", storeId)
+                .println("terminalId", terminalId)
+                .println("companyId", companyId)
+                .println("training", training);
+        ResultBase returnData = null;
+        try (Connection con = dbManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-additional-device-attribute-info"))) {
+            ps.setString(SQLStatement.PARAM1, storeId);
+            ps.setString(SQLStatement.PARAM2, terminalId);
+            ps.setString(SQLStatement.PARAM3, companyId);
+            ps.setInt(SQLStatement.PARAM4, training);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    AdditionalDeviceAttributeInfo attributeInfo = new AdditionalDeviceAttributeInfo();
+                    attributeInfo.setCompanyId(resultSet.getString("CompanyId"));
+                    attributeInfo.setRetailStoreId(resultSet.getString("StoreId"));
+                    attributeInfo.setDeviceId(resultSet.getString("TerminalId"));                    
+                    attributeInfo.setTraining(resultSet.getInt("Training"));                   
+                    attributeInfo.setExtraCode1(resultSet.getString("ExtraCode1") == null ? "" : resultSet.getString("ExtraCode1") );
+                    attributeInfo.setExtraCode2(resultSet.getString("ExtraCode2") == null ? "" : resultSet.getString("ExtraCode2") );
+                    attributeInfo.setExtraCode3(resultSet.getString("ExtraCode3") == null ? "" : resultSet.getString("ExtraCode3") );
+                    attributeInfo.setExtraCode4(resultSet.getString("ExtraCode4") == null ? "" : resultSet.getString("ExtraCode4") );
+                    attributeInfo.setExtraCode5(resultSet.getString("ExtraCode5") == null ? "" : resultSet.getString("ExtraCode5") );
+                    attributeInfo.setExtraCode6(resultSet.getString("ExtraCode6") == null ? "" : resultSet.getString("ExtraCode6") );
+                    attributeInfo.setExtraCode7(resultSet.getString("ExtraCode7") == null ? "" : resultSet.getString("ExtraCode7") );
+                    attributeInfo.setExtraCode8(resultSet.getString("ExtraCode8") == null ? "" : resultSet.getString("ExtraCode8") );
+                    attributeInfo.setExtraCode9(resultSet.getString("ExtraCode9") == null ? "" : resultSet.getString("ExtraCode9") );
+                    attributeInfo.setExtraCode10(resultSet.getString("ExtraCode10") == null ? "" : resultSet.getString("ExtraCode10") );
+                    
+                    
+                    attributeInfo.setExtraNum1(resultSet.getInt("ExtraNum1"));
+                    attributeInfo.setExtraNum2(resultSet.getInt("ExtraNum2"));
+                    attributeInfo.setExtraNum3(resultSet.getInt("ExtraNum3"));
+                    attributeInfo.setExtraNum4(resultSet.getInt("ExtraNum4"));
+                    attributeInfo.setExtraNum5(resultSet.getInt("ExtraNum5"));
+                    attributeInfo.setExtraNum6(resultSet.getInt("ExtraNum6"));
+                    attributeInfo.setExtraNum7(resultSet.getInt("ExtraNum7"));
+                    attributeInfo.setExtraNum8(resultSet.getInt("ExtraNum8"));
+                    attributeInfo.setExtraNum9(resultSet.getInt("ExtraNum9"));
+                    attributeInfo.setExtraNum10(resultSet.getInt("ExtraNum10"));
+                    
+                    attributeInfo.setExtraFlag1(resultSet.getInt("ExtraFlag1"));
+                    attributeInfo.setExtraFlag2(resultSet.getInt("ExtraFlag2"));
+                    attributeInfo.setExtraFlag3(resultSet.getInt("ExtraFlag3"));
+                    attributeInfo.setExtraFlag4(resultSet.getInt("ExtraFlag4"));
+                    attributeInfo.setExtraFlag5(resultSet.getInt("ExtraFlag5"));
+                    attributeInfo.setExtraFlag6(resultSet.getInt("ExtraFlag6"));
+                    attributeInfo.setExtraFlag7(resultSet.getInt("ExtraFlag7"));
+                    attributeInfo.setExtraFlag8(resultSet.getInt("ExtraFlag8"));
+                    attributeInfo.setExtraFlag9(resultSet.getInt("ExtraFlag9"));
+                    attributeInfo.setExtraFlag10(resultSet.getInt("ExtraFlag10"));
+                    attributeInfo.setExtraFlag11(resultSet.getInt("ExtraFlag11"));
+                    attributeInfo.setExtraFlag12(resultSet.getInt("ExtraFlag12"));
+                    attributeInfo.setExtraFlag13(resultSet.getInt("ExtraFlag13"));
+                    attributeInfo.setExtraFlag14(resultSet.getInt("ExtraFlag14"));
+                    attributeInfo.setExtraFlag15(resultSet.getInt("ExtraFlag15"));
+                    attributeInfo.setExtraFlag16(resultSet.getInt("ExtraFlag16"));
+                    attributeInfo.setExtraFlag17(resultSet.getInt("ExtraFlag17"));
+                    attributeInfo.setExtraFlag18(resultSet.getInt("ExtraFlag18"));
+                    attributeInfo.setExtraFlag19(resultSet.getInt("ExtraFlag19"));
+                    attributeInfo.setExtraFlag20(resultSet.getInt("ExtraFlag20"));
+                                       
                     attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
                     attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                     attributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);

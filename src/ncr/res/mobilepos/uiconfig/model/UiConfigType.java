@@ -19,6 +19,9 @@ public enum UiConfigType {
     RECEIPT("receipt"),
     SOUNDS("sounds"),
     SCOMAPS("scomaps"),
+
+    SCOUTILS("scoutils"),
+
     UNKNOWN("");
 
     private final String key;
@@ -58,6 +61,9 @@ public enum UiConfigType {
     private static final String API_RECEIPT = "receipt";
     private static final String API_SCOMAPS = "scomaps";
 
+    private static final String API_SCOUTILS = "scoutils";
+
+
     /**
      * @param typeParam
      * @return
@@ -86,6 +92,11 @@ public enum UiConfigType {
             case API_SCOMAPS:
                 configType = UiConfigType.SCOMAPS;
                 break;
+
+            case API_SCOUTILS:
+                configType = UiConfigType.SCOUTILS;
+                break;
+
             default:
                 configType = UiConfigType.UNKNOWN;
         }

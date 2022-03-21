@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
- * Additional Device Attribute Info.
+ * Additional Device Info.
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "AdditionalDeviceAttributeInfo")
-public class AdditionalDeviceAttributeInfo extends ResultBase {
+@XmlRootElement(name = "AdditionalDeviceInfo")
+public class AdditionalDeviceInfo extends ResultBase {
 	
 	@XmlElement(name = "CompanyId")
     private String companyId;

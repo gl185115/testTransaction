@@ -4216,10 +4216,10 @@ ORDER BY
           AND deviceinfo.Training = ?
           AND deviceinfo.DeleteFlag = 0.0
 </entry>
-<entry key="get-additional-device-attribute-info">
+<entry key="get-additional-device-info">
   SELECT * 
         
-  FROM      RESMaster.dbo.MST_ADDITIONAL_DEVICEINFO attribute
+  FROM      RESMaster.dbo.MST_ADDITIONAL_DEVICEINFO 
  
   WHERE   StoreId = LTRIM(RTRIM(?)) AND
           TerminalId = LTRIM(RTRIM(?)) AND

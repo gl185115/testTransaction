@@ -16,7 +16,7 @@ import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
-import ncr.res.mobilepos.deviceinfo.model.AdditionalDeviceAttributeInfo;
+import ncr.res.mobilepos.deviceinfo.model.AdditionalDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
@@ -620,7 +620,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         return returnData;
     }
     /**
-	 * Gets the Additional Device Attribute.
+	 * Gets the Additional Device Info.
 	 * @param storeId		- The store identifier.
 	 * @param terminalId	- The terminal/device identifier.
 	 * @param companyId
@@ -628,7 +628,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	 * @return AttributeInfo - The Info of the Device Attribute.
 	 * @throws DaoException	- Thrown when DAO error is encountered.
      */
-    public final ResultBase getAdditionalDeviceAttributeInfo(final String storeId, final String terminalId, String companyId, int training)
+    public final ResultBase getAdditionalDeviceInfo(final String storeId, final String terminalId, String companyId, int training)
     		throws DaoException {
         String functionName = "getAdditionalDeviceAttributeInfo";
         tp.methodEnter(functionName);
@@ -638,14 +638,14 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 .println("training", training);
         ResultBase returnData = null;
         try (Connection con = dbManager.getConnection();
-             PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-additional-device-attribute-info"))) {
+             PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-additional-device-info"))) {
             ps.setString(SQLStatement.PARAM1, storeId);
             ps.setString(SQLStatement.PARAM2, terminalId);
             ps.setString(SQLStatement.PARAM3, companyId);
             ps.setInt(SQLStatement.PARAM4, training);
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
-                    AdditionalDeviceAttributeInfo attributeInfo = new AdditionalDeviceAttributeInfo();
+                    AdditionalDeviceInfo attributeInfo = new AdditionalDeviceInfo();
                     attributeInfo.setCompanyId(resultSet.getString("CompanyId"));
                     attributeInfo.setRetailStoreId(resultSet.getString("StoreId"));
                     attributeInfo.setDeviceId(resultSet.getString("TerminalId"));                    

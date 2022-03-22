@@ -582,7 +582,98 @@ public class DeviceInfoResource {
     	tp.methodExit(result);
 		return result;
     }
+    /**
+     * GetAdditionalDeviceInfo.
+     * @param storeId		- The store identifier.
+     * @param terminalId	- The terminal/device identifier.
+     * @param companyId - Company ID.
+     * @param training - training flag.
+     * @return AdditionalAttributeInfo
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/getadditionaldeviceinfo")
+    @ApiOperation(value="属性情報の取得", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="属性情報検索エラー(見付からない)")
 
+    })
+    public final ResultBase getAdditionalDeviceInfo(
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId,
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="training", value="トレーニングモードフラグ") @QueryParam("training") final String training) {
+		final String functionName = "getAttribute";
+		tp.methodEnter(functionName);
+		tp.println("storeid", storeId)
+                .println("terminalId", terminalId)
+                .println("companyId", companyId)
+                .println("Training", training);
+
+        // Prepare Invalid param return.
+        ResultBase invalidParamResult = new ResultBase();
+        invalidParamResult.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+        invalidParamResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+        invalidParamResult.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+
+        // Validates if all arguments are not empty.
+        if(StringUtility.isNullOrEmpty(storeId, terminalId, companyId, training)){
+            tp.methodExit("Validation failed: Empty params");
+            LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
+                    "Validation failed: Empty params");
+            return invalidParamResult;
+        }
+
+        // Validates if training is a parsable integer.
+        int parsedTraining = -1;
+        try {
+            parsedTraining = Integer.parseInt(training);
+        } catch (NumberFormatException nfe) {
+            tp.methodExit("Validation failed: training is not a number");
+            LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
+                    "Validation failed: training is not a number", nfe);
+            return invalidParamResult;
+        }
+
+        ResultBase result;
+        // DB lookup.
+        try{
+            // Normal case.
+            IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
+			result = iPerCtrlDao.getAdditionalDeviceInfo(storeId, terminalId, companyId, parsedTraining);
+		}catch (DaoException ex) {
+            // When DB related exception is thrown.
+            int resultCode;
+            String loggerExcepionCode;
+			if (ex.getCause() instanceof SQLException) {
+                resultCode = ResultBase.RES_ERROR_DB;
+                loggerExcepionCode = LOGGER.RES_EXCEP_SQL;
+			} else {
+                resultCode = ResultBase.RES_ERROR_DAO;
+                loggerExcepionCode = LOGGER.RES_EXCEP_DAO;
+			}
+            LOGGER.logAlert(PROG_NAME, functionName, loggerExcepionCode,
+                    "DaoException thrown: failed to get AttributeInfo", ex);
+            result = new ResultBase();
+            result.setNCRWSSResultCode(resultCode);
+            result.setNCRWSSExtendedResultCode(resultCode);
+            result.setMessage(ex.getMessage());
+		} catch (Exception ex) {
+            // When Exception is thrown.
+            LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
+                    "Exception thrown: failed to get AttributeInfo", ex);
+            result = new ResultBase();
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(ex.getMessage());
+		}
+    	tp.methodExit(result);
+		return result;
+    }
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getdeviceattribute")

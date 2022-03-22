@@ -159,4 +159,15 @@ public interface IDeviceInfoDAO {
      * @throws DaoException - holds the exception that was thrown
      */
     Indicators getDeviceIndicators(String attributeid) throws DaoException;
+
+    /**
+     * Gets the Additional Info of Device.
+     * @param companyId     - The company identifier
+     * @param storeId		- The store identifier.
+     * @param terminalId	- The terminal/device identifier.
+     * @return DeviceAttribute	- The Info of the Device Attribute.
+     * @throws DaoException	- Thrown when DAO error is encountered.
+     */
+	ResultBase getAdditionalDeviceInfo(String storeId, String terminalId, String companyId,
+			int parsedTraining) throws DaoException;
 }

@@ -16,7 +16,7 @@ import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
-import ncr.res.mobilepos.deviceinfo.model.AdditionalDeviceAttributeInfo;
+import ncr.res.mobilepos.deviceinfo.model.AdditionalDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
@@ -620,7 +620,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         return returnData;
     }
     /**
-	 * Gets the Additional Device Attribute.
+	 * Gets the Additional Device Info.
 	 * @param storeId		- The store identifier.
 	 * @param terminalId	- The terminal/device identifier.
 	 * @param companyId
@@ -628,7 +628,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	 * @return AttributeInfo - The Info of the Device Attribute.
 	 * @throws DaoException	- Thrown when DAO error is encountered.
      */
-    public final ResultBase getAdditionalDeviceAttributeInfo(final String storeId, final String terminalId, String companyId, int training)
+    public final ResultBase getAdditionalDeviceInfo(final String storeId, final String terminalId, String companyId, int training)
     		throws DaoException {
         String functionName = "getAdditionalDeviceAttributeInfo";
         tp.methodEnter(functionName);
@@ -638,14 +638,14 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 .println("training", training);
         ResultBase returnData = null;
         try (Connection con = dbManager.getConnection();
-             PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-additional-device-attribute-info"))) {
+             PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-additional-device-info"))) {
             ps.setString(SQLStatement.PARAM1, storeId);
             ps.setString(SQLStatement.PARAM2, terminalId);
             ps.setString(SQLStatement.PARAM3, companyId);
             ps.setInt(SQLStatement.PARAM4, training);
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
-                    AdditionalDeviceAttributeInfo attributeInfo = new AdditionalDeviceAttributeInfo();
+                    AdditionalDeviceInfo attributeInfo = new AdditionalDeviceInfo();
                     attributeInfo.setCompanyId(resultSet.getString("CompanyId"));
                     attributeInfo.setRetailStoreId(resultSet.getString("StoreId"));
                     attributeInfo.setDeviceId(resultSet.getString("TerminalId"));                    
@@ -661,38 +661,39 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     attributeInfo.setAdditionalCode9(resultSet.getString("AdditionalCode9") == null ? "" : resultSet.getString("AdditionalCode9"));
                     attributeInfo.setAdditionalCode10(resultSet.getString("AdditionalCode10") == null ? "" : resultSet.getString("AdditionalCode10"));                    
                     
-                    attributeInfo.setAdditionalNum1(resultSet.getInt("AdditionalNum1"));
-                    attributeInfo.setAdditionalNum2(resultSet.getInt("AdditionalNum2"));
-                    attributeInfo.setAdditionalNum3(resultSet.getInt("AdditionalNum3"));
-                    attributeInfo.setAdditionalNum4(resultSet.getInt("AdditionalNum4"));
-                    attributeInfo.setAdditionalNum5(resultSet.getInt("AdditionalNum5"));
-                    attributeInfo.setAdditionalNum6(resultSet.getInt("AdditionalNum6"));
-                    attributeInfo.setAdditionalNum7(resultSet.getInt("AdditionalNum7"));
-                    attributeInfo.setAdditionalNum8(resultSet.getInt("AdditionalNum8"));
-                    attributeInfo.setAdditionalNum9(resultSet.getInt("AdditionalNum9"));
-                    attributeInfo.setAdditionalNum10(resultSet.getInt("AdditionalNum10"));                   
+                    attributeInfo.setAdditionalNum1(resultSet.getString("AdditionalNum1") == null ? "": resultSet.getString("AdditionalNum1"));
+                    attributeInfo.setAdditionalNum2(resultSet.getString("AdditionalNum2") == null ? "": resultSet.getString("AdditionalNum2")); 
+                    attributeInfo.setAdditionalNum3(resultSet.getString("AdditionalNum3") == null ? "": resultSet.getString("AdditionalNum3"));
+                    attributeInfo.setAdditionalNum4(resultSet.getString("AdditionalNum4") == null ? "": resultSet.getString("AdditionalNum4"));
+                    attributeInfo.setAdditionalNum5(resultSet.getString("AdditionalNum5") == null ? "": resultSet.getString("AdditionalNum5"));
+                    attributeInfo.setAdditionalNum6(resultSet.getString("AdditionalNum6") == null ? "": resultSet.getString("AdditionalNum6"));
+                    attributeInfo.setAdditionalNum7(resultSet.getString("AdditionalNum7") == null ? "": resultSet.getString("AdditionalNum7"));
+                    attributeInfo.setAdditionalNum8(resultSet.getString("AdditionalNum8") == null ? "": resultSet.getString("AdditionalNum8"));
+                    attributeInfo.setAdditionalNum9(resultSet.getString("AdditionalNum9") == null ? "": resultSet.getString("AdditionalNum9"));
+                    attributeInfo.setAdditionalNum10(resultSet.getString("AdditionalNum10") == null ? "": resultSet.getString("AdditionalNum10"));                  
                    
                     
-                    attributeInfo.setAdditionalFlag1(resultSet.getInt("AdditionalFlag1"));
-                    attributeInfo.setAdditionalFlag2(resultSet.getInt("AdditionalFlag2"));
-                    attributeInfo.setAdditionalFlag3(resultSet.getInt("AdditionalFlag3"));
-                    attributeInfo.setAdditionalFlag4(resultSet.getInt("AdditionalFlag4"));
-                    attributeInfo.setAdditionalFlag5(resultSet.getInt("AdditionalFlag5"));
-                    attributeInfo.setAdditionalFlag6(resultSet.getInt("AdditionalFlag6"));
-                    attributeInfo.setAdditionalFlag7(resultSet.getInt("AdditionalFlag7"));
-                    attributeInfo.setAdditionalFlag8(resultSet.getInt("AdditionalFlag8"));
-                    attributeInfo.setAdditionalFlag9(resultSet.getInt("AdditionalFlag9"));
-                    attributeInfo.setAdditionalFlag10(resultSet.getInt("AdditionalFlag10"));
-                    attributeInfo.setAdditionalFlag11(resultSet.getInt("AdditionalFlag11"));
-                    attributeInfo.setAdditionalFlag12(resultSet.getInt("AdditionalFlag12"));
-                    attributeInfo.setAdditionalFlag13(resultSet.getInt("AdditionalFlag13"));
-                    attributeInfo.setAdditionalFlag14(resultSet.getInt("AdditionalFlag14"));
-                    attributeInfo.setAdditionalFlag15(resultSet.getInt("AdditionalFlag15"));
-                    attributeInfo.setAdditionalFlag16(resultSet.getInt("AdditionalFlag16"));
-                    attributeInfo.setAdditionalFlag17(resultSet.getInt("AdditionalFlag17"));
-                    attributeInfo.setAdditionalFlag18(resultSet.getInt("AdditionalFlag18"));
-                    attributeInfo.setAdditionalFlag19(resultSet.getInt("AdditionalFlag19"));
-                    attributeInfo.setAdditionalFlag20(resultSet.getInt("AdditionalFlag20"));
+                    attributeInfo.setAdditionalFlag1(resultSet.getString("AdditionalFlag1") == null ? "" : resultSet.getString("AdditionalFlag1"));
+                    attributeInfo.setAdditionalFlag2(resultSet.getString("AdditionalFlag2") == null ? "" : resultSet.getString("AdditionalFlag2"));
+                    attributeInfo.setAdditionalFlag3(resultSet.getString("AdditionalFlag3") == null ? "" : resultSet.getString("AdditionalFlag3"));
+                    attributeInfo.setAdditionalFlag4(resultSet.getString("AdditionalFlag4") == null ? "" : resultSet.getString("AdditionalFlag4"));
+                    attributeInfo.setAdditionalFlag5(resultSet.getString("AdditionalFlag5") == null ? "" : resultSet.getString("AdditionalFlag5"));
+                    attributeInfo.setAdditionalFlag6(resultSet.getString("AdditionalFlag6") == null ? "" : resultSet.getString("AdditionalFlag6"));
+                    attributeInfo.setAdditionalFlag7(resultSet.getString("AdditionalFlag7") == null ? "" : resultSet.getString("AdditionalFlag7"));
+                    attributeInfo.setAdditionalFlag8(resultSet.getString("AdditionalFlag8") == null ? "" : resultSet.getString("AdditionalFlag8"));
+                    attributeInfo.setAdditionalFlag9(resultSet.getString("AdditionalFlag9") == null ? "" : resultSet.getString("AdditionalFlag9"));
+                    attributeInfo.setAdditionalFlag10(resultSet.getString("AdditionalFlag10") == null ? "" : resultSet.getString("AdditionalFlag10"));
+                    attributeInfo.setAdditionalFlag11(resultSet.getString("AdditionalFlag11") == null ? "" : resultSet.getString("AdditionalFlag11"));
+                    attributeInfo.setAdditionalFlag12(resultSet.getString("AdditionalFlag12") == null ? "" : resultSet.getString("AdditionalFlag12"));
+                    attributeInfo.setAdditionalFlag13(resultSet.getString("AdditionalFlag13") == null ? "" : resultSet.getString("AdditionalFlag13"));
+                    attributeInfo.setAdditionalFlag14(resultSet.getString("AdditionalFlag14") == null ? "" : resultSet.getString("AdditionalFlag14"));
+                    attributeInfo.setAdditionalFlag15(resultSet.getString("AdditionalFlag15") == null ? "" : resultSet.getString("AdditionalFlag15"));
+                    attributeInfo.setAdditionalFlag16(resultSet.getString("AdditionalFlag16") == null ? "" : resultSet.getString("AdditionalFlag16"));
+                    attributeInfo.setAdditionalFlag17(resultSet.getString("AdditionalFlag17") == null ? "" : resultSet.getString("AdditionalFlag17"));
+                    attributeInfo.setAdditionalFlag18(resultSet.getString("AdditionalFlag18") == null ? "" : resultSet.getString("AdditionalFlag18"));
+                    attributeInfo.setAdditionalFlag19(resultSet.getString("AdditionalFlag19") == null ? "" : resultSet.getString("AdditionalFlag19"));
+                    attributeInfo.setAdditionalFlag20(resultSet.getString("AdditionalFlag20") == null ? "" : resultSet.getString("AdditionalFlag20"));
+                    
                     
                     attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
                     attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);

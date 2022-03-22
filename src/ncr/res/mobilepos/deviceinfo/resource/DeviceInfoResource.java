@@ -583,7 +583,7 @@ public class DeviceInfoResource {
 		return result;
     }
     /**
-     * GetAdditionalAttribute.
+     * GetAdditionalDeviceInfo.
      * @param storeId		- The store identifier.
      * @param terminalId	- The terminal/device identifier.
      * @param companyId - Company ID.
@@ -592,7 +592,7 @@ public class DeviceInfoResource {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @Path("/getadditionalattribute")
+    @Path("/getadditionaldeviceinfo")
     @ApiOperation(value="属性情報の取得", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -602,7 +602,7 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="属性情報検索エラー(見付からない)")
 
     })
-    public final ResultBase getAdditionalAttribute(
+    public final ResultBase getAdditionalDeviceInfo(
     		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
@@ -644,7 +644,7 @@ public class DeviceInfoResource {
         try{
             // Normal case.
             IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
-			result = iPerCtrlDao.getAdditionalDeviceAttributeInfo(storeId, terminalId, companyId, parsedTraining);
+			result = iPerCtrlDao.getAdditionalDeviceInfo(storeId, terminalId, companyId, parsedTraining);
 		}catch (DaoException ex) {
             // When DB related exception is thrown.
             int resultCode;

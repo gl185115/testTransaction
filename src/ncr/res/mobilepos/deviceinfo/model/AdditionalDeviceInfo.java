@@ -57,94 +57,94 @@ public class AdditionalDeviceInfo extends ResultBase {
 	private String additionalCode10;
 	
 	@XmlElement(name = "AdditionalNum1")
-	private Integer additionalNum1;
+	private String additionalNum1;
 	
 	@XmlElement(name = "AdditionalNum2")
-	private Integer additionalNum2;
+	private String additionalNum2;
 	
 	@XmlElement(name = "AdditionalNum3")
-	private Integer additionalNum3;
+	private String additionalNum3;
 	
 	@XmlElement(name = "AdditionalNum4")
-	private Integer additionalNum4;
+	private String additionalNum4;
 	
 	@XmlElement(name = "AdditionalNum5")
-	private Integer additionalNum5;
+	private String additionalNum5;
 	
 	@XmlElement(name = "AdditionalNum6")
-	private Integer additionalNum6;
+	private String additionalNum6;
 	
 	@XmlElement(name = "AdditionalNum7")
-	private Integer additionalNum7;
+	private String additionalNum7;
 	
 	@XmlElement(name = "AdditionalNum8")
-	private Integer additionalNum8;
+	private String additionalNum8;
 	
 	@XmlElement(name = "AdditionalNum9")
-	private Integer additionalNum9;
+	private String additionalNum9;
 	
 	@XmlElement(name = "AdditionalNum10")
-	private Integer additionalNum10;
+	private String additionalNum10;
 	
 	@XmlElement(name = "AdditionalFlag1")
-	private Integer additionalFlag1;
+	private String additionalFlag1;
 	
 	@XmlElement(name = "AdditionalFlag2")
-	private Integer additionalFlag2;
+	private String additionalFlag2;
 	
 	@XmlElement(name = "AdditionalFlag3")
-	private Integer additionalFlag3;
+	private String additionalFlag3;
 	
 	@XmlElement(name = "AdditionalFlag4")
-	private Integer additionalFlag4;
+	private String additionalFlag4;
 	
 	@XmlElement(name = "AdditionalFlag5")
-	private Integer additionalFlag5;
+	private String additionalFlag5;
 	
 	@XmlElement(name = "AdditionalFlag6")
-	private Integer additionalFlag6;
+	private String additionalFlag6;
 	
 	@XmlElement(name = "AdditionalFlag7")
-	private Integer additionalFlag7;
+	private String additionalFlag7;
 	
 	@XmlElement(name = "AdditionalFlag8")
-	private Integer additionalFlag8;
+	private String additionalFlag8;
 	
 	@XmlElement(name = "AdditionalFlag9")
-	private Integer additionalFlag9;
+	private String additionalFlag9;
 	
 	@XmlElement(name = "AdditionalFlag10")
-	private Integer additionalFlag10;
+	private String additionalFlag10;
 	
 	@XmlElement(name = "AdditionalFlag11")
-	private Integer additionalFlag11;
+	private String additionalFlag11;
 	
 	@XmlElement(name = "AdditionalFlag12")
-	private Integer additionalFlag12;
+	private String additionalFlag12;
 	
 	@XmlElement(name = "AdditionalFlag13")
-	private Integer additionalFlag13;
+	private String additionalFlag13;
 	
 	@XmlElement(name = "AdditionalFlag14")
-	private Integer additionalFlag14;
+	private String additionalFlag14;
 	
 	@XmlElement(name = "AdditionalFlag15")
-	private Integer additionalFlag15;
+	private String additionalFlag15;
 	
 	@XmlElement(name = "AdditionalFlag16")
-	private Integer additionalFlag16;
+	private String additionalFlag16;
 	
 	@XmlElement(name = "AdditionalFlag17")
-	private Integer additionalFlag17;
+	private String additionalFlag17;
 	
 	@XmlElement(name = "AdditionalFlag18")
-	private Integer additionalFlag18;
+	private String additionalFlag18;
 	
 	@XmlElement(name = "AdditionalFlag19")
-	private Integer additionalFlag19;
+	private String additionalFlag19;
 	
 	@XmlElement(name = "AdditionalFlag20")
-	private Integer additionalFlag20;
+	private String additionalFlag20;
 
 	public String getCompanyId() {
 		return companyId;
@@ -259,243 +259,243 @@ public class AdditionalDeviceInfo extends ResultBase {
 		this.additionalCode10 = additionalCode10;
 	}
 
-	public Integer getAdditionalNum1() {
+	public String getAdditionalNum1() {
 		return additionalNum1;
 	}
 
-	public void setAdditionalNum1(Integer additionalNum1) {
+	public void setAdditionalNum1(String additionalNum1) {
 		this.additionalNum1 = additionalNum1;
 	}
 
-	public Integer getAdditionalNum2() {
+	public String getAdditionalNum2() {
 		return additionalNum2;
 	}
 
-	public void setAdditionalNum2(Integer additionalNum2) {
+	public void setAdditionalNum2(String additionalNum2) {
 		this.additionalNum2 = additionalNum2;
 	}
 
-	public Integer getAdditionalNum3() {
+	public String getAdditionalNum3() {
 		return additionalNum3;
 	}
 
-	public void setAdditionalNum3(Integer additionalNum3) {
+	public void setAdditionalNum3(String additionalNum3) {
 		this.additionalNum3 = additionalNum3;
 	}
 
-	public Integer getAdditionalNum4() {
+	public String getAdditionalNum4() {
 		return additionalNum4;
 	}
 
-	public void setAdditionalNum4(Integer additionalNum4) {
+	public void setAdditionalNum4(String additionalNum4) {
 		this.additionalNum4 = additionalNum4;
 	}
 
-	public Integer getAdditionalNum5() {
+	public String getAdditionalNum5() {
 		return additionalNum5;
 	}
 
-	public void setAdditionalNum5(Integer additionalNum5) {
+	public void setAdditionalNum5(String additionalNum5) {
 		this.additionalNum5 = additionalNum5;
 	}
 
-	public Integer getAdditionalNum6() {
+	public String getAdditionalNum6() {
 		return additionalNum6;
 	}
 
-	public void setAdditionalNum6(Integer additionalNum6) {
+	public void setAdditionalNum6(String additionalNum6) {
 		this.additionalNum6 = additionalNum6;
 	}
 
-	public Integer getAdditionalNum7() {
+	public String getAdditionalNum7() {
 		return additionalNum7;
 	}
 
-	public void setAdditionalNum7(Integer additionalNum7) {
+	public void setAdditionalNum7(String additionalNum7) {
 		this.additionalNum7 = additionalNum7;
 	}
 
-	public Integer getAdditionalNum8() {
+	public String getAdditionalNum8() {
 		return additionalNum8;
 	}
 
-	public void setAdditionalNum8(Integer additionalNum8) {
+	public void setAdditionalNum8(String additionalNum8) {
 		this.additionalNum8 = additionalNum8;
 	}
 
-	public Integer getAdditionalNum9() {
+	public String getAdditionalNum9() {
 		return additionalNum9;
 	}
 
-	public void setAdditionalNum9(Integer additionalNum9) {
+	public void setAdditionalNum9(String additionalNum9) {
 		this.additionalNum9 = additionalNum9;
 	}
 
-	public Integer getAdditionalNum10() {
+	public String getAdditionalNum10() {
 		return additionalNum10;
 	}
 
-	public void setAdditionalNum10(Integer additionalNum10) {
+	public void setAdditionalNum10(String additionalNum10) {
 		this.additionalNum10 = additionalNum10;
 	}
 
-	public Integer getAdditionalFlag1() {
+	public String getAdditionalFlag1() {
 		return additionalFlag1;
 	}
 
-	public void setAdditionalFlag1(Integer additionalFlag1) {
+	public void setAdditionalFlag1(String additionalFlag1) {
 		this.additionalFlag1 = additionalFlag1;
 	}
 
-	public Integer getAdditionalFlag2() {
+	public String getAdditionalFlag2() {
 		return additionalFlag2;
 	}
 
-	public void setAdditionalFlag2(Integer additionalFlag2) {
+	public void setAdditionalFlag2(String additionalFlag2) {
 		this.additionalFlag2 = additionalFlag2;
 	}
 
-	public Integer getAdditionalFlag3() {
+	public String getAdditionalFlag3() {
 		return additionalFlag3;
 	}
 
-	public void setAdditionalFlag3(Integer additionalFlag3) {
+	public void setAdditionalFlag3(String additionalFlag3) {
 		this.additionalFlag3 = additionalFlag3;
 	}
 
-	public Integer getAdditionalFlag4() {
+	public String getAdditionalFlag4() {
 		return additionalFlag4;
 	}
 
-	public void setAdditionalFlag4(Integer additionalFlag4) {
+	public void setAdditionalFlag4(String additionalFlag4) {
 		this.additionalFlag4 = additionalFlag4;
 	}
 
-	public Integer getAdditionalFlag5() {
+	public String getAdditionalFlag5() {
 		return additionalFlag5;
 	}
 
-	public void setAdditionalFlag5(Integer additionalFlag5) {
+	public void setAdditionalFlag5(String additionalFlag5) {
 		this.additionalFlag5 = additionalFlag5;
 	}
 
-	public Integer getAdditionalFlag6() {
+	public String getAdditionalFlag6() {
 		return additionalFlag6;
 	}
 
-	public void setAdditionalFlag6(Integer additionalFlag6) {
+	public void setAdditionalFlag6(String additionalFlag6) {
 		this.additionalFlag6 = additionalFlag6;
 	}
 
-	public Integer getAdditionalFlag7() {
+	public String getAdditionalFlag7() {
 		return additionalFlag7;
 	}
 
-	public void setAdditionalFlag7(Integer additionalFlag7) {
+	public void setAdditionalFlag7(String additionalFlag7) {
 		this.additionalFlag7 = additionalFlag7;
 	}
 
-	public Integer getAdditionalFlag8() {
+	public String getAdditionalFlag8() {
 		return additionalFlag8;
 	}
 
-	public void setAdditionalFlag8(Integer additionalFlag8) {
+	public void setAdditionalFlag8(String additionalFlag8) {
 		this.additionalFlag8 = additionalFlag8;
 	}
 
-	public Integer getAdditionalFlag9() {
+	public String getAdditionalFlag9() {
 		return additionalFlag9;
 	}
 
-	public void setAdditionalFlag9(Integer additionalFlag9) {
+	public void setAdditionalFlag9(String additionalFlag9) {
 		this.additionalFlag9 = additionalFlag9;
 	}
 
-	public Integer getAdditionalFlag10() {
+	public String getAdditionalFlag10() {
 		return additionalFlag10;
 	}
 
-	public void setAdditionalFlag10(Integer additionalFlag10) {
+	public void setAdditionalFlag10(String additionalFlag10) {
 		this.additionalFlag10 = additionalFlag10;
 	}
 
-	public Integer getAdditionalFlag11() {
+	public String getAdditionalFlag11() {
 		return additionalFlag11;
 	}
 
-	public void setAdditionalFlag11(Integer additionalFlag11) {
+	public void setAdditionalFlag11(String additionalFlag11) {
 		this.additionalFlag11 = additionalFlag11;
 	}
 
-	public Integer getAdditionalFlag12() {
+	public String getAdditionalFlag12() {
 		return additionalFlag12;
 	}
 
-	public void setAdditionalFlag12(Integer additionalFlag12) {
+	public void setAdditionalFlag12(String additionalFlag12) {
 		this.additionalFlag12 = additionalFlag12;
 	}
 
-	public Integer getAdditionalFlag13() {
+	public String getAdditionalFlag13() {
 		return additionalFlag13;
 	}
 
-	public void setAdditionalFlag13(Integer additionalFlag13) {
+	public void setAdditionalFlag13(String additionalFlag13) {
 		this.additionalFlag13 = additionalFlag13;
 	}
 
-	public Integer getAdditionalFlag14() {
+	public String getAdditionalFlag14() {
 		return additionalFlag14;
 	}
 
-	public void setAdditionalFlag14(Integer additionalFlag14) {
+	public void setAdditionalFlag14(String additionalFlag14) {
 		this.additionalFlag14 = additionalFlag14;
 	}
 
-	public Integer getAdditionalFlag15() {
+	public String getAdditionalFlag15() {
 		return additionalFlag15;
 	}
 
-	public void setAdditionalFlag15(Integer additionalFlag15) {
+	public void setAdditionalFlag15(String additionalFlag15) {
 		this.additionalFlag15 = additionalFlag15;
 	}
 
-	public Integer getAdditionalFlag16() {
+	public String getAdditionalFlag16() {
 		return additionalFlag16;
 	}
 
-	public void setAdditionalFlag16(Integer additionalFlag16) {
+	public void setAdditionalFlag16(String additionalFlag16) {
 		this.additionalFlag16 = additionalFlag16;
 	}
 
-	public Integer getAdditionalFlag17() {
+	public String getAdditionalFlag17() {
 		return additionalFlag17;
 	}
 
-	public void setAdditionalFlag17(Integer additionalFlag17) {
+	public void setAdditionalFlag17(String additionalFlag17) {
 		this.additionalFlag17 = additionalFlag17;
 	}
 
-	public Integer getAdditionalFlag18() {
+	public String getAdditionalFlag18() {
 		return additionalFlag18;
 	}
 
-	public void setAdditionalFlag18(Integer additionalFlag18) {
+	public void setAdditionalFlag18(String additionalFlag18) {
 		this.additionalFlag18 = additionalFlag18;
 	}
 
-	public Integer getAdditionalFlag19() {
+	public String getAdditionalFlag19() {
 		return additionalFlag19;
 	}
 
-	public void setAdditionalFlag19(Integer additionalFlag19) {
+	public void setAdditionalFlag19(String additionalFlag19) {
 		this.additionalFlag19 = additionalFlag19;
 	}
 
-	public Integer getAdditionalFlag20() {
+	public String getAdditionalFlag20() {
 		return additionalFlag20;
 	}
 
-	public void setAdditionalFlag20(Integer additionalFlag20) {
+	public void setAdditionalFlag20(String additionalFlag20) {
 		this.additionalFlag20 = additionalFlag20;
 	}
 }

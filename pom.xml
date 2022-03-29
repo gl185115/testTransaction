@@ -182,6 +182,7 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>7.2.2.jre8</version>
+            <scope>provided</scope>
         </dependency>
         <!-- For API Document and API Client -->
         <dependency>
@@ -536,6 +537,11 @@
                             <!-- Enabled property -Dwebxml.drive.path when running mvn
                             	 <filtering>true</filtering>  -->
                             <!-- Excludes some files -->
+                            <excludes>
+                                <exclude>res.manifest</exclude>
+                                <exclude>META-INF/**.*</exclude>
+								<exclude>WEB-INF/lib/mssql-jdbc-7.2.2.jre8.jar</exclude>
+                            </excludes>
                         </resource>
                     </webResources>
                     <archive>

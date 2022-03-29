@@ -178,6 +178,11 @@
             <artifactId>jcifs-ng</artifactId>
             <version>2.1.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>7.2.2.jre8</version>
+        </dependency>
         <!-- For API Document and API Client -->
         <dependency>
             <groupId>com.wordnik</groupId>
@@ -294,13 +299,6 @@
             <artifactId>xml-apis</artifactId>
             <version>1.4.01</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>sqljdbc42</groupId>
-            <artifactId>sqljdbc42</artifactId>
-            <version>4.2</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/WebContent/WEB-INF/lib/sqljdbc42.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -538,11 +536,6 @@
                             <!-- Enabled property -Dwebxml.drive.path when running mvn
                             	 <filtering>true</filtering>  -->
                             <!-- Excludes some files -->
-                            <excludes>
-                                <exclude>res.manifest</exclude>
-                                <exclude>META-INF/**.*</exclude>
-                                <exclude>WEB-INF/lib/sqljdbc42.jar</exclude>
-                            </excludes>
                         </resource>
                     </webResources>
                     <archive>

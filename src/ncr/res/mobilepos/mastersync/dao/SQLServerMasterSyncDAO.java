@@ -10,11 +10,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import ncr.realgate.util.Trace;
-
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -22,13 +23,12 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.property.SQLStatement;
-
 import ncr.res.mobilepos.mastersync.model.DataFile;
 import ncr.res.mobilepos.mastersync.model.Field;
 import ncr.res.mobilepos.mastersync.model.MaintenanceLog;
 import ncr.res.mobilepos.mastersync.model.MasterSyncParameter;
 import ncr.res.mobilepos.mastersync.model.Record;
+import ncr.res.mobilepos.property.SQLStatement;
 
 public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDAO {
     // Get the logger.
@@ -50,6 +50,8 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
     private String progName = "SQLServerMasterSyncDAO";
     // The SQLStatement instance.
     private final SQLStatement sqlStatement;
+    // Database Connection
+    private Connection connection;
 
     /**
      * Default constructor for SQLServerMasterSyncDao.
@@ -62,6 +64,12 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
         dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         sqlStatement = SQLStatement.getInstance();
+        try {
+            connection = dbManager.getConnection();
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(progName, "SQLServerMasterSyncDAO", Logger.RES_EXCEP_SQL, "Failed to get connection.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @SQLServerMasterSyncDAO", sqlEx);
+        }
     }
 
     /**
@@ -73,21 +81,26 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
     }
 
     /**
+     * Get Database Connection
+     * @return DB Connection
+     */
+    public Connection getConnection() {
+    	return connection;
+    }
+
+    /**
      * Get DataFiles from REC_SYS_POSPARAM_VERSION.
      */
     @Override
     public final List<DataFile> getDataFiles(String companyId, String storeId) throws DaoException {
         String functionName = "getDataFiles";
 
-        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
 
         List<DataFile> dataFiles = new ArrayList<DataFile>();
 
         try {
-            connection = dbManager.getConnection();
-
             statement = connection.prepareStatement(sqlStatement.getProperty("mastersync-get-data-file"));
             statement.setString(SQLStatement.PARAM1, companyId);
             statement.setString(SQLStatement.PARAM2, storeId);
@@ -111,7 +124,7 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL, "Failed to get the DataFiles.\n" + ex.getMessage());
             throw new DaoException("Exception: @getDataFiles", ex);
         } finally {
-            closeConnectionObjects(connection, statement, result);
+            closeConnectionObjects(null, statement, result);
             tp.methodExit(dataFiles);
         }
 
@@ -151,15 +164,12 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
     public List<MasterSyncParameter> getMasterSyncParameters(int syncGroupId) throws DaoException {
         String functionName = "getMasterSyncParameters";
 
-        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
 
         List<MasterSyncParameter> parameters = new ArrayList<MasterSyncParameter>();
 
         try {
-            connection = dbManager.getConnection();
-
             statement = connection.prepareStatement(sqlStatement.getProperty("mastersync-get-parameter"));
             statement.setInt(SQLStatement.PARAM1, syncGroupId);
 
@@ -187,7 +197,7 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL, "Failed to get the MasterSyncParameters.\n" + ex.getMessage());
             throw new DaoException("Exception: @getMasterSyncParameters", ex);
         } finally {
-            closeConnectionObjects(connection, statement, result);
+            closeConnectionObjects(null, statement, result);
             tp.methodExit(parameters);
         }
 
@@ -200,15 +210,12 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
     public List<Record> getMasterTableRecords(String companyId, String storeId, MasterSyncParameter parameter, MaintenanceLog maintenanceLog) throws DaoException {
         String functionName = "getMasterTableRecords";
 
-        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
 
         List<Record> records = new LinkedList<Record>();
 
         try {
-            connection = dbManager.getConnection();
-
             String sql = "EXEC " + parameter.getDatabaseName() + "." + parameter.getSchemaName() + "." + parameter.getFunctionName() + " ?, ?, ?";
 
             statement = connection.prepareStatement(sql);
@@ -282,50 +289,11 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL, "Failed to get the MasterTableRecords.\n" + ex.getMessage());
             throw new DaoException("Exception: @getMasterTableRecords", ex);
         } finally {
-            closeConnectionObjects(connection, statement, result);
+            closeConnectionObjects(null, statement, result);
             tp.methodExit(records);
         }
 
         return records;
-    }
-
-    /**
-     * Get PickListImageDirectory from PRM_SYS_POS_PARAMFILE.
-     */
-    public String getPickListImageDirectory() throws DaoException {
-        String functionName = "getPickListImageDirectory";
-
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet result = null;
-
-        String directory = "";
-
-        try {
-            connection = dbManager.getConnection();
-
-            statement = connection.prepareStatement(sqlStatement.getProperty("mastersync-get-posparamfile-parameter"));
-
-            result = statement.executeQuery();
-
-            while (result.next()) {
-                directory = result.getString(result.findColumn("ExportOption"));
-            }
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL, "Failed to get the MasterSyncParameters.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getMasterSyncParameters", sqlEx);
-        } catch (NumberFormatException numberEx) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_PARSE, "Failed to get the MasterSyncParameters.\n" + numberEx.getMessage());
-            throw new DaoException("NumberFormatException: @getMasterSyncParameters", numberEx);
-        } catch (Exception ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL, "Failed to get the MasterSyncParameters.\n" + ex.getMessage());
-            throw new DaoException("Exception: @getMasterSyncParameters", ex);
-        } finally {
-            closeConnectionObjects(connection, statement, result);
-            tp.methodExit(directory);
-        }
-
-        return directory;
     }
 
     /**
@@ -343,15 +311,12 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
                                                     String logTableName, String storeTableName, String idColumnName) throws DaoException {
         String functionName = "getMaintenanceLogs";
 
-        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
 
         List<MaintenanceLog> maintenanceLogs = new LinkedList<MaintenanceLog>();
 
         try {
-            connection = dbManager.getConnection();
-
             // メンテナンスログ取得クエリの準備
             String sql = sqlStatement.getProperty("mastersync-get-maintenance-log");
             // 指定されたメンテナンスログテーブルからメンテナンスログを取得する
@@ -411,10 +376,23 @@ public class SQLServerMasterSyncDAO extends AbstractDao implements IMasterSyncDA
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL, "Failed to get the MaintenanceLogs.\n" + ex.getMessage());
             throw new DaoException("Exception: @getMaintenanceLogs", ex);
         } finally {
-            closeConnectionObjects(connection, statement, result);
+            closeConnectionObjects(null, statement, result);
             tp.methodExit(maintenanceLogs);
         }
 
         return maintenanceLogs;
+    }
+
+    /**
+     * Close DB Connection
+     */
+    public void closeConnection() {
+    	try {
+    		Connection con = getConnection();
+    		con.commit();
+    	    closeConnectionObjects(con, null, null);
+    	} catch (Exception e) {
+    		;
+    	}
     }
 }

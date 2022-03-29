@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.mastersync.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.mastersync.model.DataFile;
@@ -53,9 +54,7 @@ public interface IMasterSyncDAO {
     List<Record> getMasterTableRecords(String companyId, String storeId, MasterSyncParameter parameter, MaintenanceLog maintenanceLog) throws DaoException;
 
     /**
-     * Get PickListImageDirectory from PRM_SYS_POS_PARAMFILE.
-     * @return String
-     * @throws DaoException when error occurs.
+     * Close DB Connection Object
      */
-    String getPickListImageDirectory() throws DaoException;
+    void closeConnection();
 }

@@ -1,7 +1,10 @@
 package ncr.res.mobilepos.mastersync.resource;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -10,6 +13,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -22,26 +27,32 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
+import jcifs.CIFSContext;
+import jcifs.CIFSException;
+import jcifs.config.PropertyConfiguration;
+import jcifs.context.BaseContext;
+import jcifs.smb.NtlmPasswordAuthenticator;
+import jcifs.smb.SmbException;
+import jcifs.smb.SmbFile;
 import ncr.realgate.util.Trace;
-
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.model.ResultBase;
-
 import ncr.res.mobilepos.mastersync.dao.IMasterSyncDAO;
 import ncr.res.mobilepos.mastersync.model.DataFile;
 import ncr.res.mobilepos.mastersync.model.DataFileVersionMatchingResult;
 import ncr.res.mobilepos.mastersync.model.Field;
+import ncr.res.mobilepos.mastersync.model.MaintenanceLog;
 import ncr.res.mobilepos.mastersync.model.MaintenanceLogRequest;
 import ncr.res.mobilepos.mastersync.model.MaintenanceLogResponse;
-import ncr.res.mobilepos.mastersync.model.MaintenanceLog;
 import ncr.res.mobilepos.mastersync.model.MasterSyncParameter;
 import ncr.res.mobilepos.mastersync.model.MasterTable;
 import ncr.res.mobilepos.mastersync.model.PickListImage;
 import ncr.res.mobilepos.mastersync.model.Record;
+import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 @Path("/mastersync")
 @Api(value = "mastersync", description = "日中マスタ連携API")
@@ -106,8 +117,9 @@ public class MasterSyncResource {
             return response;
         }
 
+        IMasterSyncDAO dao = null;
         try {
-            IMasterSyncDAO dao = daoFactory.getMasterSyncDAO();
+            dao = daoFactory.getMasterSyncDAO();
 
             // 配信ファイルバージョンチェック
             List<DataFile> clientDataFiles = request.getDataFiles();
@@ -130,7 +142,7 @@ public class MasterSyncResource {
             }
 
             // メンテナンスログに対応するマスタデータを抽出
-            response.setMaintenanceLogs(getMaintenanceLogsWithMasterRecords(request.getCompanyId(), request.getStoreId(), maintenanceLogs));
+            response.setMaintenanceLogs(getMaintenanceLogsWithMasterRecords(dao, request.getCompanyId(), request.getStoreId(), maintenanceLogs));
 
             if (response.getMaintenanceLogs().isEmpty()) {
                 response.setNCRWSSResultCode(ResultBase.RES_OK);
@@ -153,6 +165,7 @@ public class MasterSyncResource {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
             response.setMessage(ex.getMessage());
         } finally {
+            dao.closeConnection();
             tp.methodExit(response);
         }
 
@@ -193,8 +206,9 @@ public class MasterSyncResource {
             return response;
         }
 
+        IMasterSyncDAO dao = null;
         try {
-            IMasterSyncDAO dao = daoFactory.getMasterSyncDAO();
+            dao = daoFactory.getMasterSyncDAO();
 
             // 配信ファイルバージョンチェック
             List<DataFile> clientDataFiles = request.getDataFiles();
@@ -211,7 +225,7 @@ public class MasterSyncResource {
             List<MaintenanceLog> maintenanceLogs = dao.getUrgentMaintenanceLogs(request.getCompanyId(), request.getStoreId(), request.getBizCatId(), maintenanceId, request.getSyncRecordCount());
 
             // メンテナンスログに対応するマスタデータを抽出
-            response.setMaintenanceLogs(getMaintenanceLogsWithMasterRecords(request.getCompanyId(), request.getStoreId(), maintenanceLogs));
+            response.setMaintenanceLogs(getMaintenanceLogsWithMasterRecords(dao, request.getCompanyId(), request.getStoreId(), maintenanceLogs));
 
             if (response.getMaintenanceLogs().isEmpty()) {
                 response.setNCRWSSResultCode(ResultBase.RES_OK);
@@ -234,6 +248,7 @@ public class MasterSyncResource {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
             response.setMessage(ex.getMessage());
         } finally {
+            dao.closeConnection();
             tp.methodExit(response);
         }
 
@@ -336,8 +351,7 @@ public class MasterSyncResource {
      * @param maintenanceLogs
      * @return
      */
-    private List<MaintenanceLog> getMaintenanceLogsWithMasterRecords(String companyId, String storeId, List<MaintenanceLog> maintenanceLogs) throws DaoException, IOException {
-        IMasterSyncDAO dao = daoFactory.getMasterSyncDAO();
+    private List<MaintenanceLog> getMaintenanceLogsWithMasterRecords(IMasterSyncDAO dao, String companyId, String storeId, List<MaintenanceLog> maintenanceLogs) throws CIFSException, DaoException, IOException, MalformedURLException, SmbException {
         List<MaintenanceLog> logs = new LinkedList<MaintenanceLog>();
 
         for (MaintenanceLog log : maintenanceLogs) {
@@ -347,7 +361,6 @@ public class MasterSyncResource {
             	tp.println("getMaintenanceLogsWithMasterRecords getMaintenanceType",log.getMaintenanceType()).println("getOutputType",parameter.getOutputType());
                 // マスタデータを抽出
                 List<Record> records = dao.getMasterTableRecords(companyId, storeId, parameter, log);
-                
                 if (log.getMaintenanceType() != 3 && records.isEmpty()) {
                     // メンテナンス区分が登録または更新で抽出レコード0件の場合は以降の処理をスキップ
                     continue;
@@ -362,17 +375,28 @@ public class MasterSyncResource {
                 // マスタデータ出力タイプが2(ピックリスト)の場合
                 if (parameter.getOutputType() == 2) {
                     // ピックリストに表示する画像ファイルの保存ディレクトリを取得
-                    String imageDir;
+                    String imageDirType = "";
+                    String imageDir = "";
+                    String user = "";
+                    String password = "";
                     if (WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise()) {
-                        // Enterpriseの場合はPOS向け配信パラメータから取得
-                        imageDir = dao.getPickListImageDirectory();
+                        // Enterpriseの場合はPRM_SYSTEM_CONFIGから取得
+                        SQLServerSystemConfigDAO systemDao = daoFactory.getSystemConfigDAO();
+                        Map<String, String> syncConfig = systemDao.getPrmSystemConfigValue("MasterSync");
+                        if (!syncConfig.isEmpty()) {
+                            imageDirType = syncConfig.containsKey("ImageFileDirectoryType") ? syncConfig.get("ImageFileDirectoryType") : "";
+                            imageDir     = syncConfig.containsKey("ImageFileDirectoryPath") ? syncConfig.get("ImageFileDirectoryPath") : "";
+                            user         = syncConfig.containsKey("ImageFileDirectoryUser") ? syncConfig.get("ImageFileDirectoryUser") : "";
+                            password     = syncConfig.containsKey("ImageFileDirectoryPassword") ? syncConfig.get("ImageFileDirectoryPassword") : "";
+                        }
                     } else {
                         // HOSTの場合はピックリスト配置先ディレクトリ直下のimagesディレクトリ
+                        imageDirType = "Local";
                         imageDir = parameter.getOutputPath() + "\\images";
                     }
 
                     // ピックリストに表示する画像一覧を設定
-                    List<PickListImage> pickListImages = getPickListImages(records, imageDir);
+                    List<PickListImage> pickListImages = getPickListImages(records, imageDirType, imageDir, user, password);
                     table.setPickListImages(pickListImages);
                     tp.println("getMaintenanceLogsWithMasterRecords setPickListImages");
                 }
@@ -400,30 +424,106 @@ public class MasterSyncResource {
      * @param records
      * @return
      */
-    private List<PickListImage> getPickListImages(List<Record> records, String imageDirectory) throws IOException {
-        // ピックリストに表示する画像ファイルのパス一覧をピックリスト作成用レコードから取得
+    private List<PickListImage> getPickListImages(List<Record> records, String imageDirectoryType, String imageDirectory, String user, String password) throws CIFSException, IOException, MalformedURLException, SmbException {
+        tp.println("getPickListImages imageDirectoryType",imageDirectoryType).println("imageDirectory",imageDirectory).println("user",user).println("password",password);
+        // ピックリストに表示する画像ファイルの一覧をピックリスト作成用レコードから取得
         // 単純に全部取得すると重複するケースがあるのでHashSetで重複を除く
-        HashSet<String> paths = new HashSet<String>();
+        HashSet<String> imageFiles = new HashSet<String>();
         for (Record record : records) {
             for (Field field : record.getFields()) {
                 if (field.getName().equals("ImageFileName") && field.getValue() != null && !field.getValue().toString().isEmpty()) {
-                    paths.add(imageDirectory + "\\" + field.getValue().toString());
-                    tp.println("getPickListImages path:",imageDirectory + "\\" + field.getValue().toString() );
+                    imageFiles.add(field.getValue().toString());
                 }
             }
         }
 
-        // 画像ファイルを直接JSONに埋め込めるようにBase64文字列に変換
         List<PickListImage> images = new LinkedList<PickListImage>();
-        for (String path : paths) {
-            File file = new File(path);
-            byte[] contents = Files.readAllBytes(file.toPath());
-            String encorded = Base64.getEncoder().encodeToString(contents);
+        switch (imageDirectoryType.toLowerCase()) {
+        case "local":
+            // ローカルのディレクトリから画像を取得する場合
+            for (String imageFile : imageFiles) {
+                // 画像ファイルを直接JSONに埋め込めるようにBase64文字列に変換
+                File file = new File(imageDirectory + "\\" + imageFile);
+                byte[] contents = Files.readAllBytes(file.toPath());
+                String encoded = Base64.getEncoder().encodeToString(contents);
 
-            PickListImage image = new PickListImage();
-            image.setFileName(file.getName());
-            image.setContents(encorded);
-            images.add(image);
+                PickListImage image = new PickListImage();
+                image.setFileName(imageFile);
+                image.setContents(encoded);
+                images.add(image);
+            }
+            break;
+        case "remote":
+            // リモートのディレクトリから画像を取得する場合
+            // 使用するSMBのバージョンを設定
+            Properties properties = new Properties();
+            properties.setProperty("jcifs.smb.client.minVersion", "SMB202");
+            properties.setProperty("jcifs.smb.client.maxVersion", "SMB311");
+
+            SmbFile remoteDir = null;
+
+            try {
+                // 接続用の認証情報の設定
+                BaseContext baseContext = new BaseContext(new PropertyConfiguration(properties));
+                NtlmPasswordAuthenticator authenticator = new NtlmPasswordAuthenticator(user, password);
+                CIFSContext cifsContext = baseContext.withCredentials(authenticator);
+
+                // リモートディレクトリにSMBで接続
+                String url = ("smb:" + imageDirectory + "\\").replace("\\", "/");
+                remoteDir = new SmbFile(url, cifsContext);
+
+                // リモートのディレクトリ内にある画像ファイルの一覧を取得
+                SmbFile[] remoteFiles = remoteDir.listFiles();
+
+                for (SmbFile remoteFile : remoteFiles) {
+                    InputStream input = null;
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+                    try {
+                        if (remoteFile.isDirectory()) {
+                            // ディレクトリは無視
+                            continue;
+                        }
+
+                        String remoteFileName = remoteFile.getName();
+                        if (!imageFiles.contains(remoteFileName)) {
+                            // 連携対象以外のファイルは無視
+                            continue;
+                        }
+
+                        // 画像ファイルを直接JSONに埋め込めるようにBase64文字列に変換
+                        input = remoteFile.getInputStream();
+                        byte[] buffer = new byte[1024];
+                        while (input.read(buffer) >= 0) {
+                            output.write(buffer);
+                        }
+                        String encoded = Base64.getEncoder().encodeToString(output.toByteArray());
+
+                        PickListImage image = new PickListImage();
+                        image.setFileName(remoteFileName);
+                        image.setContents(encoded);
+                        images.add(image);
+                    } finally {
+                        if (remoteFile != null) {
+                            remoteFile.close();
+                        }
+                        if (input != null) {
+                            input.close();
+                        }
+                        if (output != null) {
+                            output.close();
+                        }
+                    }
+                }
+            } finally {
+                if (remoteDir != null) {
+                    remoteDir.close();
+                }
+            }
+
+            break;
+        default:
+            throw new IllegalArgumentException("Unknown imageDirectoryType: " + imageDirectoryType);
         }
 
         return images;

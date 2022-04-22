@@ -157,6 +157,7 @@ public final class SaleItemsHandler {
         saleRes.setSalesPrice2(item.getSalesPrice2());
         saleRes.setPaymentType(item.getPaymentType());
         saleRes.setSubNum2(item.getSubNum2());
+        saleRes.setSubNum3(item.getSubNum3());
         saleRes.setDptSubNum1(item.getDptSubNum1());
         saleRes.setDptSubNum2(item.getDptSubNum2());
         saleRes.setDptSubNum3(item.getDptSubNum3());

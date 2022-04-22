@@ -268,6 +268,9 @@ public class Item extends ResultBase {
     @XmlElement(name = "SubNum2")
     private int subNum2 = 0;
     
+    @XmlElement(name = "SubNum3")
+    private int subNum3 = 0;
+    
     @XmlElement(name = "PromotionId")
     private String promotionId;
     
@@ -1244,6 +1247,15 @@ public class Item extends ResultBase {
 
     public void setSubNum2(int subNum2) {
         this.subNum2 = subNum2;
+    }
+    
+    @ApiModelProperty(value="重量検知除外商品", notes="重量検知除外商品")
+    public int getSubNum3() {
+        return subNum3;
+    }
+
+    public void setSubNum3(int subNum3) {
+        this.subNum3 = subNum3;
     }
 
     @ApiModelProperty(value="企画コード", notes="企画コード")

@@ -4218,6 +4218,18 @@ ORDER BY
           AND deviceinfo.DeleteFlag = 0.0
 </entry>
 
+<entry key="get-additional-device-info">
+  SELECT * 
+        
+  FROM      RESMaster.dbo.MST_ADDITIONAL_DEVICEINFO 
+ 
+  WHERE   StoreId = LTRIM(RTRIM(?)) AND
+          TerminalId = LTRIM(RTRIM(?)) AND
+          CompanyId = LTRIM(RTRIM(?)) AND
+          Training = ?
+          
+</entry>
+
 <entry key="get-device-attribute-info">
   SELECT
     deviceinfo.CompanyId,

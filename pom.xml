@@ -231,7 +231,7 @@
         <dependency>
             <groupId>ncr.res.base</groupId>
             <artifactId>poslog-binding</artifactId>
-            <version>3.5.1.5</version>
+            <version>3.5.1.6</version>
         </dependency>
 
         <!-- For Test -->

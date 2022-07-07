@@ -7,7 +7,7 @@ if (request.getParameter("s") != null) {
    JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer)JndiDBManagerMSSqlServer.getInstance();
    Connection conn = dbManager.getConnection();
    PreparedStatement ps = conn.prepareStatement("select Tx "
-     + "from TXL_SALES_JOURNAL "
+     + "from RESTransaction.dbo.TXL_SALES_JOURNAL "
      + "where CompanyId=? and RetailStoreId=? and WorkstationId=? and SequenceNumber=? and TrainingFlag=? "
      + "order by InsDateTime desc");
    String[] params = {"c", "s", "w", "x", "t" };

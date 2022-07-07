@@ -345,6 +345,10 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
             sqlStr += " ,device_attribute.Attribute11    AS pda_Attribute11    ";
             sqlStr += " ,device_attribute.Attribute12    AS pda_Attribute12    ";
             sqlStr += " ,device_attribute.Attribute13    AS pda_Attribute13    ";
+            sqlStr += " ,device_attribute.Attribute14    AS pda_Attribute14    ";
+            sqlStr += " ,device_attribute.Attribute15    AS pda_Attribute15    ";
+            sqlStr += " ,device_attribute.Attribute16    AS pda_Attribute16    ";
+            sqlStr += " ,device_attribute.Attribute17    AS pda_Attribute17    ";
             // MST_PRINTERINFO
             sqlStr += " ,printinfo.CompanyId   AS mpi_CompanyId   ";
             sqlStr += " ,printinfo.StoreId     AS mpi_StoreId     ";
@@ -477,6 +481,10 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute11"));
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute12"));
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute13"));
+                PrmDeviceAttributeList.add(rs.getString("pda_Attribute14"));
+                PrmDeviceAttributeList.add(rs.getString("pda_Attribute15"));
+                PrmDeviceAttributeList.add(rs.getString("pda_Attribute16"));
+                PrmDeviceAttributeList.add(rs.getString("pda_Attribute17"));
 
                 // MST_PRINTERINFO
                 ArrayList<String> MstPrinterinfoList = new ArrayList<String>();
@@ -818,6 +826,26 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td colspan="2" class="orangetd">属性１３(Attribute13)</td>
                     <td><input type="text" id="pda_Attribute13" name="pda_Attribute13" value="<%=PrmDeviceAttributeLists.get(0).get(19)%>"  disabled style="width: 100%" ></td>
                     <td><input type="text" id="tra_pda_Attribute13" name="tra_pda_Attribute13" value="<%=PrmDeviceAttributeLists.get(1).get(19)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">属性１４(Attribute14)</td>
+                    <td><input type="text" id="pda_Attribute14" name="pda_Attribute14" value="<%=PrmDeviceAttributeLists.get(0).get(20)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute14" name="tra_pda_Attribute14" value="<%=PrmDeviceAttributeLists.get(1).get(20)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">属性１５(Attribute15)</td>
+                    <td><input type="text" id="pda_Attribute15" name="pda_Attribute15" value="<%=PrmDeviceAttributeLists.get(0).get(21)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute15" name="tra_pda_Attribute15" value="<%=PrmDeviceAttributeLists.get(1).get(21)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">属性１６(Attribute16)</td>
+                    <td><input type="text" id="pda_Attribute16" name="pda_Attribute16" value="<%=PrmDeviceAttributeLists.get(0).get(22)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute16" name="tra_pda_Attribute16" value="<%=PrmDeviceAttributeLists.get(1).get(22)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">属性１７(Attribute17)</td>
+                    <td><input type="text" id="pda_Attribute17" name="pda_Attribute17" value="<%=PrmDeviceAttributeLists.get(0).get(23)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute17" name="tra_pda_Attribute17" value="<%=PrmDeviceAttributeLists.get(1).get(23)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
                     <th style="width: 50%" colspan="2">MST_PRINTERINFO 項目</th>

@@ -48,6 +48,14 @@ ArrayList<String> ATT12_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無効"); add("Selfモード有効");}};
 ArrayList<String> ATT13_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジケータ無効"); add("トーンインジケータ有効");}};
+ArrayList<String> ATT14_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT14_NAME = new ArrayList<String>() {{add("UPS無効"); add("UPS有効");}};
+ArrayList<String> ATT15_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT15_NAME = new ArrayList<String>() {{add("秤を使用しない"); add("秤を使用する");}};
+ArrayList<String> ATT16_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT16_NAME = new ArrayList<String>() {{add("パトライトを使用しない"); add("パトライトを使用する");}};
+ArrayList<String> ATT17_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT17_NAME = new ArrayList<String>() {{add("SCO接続しない"); add("SCO接続する");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -400,6 +408,58 @@ ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジ
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td align="right">属性１４ ： </td>
+                <td align="left">
+                    <select name="Attribute14" id="Attribute14" required>
+                    <%
+                        for (int i=0;i<ATT14_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT14_VAL.get(i) + "\"");
+                            out.println(">" + ATT14_VAL.get(i) +" : " + ATT14_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">属性１５ ： </td>
+                <td align="left">
+                    <select name="Attribute15" id="Attribute15" required>
+                    <%
+                        for (int i=0;i<ATT15_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT15_VAL.get(i) + "\"");
+                            out.println(">" + ATT15_VAL.get(i) +" : " + ATT15_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">属性１６ ： </td>
+                <td align="left">
+                    <select name="Attribute16" id="Attribute16" required>
+                    <%
+                        for (int i=0;i<ATT16_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT16_VAL.get(i) + "\"");
+                            out.println(">" + ATT16_VAL.get(i) +" : " + ATT16_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">属性１７ ： </td>
+                <td align="left">
+                    <select name="Attribute17" id="Attribute17" required>
+                    <%
+                        for (int i=0;i<ATT17_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT17_VAL.get(i) + "\"");
+                            out.println(">" + ATT17_VAL.get(i) +" : " + ATT17_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
 <!--		<tr>
 				<td class="center">属性９</td>
 				<td><input maxlength="4" type="text" name="Attribute9" id="Attribute9" size=4></td>
@@ -448,6 +508,10 @@ jQuery(function ($) {
         valueList.push(document.getElementById('Attribute11').value);
         valueList.push(document.getElementById('Attribute12').value);
         valueList.push(document.getElementById('Attribute13').value);
+        valueList.push(document.getElementById('Attribute14').value);
+        valueList.push(document.getElementById('Attribute15').value);
+        valueList.push(document.getElementById('Attribute16').value);
+        valueList.push(document.getElementById('Attribute17').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

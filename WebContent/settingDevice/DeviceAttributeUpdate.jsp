@@ -44,6 +44,14 @@ ArrayList<String> ATT12_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無効"); add("Selfモード有効");}};
 ArrayList<String> ATT13_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジケータ無効"); add("トーンインジケータ有効");}};
+ArrayList<String> ATT14_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT14_NAME = new ArrayList<String>() {{add("UPS無効"); add("UPS有効");}};
+ArrayList<String> ATT15_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT15_NAME = new ArrayList<String>() {{add("秤を使用しない"); add("秤を使用する");}};
+ArrayList<String> ATT16_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT16_NAME = new ArrayList<String>() {{add("パトライトを使用しない"); add("パトライトを使用する");}};
+ArrayList<String> ATT17_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT17_NAME = new ArrayList<String>() {{add("SCO接続しない"); add("SCO接続する");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -89,6 +97,14 @@ ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジ
 	String ATTAttribute12 = request.getParameter("ATTAttribute12");
 	// ATTAttribute13
 	String ATTAttribute13 = request.getParameter("ATTAttribute13");
+	// ATTAttribute14
+	String ATTAttribute14 = request.getParameter("ATTAttribute14");
+	// ATTAttribute15
+	String ATTAttribute15 = request.getParameter("ATTAttribute15");
+	// ATTAttribute16
+	String ATTAttribute16 = request.getParameter("ATTAttribute16");
+	// ATTAttribute17
+	String ATTAttribute17 = request.getParameter("ATTAttribute17");
 	String errString = "";
 	String infoString = "";
 
@@ -116,6 +132,10 @@ ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジ
                 + ", Attribute11=?"
                 + ", Attribute12=?"
                 + ", Attribute13=?"
+                + ", Attribute14=?"
+                + ", Attribute15=?"
+                + ", Attribute16=?"
+                + ", Attribute17=?"
                 + " WHERE AttributeId=?; "
                 ;
         PreparedStatement psIns = conn.prepareStatement(sqlStr);
@@ -139,7 +159,11 @@ ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジ
         psIns.setString(17, ATTAttribute11);
         psIns.setString(18, ATTAttribute12);
         psIns.setString(19, ATTAttribute13);
-        psIns.setString(20, ATTAttributeId);
+        psIns.setString(20, ATTAttribute14);
+        psIns.setString(21, ATTAttribute15);
+        psIns.setString(22, ATTAttribute16);
+        psIns.setString(23, ATTAttribute17);
+        psIns.setString(24, ATTAttributeId);
 
         try {
             int rsIns = psIns.executeUpdate();
@@ -600,6 +624,54 @@ ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジ
                         %>
                 </select></td>
             </tr>
+			<tr>
+                <td align="right">属性１４(Attribute14) ：</td>
+                <td align="left"><select name="ATTAttribute14"
+                    id="ATTAttribute14" required>
+                        <%
+                            for (int i = 0; i < ATT14_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT14_VAL.get(i) + "\"");
+                                out.println(">" + ATT14_VAL.get(i) + " : " + ATT14_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
+            </tr>
+			<tr>
+                <td align="right">属性１５(Attribute15) ：</td>
+                <td align="left"><select name="ATTAttribute15"
+                    id="ATTAttribute15" required>
+                        <%
+                            for (int i = 0; i < ATT15_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT15_VAL.get(i) + "\"");
+                                out.println(">" + ATT15_VAL.get(i) + " : " + ATT15_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
+            </tr>
+			<tr>
+                <td align="right">属性１６(Attribute16) ：</td>
+                <td align="left"><select name="ATTAttribute16"
+                    id="ATTAttribute16" required>
+                        <%
+                            for (int i = 0; i < ATT16_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT16_VAL.get(i) + "\"");
+                                out.println(">" + ATT16_VAL.get(i) + " : " + ATT16_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
+            </tr>
+			<tr>
+                <td align="right">属性１７(Attribute17) ：</td>
+                <td align="left"><select name="ATTAttribute17"
+                    id="ATTAttribute17" required>
+                        <%
+                            for (int i = 0; i < ATT17_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT17_VAL.get(i) + "\"");
+                                out.println(">" + ATT17_VAL.get(i) + " : " + ATT17_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
+            </tr>
 <!--
 			<tr>
 				<td align="right">属性８(Attribute8) ： </td>
@@ -687,6 +759,18 @@ ArrayList<String> ATT13_NAME = new ArrayList<String>() {{add("トーンインジ
 		// ATTATTAttribute13
 		StrId = 'attribute13' + InValue;
 		document.getElementById('ATTAttribute13').value = document.getElementById(StrId).value || false;
+		// ATTATTAttribute14
+		StrId = 'attribute14' + InValue;
+		document.getElementById('ATTAttribute14').value = document.getElementById(StrId).value || false;
+		// ATTATTAttribute15
+		StrId = 'attribute15' + InValue;
+		document.getElementById('ATTAttribute15').value = document.getElementById(StrId).value || false;
+		// ATTATTAttribute16
+		StrId = 'attribute16' + InValue;
+		document.getElementById('ATTAttribute16').value = document.getElementById(StrId).value || false;
+		// ATTATTAttribute17
+		StrId = 'attribute17' + InValue;
+		document.getElementById('ATTAttribute17').value = document.getElementById(StrId).value || false;
 		document.getElementById('updateArea').style.display = "block";
 	}
 
@@ -718,6 +802,10 @@ jQuery(function ($) {
         valueList.push(document.getElementById('ATTAttribute11').value);
         valueList.push(document.getElementById('ATTAttribute12').value);
         valueList.push(document.getElementById('ATTAttribute13').value);
+        valueList.push(document.getElementById('ATTAttribute14').value);
+        valueList.push(document.getElementById('ATTAttribute15').value);
+        valueList.push(document.getElementById('ATTAttribute16').value);
+        valueList.push(document.getElementById('ATTAttribute17').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

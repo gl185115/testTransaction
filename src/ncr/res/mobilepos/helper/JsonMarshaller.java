@@ -16,6 +16,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonParser.Feature;
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectReader;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 
 
@@ -32,6 +33,20 @@ public class JsonMarshaller<T> {
      * converting JSON String to Object and vice versa.
      */
     private ObjectMapper mapper;
+    
+    /**
+     * Member variable that act as the Json Factory needed for
+     * converting JSON String to Object and vice versa.
+     */
+    private JsonFactory factory;
+    
+    /**
+     * Member variable that act as the Object Reader needed for
+     * converting JSON String to Object and vice versa.
+     */
+    private ObjectReader reader;
+    
+    
     /**
      * The Default Constructor.
      */
@@ -56,7 +71,20 @@ public class JsonMarshaller<T> {
         mapper.configure(Feature.AUTO_CLOSE_SOURCE, true);
         mapper.configure(Feature.CANONICALIZE_FIELD_NAMES, true);
         mapper.configure(Feature.INTERN_FIELD_NAMES, true);
+        
+        factory = mapper.getJsonFactory();
     }
+    
+    
+    /**
+     * The Extend Constructor.
+     */
+    public JsonMarshaller(final Class<T> clas) {
+        this();
+        assert mapper != null;
+        reader = mapper.reader(clas);
+    }
+    
     /**
      * Static method used to convert json String into specified object.
      * @param json      The JSON String
@@ -66,11 +94,29 @@ public class JsonMarshaller<T> {
      */
     public final T unMarshall(final String json, final Class<T> clas)
     throws IOException {
-        JsonFactory factory = this.mapper.getJsonFactory();
+        assert mapper != null && factory != null;
+        
         JsonParser jp = factory.createJsonParser(json);
         T returnObject = mapper.readValue(jp, clas);
         return returnObject;
     }
+    
+    /**
+     * Static method used to convert json String into specified object.
+     * To use this method, need to use the extended constructor
+     * @param json      The JSON String
+     * @return The Object representation of JSON String.
+     * @throws IOException The exception thrown when error occur.
+     */
+    public final T unMarshall(final String json)
+    throws IOException {
+        assert reader != null && factory != null;
+        
+        JsonParser jp = factory.createJsonParser(json);
+        T returnObject = reader.readValue(jp);
+        return returnObject;
+    }
+    
 
     /**
      * Method used to Object to its own JSON format.

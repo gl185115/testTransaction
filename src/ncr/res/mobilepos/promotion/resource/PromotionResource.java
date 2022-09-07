@@ -180,6 +180,16 @@ public class PromotionResource {
      */
     private PMItemsHandler pMItemsHandler;
 
+    /**
+     * JSON Mashaller for Transaction
+     */
+    private static JsonMarshaller<Transaction> transactionMarshaller = new JsonMarshaller<Transaction>(Transaction.class);
+    
+    /**
+     * JSON Mashaller for ArrayList
+     */
+    private static JsonMarshaller<ArrayList> arrayListMarshaller = new JsonMarshaller<ArrayList>(ArrayList.class);
+
 	/**
 	 * Default Constructor for PromotionResource.
 	 *
@@ -235,8 +245,9 @@ public class PromotionResource {
 				tp.println("Parameter[s] is empty or null.");
 				return rsBase;
 			}
-			JsonMarshaller<Transaction> transactionMarshaller = new JsonMarshaller<Transaction>();
-			Transaction tx = transactionMarshaller.unMarshall(transactionJson, Transaction.class);
+
+			Transaction tx = transactionMarshaller.unMarshall(transactionJson);
+
 			// Is of Legal Format? If yes, Set to Legal Format.
 			if (!DateFormatUtility.isLegalFormat(tx.getBeginDateTime(), "yyyy-MM-dd'T'HH:mm:ss.SS")) {
 				rsBase.setNCRWSSResultCode(ResultBase.RES_PROMOTION_DATE_INVALID);
@@ -304,8 +315,7 @@ public class PromotionResource {
 				tp.println("Parameter[s] is empty or null.");
 				return result;
 			}
-			JsonMarshaller<Transaction> jsonMarshaller = new JsonMarshaller<Transaction>();
-			Transaction transaction = jsonMarshaller.unMarshall(jsonTransaction, Transaction.class);
+			Transaction transaction = transactionMarshaller.unMarshall(jsonTransaction);
 			if (transaction.getStatus() == null || transaction.getStatus().isEmpty()) {
 				result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 				tp.println("Status is invalid!");
@@ -428,8 +438,7 @@ public class PromotionResource {
 				MixMatchDetailInfo info = new MixMatchDetailInfo();
 
 				// terminalItem.getMixMatch
-				JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
-				Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+				Transaction transactionIn = transactionMarshaller.unMarshall(transaction);
 				Sale saleIn = transactionIn.getSale();
 
 				ResultBase rs = SaleItemsHandler.validateSale(saleIn);
@@ -1844,8 +1853,7 @@ public class PromotionResource {
 				}
 
 				if(!StringUtility.isNullOrEmpty(transaction)) {
-					JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
-					Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+					Transaction transactionIn = transactionMarshaller.unMarshall(transaction);
 					List<Sale> sales = transactionIn.getSales();
 					if (sales != null && !sales.isEmpty()) {
 						for (Sale saleIn : sales) {
@@ -2519,8 +2527,7 @@ public class PromotionResource {
 				tp.println("Parameter[s] is null or empty.");
 				return promotionResponse;
 			}
-			JsonMarshaller<Transaction> jsonMarshaller = new JsonMarshaller<Transaction>();
-			Transaction transactionIn = jsonMarshaller.unMarshall(transactionJson, Transaction.class);
+			Transaction transactionIn = transactionMarshaller.unMarshall(transactionJson);
 			Sale saleIn = transactionIn.getSale();
 			if (saleIn == null || saleIn.getItemEntryId() == null || saleIn.getItemEntryId().isEmpty()) {
 				tp.println("Transaction has no Sale data!");
@@ -2668,8 +2675,7 @@ public class PromotionResource {
 				return response;
 			}
 
-			JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
-			Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+			Transaction transactionIn = transactionMarshaller.unMarshall(transaction);
 			transactionIn.setCompanyId(companyId);
 
 			// get valid data
@@ -3080,8 +3086,7 @@ public class PromotionResource {
 				return response;
 			}
 
-			JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
-			Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+			Transaction transactionIn = transactionMarshaller.unMarshall(transaction);
 			transactionIn.setCompanyId(companyId);
 
 			// get valid data
@@ -3277,8 +3282,7 @@ public class PromotionResource {
 					couponMap.clear();
 					if(!StringUtility.isNullOrEmpty(couponlist)) {
 						setNormalItemInMix(terminalItem);
-						JsonMarshaller<ArrayList> jsonMarshall = new JsonMarshaller<ArrayList>();
-						List<String> list = jsonMarshall.unMarshall(couponlist, ArrayList.class);
+						List<String> list = arrayListMarshaller.unMarshall(couponlist);
 						for(String str : list) {
 							if(str.length() > 0) {
 								String code = str.substring(1);
@@ -3372,8 +3376,7 @@ public class PromotionResource {
 					return promotionResponse;
 				}
 				if(!StringUtility.isNullOrEmpty(transactionJson)) {
-					JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
-					Transaction transaction = jsonMarshall.unMarshall(transactionJson, Transaction.class);
+					Transaction transaction = transactionMarshaller.unMarshall(transactionJson);
 					List<Sale> sales = transaction.getSales();
 					if (sales != null && !sales.isEmpty()) {
 						for (Sale saleIn : sales) {

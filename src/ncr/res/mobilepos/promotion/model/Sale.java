@@ -262,4 +262,50 @@ public class Sale extends Item {
         
         return cloneSale;
     }
+    
+    public Sale(final Sale info)
+    {
+        super(info);
+        this.itemEntryId = info.getItemEntryId();
+        this.itemIdType = info.getItemIdType();
+        this.quantity = info.getQuantity();
+        this.extendedAmount = info.getExtendedAmount();
+        this.inputType = info.getInputType();
+        this.oldSku = info.getOldSku();
+        this.sizeCode = info.getSizeCode();
+        this.colorCode = info.getColorCode();
+        this.itemForm = info.getItemForm();
+        this.isPriceOverride = info.isPriceOverride();
+        this.discountRate = info.getDiscountRate();
+        this.discountCount = info.getDiscountCount();
+        this.rewardId = info.getRewardId();
+        this.discountClass = info.getDiscountClass();
+        this.discountAmt = info.getDiscountAmt();
+        this.dptDiscountRate = info.getDptDiscountRate();
+        this.dptPromotionNo = info.getDptPromotionNo();
+    }
+  
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        String clrf = "; ";
+        str.append("itemEntryId :").append(itemEntryId).append(clrf)
+        .append("itemIdType :").append(itemIdType).append(clrf)
+        .append("quantity :").append(quantity).append(clrf)
+        .append("extendedAmount :").append(extendedAmount).append(clrf)
+        .append("inputType :").append(inputType).append(clrf)
+        .append("oldSku :").append(oldSku).append(clrf)
+        .append("sizeCode :").append(sizeCode).append(clrf)
+        .append("colorCode :").append(colorCode).append(clrf)
+        .append("itemForm :").append(itemForm).append(clrf)
+        .append("isPriceOverride :").append(isPriceOverride).append(clrf)
+        .append("discountRate :").append(discountRate).append(clrf)
+        .append("discountCount :").append(discountCount).append(clrf)
+        .append("rewardId :").append(rewardId).append(clrf)
+        .append("discountClass :").append(discountClass).append(clrf)
+        .append("discountAmt :").append(discountAmt).append(clrf)
+        .append("dptDiscountRate :").append(dptDiscountRate).append(clrf)
+        .append("dptPromotionNo :").append(dptPromotionNo).append(clrf);
+        return super.toString() + str.toString();
+    }
 }

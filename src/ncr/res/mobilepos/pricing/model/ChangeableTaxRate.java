@@ -57,4 +57,13 @@ public class ChangeableTaxRate {
         return str.toString();
     }
 
+	public ChangeableTaxRate() {
+	}
+
+    //copy constructor
+    public ChangeableTaxRate(final ChangeableTaxRate info) {
+        this.rate = info.getRate();
+        this.reducedTaxRate = info.getReducedTaxRate();
+        this.receiptMark = info.getReceiptMark();
+    }
 }

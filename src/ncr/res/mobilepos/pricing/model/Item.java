@@ -6,6 +6,7 @@ package ncr.res.mobilepos.pricing.model;
  */
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,6 +19,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.promotion.model.PMInfo;
+import ncr.res.mobilepos.promotion.model.PmItemInfo;
 
 /**
  * Item Model Object.
@@ -480,6 +482,20 @@ public class Item extends ResultBase {
         this.qrCodeList = qrCodeList;
     }
 
+    //copy
+    public void copyQrCodeList(List<QrCodeInfo> fromQrCodeList) {
+        if( fromQrCodeList != null && !fromQrCodeList.isEmpty())  {
+            this.qrCodeList = new ArrayList<>();
+            for (int i = 0; i < fromQrCodeList.size(); i++) {
+                QrCodeInfo qr = new QrCodeInfo(fromQrCodeList.get(i));
+                this.qrCodeList.add(qr);
+            }
+        }
+        else {
+            this.qrCodeList = fromQrCodeList;
+        }
+    }
+    
     @ApiModelProperty(value="QR企画コード", notes="QR企画コード")
     public String getQrPromotionId() {
         return qrPromotionId;
@@ -855,6 +871,19 @@ public class Item extends ResultBase {
 		this.pricePromList = pricePromList;
 	}
 	
+    public void copyPricePromList(List<PricePromInfo> fromPricePromList) {
+        if( fromPricePromList != null && !fromPricePromList.isEmpty()) {
+            this.pricePromList = new ArrayList<>();
+            for (int i = 0; i < fromPricePromList.size(); i++) {
+                PricePromInfo pp = new PricePromInfo(fromPricePromList.get(i));
+                this.pricePromList.add(pp);
+            }
+        }
+        else {
+            this.pricePromList = fromPricePromList;
+        }
+    }
+	
 	@ApiModelProperty(value="緊急売変", notes="緊急売変")
     public PriceUrgentInfo getPriceUrgentInfo() {
 		return priceUrgentInfo;
@@ -872,7 +901,21 @@ public class Item extends ResultBase {
 	public void setPriceMMInfoList(List<PriceMMInfo> priceMMInfoList) {
 		this.priceMMInfoList = priceMMInfoList;
 	}
-	
+
+	public void copyPriceMMInfoList(List<PriceMMInfo> fromPriceMMInfoList) {
+	    if( fromPriceMMInfoList != null && !fromPriceMMInfoList.isEmpty()) {
+            this.priceMMInfoList = new ArrayList<>();
+            this.priceMMInfoList.addAll(fromPriceMMInfoList);
+            for (int i = 0; i < fromPriceMMInfoList.size(); i++) {
+                PriceMMInfo pp = (PriceMMInfo)fromPriceMMInfoList.get(i).clone();
+                this.priceMMInfoList.add(pp);
+            }
+	    }
+	    else {
+	        this.priceMMInfoList = fromPriceMMInfoList;
+	    }	        
+    }
+
     @ApiModelProperty(value="割引区分", notes="割引区分")
     public int getDiscountClass() {
         return discountClass;
@@ -1564,83 +1607,6 @@ public class Item extends ResultBase {
         this.itemId = itemId;
     }
 
-    public Item(final Item item) {
-        this.companyId = item.getCompanyId();
-        this.itemId = item.getItemId();
-        this.department = item.getDepartment();
-        this.description = item.getDescription();
-        this.regularSalesUnitPrice = item.getRegularSalesUnitPrice();
-        this.discount = item.getDiscount();
-        this.discountAmount = item.getDiscountAmount();
-        this.actualSalesUnitPrice = item.getActualSalesUnitPrice();
-        this.discountable = item.getDiscountable();
-        this.taxRate = item.getTaxRate();
-        this.taxType = item.getTaxType();
-        this.discountType = item.getDiscountType();
-        this.nonSales = item.getNonSales();
-        this.subInt10 = item.getSubInt10();
-        this.line = item.getLine();
-        this.itemClass = item.getItemClass();
-        this.ageRestrictedFlag = item.getAgeRestrictedFlag();
-        this.couponFlag = item.getCouponFlag();
-        this.discountFlag = item.getDiscountFlag();
-        this.mustBuyFlag = item.getMustBuyFlag();
-        this.mixMatchCode = item.getMixMatchCode();
-        /* 1.01 2014.11.19 商品情報取得 ADD START*/
-        this.md01 =  item.getMd01();
-        this.empPrice1 = item.getEmpPrice1();
-        this.pSType = item.getPSType();
-        this.orgSalesPrice1 = item.getOrgSalesPrice1();
-        this.promotionNo = item.getPromotionNo();
-        this.premiumItemNo = item.getPremiumItemNo();
-        /* 1.01 2014.11.19 商品情報取得 ADD END*/
-        this.inheritFlag = item.getInheritFlag();
-        // add 20150827
-        this.mdType = item.getMdType();
-        this.sku = item.getSku();
-        this.md02 = item.getMd02();
-        this.md03 = item.getMd03();
-        this.md04 = item.getMd04();
-        this.md05 = item.getMd05();
-        this.md06 = item.getMd06();
-        this.md07 = item.getMd07();
-        this.md08 = item.getMd08();
-        this.md09 = item.getMd09();
-        this.md10 = item.getMd10();
-        this.md11 = item.getMd11();
-        this.md12 = item.getMd12();
-        this.md13 = item.getMd13();
-        this.md14 = item.getMd14();
-        this.md15 = item.getMd15();
-        this.md16 = item.getMd16();
-        this.mdNameLocal = item.getMdNameLocal();
-		this.mdName = item.getMdName();
-        this.mdKanaName = item.getMdKanaName();
-        this.salesPrice2 =item.getSalesPrice2();
-        this.paymentType = item.getPaymentType();
-        this.subCode1 = item.getSubCode1();
-        this.subCode2 = item.getSubCode2();
-        this.subCode3 = item.getSubCode3();
-        this.subNum2 = item.getSubNum2();
-        this.RecallFlag = item.getRecallFlag();
-        this.PharmaceuticalFlag = item.getPharmaceuticalFlag();
-        this.CountLimit = item.getCountLimit();
-        this.CertificatePrintFlag = item.getCertificatePrintFlag();
-        this.SelfFlag = item.getSelfFlag();
-        this.DrugType = item.getDrugType();
-        this.TransferWriteType = item.getTransferWriteType();
-        this.DrugActType = item.getDrugActType();
-        this.TransferActType = item.getTransferActType();
-        this.CountLimitFlag = item.getCountLimitFlag();
-        this.CertificateNo = item.getCertificateNo();
-        this.ClsAgeRestrictedFlag = item.getClsAgeRestrictedFlag();
-        this.LineAgeRestrictedFlag = item.getLineAgeRestrictedFlag();
-        this.DptAgeRestrictedFlag = item.getDptAgeRestrictedFlag();
-        this.CallInReason = item.getCallInReason();
-        this.SelfMedicationMark = item.getSelfMedicationMark();
-        this.pmInfoList = item.getPmInfoList();
-    }
-
     public Item(final String itemId, final Description description,
             final double regularSalesUnitPrice, final String department,
         /* 1.01 2014.11.19 商品情報取得 ADD START*/
@@ -2045,6 +2011,19 @@ public class Item extends ResultBase {
     public void setPremiumList(List<PremiumInfo> premiumList) {
         this.premiumList = premiumList;
     }
+    
+    public void copyPremiumList(List<PremiumInfo> fromPremiumList) {
+        if( fromPremiumList != null && !fromPremiumList.isEmpty()) {
+        this.premiumList = new ArrayList<>();
+        for (int i = 0; i < fromPremiumList.size(); i++) {
+            PremiumInfo pi = new PremiumInfo(fromPremiumList.get(i));
+            this.premiumList.add(pi);
+        }
+        }
+        else {
+            this.premiumList = fromPremiumList;
+        }
+    }
 
     @ApiModelProperty(value="ブランド名称", notes="ブランド名称")
     public final String getBrandName() {
@@ -2291,31 +2270,6 @@ public class Item extends ResultBase {
 	}
 	//MUJI add by wgq end
 
-	@Override
-    public final String toString() {
-      StringBuilder str = new StringBuilder();
-      String clrf = "; ";
-      str.append("ItemID: ").append(itemId).append(clrf)
-         .append("Description: ").append(description != null ?
-                 description.toString() : "").append(clrf)
-         .append("RegularSalesUnitPrice: ").append(regularSalesUnitPrice)
-         .append(clrf)
-         .append("ActualSalesPrice: ").append(actualSalesUnitPrice).append(clrf)
-         .append("Department: ").append(department).append(clrf)
-         .append("Discount: ").append(discount).append(clrf)
-         .append("Discount Amount: ").append(discountAmount).append(clrf)
-         .append("SubInt10: ").append(subInt10).append(clrf)
-         .append("Line: ").append(line).append(clrf)
-          /* 1.01 2014.11.19 商品情報取得 ADD START*/
-         .append("EmpPrice1: ").append(empPrice1).append(clrf)
-         .append("Md01:").append(md01).append(clrf)
-         .append("PSType").append(pSType).append(clrf)
-         .append("OrgSalesPrice1").append(orgSalesPrice1).append(clrf)
-         /* 1.01 2014.11.19 商品情報取得 ADD END*/
-         .append("Class: ").append(itemClass);
-      return str.toString();
-    }
-
 	public List<? extends PMInfo> getPmInfoList() {
 		return pmInfoList;
 	}
@@ -2323,5 +2277,402 @@ public class Item extends ResultBase {
 	public void setPmInfoList(List<? extends PMInfo> pmInfoList) {
 		this.pmInfoList = pmInfoList;
 	}
+
+    public void copyPmItemInfoList(List<? extends PMInfo> fromPmInfoList) {
+        if( fromPmInfoList != null && !fromPmInfoList.isEmpty())
+        {
+            List<PmItemInfo> list = new ArrayList<>();
+            for (int i = 0; i < fromPmInfoList.size(); i++) {
+                PmItemInfo pp = new PmItemInfo((PmItemInfo)fromPmInfoList.get(i));
+                list.add(pp);
+            }
+            this.pmInfoList  = list;
+        }
+        else {
+            this.pmInfoList = fromPmInfoList;
+        }
+    }
+
+    public Item(final Item item) {
+        this.itemId = item.getItemId();
+        this.department = item.getDepartment();
+        this.regularSalesUnitPrice = item.getRegularSalesUnitPrice();
+        this.discount = item.getDiscount();
+        this.discountFlag = item.getDiscountFlag();
+        this.discountAmount = item.getDiscountAmount();
+        this.actualSalesUnitPrice = item.getActualSalesUnitPrice();
+        this.discountable = item.getDiscountable();
+        this.taxSource = item.getTaxSource();
+        this.taxId = item.getTaxId();
+        this.originalTaxId = item.getOriginalTaxId();
+        this.taxRate = item.getTaxRate();
+        this.taxType = item.getTaxType();
+        this.pluTaxType = item.getPluTaxType();
+        this.dptTaxType = item.getDptTaxType();
+        this.lineTaxType = item.getLineTaxType();
+        this.clsTaxType = item.getClsTaxType();
+        this.discountType = item.getDiscountType();
+        this.subNum1 = item.getSubNum1();
+        this.FoodFlag = item.getFoodFlag();
+        this.SaleRestrictedFlag = item.getSaleRestrictedFlag();
+        this.SelfSaleRestrictedFlag = item.getSelfSaleRestrictedFlag();
+        this.OrderSaleFlag = item.getOrderSaleFlag();
+        this.BestBeforePeriod = item.getBestBeforePeriod();
+        this.SalePeriod = item.getSalePeriod();
+        this.nonSales = item.getNonSales();
+        this.subInt10 = item.getSubInt10();
+        this.line = item.getLine();
+        this.companyId = item.getCompanyId();
+        this.promotionNo = item.getPromotionNo();
+        this.promotionType = item.getPromotionType();
+        this.mdType = item.getMdType();
+        this.hostFlag = item.getHostFlag();
+        this.salesNameSource = item.getSalesNameSource();
+        this.sku = item.getSku();
+        this.md02 = item.getMd02();
+        this.md03 = item.getMd03();
+        this.md04 = item.getMd04();
+        this.md05 = item.getMd05();
+        this.md06 = item.getMd06();
+        this.md07 = item.getMd07();
+        this.md08 = item.getMd08();
+        this.md09 = item.getMd09();
+        this.md10 = item.getMd10();
+        this.md11 = item.getMd11();
+        this.md12 = item.getMd12();
+        this.md13 = item.getMd13();
+        this.md14 = item.getMd14();
+        this.md15 = item.getMd15();
+        this.md16 = item.getMd16();
+        this.mdNameLocal = item.getMdNameLocal();
+        this.mdName = item.getMdName();
+        this.mdKanaName = item.getMdKanaName();
+        this.salesPrice2 = item.getSalesPrice2();
+        this.paymentType = item.getPaymentType();
+        this.subCode1 = item.getSubCode1();
+        this.subCode2 = item.getSubCode2();
+        this.subCode3 = item.getSubCode3();
+        this.subNum2 = item.getSubNum2();
+        this.subNum3 = item.getSubNum3();
+        this.promotionId = item.getPromotionId();
+        this.storeId = item.getStoreId();
+        this.dptDiscountType = item.getDptDiscountType();
+        this.diacountRate = item.getDiacountRate();
+        this.discountAmt = item.getDiscountAmt();
+        this.replaceSupportdiscountAmt = item.getDiscountAmt();
+        this.discountClass = item.getDiscountClass();
+        this.couponNo = item.getCouponNo();
+        this.evenetName = item.getEvenetName();
+        this.receiptName = item.getReceiptName();
+        this.unitPrice = item.getUnitPrice();
+        this.issueCount = item.getIssueCount();
+        this.issueType = item.getIssueType();
+        this.premiumItemName = item.getPremiumItemName();
+        this.targetPrice = item.getTargetPrice();
+        this.targetCount = item.getTargetCount();
+        this.note = item.getNote();
+        this.salesPriceFrom = item.getSalesPriceFrom();
+        this.oldPrice = item.getOldPrice();
+        this.costPrice1 = item.getCostPrice1();
+        this.makerPrice = item.getMakerPrice();
+        this.conn1 = item.getConn1();
+        this.conn2 = item.getConn2();
+        this.pluPrice = item.getPluPrice();
+        this.dptNameLocal = item.getDptNameLocal();
+        this.dptName = item.getDptName();
+        this.classNameLocal = item.getClassNameLocal();
+        this.groupName = item.getGroupName();
+        this.groupID = item.getGroupID();
+        this.nameText = item.getNameText();
+        this.qrPromotionId = item.getQrPromotionId();
+        this.qrPromotionName = item.getQrPromotionName();
+        this.qrMinimumPrice = item.getQrMinimumPrice();
+        this.qrOutputTargetValue = item.getQrOutputTargetValue();
+        this.qrBmpFileName = item.getQrBmpFileName();
+        this.colorkananame = item.getColorkananame();
+        this.sizeKanaName = item.getSizeKanaName();
+        this.brandName = item.getBrandName();
+        this.categoryCode = item.getCategoryCode();
+        this.labelPrice = item.getLabelPrice();
+        this.magazineCode = item.getMagazineCode();
+        this.publishingCode = item.getPublishingCode();
+        this.taxTypeSource = item.getTaxTypeSource();
+        this.discountTypeSource = item.getDiscountTypeSource();
+        this.qrBmpFileFlag = item.getQrBmpFileFlag();
+        this.qrBmpFileCount = item.getQrBmpFileCount();
+        this.dptSubCode1 = item.getDptSubCode1();
+        this.dptSubNum1 = item.getDptSubNum1();
+        this.dptSubNum2 = item.getDptSubNum2();
+        this.dptSubNum3 = item.getDptSubNum3();
+        this.dptSubNum4 = item.getDptSubNum4();
+        this.mdVender = item.getMdVender();
+        this.ruleQuantity1 = item.getRuleQuantity1();
+        this.ruleQuantity2 = item.getRuleQuantity2();
+        this.ruleQuantity3 = item.getRuleQuantity2();
+        this.ConditionPrice1 = item.getConditionPrice1();
+        this.ConditionPrice2 = item.getConditionPrice2();
+        this.ConditionPrice3 = item.getConditionPrice3();
+        this.DecisionPrice1 = item.getDecisionPrice1();
+        this.DecisionPrice2 = item.getDecisionPrice2();
+        this.DecisionPrice3 = item.getDecisionPrice3();
+        this.AveragePrice1 = item.getAveragePrice1();
+        this.AveragePrice2 = item.getAveragePrice2();
+        this.AveragePrice3 = item.getAveragePrice3();
+        this.premiumItemNo = item.getPremiumItemNo();
+        this.itemClass = item.getItemClass();
+        this.ageRestrictedFlag = item.getAgeRestrictedFlag();
+        this.couponFlag = item.getCouponFlag();
+        this.retailStoreId = item.getRetailStoreId();
+        this.EventId = item.getEventId();
+        this.EventName = item.getEventName();
+        this.eventSalesPrice  = item.getEventSalesPrice ();
+        this.empPrice1 = item.getEmpPrice1();
+        this.md01 = item.getMd01();
+        this.pSType = item.getPSType();
+        this.orgSalesPrice1 = item.getOrgSalesPrice1();
+        this.inheritFlag = item.getInheritFlag();
+        this.mustBuyFlag = item.getMustBuyFlag();
+        this.mixMatchCode = item.getMixMatchCode();
+        this.updAppId = item.getUpdAppId();
+        this.updOpeCode = item.getUpdOpeCode();
+        this.RecallFlag = item.getRecallFlag();
+        this.PharmaceuticalFlag = item.getPharmaceuticalFlag();
+        this.CountLimitFlag = item.getCountLimitFlag();
+        this.CountLimit = item.getCountLimit();
+        this.CertificatePrintFlag = item.getCertificatePrintFlag();
+        this.SelfFlag = item.getSelfFlag();
+        this.DrugType = item.getDrugType();
+        this.TransferWriteType = item.getTransferWriteType();
+        this.DrugActType = item.getDrugActType();
+        this.TransferActType = item.getTransferActType();
+        this.CertificateNo = item.getCertificateNo();
+        this.ClsAgeRestrictedFlag = item.getClsAgeRestrictedFlag();
+        this.LineAgeRestrictedFlag = item.getLineAgeRestrictedFlag();
+        this.DptAgeRestrictedFlag = item.getDptAgeRestrictedFlag();
+        this.CallInReason = item.getCallInReason();
+        this.SelfMedicationMark = item.getSelfMedicationMark();
+        this.AgeSource = item.getAgeSource();
+        this.ComstdName = item.getComstdName();
+        this.pointAddFlag = item.getPointAddFlag();
+        this.pointUseFlag = item.getPointUseFlag();
+        this.taxExemptFlag = item.getTaxExemptFlag();
+        this.saleSizeCode = item.getSaleSizeCode();
+        this.sizePatternId = item.getSizePatternId();
+        this.brandSaleName = item.getBrandSaleName();
+        this.clsDiscountType = item.getClsDiscountType();
+        this.lineDiscountType = item.getLineDiscountType();
+        this.pluSubNum1 = item.getPluSubNum1();
+        this.lineInfoSubNum1 = item.getLineInfoSubNum1();
+        this.dptSubNum5 = item.getDptSubNum5();
+        this.classInfoSubNum1 = item.getClassInfoSubNum1();
+        this.priceUrgentInfo = null;
+        if( item.getPriceUrgentInfo() != null ) {        
+            this.priceUrgentInfo = new PriceUrgentInfo(item.getPriceUrgentInfo());
+        }
+        this.description = null;
+        if( item.getDescription() != null ) { 
+            this.description = new Description(item.getDescription());
+        }
+        this.defaultTaxRate = null;
+        if( item.getDefaultTaxRate() != null ) {
+            this.defaultTaxRate = new DefaultTaxRate(item.getDefaultTaxRate());
+        }
+        this.changeableTaxRate = null;
+        if( item.getChangeableTaxRate() != null ) {
+            this.changeableTaxRate = new ChangeableTaxRate(item.getChangeableTaxRate());
+        }
+        this.copyQrCodeList(item.getQrCodeList());
+        this.copyPricePromList(item.getPricePromList());
+        this.copyPriceMMInfoList(item.getPriceMMInfoList());
+        this.copyPmItemInfoList(item.getPmInfoList());
+        this.copyPremiumList(item.getPremiumList());
+    }
+    
+    @Override
+    public String toString() {
+      StringBuilder str = new StringBuilder();
+      String clrf = "; ";
+      str.append("itemId: ").append(itemId).append(clrf)
+      .append("department: ").append(department).append(clrf)
+      .append("regularSalesUnitPrice: ").append(regularSalesUnitPrice).append(clrf)
+      .append("discount: ").append(discount).append(clrf)
+      .append("discountFlag: ").append(discountFlag).append(clrf)
+      .append("discountAmount: ").append(discountAmount).append(clrf)
+      .append("actualSalesUnitPrice: ").append(actualSalesUnitPrice).append(clrf)
+      .append("discountable: ").append(discountable).append(clrf)
+      .append("taxSource: ").append(taxSource).append(clrf)
+      .append("taxId: ").append(taxId).append(clrf)
+      .append("originalTaxId: ").append(taxId).append(clrf)
+      .append("taxRate: ").append(taxRate).append(clrf)
+      .append("taxType: ").append(taxType).append(clrf)
+      .append("pluTaxType: ").append(pluTaxType).append(clrf)
+      .append("dptTaxType: ").append(dptTaxType).append(clrf)
+      .append("lineTaxType: ").append(lineTaxType).append(clrf)
+      .append("clsTaxType: ").append(clsTaxType).append(clrf)
+      .append("discountType: ").append(discountType).append(clrf)
+      .append("subNum1: ").append(subNum1).append(clrf)
+      .append("FoodFlag: ").append(FoodFlag).append(clrf)
+      .append("SaleRestrictedFlag: ").append(SaleRestrictedFlag).append(clrf)
+      .append("SelfSaleRestrictedFlag: ").append(SelfSaleRestrictedFlag).append(clrf)
+      .append("OrderSaleFlag: ").append(OrderSaleFlag).append(clrf)
+      .append("BestBeforePeriod: ").append(BestBeforePeriod).append(clrf)
+      .append("SalePeriod: ").append(SalePeriod).append(clrf)
+      .append("nonSales: ").append(nonSales).append(clrf)
+      .append("subInt10: ").append(nonSales).append(clrf)
+      .append("line: ").append(line).append(clrf)
+      .append("companyId: ").append(companyId).append(clrf)
+      .append("promotionNo: ").append(promotionNo).append(clrf)
+      .append("promotionType: ").append(promotionType).append(clrf)
+      .append("mdType: ").append(mdType).append(clrf)
+      .append("hostFlag: ").append(hostFlag).append(clrf)
+      .append("salesNameSource: ").append(salesNameSource).append(clrf)
+      .append("sku: ").append(sku).append(clrf)
+      .append("md02: ").append(md02).append(clrf)
+      .append("md03: ").append(md03).append(clrf)
+      .append("md04: ").append(md04).append(clrf)
+      .append("md05: ").append(md05).append(clrf)
+      .append("md06: ").append(md06).append(clrf)
+      .append("md07: ").append(md07).append(clrf)
+      .append("md08: ").append(md08).append(clrf)
+      .append("md09: ").append(md09).append(clrf)
+      .append("md10: ").append(md10).append(clrf)
+      .append("md11: ").append(md11).append(clrf)
+      .append("md12: ").append(md12).append(clrf)
+      .append("md13: ").append(md13).append(clrf)
+      .append("md14: ").append(md14).append(clrf)
+      .append("md15: ").append(md15).append(clrf)
+      .append("md16: ").append(md16).append(clrf)
+      .append("mdNameLocal: ").append(mdNameLocal).append(clrf)
+      .append("mdName: ").append(mdName).append(clrf)
+      .append("mdKanaName: ").append(mdKanaName).append(clrf)
+      .append("salesPrice2: ").append(salesPrice2).append(clrf)
+      .append("paymentType: ").append(paymentType).append(clrf)
+      .append("subCode1: ").append(subCode1).append(clrf)
+      .append("subCode2: ").append(subCode2).append(clrf)
+      .append("subCode3: ").append(subCode3).append(clrf)
+      .append("subNum2: ").append(subNum2).append(clrf)
+      .append("subNum3: ").append(subNum3).append(clrf)
+      .append("promotionId: ").append(promotionId).append(clrf)
+      .append("storeId: ").append(storeId).append(clrf)
+      .append("dptDiscountType: ").append(dptDiscountType).append(clrf)
+      .append("diacountRate: ").append(diacountRate).append(clrf)
+      .append("discountAmt: ").append(discountAmt).append(clrf)
+      .append("replaceSupportdiscountAmt: ").append(replaceSupportdiscountAmt).append(clrf)
+      .append("discountClass: ").append(discountClass).append(clrf)
+      .append("couponNo: ").append(couponNo).append(clrf)
+      .append("evenetName: ").append(evenetName).append(clrf)
+      .append("receiptName: ").append(receiptName).append(clrf)
+      .append("unitPrice: ").append(unitPrice).append(clrf)
+      .append("issueCount: ").append(issueCount).append(clrf)
+      .append("issueType: ").append(issueType).append(clrf)
+      .append("premiumItemName: ").append(premiumItemName).append(clrf)
+      .append("targetPrice: ").append(targetPrice).append(clrf)
+      .append("targetCount: ").append(targetCount).append(clrf)
+      .append("note: ").append(note).append(clrf)
+      .append("salesPriceFrom: ").append(salesPriceFrom).append(clrf)
+      .append("oldPrice: ").append(oldPrice).append(clrf)
+      .append("costPrice1: ").append(costPrice1).append(clrf)
+      .append("makerPrice: ").append(makerPrice).append(clrf)
+      .append("conn1: ").append(conn1).append(clrf)
+      .append("conn2: ").append(conn2).append(clrf)
+      .append("pluPrice: ").append(pluPrice).append(clrf)
+      .append("dptNameLocal: ").append(dptNameLocal).append(clrf)
+      .append("dptName: ").append(dptName).append(clrf)
+      .append("classNameLocal: ").append(classNameLocal).append(clrf)
+      .append("groupName: ").append(groupName).append(clrf)
+      .append("groupID: ").append(groupID).append(clrf)
+      .append("nameText: ").append(nameText).append(clrf)
+      .append("qrPromotionId: ").append(qrPromotionId).append(clrf)
+      .append("qrPromotionName: ").append(qrPromotionName).append(clrf)
+      .append("qrMinimumPrice: ").append(qrMinimumPrice).append(clrf)
+      .append("qrOutputTargetValue: ").append(qrOutputTargetValue).append(clrf)
+      .append("qrBmpFileName: ").append(qrBmpFileName).append(clrf)
+      .append("colorkananame: ").append(colorkananame).append(clrf)
+      .append("sizeKanaName: ").append(sizeKanaName).append(clrf)
+      .append("brandName: ").append(brandName).append(clrf)
+      .append("categoryCode: ").append(categoryCode).append(clrf)
+      .append("labelPrice: ").append(labelPrice).append(clrf)
+      .append("magazineCode: ").append(magazineCode).append(clrf)
+      .append("publishingCode: ").append(publishingCode).append(clrf)
+      .append("taxTypeSource: ").append(taxTypeSource).append(clrf)
+      .append("discountTypeSource: ").append(taxTypeSource).append(clrf)
+      .append("qrBmpFileFlag: ").append(qrBmpFileFlag).append(clrf)
+      .append("qrBmpFileCount: ").append(qrBmpFileCount).append(clrf)
+      .append("dptSubCode1: ").append(dptSubCode1).append(clrf)
+      .append("dptSubNum1: ").append(dptSubNum1).append(clrf)
+      .append("dptSubNum2: ").append(dptSubNum2).append(clrf)
+      .append("dptSubNum3: ").append(dptSubNum3).append(clrf)
+      .append("dptSubNum4: ").append(dptSubNum4).append(clrf)
+      .append("mdVender: ").append(mdVender).append(clrf)
+      .append("ruleQuantity1: ").append(ruleQuantity1).append(clrf)
+      .append("ruleQuantity2: ").append(ruleQuantity2).append(clrf)
+      .append("ruleQuantity3: ").append(ruleQuantity3).append(clrf)
+      .append("ConditionPrice1: ").append(ConditionPrice1).append(clrf)
+      .append("ConditionPrice2: ").append(ConditionPrice2).append(clrf)
+      .append("ConditionPrice3: ").append(ConditionPrice3).append(clrf)
+      .append("DecisionPrice1: ").append(DecisionPrice1).append(clrf)
+      .append("DecisionPrice2: ").append(DecisionPrice2).append(clrf)
+      .append("DecisionPrice3: ").append(DecisionPrice3).append(clrf)
+      .append("AveragePrice1: ").append(AveragePrice1).append(clrf)
+      .append("AveragePrice2: ").append(AveragePrice2).append(clrf)
+      .append("AveragePrice3: ").append(AveragePrice3).append(clrf)
+      .append("premiumItemNo: ").append(premiumItemNo).append(clrf)
+      .append("itemClass: ").append(itemClass).append(clrf)
+      .append("ageRestrictedFlag: ").append(ageRestrictedFlag).append(clrf)
+      .append("couponFlag: ").append(couponFlag).append(clrf)
+      .append("retailStoreId: ").append(retailStoreId).append(clrf)
+      .append("EventId: ").append(EventId).append(clrf)
+      .append("EventName: ").append(EventName).append(clrf)
+      .append("eventSalesPrice : ").append(eventSalesPrice ).append(clrf)
+      .append("empPrice1: ").append(empPrice1).append(clrf)
+      .append("md01: ").append(md01).append(clrf)
+      .append("pSType: ").append(pSType).append(clrf)
+      .append("orgSalesPrice1: ").append(orgSalesPrice1).append(clrf)
+      .append("inheritFlag: ").append(inheritFlag).append(clrf)
+      .append("mustBuyFlag: ").append(mustBuyFlag).append(clrf)
+      .append("mixMatchCode: ").append(mixMatchCode).append(clrf)
+      .append("updAppId: ").append(updAppId).append(clrf)
+      .append("updOpeCode: ").append(updOpeCode).append(clrf)
+      .append("RecallFlag: ").append(RecallFlag).append(clrf)
+      .append("PharmaceuticalFlag: ").append(PharmaceuticalFlag).append(clrf)
+      .append("CountLimitFlag: ").append(CountLimitFlag).append(clrf)
+      .append("CountLimit: ").append(CountLimit).append(clrf)
+      .append("CertificatePrintFlag: ").append(CountLimit).append(clrf)
+      .append("SelfFlag: ").append(SelfFlag).append(clrf)
+      .append("DrugType: ").append(DrugType).append(clrf)
+      .append("TransferWriteType: ").append(TransferWriteType).append(clrf)
+      .append("DrugActType: ").append(DrugActType).append(clrf)
+      .append("TransferActType: ").append(TransferActType).append(clrf)
+      .append("CertificateNo: ").append(CertificateNo).append(clrf)
+      .append("ClsAgeRestrictedFlag: ").append(ClsAgeRestrictedFlag).append(clrf)
+      .append("LineAgeRestrictedFlag: ").append(LineAgeRestrictedFlag).append(clrf)
+      .append("DptAgeRestrictedFlag: ").append(DptAgeRestrictedFlag).append(clrf)
+      .append("CallInReason: ").append(CallInReason).append(clrf)
+      .append("SelfMedicationMark: ").append(SelfMedicationMark).append(clrf)
+      .append("AgeSource: ").append(AgeSource).append(clrf)
+      .append("ComstdName: ").append(ComstdName).append(clrf)
+      .append("pointAddFlag: ").append(pointAddFlag).append(clrf)
+      .append("pointUseFlag: ").append(pointUseFlag).append(clrf)
+      .append("taxExemptFlag: ").append(taxExemptFlag).append(clrf)
+      .append("saleSizeCode: ").append(saleSizeCode).append(clrf)
+      .append("sizePatternId: ").append(sizePatternId).append(clrf)
+      .append("brandSaleName: ").append(brandSaleName).append(clrf)
+      .append("clsDiscountType: ").append(clsDiscountType).append(clrf)
+      .append("lineDiscountType: ").append(lineDiscountType).append(clrf)
+      .append("pluSubNum1: ").append(pluSubNum1).append(clrf)
+      .append("lineInfoSubNum1: ").append(lineInfoSubNum1).append(clrf)
+      .append("dptSubNum5: ").append(dptSubNum5).append(clrf)
+      .append("classInfoSubNum1: ").append(classInfoSubNum1).append(clrf)
+      .append("priceUrgentInfo: ").append(priceUrgentInfo != null ? priceUrgentInfo.toString() : "").append(clrf)
+      .append("description: ").append(description != null ? description.toString() : "").append(clrf)
+      .append("defaultTaxRate: ").append(defaultTaxRate != null ? defaultTaxRate.toString() : "").append(clrf)
+      .append("changeableTaxRate: ").append(changeableTaxRate != null ? changeableTaxRate.toString() : "").append(clrf)
+      .append("qrCodeList: ").append(qrCodeList != null ? qrCodeList.size() : "").append(clrf)
+      .append("pricePromList: ").append(pricePromList != null ? pricePromList.size() : "").append(clrf)
+      .append("priceMMInfoList: ").append(priceMMInfoList != null ? priceMMInfoList.size() : "").append(clrf)
+      .append("pmInfoList: ").append(pmInfoList != null ? pmInfoList.size() : "").append(clrf)
+      .append("premiumList: ").append(premiumList != null ? premiumList.size() : "").append(clrf);
+      return str.toString();
+    }    
 
 }

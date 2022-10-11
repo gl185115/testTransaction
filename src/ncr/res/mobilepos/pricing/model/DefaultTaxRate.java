@@ -57,4 +57,12 @@ public class DefaultTaxRate {
         return str.toString();
     }
 
+	public DefaultTaxRate() {
+	}
+    //copy constructor
+    public DefaultTaxRate(final DefaultTaxRate info) {
+        this.rate = info.getRate();
+        this.reducedTaxRate = info.getReducedTaxRate();
+        this.receiptMark = info.getReceiptMark();
+    }
 }

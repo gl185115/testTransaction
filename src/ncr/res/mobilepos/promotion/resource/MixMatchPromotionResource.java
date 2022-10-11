@@ -233,15 +233,15 @@ private void makeMixMatch(MixMatch item) throws IllegalAccessException, Invocati
 				  if( quantity >= conditionQuantity && !useLastPriceFlag) {
 					  if(quantity > conditionQuantity) {
 						  quantity = quantity - conditionQuantity;
-						  Sale nSale = new Sale();
-						  BeanUtils.copyProperties(nSale, sale);
+						  Sale nSale = new Sale(sale);
+						  //BeanUtils.copyProperties(nSale, sale);
 						  nSale.setQuantity(sale.getQuantity() - quantity);
 						  conditionList.add(nSale);
 						  map.put(rule.getRuleName() + index++, conditionList);
 						  map.put("hasRule", new ArrayList<>());
 						  conditionList = new ArrayList<>();
-						  nSale = new Sale();
-						  BeanUtils.copyProperties(nSale, sale);
+						  nSale = new Sale(sale);
+						  //BeanUtils.copyProperties(nSale, sale);
 						  nSale.setQuantity(quantity);
 						  conditionList.add(nSale);
 					  } else {

@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.Logger;
@@ -85,8 +83,8 @@ public class PMItemsHandler {
 			listPm = new ArrayList<>();
 			if(null != oldList && oldList.size() > 0) {
 				for(PmItemInfo info : oldList) {
-					PmItemInfo nInfo = new PmItemInfo();
-					BeanUtils.copyProperties(nInfo, info);
+					PmItemInfo nInfo = new PmItemInfo(info);
+					//BeanUtils.copyProperties(nInfo, info);
 					listPm.add(nInfo);
 				}
 			}
@@ -112,8 +110,8 @@ public class PMItemsHandler {
 		Map<String, Map<String, List<PmItemInfo>>> pmMap = terminalItem.getPmMap();
 		
 		if(null != listPm && listPm.size() > 0){
-			Sale sale = new Sale();
-			BeanUtils.copyProperties(sale, saleItem);
+			Sale sale = new Sale(saleItem);
+			//BeanUtils.copyProperties(sale, saleItem);
 			List<PricePromInfo> pricePromInfos = saleItem.getPricePromList();
 			if(null != saleItem.getPriceUrgentInfo()) {
 				sale.setActualSalesUnitPrice(saleItem.getPriceUrgentInfo().getUrgentPrice());
@@ -649,8 +647,8 @@ public class PMItemsHandler {
 					if(info.getSubNum1() == PromotionConstants.CUSTOMER_SALE_INT && itemsInPromotionSet.size() > 0 && itemsInPromotionSet.contains(info.getItemEntryId())) {
 						continue;
 					}else {
-						PmItemInfo nInfo = new PmItemInfo();
-						BeanUtils.copyProperties(nInfo, info);
+						PmItemInfo nInfo = new PmItemInfo(info);
+						//BeanUtils.copyProperties(nInfo, info);
 						nl.add(nInfo);
 					}
 				}

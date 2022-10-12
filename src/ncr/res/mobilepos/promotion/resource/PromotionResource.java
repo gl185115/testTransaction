@@ -264,7 +264,6 @@ public class PromotionResource {
 				termItem.setTransactionMode(tx.getTransactionMode());
 				TerminalItemsHandler.add(termItem, terminalItemsHashMap);
 			}
-
 		} catch (IOException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO,
 					functionName + ": Failed to begin transaction for promotion.", e);
@@ -496,12 +495,12 @@ public class PromotionResource {
 				Item item = null;
 				Sale saleItem = null;
 				if(itemCacheMap.containsKey(itemId)) {
-					item = new Item(); 
 					Item oldItem = itemCacheMap.get(itemId);
-					BeanUtils.copyProperties(item, oldItem);
-					saleItem =  new Sale();
+                    item = new Item(oldItem); 
+					//BeanUtils.copyProperties(item, oldItem);
 					Sale sale = itemCacheMap.get(itemId);
-					BeanUtils.copyProperties(saleItem, sale);
+					saleItem =  new Sale(sale);
+					//BeanUtils.copyProperties(saleItem, sale);
 					saleItem.setItemEntryId(saleIn.getItemEntryId());
 					saleItem.setQuantity(saleIn.getQuantity());
 					if(!usePromotion && saleIn.getActualSalesUnitPrice() > 0) {
@@ -2554,10 +2553,10 @@ public class PromotionResource {
 				String itemId = saleIn.getItemId();
 				Sale saleItem = null;
 				Map<String, Sale> itemCacheMap = terminalItem.getItemCacheMap();
-				saleItem =  new Sale();
 				Sale sale = itemCacheMap.get(itemId);
 				if (null != sale) {
-					BeanUtils.copyProperties(saleItem, sale);
+				    saleItem =  new Sale(sale);
+					//BeanUtils.copyProperties(saleItem, sale);
 					if (NOT_DISCOUNTABLE.equals(saleItem.getDiscountType())) {
 						needMakePm = false;
 					}

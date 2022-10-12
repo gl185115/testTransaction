@@ -108,5 +108,15 @@ public class PmItemInfo extends PMInfo {
 //		this.keyList = keyList;
 //	}
 	
-
+    public PmItemInfo() {
+    }
+	public PmItemInfo(final PmItemInfo info) {
+	    super(info);
+	    this.salePrice = info.getSalePrice();
+	    this.itemEntryId = info.getItemEntryId();
+	    this.itemIdType = info.getItemIdType();
+	    this.quantity = info.getQuantity();
+	    this.totalSalePrice = info.getTotalSalePrice();
+	    this.itemId = info.getItemId();
+	}
 }

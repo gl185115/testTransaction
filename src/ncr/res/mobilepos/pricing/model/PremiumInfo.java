@@ -78,4 +78,16 @@ public class PremiumInfo {
     public void setTargetCount(int targetCount) {
         this.targetCount = targetCount;
     }
+    
+    public PremiumInfo() {
+    }
+
+    //copy costructor
+    public PremiumInfo(final PremiumInfo info)
+    {
+        this.premiumItemNo = info.getPremiumItemNo();
+        this.premiumItemName = info.getPremiumItemName();
+        this.targetPrice = info.getTargetPrice();
+        this.targetCount = info.getTargetCount();
+    }
 }

@@ -300,4 +300,35 @@ public class QrCodeInfo {
 	public void setFileExist(int fileExist) {
 		this.fileExist = fileExist;
 	}
+	
+	public QrCodeInfo() {
+	}
+
+    //copy constructor
+    public QrCodeInfo(final QrCodeInfo info) {
+        this.promotionId = info.getPromotionId();
+        this.promotionName = info.getPromotionName();
+        this.minimumPrice = info.getMinimumPrice();
+        this.outputTargetValue = info.getOutputTargetValue();
+        this.bmpFileName = info.getBmpFileName();
+        this.bmpFileFlag = info.getBmpFileFlag();
+        this.bmpFileCount = info.getBmpFileCount();
+        this.outputType = info.getOutputType();
+        this.displayOrder = info.getDisplayOrder();
+        this.promotionType = info.getPromotionType();
+        this.dpt = info.getDpt();
+        this.line = info.getLine();
+        this.classCode = info.getClassCode();
+        this.sku = info.getSku();
+        this.connCode = info.getConnCode();
+        this.brandId = info.getBrandId();
+        this.memberRank = info.getMemberRank();
+        this.memberTargetType = info.getMemberTargetType();
+        this.sexType = info.getSexType();
+        this.birthMonth = info.getBirthMonth();
+        this.quantity = info.getQuantity();
+        this.targetValue = info.getTargetValue();
+        this.customerId = info.getCustomerId();
+        this.fileExist = info.getFileExist();
+    }	
 }

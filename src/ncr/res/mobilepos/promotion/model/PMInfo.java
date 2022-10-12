@@ -297,5 +297,36 @@ public class PMInfo {
 	public void setDayOfWeekSunFlag(int dayOfWeekSunFlag) {
 		this.dayOfWeekSunFlag = dayOfWeekSunFlag;
 	}
-
+	
+	public PMInfo() {
+	}
+	 
+	public PMInfo(final PMInfo info)
+	{
+	    this.pmNo = info.getPmNo();
+	    this.pMGroupNo = info.getPMGroupNo();
+	    this.pmPrice = info.getPmPrice();
+	    this.pMCnt = info.getpMCnt();
+	    this.pMName = info.getpMName();
+	    this.pMDisplayNo = info.getpMDisplayNo();
+	    this.startDate   = info.getStartDate();
+	    this.endDate = info.getEndDate();
+	    this.startTime = info.getStartTime();
+	    this.endTime     = info.getEndTime();
+	    this.saleStartTime = info.getSaleStartTime();
+	    this.saleEndTime = info.getSaleEndTime();
+	    this.dayOfWeekSettingFlag = info.getDayOfWeekSettingFlag();
+	    this.dayOfWeekMonFlag = info.getDayOfWeekMonFlag();
+	    this.dayOfWeekTueFlag = info.getDayOfWeekTueFlag();
+	    this.dayOfWeekWedFlag = info.getDayOfWeekWedFlag();
+	    this.dayOfWeekThuFlag = info.getDayOfWeekThuFlag();
+	    this.dayOfWeekFriFlag = info.getDayOfWeekFriFlag();
+	    this.dayOfWeekSatFlag = info.getDayOfWeekSatFlag();
+	    this.dayOfWeekSunFlag = info.getDayOfWeekSunFlag();
+	    this.discountClass = info.getDiscountClass();
+	    this.decisionPMPrice = info.getDecisionPMPrice();
+	    this.pmRate = info.getPmRate();
+	    this.decisionPMRate = info.getDecisionPMRate();
+	    this.subNum1 = info.getSubNum1();
+	}
 }

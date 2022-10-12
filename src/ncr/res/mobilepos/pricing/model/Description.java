@@ -43,5 +43,12 @@ public class Description {
         	.append("ja: ").append(ja).append(clrf);
         return str.toString();
     }
-
+	
+	public Description() {
+	}
+	//copy constructor
+    public Description(final Description info) {
+        this.en = info.getEn();
+        this.ja = info.getJa();
+    }
 }

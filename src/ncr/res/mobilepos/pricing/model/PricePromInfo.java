@@ -505,5 +505,51 @@ public class PricePromInfo {
 				+ ", subNum2=" + subNum2 + ", subCode1=" + subCode1 + ", subCode2=" + subCode2 + ", subCode3="
 				+ subCode3 + ", subCode4=" + subCode4 + ", subCode5=" + subCode5 + "]";
 	}
+	
+	public PricePromInfo() {
+	}
+
+	//copy constructor
+    public PricePromInfo(final PricePromInfo info) {
+	    this.promotionNo = info.getPromotionNo();
+	    this.promotionName = info.getPromotionName();
+	    this.memberFlag = info.getMemberFlag();
+	    this.reasonCode = info.getReasonCode();
+	    this.promotionDetailNo = info.getPromotionDetailNo();
+	    this.promotionType = info.getPromotionType();
+	    this.dptNameLocal = info.getDptNameLocal();
+	    this.promotionDisplayNo = info.getPromotionDisplayNo();
+	    this.brandFlag = info.getBrandFlag();
+	    this.dpt = info.getDpt();
+	    this.line = info.getLine();
+	    this.clas = info.getClas();
+	    this.sku = info.getSku();
+	    this.discountClass = info.getDiscountClass();
+	    this.diacountRate = info.getDiacountRate();
+	    this.discountAmt = info.getDiscountAmt();
+	    this.salesPrice = info.getSalesPrice();
+	    this.startDate   = info.getStartDate();
+	    this.endDate = info.getEndDate();
+	    this.startTime = info.getStartTime();
+	    this.endTime     = info.getEndTime();
+	    this.saleStartTime = info.getSaleStartTime();
+	    this.saleEndTime = info.getSaleEndTime();
+	    this.dayOfWeekSettingFlag = info.getDayOfWeekSettingFlag();
+	    this.dayOfWeekMonFlag = info.getDayOfWeekMonFlag();
+	    this.dayOfWeekTueFlag = info.getDayOfWeekTueFlag();
+	    this.dayOfWeekWedFlag = info.getDayOfWeekWedFlag();
+	    this.dayOfWeekThuFlag = info.getDayOfWeekThuFlag();
+	    this.dayOfWeekFriFlag = info.getDayOfWeekFriFlag();
+	    this.dayOfWeekSatFlag = info.getDayOfWeekSatFlag();
+	    this.dayOfWeekSunFlag = info.getDayOfWeekSunFlag();
+	    this.brandId = info.getBrandId();
+	    this.SubNum1 = info.getSubNum1();
+	    this.subNum2 = info.getSubNum2();
+	    this.subCode1 = info.getSubCode1();
+	    this.subCode2 = info.getSubCode2();
+	    this.subCode3 = info.getSubCode3();
+	    this.subCode4 = info.getSubCode4();
+	    this.subCode5 = info.getSubCode5();
+	}
 }
 

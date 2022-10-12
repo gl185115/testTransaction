@@ -72,5 +72,29 @@ public class PriceUrgentInfo {
 	public void setUrgentPrice(long urgentPrice) {
 		this.urgentPrice = urgentPrice;
 	}
+	
+   @Override
+    public final String toString() {
+        StringBuilder str = new StringBuilder();
+        String clrf = "; ";
+        str.append("dpt: ").append(dpt).append(clrf)
+        .append("line: ").append(line).append(clrf)
+        .append("clas: ").append(clas).append(clrf)
+        .append("sku: ").append(sku).append(clrf)
+        .append("urgentPrice: ").append(urgentPrice).append(clrf);
+        return str.toString();
+    }
+	
+	public PriceUrgentInfo() {
+	}
+
+	//copy constructor
+	public PriceUrgentInfo(final PriceUrgentInfo info) {
+	    this.dpt = info.getDpt();
+	    this.line = info.getLine();
+	    this.clas = info.getClas();
+	    this.sku = info.getSku();
+	    this.urgentPrice = info.getUrgentPrice();	
+    }
 }
 

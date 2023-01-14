@@ -1172,17 +1172,17 @@ public class TerminalItem {
         tp.println("<Before sort>");
         Collections.sort(ruleList3);
         tp.println("relueList3 length" + ruleList3.size());
-        for (MixMatchDetailInfo mixMatchDetailInfo3 : ruleList3) {
-            tp.println("<Default sort>");
-            tp.println("sku: " + mixMatchDetailInfo3.getSku());
-            tp.println("quantity: " + mixMatchDetailInfo3.getQuantity());         
-        }
-        Collections.sort(ruleList3, (s1, s2) -> Integer.compare(s2.getQuantity(), s1.getQuantity()));
-        for (MixMatchDetailInfo mixMatchDetailInfo3 : ruleList3) {
-            tp.println("<Qunatity sort>");
-            tp.println("sku: " + mixMatchDetailInfo3.getSku());
-            tp.println("quantity: " + mixMatchDetailInfo3.getQuantity());         
-        }
+        // for (MixMatchDetailInfo mixMatchDetailInfo3 : ruleList3) {
+        //     tp.println("<Default sort>");
+        //     tp.println("sku: " + mixMatchDetailInfo3.getSku());
+        //     tp.println("quantity: " + mixMatchDetailInfo3.getQuantity());         
+        // }
+        // Collections.sort(ruleList3, (s1, s2) -> Integer.compare(s2.getQuantity(), s1.getQuantity()));
+        // for (MixMatchDetailInfo mixMatchDetailInfo3 : ruleList3) {
+        //     tp.println("<Qunatity sort>");
+        //     tp.println("sku: " + mixMatchDetailInfo3.getSku());
+        //     tp.println("quantity: " + mixMatchDetailInfo3.getQuantity());         
+        // }
         Set<String> tmItemSet = new HashSet<>();
         if(rule.getSubNum1() == PromotionConstants.CUSTOMER_SALE_INT) {
         	tmItemSet = itemsInDiscount("TM");

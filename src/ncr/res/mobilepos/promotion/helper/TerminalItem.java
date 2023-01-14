@@ -1169,7 +1169,9 @@ public class TerminalItem {
         // ruleList3 = bmDetailMap.get(mmNo_taxId);
         map.put("note", rule.getNote());
         // sort by price
+        tp.println("<Before sort>");
         Collections.sort(ruleList3);
+        tp.println("relueList3 length" + ruleList3.size());
         for (MixMatchDetailInfo mixMatchDetailInfo3 : ruleList3) {
             tp.println("<Default sort>");
             tp.println("sku: " + mixMatchDetailInfo3.getSku());
